@@ -15,6 +15,7 @@ export const Controls = {
 
 function App() {
   const [speed, setSpeed] = React.useState(0);
+  const [debug, setDebug] = React.useState(false);
   
   const map = useMemo(
     () => [
@@ -34,12 +35,13 @@ function App() {
           <color attach="background" args={["#ececec"]} />
           <Suspense>
             <Physics>
-              <Experience setSpeed={setSpeed} />
+              <Experience setSpeed={setSpeed} debug={debug} />
             </Physics>
           </Suspense>
         </Canvas>
       </KeyboardControls>
       <h1 style={{color: 'black', position: 'fixed', bottom: 0}}>{Math.round(speed * 100)}</h1>
+      <h1 style={{color: 'black', position: 'fixed', top: 0}} onClick={() => setDebug(!debug)}>Debug: {`${debug}`}</h1>
     </>
   );
 }

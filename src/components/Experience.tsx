@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { Controls } from "../App";
 import * as THREE from "three";
 
-export const Experience = ({setSpeed}: {setSpeed: (speed: number) => void}) => {
+export const Experience = ({setSpeed, debug}: {setSpeed: (speed: number) => void, debug: boolean}) => {
   const cube = useRef<RapierRigidBody | null>(null);
   const directionOfTravelArrow = useRef<THREE.ArrowHelper | null>(null);
   const sideForceArrow = useRef<THREE.ArrowHelper | null>(null);
@@ -148,10 +148,14 @@ export const Experience = ({setSpeed}: {setSpeed: (speed: number) => void}) => {
         </Box>
       </RigidBody>
 
-      <arrowHelper ref={directionOfTravelArrow} />
-      <arrowHelper ref={airResistanceArrow} />
-      <arrowHelper ref={carForceArrow} />
-      <arrowHelper ref={sideForceArrow} />
+      {debug && (
+        <>
+          <arrowHelper ref={directionOfTravelArrow} />
+          <arrowHelper ref={airResistanceArrow} />
+          <arrowHelper ref={carForceArrow} />
+          <arrowHelper ref={sideForceArrow} />
+        </>
+      )}
 
       {
         [...Array(60)].map((_, z) => (
