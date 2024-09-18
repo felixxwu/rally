@@ -1,5 +1,5 @@
 import React from 'react'
-import { KeyboardControls } from '@react-three/drei'
+import { KeyboardControls, OrbitControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Physics } from '@react-three/rapier'
 import { Suspense, useMemo } from 'react'
@@ -34,7 +34,8 @@ function App() {
         <Canvas shadows camera={{ fov: 60 }}>
           <color attach='background' args={['#ececec']} />
           <Suspense>
-            <Physics>
+            <Physics debug={debug} colliders='trimesh'>
+              <OrbitControls />
               <Experience setSpeed={setSpeed} debug={debug} />
             </Physics>
           </Suspense>

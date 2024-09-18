@@ -1,10 +1,12 @@
-import React from 'react'
-import { Box, useKeyboardControls } from '@react-three/drei'
+import React, { useMemo, useState } from 'react'
+import { Box, Sky, useKeyboardControls } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { RapierRigidBody, RigidBody } from '@react-three/rapier'
+import { RapierRigidBody, RigidBody, RoundCuboidCollider } from '@react-three/rapier'
 import { useRef } from 'react'
 import { Controls } from '../App'
 import * as THREE from 'three'
+import Terrain from './Terrain'
+import { button, useControls } from 'leva'
 
 export const Experience = ({
   setSpeed,
@@ -27,10 +29,10 @@ export const Experience = ({
   const backPressed = useKeyboardControls(state => state[Controls.back])
   const forwardPressed = useKeyboardControls(state => state[Controls.forward])
 
-  const power = 0.15
+  const power = 0.3
   const maxTireForce = 0.3
   const steer = 0.06
-  const airResistanceScale = 0.6
+  const airResistanceScale = 0.4
 
   const handleMovement = (
     tireForce: THREE.Vector3,
@@ -89,6 +91,7 @@ export const Experience = ({
     forwardVec.applyQuaternion(rotation)
     const cameraPos = carPos.clone().add(forwardVec.clone()).add(new THREE.Vector3(0, 5, 0))
     // _state.camera.position.set(cameraPos.x, cameraPos.y, cameraPos.z);
+
     _state.camera.position.lerp(cameraPos, delta * 10)
     _state.camera.lookAt(carPos.clone())
     _state.camera.updateProjectionMatrix()
@@ -140,7 +143,7 @@ export const Experience = ({
       <directionalLight position={[-10, 10, 0]} intensity={0.4} />
 
       <RigidBody
-        position={[-2.5, 1, 0]}
+        position={[-2.5, 5, 0]}
         ref={cube}
         angularDamping={3}
         onCollisionEnter={({ other }) => {
@@ -155,7 +158,8 @@ export const Experience = ({
         }}
       >
         <Box args={[1, 0.6, 2]}>
-          <meshStandardMaterial color='royalblue' />
+          <RoundCuboidCollider args={[0.5, 0.3, 1, 0.2]} />
+          <meshStandardMaterial color='white' />
         </Box>
       </RigidBody>
 
@@ -168,21 +172,24 @@ export const Experience = ({
         </>
       )}
 
-      {[...Array(60)].map((_, z) => (
-        <RigidBody type='kinematicPosition' position={[0, 0.75, 0]} key={z}>
+      {/* {[...Array(60)].map((_, z) => (
+        <RigidBody type='fixed' position={[0, 0.75, 0]} key={z}>
           <group position={[2.5, 0, z * 10 - 300]}>
             <Box args={[5, 1, 0.5]}>
               <meshStandardMaterial color='peachpuff' />
             </Box>
           </group>
         </RigidBody>
-      ))}
+      ))} */}
 
-      <RigidBody type='fixed' name='floor' friction={0}>
-        <Box position={[0, 0, 0]} args={[50, 1, 600]}>
+      <RigidBody type='fixed' name='floor' friction={0} position={[0, -20, 0]}>
+        {/* <Box position={[0, 0, 0]} args={[50, 1, 600]}>
           <meshStandardMaterial color='springgreen' />
-        </Box>
+        </Box> */}
+        <Terrain seed={0} size={80} height={0.025} levels={3} scale={1} offset={{ x: 0, z: 0 }} />
       </RigidBody>
+
+      <Sky />
     </>
   )
 }
