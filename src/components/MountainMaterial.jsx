@@ -38,9 +38,9 @@ extend({
 })
 
 const MountainMaterial = () => {
-  const [flatTexture, slopeTexture] = useLoader(TextureLoader, ['/grass.jpg', '/rock.jpg'])
+  // const [flatTexture, slopeTexture] = useLoader(TextureLoader, ['/grass.jpg', '/rock.jpg'])
 
-  return <slopeBlendMaterial tFlat={flatTexture} tSlope={slopeTexture} />
+  return <meshStandardMaterial color='springgreen' />
 }
 
 export default MountainMaterial

@@ -116,7 +116,7 @@ const Terrain = ({ seed, size, height, levels = 8, scale = 1, offset }) => {
   const wireframe = false
 
   return (
-    <group scale={500 / scale} position={[-offset.x, 0, -offset.z]}>
+    <group scale={200 / scale} position={[-offset.x, 0, -offset.z]}>
       <mesh>
         <planeGeometry args={[1, 1, size - 1, size - 1]} ref={ref} />
         <Suspense fallback={<WireframeMaterial />}>
