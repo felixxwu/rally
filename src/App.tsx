@@ -70,21 +70,25 @@ function App() {
             style={{ width: '80px', height: '80px', backgroundColor: '#fff7' }}
             onPointerDown={() => setLeft(true)}
             onPointerUp={() => setLeft(false)}
+            onPointerLeave={() => setLeft(false)}
           />
           <div
             style={{ width: '80px', height: '80px', backgroundColor: '#fff7' }}
             onPointerDown={() => setRight(true)}
             onPointerUp={() => setRight(false)}
+            onPointerLeave={() => setRight(false)}
           />
           <div
             style={{ width: '80px', height: '80px', backgroundColor: '#fff7' }}
             onPointerDown={() => setBack(true)}
             onPointerUp={() => setBack(false)}
+            onPointerLeave={() => setBack(false)}
           />
           <div
             style={{ width: '80px', height: '80px', backgroundColor: '#fff7' }}
             onPointerDown={() => setForward(true)}
             onPointerUp={() => setForward(false)}
+            onPointerLeave={() => setForward(false)}
           />
         </div>
       )}
