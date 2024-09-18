@@ -56,18 +56,22 @@ export const Experience = ({
     angle: number,
     speed: number
   ) => {
+    cube.current?.resetForces(true)
+    cube.current?.resetTorques(true)
+
     if (!isOnFloor.current || !cube.current) {
       sideForceArrow.current?.setLength(0)
       carForceArrow.current?.setLength(0)
       return
     }
+
     const steerTorque =
       speed < speedSteerCutoff ? 0 : angle > reverseOppositeSteerCutoff ? -steer : steer
     if (rightPressed) {
-      cube.current.applyTorqueImpulse({ x: 0, y: steerTorque, z: 0 }, true)
+      cube.current.addTorque({ x: 0, y: steerTorque * 65, z: 0 }, true)
     }
     if (leftPressed) {
-      cube.current.applyTorqueImpulse({ x: 0, y: -steerTorque, z: 0 }, true)
+      cube.current.addTorque({ x: 0, y: -steerTorque * 65, z: 0 }, true)
     }
 
     const carForce = new THREE.Vector3(0, 0, 0)
@@ -96,7 +100,7 @@ export const Experience = ({
 
     carForce.add(airResistance)
 
-    cube.current.applyImpulse(carForce, true)
+    cube.current.addForce(carForce.multiplyScalar(65), true)
   }
 
   useFrame((_state, delta) => {
