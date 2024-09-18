@@ -180,7 +180,7 @@ export const Experience = ({
         }}
       >
         <Box args={[1, 0.5, 2]}>
-          <RoundCuboidCollider args={[0.5, 0.25, 1, 0.2]} />
+          <RoundCuboidCollider args={[0.3, 0, 1, 0.4]} />
           <meshStandardMaterial color='white' />
         </Box>
       </RigidBody>
@@ -194,21 +194,32 @@ export const Experience = ({
         </>
       )}
 
-      {/* {[...Array(60)].map((_, z) => (
+      {[...Array(60)].map((_, z) => (
         <RigidBody type='fixed' position={[0, 0.75, 0]} key={z}>
-          <group position={[2.5, 0, z * 10 - 300]}>
+          <group position={[2.5, -10, z * 10 - 300]}>
             <Box args={[5, 1, 0.5]}>
               <meshStandardMaterial color='peachpuff' />
             </Box>
           </group>
         </RigidBody>
-      ))} */}
+      ))}
 
       <RigidBody type='fixed' name='floor' friction={0}>
-        {/* <Box position={[0, 0, 0]} args={[50, 1, 600]}>
+        <Box position={[0, -10, 0]} args={[50, 1, 600]}>
           <meshStandardMaterial color='springgreen' />
-        </Box> */}
-        <Terrain seed={0} size={70} height={0.04} levels={2} scale={1} offset={{ x: 0, z: 0 }} />
+        </Box>
+      </RigidBody>
+
+      <RigidBody type='fixed' name='floor' friction={0}>
+        <Terrain
+          width={150}
+          seed={0}
+          size={50}
+          height={0.04}
+          levels={2}
+          scale={1}
+          offset={{ x: 0, z: 0 }}
+        />
       </RigidBody>
 
       <Sky />

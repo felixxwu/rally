@@ -39,7 +39,7 @@ const generateTerrain = (simplex, size, height, levels, scale, offset) => {
   ]
 }
 
-const Terrain = ({ seed, size, height, levels = 8, scale = 1, offset }) => {
+const Terrain = ({ seed, size, height, levels = 8, scale = 1, offset, width }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const simplex = useMemo(() => new createNoise2D(), [seed]) // use seed to regenerate simplex noise
   const [lowestPoint, setLowestPoint] = useState(0)
@@ -116,7 +116,7 @@ const Terrain = ({ seed, size, height, levels = 8, scale = 1, offset }) => {
   const wireframe = false
 
   return (
-    <group scale={200 / scale} position={[-offset.x, 0, -offset.z]}>
+    <group scale={width / scale} position={[-offset.x, 0, -offset.z]}>
       <mesh>
         <planeGeometry args={[1, 1, size - 1, size - 1]} ref={ref} />
         <Suspense fallback={<WireframeMaterial />}>
