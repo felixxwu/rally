@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build; vite preview --host",
-    "preview": "vite preview"
+    "build": "vite build",
+    "preview": "vite build; vite preview --host"
   },
   "dependencies": {
     "@react-three/drei": "^9.112.0",
