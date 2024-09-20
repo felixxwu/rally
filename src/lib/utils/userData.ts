@@ -1,13 +1,14 @@
 import Ammo from 'ammojs-typed'
+import { Mesh } from '../../types'
 
 type UserData = {
   physicsBody: Ammo.btRigidBody
 }
 
-export function setUserData(userData: Record<string, any>, data: UserData) {
-  userData.physicsBody = data.physicsBody
+export function setUserData(mesh: Mesh, data: UserData) {
+  mesh.userData.physicsBody = data.physicsBody
 }
 
-export function getUserData(userData: Record<string, any>): UserData {
-  return userData as UserData
+export function getUserData(mesh: Mesh): UserData {
+  return mesh.userData as UserData
 }

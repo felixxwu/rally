@@ -3,7 +3,7 @@ import { getUserData } from '../utils/userData'
 import { Mesh } from '../../types'
 
 export function updatePhysics(objThree: Mesh) {
-  const objPhys = getUserData(objThree.userData).physicsBody
+  const objPhys = getUserData(objThree).physicsBody
   // objPhys.applyForce(new Ammo.btVector3(40, 0, 0), new Ammo.btVector3(0, 0, 0))
   const ms = objPhys.getMotionState()
   if (ms && transformAux1.current) {

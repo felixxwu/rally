@@ -9,6 +9,7 @@ import { initRenderer } from './lib/render/initRenderer'
 import { initLight } from './lib/initLight'
 import { initHelperArrows } from './lib/helperArrows/initHelperArrows'
 import { initCamera } from './lib/camera/initCamera'
+import { initWindowListeners } from './lib/initWindowListeners'
 
 Ammo().then(() => {
   initGraphics()
@@ -19,4 +20,5 @@ Ammo().then(() => {
   initPhysics()
   initCar()
   initHelperArrows()
+  initWindowListeners()
 })

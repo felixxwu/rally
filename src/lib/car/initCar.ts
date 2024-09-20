@@ -23,8 +23,26 @@ export function initCar() {
   const sx = 3
   const sy = 2
   const sz = 5
+  const wheelRadius = 1
   car.current = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1), createObjectMaterial())
-  const shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5))
+  const shape = new Ammo.btCompoundShape()
+
+  const wheel1Transform = new Ammo.btTransform()
+  wheel1Transform.setOrigin(new Ammo.btVector3(-sx * 0.5, 0, -sz * 0.5))
+  shape.addChildShape(wheel1Transform, new Ammo.btSphereShape(wheelRadius))
+
+  const wheel2Transform = new Ammo.btTransform()
+  wheel2Transform.setOrigin(new Ammo.btVector3(sx * 0.5, 0, -sz * 0.5))
+  shape.addChildShape(wheel2Transform, new Ammo.btSphereShape(wheelRadius))
+
+  const wheel3Transform = new Ammo.btTransform()
+  wheel3Transform.setOrigin(new Ammo.btVector3(-sx * 0.5, 0, sz * 0.5))
+  shape.addChildShape(wheel3Transform, new Ammo.btSphereShape(wheelRadius))
+
+  const wheel4Transform = new Ammo.btTransform()
+  wheel4Transform.setOrigin(new Ammo.btVector3(sx * 0.5, 0, sz * 0.5))
+  shape.addChildShape(wheel4Transform, new Ammo.btSphereShape(wheelRadius))
+
   shape.setMargin(0.05)
 
   car.current.position.set(
@@ -45,7 +63,7 @@ export function initCar() {
   const rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, shape, localInertia)
   const body = new Ammo.btRigidBody(rbInfo)
 
-  setUserData(car.current.userData, { physicsBody: body })
+  setUserData(car.current, { physicsBody: body })
 
   car.current.receiveShadow = true
   car.current.castShadow = true

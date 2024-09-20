@@ -1,4 +1,3 @@
-import { getCarDirection } from '../car/getCarDirection'
 import { car, oldCarPosition } from '../car/initCar'
 import { THREE } from '../utils/THREE'
 import { arrow } from './initHelperArrows'

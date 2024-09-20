@@ -11,15 +11,4 @@ export function initCamera() {
   )
 
   onRender.push(updateCamera)
-
-  window.addEventListener('resize', onWindowResize)
-}
-
-function onWindowResize() {
-  if (!camera.current) return
-
-  camera.current.aspect = window.innerWidth / window.innerHeight
-  camera.current.updateProjectionMatrix()
-
-  renderer.current?.setSize(window.innerWidth, window.innerHeight)
 }
