@@ -39,7 +39,7 @@ export let ammoHeightData = constant<number | null>(null)
 export const time = constant(0)
 export const objectTimePeriod = 1
 export const timeNextSpawn = constant(time.current + objectTimePeriod)
-export const maxNumObjects = 300
+export const maxNumObjects = 1
 
 export function constant<T>(init: T) {
   return {

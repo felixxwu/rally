@@ -10,6 +10,7 @@ export function updatePhysics(deltaTime: number) {
   for (let i = 0, il = dynamicObjects.length; i < il; i++) {
     const objThree = dynamicObjects[i]
     const objPhys = objThree.userData.physicsBody as AmmoType.btRigidBody
+    // objPhys.applyForce(new Ammo.btVector3(40, 0, 0), new Ammo.btVector3(0, 0, 0))
     const ms = objPhys.getMotionState()
     if (ms && transformAux1.current) {
       ms.getWorldTransform(transformAux1.current)

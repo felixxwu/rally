@@ -1,4 +1,4 @@
-export function generateHeight(width, depth, minHeight, maxHeight) {
+export function generateHeight(width: number, depth: number, minHeight: number, maxHeight: number) {
   // Generates the height data (a sinus wave)
   const size = width * depth
   const data = new Float32Array(size)
@@ -6,7 +6,7 @@ export function generateHeight(width, depth, minHeight, maxHeight) {
   const hRange = maxHeight - minHeight
   const w2 = width / 2
   const d2 = depth / 2
-  const phaseMult = 12
+  const phaseMult = 15
 
   let p = 0
 
