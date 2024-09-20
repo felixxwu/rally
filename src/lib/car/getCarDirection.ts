@@ -1,13 +1,12 @@
 import { car } from './initCar'
 import { THREE } from '../utils/THREE'
 
-export function getCarDirection() {
-  if (!car.current) return
+export function getCarDirection(unitVector = new THREE.Vector3(0, 0, 1)) {
+  if (!car.current) return unitVector
 
   car.current.getWorldQuaternion(new THREE.Quaternion())
 
-  const unitVector = new THREE.Vector3(0, 0, 1)
-  const ammoQuaternion = car.current.getWorldQuaternion(new THREE.Quaternion())
+  const quat = car.current.getWorldQuaternion(new THREE.Quaternion())
 
-  return unitVector.applyQuaternion(ammoQuaternion)
+  return unitVector.applyQuaternion(quat)
 }

@@ -8,43 +8,41 @@ import { getUserData } from '../utils/userData'
 import { car, oldCarPosition } from './initCar'
 import { getCarDirection } from './getCarDirection'
 import { getAmmoVector } from '../utils/vectorConversion'
+import { terrainMesh } from '../terrain/initTerrain'
+import { getCarCornerPos } from './getCarCorner'
+import { getCarRelCorner } from './getCarRelCorner'
 
-const enginePower = 300
-const steerPower = 100
+export const enginePower = 3
+export const steerPower = 20
 
-export function updateCar() {
+export function updateCar(deltaTime: number) {
   if (!car.current) return
 
+  const objPhys = getUserData(car.current).physicsBody
+  const carForce = new THREE.Vector3()
+  const carTorque = new THREE.Vector3()
   const carPos = car.current.getWorldPosition(new THREE.Vector3())
+  const direction = getCarDirection() || new THREE.Vector3()
   oldCarPosition.current = carPos.clone()
 
-  const direction = getCarDirection() || new THREE.Vector3()
-
   if (keysDown.w) {
-    const objPhys = getUserData(car.current).physicsBody
-    objPhys?.applyForce(
-      getAmmoVector(direction.clone().multiplyScalar(enginePower)),
-      new Ammo.btVector3(0, 0, 0)
-    )
+    carForce.add(direction.clone().multiplyScalar(enginePower / deltaTime))
   }
 
   if (keysDown.s) {
-    const objPhys = getUserData(car.current).physicsBody
-    objPhys?.applyForce(
-      getAmmoVector(direction.clone().multiplyScalar(-enginePower)),
-      new Ammo.btVector3(0, 0, 0)
-    )
+    carForce.add(direction.clone().multiplyScalar(-enginePower / deltaTime))
   }
 
   if (keysDown.a) {
-    const objPhys = getUserData(car.current).physicsBody
-    objPhys?.applyTorque(getAmmoVector(new THREE.Vector3(0, steerPower, 0)))
+    carTorque.add(new THREE.Vector3(0, steerPower / deltaTime, 0))
   }
 
   if (keysDown.d) {
-    const objPhys = getUserData(car.current).physicsBody
-    objPhys?.applyTorque(getAmmoVector(new THREE.Vector3(0, -steerPower, 0)))
+    carTorque.add(new THREE.Vector3(0, -steerPower / deltaTime, 0))
   }
+
+  objPhys?.applyCentralForce(getAmmoVector(carForce))
+  objPhys?.applyLocalTorque(getAmmoVector(carTorque))
 
   updatePhysics(car.current)
 }

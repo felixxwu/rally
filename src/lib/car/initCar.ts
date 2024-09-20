@@ -1,49 +1,32 @@
 import AmmoType from 'ammojs-typed'
 declare const Ammo: typeof AmmoType
 
-import {
-  constant,
-  dynamicObjects,
-  onRender,
-  physicsWorld,
-  scene,
-  terrainDepth,
-  terrainMaxHeight,
-  terrainWidth,
-} from '../../constant'
+import { constant, dynamicObjects, onRender, physicsWorld, scene } from '../../constant'
 import { setUserData } from '../utils/userData'
 import { Mesh } from '../../types'
 import { updateCar } from './updateCar'
 import { THREE } from '../utils/THREE'
+import { terrainDepth, terrainMaxHeight, terrainWidth } from '../terrain/initTerrain'
+import { addBumpStop } from '../wheel/addBumpStop'
 
 export const car = constant<Mesh | null>(null)
 export const oldCarPosition = constant<THREE.Vector3 | null>(null)
+export const raycaster = constant(new THREE.Raycaster())
+
+export const carLength = 3
+export const carWidth = 2
+export const carHeight = 1
 
 export function initCar() {
-  const sx = 3
-  const sy = 2
-  const sz = 5
-  const wheelRadius = 1
-  car.current = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1), createObjectMaterial())
+  car.current = new THREE.Mesh(
+    new THREE.BoxGeometry(carWidth, carHeight, carLength, 1, 1, 1),
+    createObjectMaterial()
+  )
   const shape = new Ammo.btCompoundShape()
-
-  const wheel1Transform = new Ammo.btTransform()
-  wheel1Transform.setOrigin(new Ammo.btVector3(-sx * 0.5, 0, -sz * 0.5))
-  shape.addChildShape(wheel1Transform, new Ammo.btSphereShape(wheelRadius))
-
-  const wheel2Transform = new Ammo.btTransform()
-  wheel2Transform.setOrigin(new Ammo.btVector3(sx * 0.5, 0, -sz * 0.5))
-  shape.addChildShape(wheel2Transform, new Ammo.btSphereShape(wheelRadius))
-
-  const wheel3Transform = new Ammo.btTransform()
-  wheel3Transform.setOrigin(new Ammo.btVector3(-sx * 0.5, 0, sz * 0.5))
-  shape.addChildShape(wheel3Transform, new Ammo.btSphereShape(wheelRadius))
-
-  const wheel4Transform = new Ammo.btTransform()
-  wheel4Transform.setOrigin(new Ammo.btVector3(sx * 0.5, 0, sz * 0.5))
-  shape.addChildShape(wheel4Transform, new Ammo.btSphereShape(wheelRadius))
-
-  shape.setMargin(0.05)
+  addBumpStop(shape, true, true)
+  addBumpStop(shape, true, false)
+  addBumpStop(shape, false, true)
+  addBumpStop(shape, false, false)
 
   car.current.position.set(
     (Math.random() - 0.5) * terrainWidth * 0.6,
@@ -61,6 +44,11 @@ export function initCar() {
   const motionState = new Ammo.btDefaultMotionState(transform)
 
   const rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, shape, localInertia)
+  rbInfo.set_m_friction(0)
+  rbInfo.set_m_restitution(1)
+  rbInfo.set_m_angularDamping(1.5)
+  rbInfo.set_m_linearDamping(0.1)
+  rbInfo.set_m_linearSleepingThreshold(0)
   const body = new Ammo.btRigidBody(rbInfo)
 
   setUserData(car.current, { physicsBody: body })

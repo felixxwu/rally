@@ -1,24 +1,20 @@
-import {
-  heightData,
-  scene,
-  terrainDepth,
-  terrainDepthExtents,
-  terrainMaxHeight,
-  terrainMesh,
-  terrainMinHeight,
-  terrainWidth,
-  terrainWidthExtents,
-} from '../../constant'
+import { constant, heightData, scene } from '../../constant'
 import { generateHeight } from './generateHeight'
 import { THREE } from '../utils/THREE'
+import { Mesh } from '../../types'
+
+export const terrainWidthExtents = 800
+export const terrainDepthExtents = 800
+export const terrainWidth = 100
+export const terrainDepth = 100
+export const terrainHalfWidth = terrainWidth / 2
+export const terrainHalfDepth = terrainDepth / 2
+export const terrainMaxHeight = 0
+export const terrainMinHeight = 0
+export const terrainMesh = constant<Mesh | null>(null)
 
 export function initTerrain() {
-  heightData.current = generateHeight(
-    terrainWidth,
-    terrainDepth,
-    terrainMinHeight,
-    terrainMaxHeight
-  )
+  heightData.current = generateHeight()
 
   const geometry = new THREE.PlaneGeometry(
     terrainWidthExtents,

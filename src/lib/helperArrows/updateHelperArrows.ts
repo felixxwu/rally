@@ -1,3 +1,4 @@
+import { getCarCornerPos } from '../car/getCarCorner'
 import { car, oldCarPosition } from '../car/initCar'
 import { THREE } from '../utils/THREE'
 import { arrow } from './initHelperArrows'
@@ -9,9 +10,9 @@ export function updateHelperArrows(deltaTime: number) {
   const diff = pos
     ?.clone()
     .sub(oldPos || new THREE.Vector3())
-    .multiplyScalar(1 / deltaTime)
+    .multiplyScalar(0.5 / deltaTime)
 
-  arrow.current?.position.set(pos?.x || 0, (pos?.y || 0) + 1.5, pos?.z || 0)
+  arrow.current?.position.set(pos?.x || 0, (pos?.y || 0) + 1, pos?.z || 0)
   arrow.current?.setDirection(diff?.clone().normalize() || new THREE.Vector3())
   arrow.current?.setLength(diff?.length() || 0)
 }

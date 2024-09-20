@@ -6,9 +6,9 @@ export const initLight = () => {
   scene.current?.add(ambientLight)
 
   const light = new THREE.DirectionalLight(0xffffff, 3)
-  light.position.set(100, 100, 50)
+  light.position.set(1000, 500, 500)
   light.castShadow = true
-  const dLight = 1000
+  const dLight = 2000
   const sLight = dLight * 0.25
   light.shadow.camera.left = -sLight
   light.shadow.camera.right = sLight
@@ -18,8 +18,8 @@ export const initLight = () => {
   light.shadow.camera.near = dLight / 30
   light.shadow.camera.far = dLight
 
-  light.shadow.mapSize.x = 1024 * 4
-  light.shadow.mapSize.y = 1024 * 4
+  light.shadow.mapSize.x = 1024 * 8
+  light.shadow.mapSize.y = 1024 * 8
 
   scene.current?.add(light)
 }

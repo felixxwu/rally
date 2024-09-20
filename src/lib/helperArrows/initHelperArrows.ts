@@ -5,12 +5,8 @@ import { updateHelperArrows } from './updateHelperArrows'
 import { THREE } from '../utils/THREE'
 
 export function initHelperArrows() {
-  arrow.current = new THREE.ArrowHelper(
-    new THREE.Vector3(1, 0, 0),
-    new THREE.Vector3(0, 5, 0),
-    5,
-    0xffff00
-  )
+  arrow.current = new THREE.ArrowHelper()
+  arrow.current.setColor(0xff0000)
   scene.current?.add(arrow.current)
 
   onRender.push(updateHelperArrows)

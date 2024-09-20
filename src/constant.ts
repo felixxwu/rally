@@ -5,14 +5,6 @@ import { Mesh } from './types'
 import { THREE } from './lib/utils/THREE'
 
 // Heightfield parameters
-export const terrainWidthExtents = 300
-export const terrainDepthExtents = 300
-export const terrainWidth = 128
-export const terrainDepth = 128
-export const terrainHalfWidth = terrainWidth / 2
-export const terrainHalfDepth = terrainDepth / 2
-export const terrainMaxHeight = 5
-export const terrainMinHeight = -2
 
 export const onRender: ((deltaTime: number) => void)[] = []
 
@@ -22,7 +14,6 @@ export let stats = constant<Stats | null>(null)
 export let camera = constant<THREE.PerspectiveCamera | null>(null)
 export let scene = constant<THREE.Scene | null>(null)
 export let renderer = constant<THREE.WebGLRenderer | null>(null)
-export let terrainMesh = constant<Mesh | null>(null)
 export const clock = new THREE.Clock()
 
 // Physics variables

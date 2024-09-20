@@ -4,8 +4,8 @@ import { getCarDirection } from '../car/getCarDirection'
 import { car } from '../car/initCar'
 import { THREE } from '../utils/THREE'
 
-const followDistance = -20
-const followHeight = 10
+const followDistance = -10
+const followHeight = 5
 
 export function updateCamera(deltaTime: number) {
   if (!car.current) return

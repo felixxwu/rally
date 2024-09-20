@@ -4,7 +4,7 @@ import { THREE } from '../utils/THREE'
 
 export function initCamera() {
   camera.current = new THREE.PerspectiveCamera(
-    60,
+    80,
     window.innerWidth / window.innerHeight,
     0.2,
     2000

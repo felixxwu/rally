@@ -9,11 +9,10 @@ import {
   onRender,
   physicsWorld,
   solver,
-  terrainMaxHeight,
-  terrainMinHeight,
   transformAux1,
 } from '../../constant'
 import { updatePhysics } from './updatePhysics'
+import { terrainMaxHeight, terrainMinHeight } from '../terrain/initTerrain'
 
 export function initPhysics() {
   // Physics configuration
@@ -27,7 +26,7 @@ export function initPhysics() {
     solver.current,
     collisionConfiguration.current
   )
-  physicsWorld.current.setGravity(new Ammo.btVector3(0, -10, 0))
+  physicsWorld.current.setGravity(new Ammo.btVector3(0, -9.8, 0))
 
   // Create the terrain body
   const groundShape = createTerrainShape()
