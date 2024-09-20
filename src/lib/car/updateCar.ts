@@ -9,10 +9,10 @@ import { car, oldCarPosition } from './initCar'
 import { getCarDirection } from './getCarDirection'
 import { getAmmoVector } from '../utils/vectorConversion'
 
-export const enginePower = 3
-export const steerPower = 5
+export const enginePower = 300
+export const steerPower = 500
 
-export function updateCar(deltaTime: number) {
+export function updateCar() {
   if (!car.current) return
 
   const objPhys = getUserData(car.current).physicsBody
@@ -23,19 +23,19 @@ export function updateCar(deltaTime: number) {
   oldCarPosition.current = carPos.clone()
 
   if (keysDown.w) {
-    carForce.add(direction.clone().multiplyScalar(enginePower / deltaTime))
+    carForce.add(direction.clone().multiplyScalar(enginePower))
   }
 
   if (keysDown.s) {
-    carForce.add(direction.clone().multiplyScalar(-enginePower / deltaTime))
+    carForce.add(direction.clone().multiplyScalar(-enginePower))
   }
 
   if (keysDown.a) {
-    carTorque.add(new THREE.Vector3(0, steerPower / deltaTime, 0))
+    carTorque.add(new THREE.Vector3(0, steerPower, 0))
   }
 
   if (keysDown.d) {
-    carTorque.add(new THREE.Vector3(0, -steerPower / deltaTime, 0))
+    carTorque.add(new THREE.Vector3(0, -steerPower, 0))
   }
 
   objPhys?.applyCentralForce(getAmmoVector(carForce))

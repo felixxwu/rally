@@ -5,7 +5,6 @@ import { springDamping, springLength, sprintRate } from './initWheel'
 
 export function getSpringForce(
   pos: THREE.Vector3,
-  deltaTime: number,
   prevDistance: { current: number }
 ): [THREE.Vector3, number] {
   if (!terrainMesh.current || !car.current) return [new THREE.Vector3(), 0]
@@ -19,9 +18,9 @@ export function getSpringForce(
 
   if (distance < springLength) {
     const distanceDelta = distance - prevDistance.current
-    const velY = (distanceDelta / deltaTime) * springDamping
+    const velY = distanceDelta * springDamping
     const damping = Math.max(0, -velY)
-    const spring = (compression / deltaTime) * sprintRate
+    const spring = compression * sprintRate
     prevDistance.current = distance
     return [new THREE.Vector3(0, damping + spring, 0), distance]
   } else {

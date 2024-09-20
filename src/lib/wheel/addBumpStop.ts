@@ -7,5 +7,5 @@ export function addBumpStop(shape: AmmoType.btCompoundShape, front: boolean, lef
   wheel1Transform.setOrigin(
     new Ammo.btVector3(carWidth * (front ? 0.5 : -0.5), 0, carLength * (left ? -0.5 : 0.5))
   )
-  shape.addChildShape(wheel1Transform, new Ammo.btSphereShape(carHeight / 4))
+  shape.addChildShape(wheel1Transform, new Ammo.btSphereShape(carHeight / 2))
 }

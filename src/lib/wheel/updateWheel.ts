@@ -12,7 +12,8 @@ import { wheelRadius } from './initWheel'
 export function updateWheel(
   deltaTime: number,
   wheelMesh: Mesh,
-  wheelArrow: THREE.ArrowHelper,
+  suspensionArrow: THREE.ArrowHelper,
+  slipArrow: THREE.ArrowHelper,
   prevDistance: {
     current: number
   },
@@ -22,17 +23,24 @@ export function updateWheel(
   if (!car.current) return
 
   const wheelPos = getCarCornerPos(front, left)
-  const [wheelForce, distanceToGround] = getSpringForce(wheelPos, deltaTime, prevDistance)
+  const [suspensionForce, distanceToGround] = getSpringForce(wheelPos, prevDistance)
+  const wheelMeshPos = wheelPos.clone().add(new THREE.Vector3(0, wheelRadius - distanceToGround, 0))
 
-  wheelArrow.position.copy(wheelPos)
-  wheelArrow.setLength(wheelForce.clone().multiplyScalar(deltaTime).length())
+  suspensionArrow.position.copy(wheelMeshPos)
+  suspensionArrow.setLength(suspensionForce.clone().multiplyScalar(deltaTime).length())
+
+  slipArrow.position.copy(wheelMeshPos)
+  slipArrow.setDirection(getCarDirection(new THREE.Vector3(left ? 1 : -1, 0, 0)))
 
   const objPhys = getUserData(car.current).physicsBody
-  objPhys.applyForce(getAmmoVector(wheelForce), getAmmoVector(getCarRelCorner(front, left)))
+  objPhys.applyForce(getAmmoVector(suspensionForce), getAmmoVector(getCarRelCorner(front, left)))
 
-  wheelMesh.position.copy(
-    wheelPos.clone().add(new THREE.Vector3(0, wheelRadius - distanceToGround, 0))
+  wheelMesh.position.copy(wheelMeshPos)
+  const additionalQuat = new THREE.Quaternion().setFromAxisAngle(
+    new THREE.Vector3(0, 0, 1),
+    Math.PI / 2
   )
-  const carDirection = getCarDirection(new THREE.Vector3(0, 0, 1))
-  wheelMesh.setRotationFromAxisAngle(carDirection, Math.PI / 2)
+  const quat = car.current?.getWorldQuaternion(new THREE.Quaternion())
+  quat.multiply(additionalQuat)
+  wheelMesh.setRotationFromQuaternion(quat || new THREE.Quaternion())
 }
