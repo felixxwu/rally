@@ -1,20 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rally</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-
+    <title>Ammo.js terrain heightfield demo</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <link type="text/css" rel="stylesheet" href="main.css" />
     <style>
-      * {
-        font-family: sans-serif;
-        user-select: none;
+      body {
+        color: #333;
+        margin: 0;
+        padding: 0;
       }
     </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <div id="info">Ammo.js physics terrain heightfield demo</div>
+
+    <script src="./lib/jsm/ammo.wasm.js"></script>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./build/three.module.js",
+          "three/addons/": "./lib/jsm/"
+        }
+      }
+    </script>
+
+    <script type="module" src="./lib/main.js"></script>
   </body>
 </html>
