@@ -10,7 +10,7 @@ import {
   terrainMaxHeight,
   terrainWidthExtents,
   terrainDepthExtents,
-} from '../constant'
+} from '../../constant'
 
 export function createTerrainShape() {
   // This parameter is not really used, since we are using PHY_FLOAT height data type and hence it is ignored

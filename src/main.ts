@@ -1,24 +1,22 @@
 import AmmoType from 'ammojs-typed'
 declare const Ammo: typeof AmmoType
 
-import { generateHeight } from './lib/generateHeight'
-import { initPhysics } from './lib/initPhysics'
-import {
-  heightData,
-  terrainDepth,
-  terrainMaxHeight,
-  terrainMinHeight,
-  terrainWidth,
-} from './constant'
+import { initPhysics } from './lib/physics/initPhysics'
 import { initGraphics } from './lib/initGraphics'
+import { initCar } from './lib/car/initCar'
+import { initTerrain } from './lib/terrain/initTerrain'
+import { initRenderer } from './lib/render/initRenderer'
+import { initLight } from './lib/initLight'
+import { initHelperArrows } from './lib/initHelperArrows'
+import { initCamera } from './lib/camera/initCamera'
 
 Ammo().then(() => {
-  heightData.current = generateHeight(
-    terrainWidth,
-    terrainDepth,
-    terrainMinHeight,
-    terrainMaxHeight
-  )
   initGraphics()
+  initRenderer()
+  initCamera()
+  initLight()
+  initTerrain()
   initPhysics()
+  initCar()
+  initHelperArrows()
 })

@@ -6,14 +6,19 @@ import Stats from './lib/jsm/stats.module'
 import { Mesh } from './types'
 
 // Heightfield parameters
-export const terrainWidthExtents = 200
-export const terrainDepthExtents = 200
+export const terrainWidthExtents = 300
+export const terrainDepthExtents = 300
 export const terrainWidth = 128
 export const terrainDepth = 128
 export const terrainHalfWidth = terrainWidth / 2
 export const terrainHalfDepth = terrainDepth / 2
-export const terrainMaxHeight = 8
+export const terrainMaxHeight = 5
 export const terrainMinHeight = -2
+
+export const onRender: ((deltaTime: number) => void)[] = []
+
+// Arrows
+export const arrow = constant<THREE.ArrowHelper | null>(null)
 
 // Graphics variables
 export const container = constant<HTMLElement | null>(null)
@@ -31,6 +36,7 @@ export let broadphase = constant<AmmoType.btDbvtBroadphase | null>(null)
 export let solver = constant<AmmoType.btSequentialImpulseConstraintSolver | null>(null)
 export let physicsWorld = constant<AmmoType.btDiscreteDynamicsWorld | null>(null)
 export const dynamicObjects: Mesh[] = []
+export const car = constant<Mesh | null>(null)
 export let transformAux1 = constant<AmmoType.btTransform | null>(null)
 
 export let heightData = constant<Float32Array | null>(null)

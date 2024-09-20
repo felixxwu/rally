@@ -1,17 +1,19 @@
 import AmmoType from 'ammojs-typed'
 declare const Ammo: typeof AmmoType
 
-import { createTerrainShape } from './createTerrainShape'
+import { createTerrainShape } from '../terrain/createTerrainShape'
 import {
   broadphase,
   collisionConfiguration,
   dispatcher,
+  onRender,
   physicsWorld,
   solver,
   terrainMaxHeight,
   terrainMinHeight,
   transformAux1,
-} from '../constant'
+} from '../../constant'
+import { updatePhysics } from './updatePhysics'
 
 export function initPhysics() {
   // Physics configuration
@@ -47,4 +49,6 @@ export function initPhysics() {
   physicsWorld.current.addRigidBody(groundBody)
 
   transformAux1.current = new Ammo.btTransform()
+
+  onRender.push(updatePhysics)
 }

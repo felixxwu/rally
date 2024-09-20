@@ -1,7 +1,7 @@
 import AmmoType from 'ammojs-typed'
 declare const Ammo: typeof AmmoType
 
-import { physicsWorld, dynamicObjects, transformAux1 } from '../constant'
+import { physicsWorld, dynamicObjects, transformAux1 } from '../../constant'
 
 export function updatePhysics(deltaTime: number) {
   physicsWorld.current?.stepSimulation(deltaTime, 10)
