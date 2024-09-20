@@ -15,6 +15,7 @@ export function initWheel(front: boolean, left: boolean) {
   scene.current?.add(suspensionArrow)
 
   const slipArrow = new THREE.ArrowHelper()
+  slipArrow.setColor('black')
   scene.current?.add(slipArrow)
 
   const wheelMesh = new THREE.Mesh(

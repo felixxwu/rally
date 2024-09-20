@@ -22,11 +22,16 @@ export function updateWheel(
 ) {
   if (!car.current) return
 
+  const quat = car.current?.getWorldQuaternion(new THREE.Quaternion())
   const wheelPos = getCarCornerPos(front, left)
   const [suspensionForce, distanceToGround] = getSpringForce(wheelPos, prevDistance)
-  const wheelMeshPos = wheelPos.clone().add(new THREE.Vector3(0, wheelRadius - distanceToGround, 0))
+  suspensionForce.applyQuaternion(quat)
+  const wheelMeshPos = wheelPos
+    .clone()
+    .add(new THREE.Vector3(0, wheelRadius - distanceToGround, 0).applyQuaternion(quat))
 
   suspensionArrow.position.copy(wheelMeshPos)
+  suspensionArrow.setDirection(suspensionForce.clone().normalize())
   suspensionArrow.setLength(suspensionForce.clone().multiplyScalar(deltaTime).length())
 
   slipArrow.position.copy(wheelMeshPos)
@@ -40,7 +45,6 @@ export function updateWheel(
     new THREE.Vector3(0, 0, 1),
     Math.PI / 2
   )
-  const quat = car.current?.getWorldQuaternion(new THREE.Quaternion())
   quat.multiply(additionalQuat)
   wheelMesh.setRotationFromQuaternion(quat || new THREE.Quaternion())
 }
