@@ -709,6 +709,11 @@
   resolved "https://registry.npmjs.org/@webgpu/types/-/types-0.1.45.tgz"
   integrity sha512-0TBBF/mhakJoK0qUWCZugBnh23x+VwmYA5RLmtNQwvZt1pQ4P2fzIvQUiSe6jxzkBi4GF8R4BejJjro0ZSoSXQ==
 
+ammojs-typed@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/ammojs-typed/-/ammojs-typed-1.0.6.tgz"
+  integrity sha512-ut/tD0m5eEdlJ5KK97ma6SIEGZ4FN3AJTSVz8wl6C4EtnpVQdP70lOwgDMJKsHjTohxc2/xEZl6yJfMBZNlQ5w==
+
 ansi-styles@^3.2.1:
   version "3.2.1"
   resolved "https://registry.npmjs.org/ansi-styles/-/ansi-styles-3.2.1.tgz"

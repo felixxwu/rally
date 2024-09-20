@@ -7,10 +7,16 @@
     <title>Rally</title>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div id="container"></div>
+
+    <script src="./ammo.wasm.js"></script>
+    <script type="module" src="/src/main.ts"></script>
 
     <style>
+      body {
+        margin: 0;
+      }
+
       * {
         font-family: sans-serif;
         user-select: none;

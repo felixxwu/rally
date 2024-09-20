@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "typeRoots": ["node_modules/ammojs-typed/ammo/ambient"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true
+  },
+  "paths": {
+    "*": ["*.d.ts"]
+  },
+}
