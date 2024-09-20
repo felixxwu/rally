@@ -8,12 +8,9 @@ import { getUserData } from '../utils/userData'
 import { car, oldCarPosition } from './initCar'
 import { getCarDirection } from './getCarDirection'
 import { getAmmoVector } from '../utils/vectorConversion'
-import { terrainMesh } from '../terrain/initTerrain'
-import { getCarCornerPos } from './getCarCorner'
-import { getCarRelCorner } from './getCarRelCorner'
 
 export const enginePower = 3
-export const steerPower = 20
+export const steerPower = 5
 
 export function updateCar(deltaTime: number) {
   if (!car.current) return

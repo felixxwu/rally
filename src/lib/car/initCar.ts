@@ -13,7 +13,7 @@ export const car = constant<Mesh | null>(null)
 export const oldCarPosition = constant<THREE.Vector3 | null>(null)
 export const raycaster = constant(new THREE.Raycaster())
 
-export const carLength = 3.5
+export const carLength = 4
 export const carWidth = 2
 export const carHeight = 1
 
@@ -45,8 +45,8 @@ export function initCar() {
 
   const rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, shape, localInertia)
   rbInfo.set_m_friction(0)
-  rbInfo.set_m_restitution(1)
-  rbInfo.set_m_angularDamping(1.5)
+  rbInfo.set_m_restitution(0)
+  rbInfo.set_m_angularDamping(0.99999)
   rbInfo.set_m_linearDamping(0.1)
   rbInfo.set_m_linearSleepingThreshold(0)
   const body = new Ammo.btRigidBody(rbInfo)
