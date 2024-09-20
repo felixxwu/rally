@@ -1,16 +1,23 @@
 import AmmoType from 'ammojs-typed'
 declare const Ammo: typeof AmmoType
 
-import * as THREE from 'three'
 import {
-  car,
+  constant,
   dynamicObjects,
+  onRender,
   physicsWorld,
   scene,
   terrainDepth,
   terrainMaxHeight,
   terrainWidth,
 } from '../../constant'
+import { setUserData } from '../utils/userData'
+import { Mesh } from '../../types'
+import { updateCar } from './updateCar'
+import { THREE } from '../utils/THREE'
+
+export const car = constant<Mesh | null>(null)
+export const oldCarPosition = constant<THREE.Vector3 | null>(null)
 
 export function initCar() {
   const sx = 3
@@ -38,7 +45,7 @@ export function initCar() {
   const rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, shape, localInertia)
   const body = new Ammo.btRigidBody(rbInfo)
 
-  car.current.userData.physicsBody = body
+  setUserData(car.current.userData, { physicsBody: body })
 
   car.current.receiveShadow = true
   car.current.castShadow = true
@@ -47,6 +54,8 @@ export function initCar() {
   dynamicObjects.push(car.current)
 
   physicsWorld.current?.addRigidBody(body)
+
+  onRender.push(updateCar)
 }
 
 function createObjectMaterial() {

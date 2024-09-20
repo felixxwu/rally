@@ -1,9 +1,6 @@
-import AmmoType from 'ammojs-typed'
-import * as THREE from 'three'
-declare const Ammo: typeof AmmoType
-
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import { container, scene, stats } from '../constant'
+import { THREE } from './utils/THREE'
 
 export function initGraphics() {
   container.current = document.getElementById('container')

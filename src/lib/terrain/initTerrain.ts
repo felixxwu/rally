@@ -1,6 +1,3 @@
-import AmmoType from 'ammojs-typed'
-declare const Ammo: typeof AmmoType
-import * as THREE from 'three'
 import {
   heightData,
   scene,
@@ -13,6 +10,7 @@ import {
   terrainWidthExtents,
 } from '../../constant'
 import { generateHeight } from './generateHeight'
+import { THREE } from '../utils/THREE'
 
 export function initTerrain() {
   heightData.current = generateHeight(

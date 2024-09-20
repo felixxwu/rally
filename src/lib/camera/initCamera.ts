@@ -1,8 +1,6 @@
-import AmmoType from 'ammojs-typed'
-import * as THREE from 'three'
 import { camera, onRender, renderer } from '../../constant'
 import { updateCamera } from './updateCamera'
-declare const Ammo: typeof AmmoType
+import { THREE } from '../utils/THREE'
 
 export function initCamera() {
   camera.current = new THREE.PerspectiveCamera(

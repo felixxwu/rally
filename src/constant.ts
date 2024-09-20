@@ -1,9 +1,8 @@
 import AmmoType from 'ammojs-typed'
-declare const Ammo: typeof AmmoType
 
-import * as THREE from 'three'
 import Stats from './lib/jsm/stats.module'
 import { Mesh } from './types'
+import { THREE } from './lib/utils/THREE'
 
 // Heightfield parameters
 export const terrainWidthExtents = 300
@@ -16,9 +15,6 @@ export const terrainMaxHeight = 5
 export const terrainMinHeight = -2
 
 export const onRender: ((deltaTime: number) => void)[] = []
-
-// Arrows
-export const arrow = constant<THREE.ArrowHelper | null>(null)
 
 // Graphics variables
 export const container = constant<HTMLElement | null>(null)
@@ -36,7 +32,6 @@ export let broadphase = constant<AmmoType.btDbvtBroadphase | null>(null)
 export let solver = constant<AmmoType.btSequentialImpulseConstraintSolver | null>(null)
 export let physicsWorld = constant<AmmoType.btDiscreteDynamicsWorld | null>(null)
 export const dynamicObjects: Mesh[] = []
-export const car = constant<Mesh | null>(null)
 export let transformAux1 = constant<AmmoType.btTransform | null>(null)
 
 export let heightData = constant<Float32Array | null>(null)

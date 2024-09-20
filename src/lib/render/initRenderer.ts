@@ -1,8 +1,8 @@
 import AmmoType from 'ammojs-typed'
 declare const Ammo: typeof AmmoType
-import * as THREE from 'three'
 
 import { container, renderer, stats, clock, time, scene, camera, onRender } from '../../constant'
+import { THREE } from '../utils/THREE'
 
 export function initRenderer() {
   renderer.current = new THREE.WebGLRenderer({ antialias: true })

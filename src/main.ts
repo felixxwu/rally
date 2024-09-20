@@ -7,7 +7,7 @@ import { initCar } from './lib/car/initCar'
 import { initTerrain } from './lib/terrain/initTerrain'
 import { initRenderer } from './lib/render/initRenderer'
 import { initLight } from './lib/initLight'
-import { initHelperArrows } from './lib/initHelperArrows'
+import { initHelperArrows } from './lib/helperArrows/initHelperArrows'
 import { initCamera } from './lib/camera/initCamera'
 
 Ammo().then(() => {

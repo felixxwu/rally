@@ -50,5 +50,7 @@ export function initPhysics() {
 
   transformAux1.current = new Ammo.btTransform()
 
-  onRender.push(updatePhysics)
+  onRender.push(deltaTime => {
+    physicsWorld.current?.stepSimulation(deltaTime, 10)
+  })
 }

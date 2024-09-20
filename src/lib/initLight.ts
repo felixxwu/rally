@@ -1,7 +1,5 @@
-import AmmoType from 'ammojs-typed'
-declare const Ammo: typeof AmmoType
-import * as THREE from 'three'
 import { scene } from '../constant'
+import { THREE } from './utils/THREE'
 
 export const initLight = () => {
   const ambientLight = new THREE.AmbientLight(0xbbbbbb)

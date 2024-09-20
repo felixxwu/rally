@@ -1,9 +1,5 @@
-import AmmoType from 'ammojs-typed'
-declare const Ammo: typeof AmmoType
-
-import * as THREE from 'three'
-
-import { car } from '../../constant'
+import { car } from './initCar'
+import { THREE } from '../utils/THREE'
 
 export function getCarDirection() {
   if (!car.current) return
