@@ -5,12 +5,12 @@ import { Mesh } from '../../types'
 
 export const terrainWidthExtents = 800
 export const terrainDepthExtents = 800
-export const terrainWidth = 100
-export const terrainDepth = 100
+export const terrainWidth = 70
+export const terrainDepth = 70
 export const terrainHalfWidth = terrainWidth / 2
 export const terrainHalfDepth = terrainDepth / 2
-export const terrainMaxHeight = 0
-export const terrainMinHeight = 0
+export const terrainMaxHeight = 10
+export const terrainMinHeight = -2
 export const terrainMesh = constant<Mesh | null>(null)
 
 export function initTerrain() {

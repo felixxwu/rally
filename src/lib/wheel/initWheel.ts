@@ -9,7 +9,7 @@ import { getUserData } from '../utils/userData'
 import { getAmmoVector } from '../utils/vectorConversion'
 
 export const springLength = 1.1
-export const sprintRate = 2
+export const sprintRate = 3
 export const springDamping = 0.5
 export const wheelRadius = 0.4
 
@@ -56,7 +56,7 @@ function getSpringForce(pos: THREE.Vector3, deltaTime: number): [THREE.Vector3, 
   if (distance < springLength) {
     const velY = (objPhys.getLinearVelocity().y() / deltaTime) * springDamping
     const damping = Math.max(0, -velY)
-    const spring = (Math.pow(compression, 2) / deltaTime) * sprintRate
+    const spring = (compression / deltaTime) * sprintRate
     return [new THREE.Vector3(0, damping + spring, 0).multiplyScalar(1), distance]
   } else {
     return [new THREE.Vector3(0, 0, 0), springLength]

@@ -13,7 +13,7 @@ export const car = constant<Mesh | null>(null)
 export const oldCarPosition = constant<THREE.Vector3 | null>(null)
 export const raycaster = constant(new THREE.Raycaster())
 
-export const carLength = 3
+export const carLength = 3.5
 export const carWidth = 2
 export const carHeight = 1
 

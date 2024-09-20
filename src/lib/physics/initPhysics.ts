@@ -26,7 +26,7 @@ export function initPhysics() {
     solver.current,
     collisionConfiguration.current
   )
-  physicsWorld.current.setGravity(new Ammo.btVector3(0, -9.8, 0))
+  physicsWorld.current.setGravity(new Ammo.btVector3(0, -20, 0))
 
   // Create the terrain body
   const groundShape = createTerrainShape()

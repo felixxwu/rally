@@ -8,7 +8,7 @@ export function generateHeight() {
   const hRange = terrainMaxHeight - terrainMinHeight
   const w2 = terrainWidth / 2
   const d2 = terrainDepth / 2
-  const phaseMult = 20
+  const phaseMult = 30
 
   let p = 0
 
