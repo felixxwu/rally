@@ -15,14 +15,14 @@ import { add } from '../utils/addVec';
 import { mult } from '../utils/multVec';
 import { getCarDirection } from './getCarDirection';
 
-export function updateCar() {
+export function updateCar(deltaTime: number) {
   if (!car.current) return;
 
   const objPhys = getUserData(car.current).physicsBody;
   const carForce = new THREE.Vector3();
   const carTorque = new THREE.Vector3();
   const carPos = car.current.getWorldPosition(new THREE.Vector3());
-  const dir = getDirectionOfTravel();
+  const dir = getDirectionOfTravel(deltaTime);
   const inverseTravel = dir.clone().multiplyScalar(-airResistance.current);
   const squared = inverseTravel.clone().multiplyScalar(inverseTravel.length());
   squared.setLength(squared.length() + minAirResistance);
@@ -33,7 +33,7 @@ export function updateCar() {
   const angle = getCarDirection().angleTo(dir);
   const reversing = angle < reverseAngle;
   const steerTorque = steerPower.current * (reversing ? -1 : 1);
-  const slowSpeedModifier = Math.min(dir.length() * 20, 5);
+  const slowSpeedModifier = Math.min(dir.length() * 27, 5);
   const highSpeedModifier = dir.length() * -2;
   const speedAdjusted = steerTorque * (slowSpeedModifier + highSpeedModifier);
   const compressionAdjusted =

@@ -38,7 +38,7 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 // Car
 export const airResistance = ref(10);
 export const minAirResistance = 10;
-export const steerPower = ref(300);
+export const steerPower = ref(350);
 export const enginePower = ref(200);
 export const angularDamping = 0.99999997;
 export const bodyRoll = ref(0.3);
@@ -54,9 +54,9 @@ export const reverseAngle = Math.PI * 0.8;
 
 // Wheels and suspension
 export const maxTireForce = ref(300);
-export const springLength = ref(1.4);
-export const sprintRate = ref(150);
-export const springDamping = ref(2500);
+export const springLength = ref(1.3);
+export const sprintRate = ref(200);
+export const springDamping = ref(3000);
 export const wheelRadius = 0.4;
 export const tireSnappiness = ref(150);
 export const wheelCompression = ref([0, 0, 0, 0]);
@@ -64,4 +64,4 @@ export const wheelCompression = ref([0, 0, 0, 0]);
 export const camFollowDistance = ref(10);
 export const camFollowHeight = ref(5);
 export const camFollowSpeed = ref(0.05);
-export const renderHelperArrows = ref(true);
+export const renderHelperArrows = ref(false);

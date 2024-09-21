@@ -1,32 +1,32 @@
-import { mobileControlGroup } from './mobileControlGroup';
-import { el } from './ui';
+import { el } from './el';
+import { mobileControl } from './mobileControl';
 
 export function mobileUI() {
-  const mobileUI = el('div', {
-    style: `
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    `,
-  });
-
-  mobileUI.appendChild(
-    mobileControlGroup([
-      { key: 'a', rotation: -90 },
-      { key: 'd', rotation: 90 },
-    ])
+  return el.div(
+    {
+      style: `
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      `,
+    },
+    el.div(
+      {
+        style: `padding: 0 20px;`,
+      },
+      mobileControl('a', -90),
+      mobileControl('d', 90)
+    ),
+    el.div(
+      {
+        style: `padding: 0 20px;`,
+      },
+      mobileControl('s', 180),
+      mobileControl('w', 0)
+    )
   );
-
-  mobileUI.appendChild(
-    mobileControlGroup([
-      { key: 's', rotation: 180 },
-      { key: 'w', rotation: 0 },
-    ])
-  );
-
-  return mobileUI;
 }

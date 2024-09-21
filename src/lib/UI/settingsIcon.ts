@@ -1,23 +1,20 @@
-import { Ref } from '../utils/ref';
-import { initUI, panelOpen } from './initUI';
-import { el } from './ui';
+import { el } from './el';
+import { panelOpen } from './initUI';
 
 export function settingsIcon() {
-  const img = el('img', {
+  return el.img({
     src: '/settings.svg',
     width: '40',
     style: `
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      cursor: pointer;
-    `,
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      `,
+    oncreate: img => {
+      img.onclick = () => {
+        panelOpen.current = !panelOpen.current;
+      };
+    },
   });
-
-  img.onclick = () => {
-    panelOpen.current = !panelOpen.current;
-    initUI();
-  };
-
-  return img;
 }

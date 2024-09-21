@@ -16,6 +16,6 @@ export function initWheel(front: boolean, left: boolean) {
   scene.current?.add(wheelMesh);
 
   onRender.push(deltaTime => {
-    updateWheel(wheelMesh, prevDistance, front, left);
+    updateWheel(wheelMesh, prevDistance, front, left, deltaTime);
   });
 }

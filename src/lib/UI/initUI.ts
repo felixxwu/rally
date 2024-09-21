@@ -2,20 +2,18 @@ import { ref } from '../utils/ref';
 import { mobileUI } from './mobileUi';
 import { settingsIcon } from './settingsIcon';
 import { settingsPanel } from './settingsPanel';
-import { spedo } from './spedo';
-import { ui } from './ui';
+import { speedo } from './speedo';
 
 export const panelOpen = ref(false);
 
 export function initUI() {
+  const ui = document.getElementById('ui');
   if (!ui) return;
 
   ui.innerHTML = '';
 
-  ui.appendChild(spedo());
+  ui.appendChild(speedo());
   ui.appendChild(mobileUI());
-  if (panelOpen.current) {
-    ui.appendChild(settingsPanel());
-  }
+  ui.appendChild(settingsPanel());
   ui.appendChild(settingsIcon());
 }

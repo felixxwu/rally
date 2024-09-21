@@ -23,7 +23,8 @@ export function updateWheel(
   wheelMesh: Mesh,
   prevDistance: Ref<number>,
   front: boolean,
-  left: boolean
+  left: boolean,
+  deltaTime: number
 ) {
   if (!car.current) return;
 
@@ -33,7 +34,7 @@ export function updateWheel(
   const wheelOffset = new THREE.Vector3(0, wheelRadius - (springLength.current - compression), 0);
   const wheelMeshPos = wheelPos.clone().add(wheelOffset.applyQuaternion(quat));
 
-  const directionOfTravel = getDirectionOfTravel().multiplyScalar(50);
+  const directionOfTravel = getDirectionOfTravel(deltaTime).multiplyScalar(50);
   const sideVec = getCarDirection(new THREE.Vector3(1, 0, 0));
   const forwardVec = getCarDirection(new THREE.Vector3(0, 0, 1));
   const projected = directionOfTravel.clone().projectOnVector(sideVec);
