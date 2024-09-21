@@ -41,7 +41,7 @@ export function settingsPanel() {
   div.appendChild(numberSlider('Tire Grip', maxTireForce, 0, 1000));
   div.appendChild(numberSlider('Tire Snappiness', tireSnappiness, 0, 500));
   div.appendChild(numberSlider('Steering Sensitivity', steerPower, 400, 1500));
-  div.appendChild(numberSlider('Air Resistance', airResistance, 0, 30));
+  div.appendChild(numberSlider('Air Resistance', airResistance, 1, 30));
   div.appendChild(numberSlider('Body Roll', bodyRoll, 0, 1));
   div.appendChild(numberSlider('Camera Follow Distance', camFollowDistance, 3, 15));
   div.appendChild(numberSlider('Camera Follow Height', camFollowHeight, 0, 10));

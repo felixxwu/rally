@@ -36,9 +36,9 @@ export const physicsWorld = ref<AmmoType.btDiscreteDynamicsWorld | null>(null);
 export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 
 // Car
-export const airResistance = ref(15);
+export const airResistance = ref(12);
 export const minAirResistance = 10;
-export const steerPower = ref(1000);
+export const steerPower = ref(250);
 export const enginePower = ref(300);
 export const angularDamping = 0.99999997;
 export const bodyRoll = ref(0.5);
@@ -50,6 +50,7 @@ export const carHeight = 1;
 // TODO turn into single bias value
 export const frontWheelDrive = ref(true);
 export const rearWheelDrive = ref(true);
+export const reverseAngle = Math.PI * 0.8;
 
 // Wheels and suspension
 export const maxTireForce = ref(300);
