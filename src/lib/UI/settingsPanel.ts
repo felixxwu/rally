@@ -1,6 +1,8 @@
 import {
   airResistance,
   bodyRoll,
+  brakePower,
+  brakeRearBias,
   camFollowDistance,
   camFollowHeight,
   camFollowSpeed,
@@ -58,10 +60,12 @@ export function settingsPanel() {
       numberSlider('Power', enginePower, 0, 1000),
       numberSlider('Steering Sensitivity', steerPower, 100, 700),
       numberSlider('Spring Length', springLength, 0.5, 3),
-      numberSlider('Spring Stiffness', sprintRate, 0, 1000),
+      numberSlider('Spring Stiffness', sprintRate, 0, 600),
       numberSlider('Spring Damping', springDamping, 0, 10000),
       numberSlider('Tire Grip', maxTireForce, 0, 1000),
       numberSlider('Tire Snappiness', tireSnappiness, 0, 500),
+      numberSlider('Brake Strength', brakePower, 0, 1200),
+      numberSlider('Brake Bias (Rear)', brakeRearBias, 0, 1),
       numberSlider('Air Resistance', airResistance, 1, 30),
       numberSlider('Body Roll', bodyRoll, 0, 1),
       numberSlider('Camera Follow Distance', camFollowDistance, 3, 20),
@@ -76,7 +80,7 @@ export function settingsPanel() {
 
 function numberSlider(name: string, ref: Ref<number>, min: number, max: number) {
   const value = el.span({
-    style: `color: white; text-align: right;`,
+    style: `color: white; text-align: right; font-size: 12px;`,
     oncreate: span => {
       span.textContent = `${ref.current}`;
     },
@@ -92,7 +96,7 @@ function numberSlider(name: string, ref: Ref<number>, min: number, max: number) 
         width: 100%;
       `,
     },
-    el.span({ style: `color: white;` }, name),
+    el.span({ style: `color: white; font-size: 12px;` }, name),
     value,
     el.input({
       type: 'range',
@@ -119,7 +123,7 @@ function boolInput(name: string, ref: Ref<boolean>) {
         justify-content: space-between;
       `,
     },
-    el.span({ style: `color: white;` }, name),
+    el.span({ style: `color: white; font-size: 12px;` }, name),
     el.input({
       type: 'checkbox',
       style: `outline: none;`,

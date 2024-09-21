@@ -51,8 +51,10 @@ export function updateCar(deltaTime: number) {
   objPhys?.applyCentralForce(getAmmoVector(carForce));
   objPhys?.applyLocalTorque(getAmmoVector(carTorque));
 
-  helperArrow(mult(inverseTravel, -1), add(carPos, [0, 1, 0]), 0x0000ff, 'travel');
-  helperArrow(mult(squared, 0.05), add(carPos, [0, 1, 0]), 0xffffff, 'airResistance');
+  if (dir.length() > 0.01) {
+    helperArrow(mult(inverseTravel, -2), add(carPos, [0, 1, 0]), 0x0000ff, 'travel');
+    helperArrow(mult(squared, 0.1), add(carPos, [0, 1, 0]), 0xffffff, 'airResistance');
+  }
 
   updatePhysics(car.current);
 }

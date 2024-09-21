@@ -3,7 +3,16 @@ import { getCarCornerPos } from '../car/getCarCorner';
 import { getCarDirection } from '../car/getCarDirection';
 import { getCarRelCorner } from '../car/getCarRelCorner';
 import { getDirectionOfTravel } from '../car/getDirectionOfTravel';
-import { bodyRoll, car, frontWheelDrive, rearWheelDrive, wheelCompression } from '../../refs';
+import {
+  bodyRoll,
+  brakePower,
+  brakeRearBias,
+  car,
+  frontWheelDrive,
+  rearWheelDrive,
+  reverseAngle,
+  wheelCompression,
+} from '../../refs';
 import { enginePower } from '../../refs';
 import { keysDown } from '../initWindowListeners';
 import { THREE } from '../utils/THREE';
@@ -34,21 +43,49 @@ export function updateWheel(
   const wheelOffset = new THREE.Vector3(0, wheelRadius - (springLength.current - compression), 0);
   const wheelMeshPos = wheelPos.clone().add(wheelOffset.applyQuaternion(quat));
 
-  const directionOfTravel = getDirectionOfTravel(deltaTime).multiplyScalar(50);
+  const dir = getDirectionOfTravel(deltaTime);
   const sideVec = getCarDirection(new THREE.Vector3(1, 0, 0));
   const forwardVec = getCarDirection(new THREE.Vector3(0, 0, 1));
+  if (dir.length() < 0.01) dir.copy(forwardVec);
+
+  const directionOfTravel = dir.multiplyScalar(50);
   const projected = directionOfTravel.clone().projectOnVector(sideVec);
   const sqrtCompression = Math.sqrt(compression);
   const sideTireForce = projected
     .multiplyScalar(-tireSnappiness.current)
     .clampLength(0, maxTireForce.current * sqrtCompression);
 
+  const angle = getCarDirection().angleTo(dir);
+  const reversing = angle > reverseAngle && dir.length() > 0.1;
+
   let power = 0;
-  if (keysDown.w && wheelHasPower(front)) power = enginePower.current;
-  // TODO fix reverse always being 4wd
-  if (keysDown.s) power = -enginePower.current;
+  let usingBrakes = false;
+  if (keysDown.w) {
+    if (reversing) {
+      power = brakePower.current * (front ? 1 - brakeRearBias.current : brakeRearBias.current);
+      usingBrakes = true;
+    } else {
+      if (wheelHasPower(front)) {
+        power = enginePower.current;
+      }
+    }
+  }
+  if (keysDown.s) {
+    if (reversing) {
+      if (wheelHasPower(front)) {
+        power = -enginePower.current;
+      }
+    } else {
+      power = -brakePower.current * (front ? 1 - brakeRearBias.current : brakeRearBias.current);
+      usingBrakes = true;
+    }
+  }
   if (frontWheelDrive.current && rearWheelDrive.current) power /= 2;
-  const straightForce = forwardVec.clone().multiplyScalar(power * sqrtCompression);
+  const straightForce = (
+    usingBrakes ? mult(dir.clone().normalize(), reversing ? -1 : 1) : forwardVec
+  )
+    .clone()
+    .multiplyScalar(power * sqrtCompression);
 
   const objPhys = getUserData(car.current).physicsBody;
   const adjustedMaxTireForce = maxTireForce.current * sqrtCompression;
