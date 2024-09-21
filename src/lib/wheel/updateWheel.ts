@@ -14,13 +14,11 @@ import { maxTireForce } from '../../constant';
 import { tireSnappiness } from '../../constant';
 import { wheelRadius } from '../../constant';
 import { springLength } from '../../constant';
+import { helperArrow } from '../helperArrows/helperArrow';
+import { mult } from '../utils/multVec';
 
 export function updateWheel(
-  deltaTime: number,
   wheelMesh: Mesh,
-  suspensionArrow: THREE.ArrowHelper,
-  slipArrow: THREE.ArrowHelper,
-  straightArrow: THREE.ArrowHelper,
   prevDistance: {
     current: number;
   },
@@ -35,19 +33,13 @@ export function updateWheel(
   const wheelOffset = new THREE.Vector3(0, wheelRadius - (springLength - compression), 0);
   const wheelMeshPos = wheelPos.clone().add(wheelOffset.applyQuaternion(quat));
 
-  suspensionArrow.position.copy(wheelMeshPos);
-  suspensionArrow.setDirection(suspensionForce.clone().normalize());
-  suspensionArrow.setLength(suspensionForce.clone().length() * deltaTime * 2);
-
   const directionOfTravel = getDirectionOfTravel().multiplyScalar(50);
   const sideVec = getCarDirection(new THREE.Vector3(1, 0, 0));
   const forwardVec = getCarDirection(new THREE.Vector3(0, 0, 1));
   const projected = directionOfTravel.clone().projectOnVector(sideVec);
-  const sideTireForce = projected.multiplyScalar(-tireSnappiness).clampLength(0, maxTireForce);
-
-  // slipArrow.position.copy(wheelMeshPos)
-  // slipArrow.setDirection(sideTireForce.clone().normalize())
-  // slipArrow.setLength(sideTireForce.length() * deltaTime * compression * 2)
+  const sideTireForce = projected
+    .multiplyScalar(-tireSnappiness)
+    .clampLength(0, maxTireForce * compression);
 
   let power = 0;
   if (keysDown.w) power = enginePower;
@@ -63,10 +55,6 @@ export function updateWheel(
   const totalForce = suspensionForce.clone().add(totalTireForce);
   objPhys.applyForce(getAmmoVector(totalForce), getAmmoVector(getCarRelCorner(front, left)));
 
-  straightArrow.position.copy(wheelMeshPos);
-  straightArrow.setDirection(totalTireForce.clone().normalize());
-  straightArrow.setLength(totalTireForce.length() * deltaTime * 4);
-
   wheelMesh.position.copy(wheelMeshPos);
   const additionalQuat = new THREE.Quaternion().setFromAxisAngle(
     new THREE.Vector3(0, 0, 1),
@@ -74,4 +62,8 @@ export function updateWheel(
   );
   quat.multiply(additionalQuat);
   wheelMesh.setRotationFromQuaternion(quat || new THREE.Quaternion());
+
+  helperArrow(mult(suspensionForce, 0.02), wheelMeshPos, 0xffff00, `suspension${front}${left}`);
+  helperArrow(mult(sideTireForce, 0.02), wheelMeshPos, 0x000000, `side${front}${left}`);
+  helperArrow(mult(totalTireForce, 0.02), wheelMeshPos, 0xff0000, `tire${front}${left}`);
 }

@@ -7,25 +7,23 @@ import { THREE } from '../utils/THREE';
 import { getUserData } from '../utils/userData';
 import { oldCarPosition } from '../../constant';
 import { car } from '../../constant';
-import { airResistanceArrow } from '../../constant';
 import { getAmmoVector } from '../utils/vectorConversion';
 import { getDirectionOfTravel } from './getDirectionOfTravel';
 import { airResistance, steerPower } from '../../constant';
+import { helperArrow } from '../helperArrows/helperArrow';
+import { add } from '../utils/addVec';
+import { mult } from '../utils/multVec';
 
-export function updateCar(deltaTime: number) {
+export function updateCar() {
   if (!car.current) return;
 
   const objPhys = getUserData(car.current).physicsBody;
   const carForce = new THREE.Vector3();
   const carTorque = new THREE.Vector3();
   const carPos = car.current.getWorldPosition(new THREE.Vector3());
-  const directionOfTravel = getDirectionOfTravel().multiplyScalar(-airResistance);
-  const squared = directionOfTravel.clone().multiplyScalar(directionOfTravel.length());
+  const inverseTravel = getDirectionOfTravel().multiplyScalar(-airResistance);
+  const squared = inverseTravel.clone().multiplyScalar(inverseTravel.length());
   oldCarPosition.current = carPos.clone();
-
-  airResistanceArrow.current?.position.copy(carPos.add(new THREE.Vector3(0, 1, 0)));
-  airResistanceArrow.current?.setDirection(squared.clone().normalize());
-  airResistanceArrow.current?.setLength(squared.length() * deltaTime * 10);
 
   carForce.add(squared);
 
@@ -39,6 +37,9 @@ export function updateCar(deltaTime: number) {
 
   objPhys?.applyCentralForce(getAmmoVector(carForce));
   objPhys?.applyLocalTorque(getAmmoVector(carTorque));
+
+  helperArrow(mult(inverseTravel, -1), add(carPos, [0, 1, 0]), 0x0000ff, 'travel');
+  helperArrow(mult(squared, 0.1), add(carPos, [0, 1, 0]), 0xffffff, 'airResistance');
 
   updatePhysics(car.current);
 }

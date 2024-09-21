@@ -2,7 +2,6 @@ import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
 import {
-  airResistanceArrow,
   car,
   carHeight,
   carLength,
@@ -50,7 +49,7 @@ export function initCar() {
   rbInfo.set_m_friction(0);
   rbInfo.set_m_restitution(0);
   rbInfo.set_m_angularDamping(0.99999997);
-  rbInfo.set_m_linearDamping(0.1);
+  rbInfo.set_m_linearDamping(0);
   rbInfo.set_m_linearSleepingThreshold(0);
   const body = new Ammo.btRigidBody(rbInfo);
 
@@ -63,10 +62,6 @@ export function initCar() {
   dynamicObjects.push(car.current);
 
   physicsWorld.current?.addRigidBody(body);
-
-  airResistanceArrow.current = new THREE.ArrowHelper();
-  airResistanceArrow.current.setColor(0xffffff);
-  scene.current?.add(airResistanceArrow.current);
 
   onRender.push(updateCar);
 }
