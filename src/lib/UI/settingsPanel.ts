@@ -1,4 +1,4 @@
-import { enginePower, maxTireForce, springLength, sprintRate } from '../../refs';
+import { enginePower, maxTireForce, springDamping, springLength, sprintRate } from '../../refs';
 import { Ref } from '../utils/ref';
 import { el } from './ui';
 
@@ -21,6 +21,7 @@ export function settingsPanel() {
   div.appendChild(numberSlider('Power', enginePower, 0, 1000));
   div.appendChild(numberSlider('Spring Length', springLength, 0, 2));
   div.appendChild(numberSlider('Spring Stiffness', sprintRate, 0, 1000));
+  div.appendChild(numberSlider('Spring Damping', springDamping, 0, 10000));
   div.appendChild(numberSlider('Max Tire Force', maxTireForce, 0, 1000));
 
   return div;

@@ -21,7 +21,7 @@ export function getSpringForce(
 
   if (distance < springLength.current) {
     const distanceDelta = distance - prevDistance.current;
-    const velY = distanceDelta * springDamping;
+    const velY = distanceDelta * springDamping.current;
     const damping = Math.max(0, -velY);
     const spring = compression * sprintRate.current;
     prevDistance.current = distance;
