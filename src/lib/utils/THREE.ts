@@ -1,1 +1,1 @@
-export * as THREE from 'three'
+export * as THREE from 'three';

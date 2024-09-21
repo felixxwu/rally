@@ -1,40 +1,63 @@
-import AmmoType from 'ammojs-typed'
+import AmmoType from 'ammojs-typed';
 
-import Stats from './lib/jsm/stats.module'
-import { Mesh } from './types'
-import { THREE } from './lib/utils/THREE'
+import Stats from './lib/jsm/stats.module';
+import { Mesh } from './types';
+import { THREE } from './lib/utils/THREE';
+import { ref } from './lib/utils/ref';
 
 // Heightfield parameters
+export const terrainWidthExtents = 800;
+export const terrainDepthExtents = 800;
+export const terrainWidth = 70;
+export const terrainDepth = 70;
+export const terrainHalfWidth = terrainWidth / 2;
+export const terrainHalfDepth = terrainDepth / 2;
+export const terrainMaxHeight = 10;
+export const terrainMinHeight = -2;
+export const terrainMesh = ref<Mesh | null>(null);
 
-export const onRender: ((deltaTime: number) => void)[] = []
+export const onRender: ((deltaTime: number) => void)[] = [];
 
 // Graphics variables
-export const container = constant<HTMLElement | null>(null)
-export let stats = constant<Stats | null>(null)
-export let camera = constant<THREE.PerspectiveCamera | null>(null)
-export let scene = constant<THREE.Scene | null>(null)
-export let renderer = constant<THREE.WebGLRenderer | null>(null)
-export const clock = new THREE.Clock()
+export const container = ref<HTMLElement | null>(null);
+export let stats = ref<Stats | null>(null);
+export let camera = ref<THREE.PerspectiveCamera | null>(null);
+export let scene = ref<THREE.Scene | null>(null);
+export let renderer = ref<THREE.WebGLRenderer | null>(null);
+export const clock = new THREE.Clock();
 
 // Physics variables
-export let collisionConfiguration = constant<AmmoType.btDefaultCollisionConfiguration | null>(null)
-export let dispatcher = constant<AmmoType.btCollisionDispatcher | null>(null)
-export let broadphase = constant<AmmoType.btDbvtBroadphase | null>(null)
-export let solver = constant<AmmoType.btSequentialImpulseConstraintSolver | null>(null)
-export let physicsWorld = constant<AmmoType.btDiscreteDynamicsWorld | null>(null)
-export const dynamicObjects: Mesh[] = []
-export let transformAux1 = constant<AmmoType.btTransform | null>(null)
+export let collisionConfiguration = ref<AmmoType.btDefaultCollisionConfiguration | null>(null);
+export let dispatcher = ref<AmmoType.btCollisionDispatcher | null>(null);
+export let broadphase = ref<AmmoType.btDbvtBroadphase | null>(null);
+export let solver = ref<AmmoType.btSequentialImpulseConstraintSolver | null>(null);
+export let physicsWorld = ref<AmmoType.btDiscreteDynamicsWorld | null>(null);
+export const dynamicObjects: Mesh[] = [];
+export let transformAux1 = ref<AmmoType.btTransform | null>(null);
 
-export let heightData = constant<Float32Array | null>(null)
-export let ammoHeightData = constant<number | null>(null)
+export let heightData = ref<Float32Array | null>(null);
+export let ammoHeightData = ref<number | null>(null);
 
-export const time = constant(0)
-export const objectTimePeriod = 1
-export const timeNextSpawn = constant(time.current + objectTimePeriod)
-export const maxNumObjects = 1
+export const time = ref(0);
+export const objectTimePeriod = 1;
+export const timeNextSpawn = ref(time.current + objectTimePeriod);
+export const maxNumObjects = 1;
 
-export function constant<T>(init: T) {
-  return {
-    current: init,
-  }
-}
+// Car
+export const springLength = 1.3;
+export const sprintRate = 200;
+export const springDamping = 3000;
+export const wheelRadius = 0.4;
+export const tireSnappiness = 150;
+export const maxTireForce = 200;
+export const airResistance = 15;
+export const steerPower = 800;
+export const enginePower = 700;
+export const airResistanceArrow = ref<THREE.ArrowHelper | null>(null);
+export const car = ref<Mesh | null>(null);
+export const oldCarPosition = ref<THREE.Vector3 | null>(null);
+export const carLength = 4;
+export const carWidth = 2;
+export const carHeight = 1;
+export const camFollowDistance = -10;
+export const camFollowHeight = 5;

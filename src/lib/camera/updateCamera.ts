@@ -1,22 +1,19 @@
-import { camera } from '../../constant'
-import { getCarDirection } from '../car/getCarDirection'
+import { camera, camFollowDistance, camFollowHeight } from '../../constant';
+import { getCarDirection } from '../car/getCarDirection';
 
-import { car } from '../car/initCar'
-import { THREE } from '../utils/THREE'
-
-const followDistance = -10
-const followHeight = 5
+import { car } from '../../constant';
+import { THREE } from '../utils/THREE';
 
 export function updateCamera(deltaTime: number) {
-  if (!car.current) return
+  if (!car.current) return;
 
-  const transform = car.current.getWorldPosition(new THREE.Vector3())
+  const transform = car.current.getWorldPosition(new THREE.Vector3());
 
-  const direction = getCarDirection()
+  const direction = getCarDirection();
 
   const camVector = direction
-    ?.multiplyScalar(followDistance)
-    .add(new THREE.Vector3(0, followHeight, 0))
+    ?.multiplyScalar(camFollowDistance)
+    .add(new THREE.Vector3(0, camFollowHeight, 0));
 
   // camera.current?.position.set(
   //   transform.x + (camVector?.x || 0),
@@ -24,6 +21,6 @@ export function updateCamera(deltaTime: number) {
   //   transform.z + (camVector?.z || 0),
   // )
 
-  camera.current?.position.lerp(transform.clone().add(camVector || new THREE.Vector3()), 0.05)
-  camera.current?.lookAt(transform.x, transform.y, transform.z)
+  camera.current?.position.lerp(transform.clone().add(camVector || new THREE.Vector3()), 0.05);
+  camera.current?.lookAt(transform.x, transform.y, transform.z);
 }
