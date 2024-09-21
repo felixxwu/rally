@@ -1,4 +1,4 @@
-import { scene } from '../../refs';
+import { renderHelperArrows, scene } from '../../refs';
 import { THREE } from '../utils/THREE';
 
 const arrows = {};
@@ -15,6 +15,8 @@ export function helperArrow(vec: THREE.Vector3, origin: THREE.Vector3, color: nu
   arrowHelper.setLength(vec.length());
   arrowHelper.position.copy(origin);
   arrowHelper.setColor(color);
+
+  arrowHelper.visible = renderHelperArrows.current;
 
   return arrowHelper;
 }

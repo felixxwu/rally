@@ -5,7 +5,10 @@ import {
   camFollowHeight,
   camFollowSpeed,
   enginePower,
+  frontWheelDrive,
   maxTireForce,
+  rearWheelDrive,
+  renderHelperArrows,
   springDamping,
   springLength,
   sprintRate,
@@ -43,6 +46,9 @@ export function settingsPanel() {
   div.appendChild(numberSlider('Camera Follow Distance', camFollowDistance, 3, 15));
   div.appendChild(numberSlider('Camera Follow Height', camFollowHeight, 0, 10));
   div.appendChild(numberSlider('Camera Follow Speed', camFollowSpeed, 0, 1));
+  div.appendChild(boolInput('Debug Arrows', renderHelperArrows));
+  div.appendChild(boolInput('Front Wheel Drive', frontWheelDrive));
+  div.appendChild(boolInput('Read Wheel Drive', rearWheelDrive));
 
   return div;
 }
@@ -89,6 +95,40 @@ function numberSlider(name: string, ref: Ref<number>, min: number, max: number) 
   div.appendChild(label);
   div.appendChild(input);
   div.appendChild(value);
+
+  return div;
+}
+
+function boolInput(name: string, ref: Ref<boolean>) {
+  const div = el('div', {
+    style: `
+      display: grid;
+      grid-template-columns: 200px 200px 50px;
+      gap: 20px;
+    `,
+  });
+
+  const label = el('span', {
+    style: `
+      color: white;
+    `,
+  });
+  label.textContent = name;
+
+  const input = el('input', {
+    type: 'checkbox',
+    style: `
+      outline: none;
+    `,
+  }) as HTMLInputElement;
+  input.checked = ref.current;
+
+  input.oninput = () => {
+    ref.current = input.checked;
+  };
+
+  div.appendChild(label);
+  div.appendChild(input);
 
   return div;
 }

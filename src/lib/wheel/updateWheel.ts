@@ -3,7 +3,7 @@ import { getCarCornerPos } from '../car/getCarCorner';
 import { getCarDirection } from '../car/getCarDirection';
 import { getCarRelCorner } from '../car/getCarRelCorner';
 import { getDirectionOfTravel } from '../car/getDirectionOfTravel';
-import { bodyRoll, car } from '../../refs';
+import { bodyRoll, car, frontWheelDrive, rearWheelDrive } from '../../refs';
 import { enginePower } from '../../refs';
 import { keysDown } from '../initWindowListeners';
 import { THREE } from '../utils/THREE';
@@ -17,6 +17,7 @@ import { springLength } from '../../refs';
 import { helperArrow } from '../helperArrows/helperArrow';
 import { mult } from '../utils/multVec';
 import { Ref } from '../utils/ref';
+import { wheelHasPower } from './wheelHasPower';
 
 export function updateWheel(
   wheelMesh: Mesh,
@@ -42,8 +43,10 @@ export function updateWheel(
     .clampLength(0, maxTireForce.current * sqrtCompression);
 
   let power = 0;
-  if (keysDown.w) power = enginePower.current;
+  if (keysDown.w && wheelHasPower(front)) power = enginePower.current;
+  // TODO fix reverse always being 4wd
   if (keysDown.s) power = -enginePower.current;
+  if (frontWheelDrive.current && rearWheelDrive.current) power /= 2;
   const straightForce = forwardVec.clone().multiplyScalar(power * sqrtCompression);
 
   const objPhys = getUserData(car.current).physicsBody;

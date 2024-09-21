@@ -39,14 +39,16 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 export const airResistance = ref(15);
 export const minAirResistance = 10;
 export const steerPower = ref(1000);
-export const enginePower = ref(150);
+export const enginePower = ref(300);
 export const angularDamping = 0.99999997;
-export const bodyRoll = ref(0.3);
+export const bodyRoll = ref(0.5);
 export const car = ref<Mesh | null>(null);
 export const oldCarPosition = ref<THREE.Vector3 | null>(null);
 export const carLength = 4;
 export const carWidth = 2;
 export const carHeight = 1;
+export const frontWheelDrive = ref(true);
+export const rearWheelDrive = ref(true);
 
 // Wheels and suspension
 export const maxTireForce = ref(300);
@@ -59,3 +61,4 @@ export const tireSnappiness = ref(150);
 export const camFollowDistance = ref(10);
 export const camFollowHeight = ref(5);
 export const camFollowSpeed = ref(0.05);
+export const renderHelperArrows = ref(true);
