@@ -22,8 +22,12 @@ export function getSpringForce(
     const damping = Math.max(0, -velY)
     const spring = compression * sprintRate
     prevDistance.current = distance
-    return [new THREE.Vector3(0, damping + spring, 0), distance]
+    const upForce = new THREE.Vector3(0, damping + spring, 0)
+    const quat = car.current?.getWorldQuaternion(new THREE.Quaternion())
+    const suspensionForce = upForce.applyQuaternion(quat)
+
+    return [suspensionForce, compression]
   } else {
-    return [new THREE.Vector3(0, 0, 0), springLength]
+    return [new THREE.Vector3(0, 0, 0), 0]
   }
 }

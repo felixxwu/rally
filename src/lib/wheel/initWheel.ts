@@ -4,8 +4,10 @@ import { updateWheel } from './updateWheel'
 
 export const springLength = 1.3
 export const sprintRate = 200
-export const springDamping = 3000
+export const springDamping = 4000
 export const wheelRadius = 0.4
+export const tireSnappiness = 150
+export const maxTireForce = 300
 
 export function initWheel(front: boolean, left: boolean) {
   let prevDistance = constant(springLength)
@@ -18,6 +20,10 @@ export function initWheel(front: boolean, left: boolean) {
   slipArrow.setColor('black')
   scene.current?.add(slipArrow)
 
+  const straightArrow = new THREE.ArrowHelper()
+  straightArrow.setColor('red')
+  scene.current?.add(straightArrow)
+
   const wheelMesh = new THREE.Mesh(
     new THREE.CylinderGeometry(wheelRadius, wheelRadius, 0.3, 32),
     new THREE.MeshBasicMaterial({ color: 0x000000 })
@@ -26,6 +32,15 @@ export function initWheel(front: boolean, left: boolean) {
   scene.current?.add(wheelMesh)
 
   onRender.push(deltaTime => {
-    updateWheel(deltaTime, wheelMesh, suspensionArrow, slipArrow, prevDistance, front, left)
+    updateWheel(
+      deltaTime,
+      wheelMesh,
+      suspensionArrow,
+      slipArrow,
+      straightArrow,
+      prevDistance,
+      front,
+      left
+    )
   })
 }

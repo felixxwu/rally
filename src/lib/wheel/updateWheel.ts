@@ -2,18 +2,22 @@ import { Mesh } from '../../types'
 import { getCarCornerPos } from '../car/getCarCorner'
 import { getCarDirection } from '../car/getCarDirection'
 import { getCarRelCorner } from '../car/getCarRelCorner'
+import { getDirectionOfTravel } from '../car/getDirectionOfTravel'
 import { car } from '../car/initCar'
+import { enginePower } from '../car/updateCar'
+import { keysDown } from '../initWindowListeners'
 import { THREE } from '../utils/THREE'
 import { getUserData } from '../utils/userData'
 import { getAmmoVector } from '../utils/vectorConversion'
 import { getSpringForce } from './getSpringForce'
-import { wheelRadius } from './initWheel'
+import { maxTireForce, springLength, tireSnappiness, wheelRadius } from './initWheel'
 
 export function updateWheel(
   deltaTime: number,
   wheelMesh: Mesh,
   suspensionArrow: THREE.ArrowHelper,
   slipArrow: THREE.ArrowHelper,
+  straightArrow: THREE.ArrowHelper,
   prevDistance: {
     current: number
   },
@@ -24,21 +28,41 @@ export function updateWheel(
 
   const quat = car.current?.getWorldQuaternion(new THREE.Quaternion())
   const wheelPos = getCarCornerPos(front, left)
-  const [suspensionForce, distanceToGround] = getSpringForce(wheelPos, prevDistance)
-  suspensionForce.applyQuaternion(quat)
-  const wheelMeshPos = wheelPos
-    .clone()
-    .add(new THREE.Vector3(0, wheelRadius - distanceToGround, 0).applyQuaternion(quat))
+  const [suspensionForce, compression] = getSpringForce(wheelPos, prevDistance)
+  const wheelOffset = new THREE.Vector3(0, wheelRadius - (springLength - compression), 0)
+  const wheelMeshPos = wheelPos.clone().add(wheelOffset.applyQuaternion(quat))
 
   suspensionArrow.position.copy(wheelMeshPos)
   suspensionArrow.setDirection(suspensionForce.clone().normalize())
-  suspensionArrow.setLength(suspensionForce.clone().multiplyScalar(deltaTime).length())
+  suspensionArrow.setLength(suspensionForce.clone().length() * deltaTime * 2)
 
-  slipArrow.position.copy(wheelMeshPos)
-  slipArrow.setDirection(getCarDirection(new THREE.Vector3(left ? 1 : -1, 0, 0)))
+  const directionOfTravel = getDirectionOfTravel().multiplyScalar(50)
+  const sideVec = getCarDirection(new THREE.Vector3(1, 0, 0))
+  const forwardVec = getCarDirection(new THREE.Vector3(0, 0, 1))
+  const projected = directionOfTravel.clone().projectOnVector(sideVec)
+  const sideTireForce = projected.multiplyScalar(-tireSnappiness).clampLength(0, maxTireForce)
+
+  // slipArrow.position.copy(wheelMeshPos)
+  // slipArrow.setDirection(sideTireForce.clone().normalize())
+  // slipArrow.setLength(sideTireForce.length() * deltaTime * compression * 2)
+
+  let power = 0
+  if (keysDown.w) power = enginePower
+  if (keysDown.s) power = -enginePower
+  const straightForce = forwardVec.clone().multiplyScalar(power * compression)
 
   const objPhys = getUserData(car.current).physicsBody
-  objPhys.applyForce(getAmmoVector(suspensionForce), getAmmoVector(getCarRelCorner(front, left)))
+  const adjustedMaxTireForce = maxTireForce * compression
+  const totalTireForce = sideTireForce
+    .clone()
+    .add(straightForce)
+    .clampLength(0, adjustedMaxTireForce)
+  const totalForce = suspensionForce.clone().add(totalTireForce)
+  objPhys.applyForce(getAmmoVector(totalForce), getAmmoVector(getCarRelCorner(front, left)))
+
+  straightArrow.position.copy(wheelMeshPos)
+  straightArrow.setDirection(totalTireForce.clone().normalize())
+  straightArrow.setLength(totalTireForce.length() * deltaTime * 4)
 
   wheelMesh.position.copy(wheelMeshPos)
   const additionalQuat = new THREE.Quaternion().setFromAxisAngle(

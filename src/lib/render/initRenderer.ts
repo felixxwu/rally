@@ -15,7 +15,9 @@ export function initRenderer() {
 
 function animate() {
   const deltaTime = clock.getDelta()
-  onRender.forEach(callback => callback(deltaTime))
+  if (deltaTime !== 0) {
+    onRender.forEach(callback => callback(deltaTime))
+  }
 
   renderer.current?.render(scene.current!, camera.current!)
 

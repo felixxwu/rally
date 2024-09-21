@@ -5,30 +5,30 @@ import { keysDown } from '../initWindowListeners'
 import { updatePhysics } from '../physics/updatePhysics'
 import { THREE } from '../utils/THREE'
 import { getUserData } from '../utils/userData'
-import { car, oldCarPosition } from './initCar'
-import { getCarDirection } from './getCarDirection'
+import { airResistanceArrow, car, oldCarPosition } from './initCar'
 import { getAmmoVector } from '../utils/vectorConversion'
+import { getDirectionOfTravel } from './getDirectionOfTravel'
 
-export const enginePower = 300
-export const steerPower = 500
+export const enginePower = 700
+export const steerPower = 800
+export const airResistance = 25
 
-export function updateCar() {
+export function updateCar(deltaTime: number) {
   if (!car.current) return
 
   const objPhys = getUserData(car.current).physicsBody
   const carForce = new THREE.Vector3()
   const carTorque = new THREE.Vector3()
   const carPos = car.current.getWorldPosition(new THREE.Vector3())
-  const direction = getCarDirection() || new THREE.Vector3()
+  const directionOfTravel = getDirectionOfTravel().multiplyScalar(-airResistance)
+  const squared = directionOfTravel.clone().multiplyScalar(directionOfTravel.length())
   oldCarPosition.current = carPos.clone()
 
-  if (keysDown.w) {
-    carForce.add(direction.clone().multiplyScalar(enginePower))
-  }
+  airResistanceArrow.current?.position.copy(carPos.add(new THREE.Vector3(0, 1, 0)))
+  airResistanceArrow.current?.setDirection(squared.clone().normalize())
+  airResistanceArrow.current?.setLength(squared.length() * deltaTime * 10)
 
-  if (keysDown.s) {
-    carForce.add(direction.clone().multiplyScalar(-enginePower))
-  }
+  carForce.add(squared)
 
   if (keysDown.a) {
     carTorque.add(new THREE.Vector3(0, steerPower, 0))

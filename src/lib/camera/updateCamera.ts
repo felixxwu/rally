@@ -24,6 +24,6 @@ export function updateCamera(deltaTime: number) {
   //   transform.z + (camVector?.z || 0),
   // )
 
-  camera.current?.position.lerp(transform.clone().add(camVector || new THREE.Vector3()), 0.1)
+  camera.current?.position.lerp(transform.clone().add(camVector || new THREE.Vector3()), 0.05)
   camera.current?.lookAt(transform.x, transform.y, transform.z)
 }
