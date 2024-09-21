@@ -38,7 +38,7 @@ export function updateWheel(
   const projected = directionOfTravel.clone().projectOnVector(sideVec);
   const sideTireForce = projected
     .multiplyScalar(-tireSnappiness)
-    .clampLength(0, maxTireForce * compression);
+    .clampLength(0, maxTireForce.current * compression);
 
   let power = 0;
   if (keysDown.w) power = enginePower.current;
@@ -46,7 +46,7 @@ export function updateWheel(
   const straightForce = forwardVec.clone().multiplyScalar(power * compression);
 
   const objPhys = getUserData(car.current).physicsBody;
-  const adjustedMaxTireForce = maxTireForce * compression;
+  const adjustedMaxTireForce = maxTireForce.current * compression;
   const totalTireForce = sideTireForce
     .clone()
     .add(straightForce)

@@ -45,11 +45,11 @@ export const maxNumObjects = 1;
 
 // Car
 export const springLength = ref(1.3);
-export const sprintRate = 200;
+export const sprintRate = ref(200);
 export const springDamping = 3000;
 export const wheelRadius = 0.4;
 export const tireSnappiness = 150;
-export const maxTireForce = 300;
+export const maxTireForce = ref(300);
 export const airResistance = 20;
 export const steerPower = 800;
 export const enginePower = ref(200);

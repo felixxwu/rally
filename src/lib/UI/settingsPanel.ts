@@ -1,4 +1,4 @@
-import { enginePower, springLength } from '../../refs';
+import { enginePower, maxTireForce, springLength, sprintRate } from '../../refs';
 import { Ref } from '../utils/ref';
 import { el } from './ui';
 
@@ -19,7 +19,9 @@ export function settingsPanel() {
   });
 
   div.appendChild(numberSlider('Power', enginePower, 0, 1000));
-  div.appendChild(numberSlider('Spring Length', springLength, 1, 2));
+  div.appendChild(numberSlider('Spring Length', springLength, 0, 2));
+  div.appendChild(numberSlider('Spring Stiffness', sprintRate, 0, 1000));
+  div.appendChild(numberSlider('Max Tire Force', maxTireForce, 0, 1000));
 
   return div;
 }
@@ -27,9 +29,8 @@ export function settingsPanel() {
 function numberSlider(name: string, ref: Ref<number>, min: number, max: number) {
   const div = el('div', {
     style: `
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 20px;
     `,
   });
