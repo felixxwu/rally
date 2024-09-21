@@ -1,7 +1,7 @@
 import AmmoType from 'ammojs-typed'
 declare const Ammo: typeof AmmoType
 
-import { keysDown, mobileInput } from '../initWindowListeners'
+import { keysDown } from '../initWindowListeners'
 import { updatePhysics } from '../physics/updatePhysics'
 import { THREE } from '../utils/THREE'
 import { getUserData } from '../utils/userData'
@@ -11,7 +11,7 @@ import { getDirectionOfTravel } from './getDirectionOfTravel'
 
 export const enginePower = 700
 export const steerPower = 800
-export const airResistance = 25
+export const airResistance = 15
 
 export function updateCar(deltaTime: number) {
   if (!car.current) return
@@ -30,11 +30,11 @@ export function updateCar(deltaTime: number) {
 
   carForce.add(squared)
 
-  if (keysDown.a || (mobileInput.left && !mobileInput.right)) {
+  if (keysDown.a) {
     carTorque.add(new THREE.Vector3(0, steerPower, 0))
   }
 
-  if (keysDown.d || (mobileInput.right && !mobileInput.left)) {
+  if (keysDown.d) {
     carTorque.add(new THREE.Vector3(0, -steerPower, 0))
   }
 

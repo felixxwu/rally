@@ -7,10 +7,18 @@
     <title>Rally</title>
   </head>
   <body>
-    <div id="left"></div>
-    <div id="right"></div>
-
     <div id="container"></div>
+
+    <div id="mobile-ui">
+      <div class="button-group">
+        <img src="/public/triangle.svg" width="50" style="rotate: -90deg" id="left" />
+        <img src="/public/triangle.svg" width="50" style="rotate: 90deg" id="right" />
+      </div>
+      <div class="button-group">
+        <img src="/public/triangle.svg" width="50" style="rotate: 180deg" id="down" />
+        <img src="/public/triangle.svg" width="50" id="up" />
+      </div>
+    </div>
 
     <script src="./ammo.wasm.js"></script>
     <script type="module" src="/src/main.ts"></script>
@@ -20,20 +28,24 @@
         margin: 0;
       }
 
-      #left {
+      #mobile-ui {
         position: fixed;
-        top: 0;
+        bottom: 0;
         left: 0;
-        width: 50%;
-        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
 
-      #right {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 50%;
-        height: 100%;
+      .button-group {
+        padding: 0 20px;
+      }
+
+      .button-group > img {
+        padding: 10px 0;
+        cursor: pointer;
+        opacity: 0.5;
       }
 
       * {
