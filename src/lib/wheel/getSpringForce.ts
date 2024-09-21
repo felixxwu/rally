@@ -5,6 +5,7 @@ import { springDamping } from '../../refs';
 import { sprintRate } from '../../refs';
 import { springLength } from '../../refs';
 import { Ref } from '../utils/ref';
+import { helperArrow } from '../helperArrows/helperArrow';
 
 export function getSpringForce(
   pos: THREE.Vector3,
@@ -16,6 +17,7 @@ export function getSpringForce(
   raycaster.set(pos, new THREE.Vector3(0, -1, 0));
   const intersections = raycaster.intersectObject(terrainMesh.current, false);
   const distance = intersections[0]?.distance;
+  const normal = intersections[0]?.normal || new THREE.Vector3(0, 1, 0);
 
   const compression = springLength.current - Math.min(springLength.current, distance);
 
@@ -25,11 +27,9 @@ export function getSpringForce(
     const damping = Math.max(0, -velY);
     const spring = compression * sprintRate.current;
     prevDistance.current = distance;
-    const upForce = new THREE.Vector3(0, damping + spring, 0);
-    const quat = car.current?.getWorldQuaternion(new THREE.Quaternion());
-    const suspensionForce = upForce.applyQuaternion(quat);
+    const upForce = normal.setLength(damping + spring);
 
-    return [suspensionForce, compression];
+    return [upForce, compression];
   } else {
     return [new THREE.Vector3(0, 0, 0), 0];
   }

@@ -1,7 +1,7 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { container, renderer, stats, clock, time, scene, camera, onRender } from '../../refs';
+import { container, renderer, stats, clock, scene, camera, onRender } from '../../refs';
 import { THREE } from '../utils/THREE';
 
 export function initRenderer() {
@@ -20,8 +20,6 @@ function animate() {
   }
 
   renderer.current?.render(scene.current!, camera.current!);
-
-  time.current += deltaTime;
 
   stats.current.update();
 }

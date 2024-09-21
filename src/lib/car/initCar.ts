@@ -2,11 +2,11 @@ import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
 import {
+  angularDamping,
   car,
   carHeight,
   carLength,
   carWidth,
-  dynamicObjects,
   onRender,
   physicsWorld,
   scene,
@@ -48,7 +48,7 @@ export function initCar() {
   const rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, shape, localInertia);
   rbInfo.set_m_friction(0);
   rbInfo.set_m_restitution(0);
-  rbInfo.set_m_angularDamping(0.99999997);
+  rbInfo.set_m_angularDamping(angularDamping);
   rbInfo.set_m_linearDamping(0);
   rbInfo.set_m_linearSleepingThreshold(0);
   const body = new Ammo.btRigidBody(rbInfo);
@@ -59,7 +59,6 @@ export function initCar() {
   car.current.castShadow = true;
 
   scene.current?.add(car.current);
-  dynamicObjects.push(car.current);
 
   physicsWorld.current?.addRigidBody(body);
 

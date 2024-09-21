@@ -1,4 +1,17 @@
-import { enginePower, maxTireForce, springDamping, springLength, sprintRate } from '../../refs';
+import {
+  airResistance,
+  bodyRoll,
+  camFollowDistance,
+  camFollowHeight,
+  camFollowSpeed,
+  enginePower,
+  maxTireForce,
+  springDamping,
+  springLength,
+  sprintRate,
+  steerPower,
+  tireSnappiness,
+} from '../../refs';
 import { Ref } from '../utils/ref';
 import { el } from './ui';
 
@@ -19,10 +32,17 @@ export function settingsPanel() {
   });
 
   div.appendChild(numberSlider('Power', enginePower, 0, 1000));
-  div.appendChild(numberSlider('Spring Length', springLength, 0, 2));
+  div.appendChild(numberSlider('Spring Length', springLength, 0, 3));
   div.appendChild(numberSlider('Spring Stiffness', sprintRate, 0, 1000));
   div.appendChild(numberSlider('Spring Damping', springDamping, 0, 10000));
-  div.appendChild(numberSlider('Max Tire Force', maxTireForce, 0, 1000));
+  div.appendChild(numberSlider('Tire Grip', maxTireForce, 0, 1000));
+  div.appendChild(numberSlider('Tire Snappiness', tireSnappiness, 0, 500));
+  div.appendChild(numberSlider('Steering Sensitivity', steerPower, 400, 1500));
+  div.appendChild(numberSlider('Air Resistance', airResistance, 0, 30));
+  div.appendChild(numberSlider('Body Roll', bodyRoll, 0, 1));
+  div.appendChild(numberSlider('Camera Follow Distance', camFollowDistance, 3, 15));
+  div.appendChild(numberSlider('Camera Follow Height', camFollowHeight, 0, 10));
+  div.appendChild(numberSlider('Camera Follow Speed', camFollowSpeed, 0, 1));
 
   return div;
 }
@@ -31,7 +51,7 @@ function numberSlider(name: string, ref: Ref<number>, min: number, max: number) 
   const div = el('div', {
     style: `
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 200px 200px 50px;
       gap: 20px;
     `,
   });
@@ -45,15 +65,18 @@ function numberSlider(name: string, ref: Ref<number>, min: number, max: number) 
 
   const input = el('input', {
     type: 'range',
-    min: min.toString(),
-    max: max.toString(),
-    value: ref.current.toString(),
+    min: `${min}`,
+    max: `${max}`,
     step: '0.01',
+    style: `
+      width: 100%;
+    `,
   }) as HTMLInputElement;
+  input.value = `${ref.current}`;
 
   input.oninput = () => {
     ref.current = parseFloat(input.value);
-    value.textContent = ref.current.toString();
+    value.textContent = `${ref.current}`;
   };
 
   const value = el('span', {
@@ -61,7 +84,7 @@ function numberSlider(name: string, ref: Ref<number>, min: number, max: number) 
       color: white;
     `,
   });
-  value.textContent = ref.current.toString();
+  value.textContent = `${ref.current}`;
 
   div.appendChild(label);
   div.appendChild(input);
