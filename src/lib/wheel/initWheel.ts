@@ -4,10 +4,10 @@ import { updateWheel } from './updateWheel'
 
 export const springLength = 1.3
 export const sprintRate = 200
-export const springDamping = 4000
+export const springDamping = 3000
 export const wheelRadius = 0.4
 export const tireSnappiness = 150
-export const maxTireForce = 300
+export const maxTireForce = 250
 
 export function initWheel(front: boolean, left: boolean) {
   let prevDistance = constant(springLength)

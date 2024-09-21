@@ -5,7 +5,7 @@ import { getCarRelCorner } from '../car/getCarRelCorner'
 import { getDirectionOfTravel } from '../car/getDirectionOfTravel'
 import { car } from '../car/initCar'
 import { enginePower } from '../car/updateCar'
-import { keysDown } from '../initWindowListeners'
+import { keysDown, mobileInput } from '../initWindowListeners'
 import { THREE } from '../utils/THREE'
 import { getUserData } from '../utils/userData'
 import { getAmmoVector } from '../utils/vectorConversion'
@@ -47,7 +47,7 @@ export function updateWheel(
   // slipArrow.setLength(sideTireForce.length() * deltaTime * compression * 2)
 
   let power = 0
-  if (keysDown.w) power = enginePower
+  if (keysDown.w || (mobileInput.left && mobileInput.right)) power = enginePower
   if (keysDown.s) power = -enginePower
   const straightForce = forwardVec.clone().multiplyScalar(power * compression)
 

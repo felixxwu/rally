@@ -7,6 +7,9 @@
     <title>Rally</title>
   </head>
   <body>
+    <div id="left"></div>
+    <div id="right"></div>
+
     <div id="container"></div>
 
     <script src="./ammo.wasm.js"></script>
@@ -15,6 +18,22 @@
     <style>
       body {
         margin: 0;
+      }
+
+      #left {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+      }
+
+      #right {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 50%;
+        height: 100%;
       }
 
       * {
