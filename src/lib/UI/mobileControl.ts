@@ -4,12 +4,12 @@ import { el } from './ui';
 export function mobileControl(key: string, rotation: number) {
   const img = el('img', {
     src: '/triangle.svg',
-    width: '60',
+    width: '70',
     style: `
+      rotate: ${rotation}deg;
       padding: 10px 0;
       cursor: pointer;
       opacity: 0.5;
-      rotate: ${rotation}deg;
     `,
   });
 
@@ -32,6 +32,12 @@ function addPointerListeners(
   elemenet.addEventListener('pointerleave', e => handlePointerUp(e, key, onPress));
   elemenet.addEventListener('pointercancel', e => handlePointerUp(e, key, onPress));
   elemenet.addEventListener('pointerout', e => handlePointerUp(e, key, onPress));
+  elemenet.addEventListener('contextmenu', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    return false;
+  });
 }
 
 function handlePointerDown(event: PointerEvent, key: string, onPress: (pressed: boolean) => void) {
