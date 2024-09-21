@@ -5,7 +5,7 @@ import { keysDown } from '../initWindowListeners';
 import { updatePhysics } from '../physics/updatePhysics';
 import { THREE } from '../utils/THREE';
 import { getUserData } from '../utils/userData';
-import { minAirResistance, oldCarPosition, reverseAngle } from '../../refs';
+import { minAirResistance, oldCarPosition, reverseAngle, wheelCompression } from '../../refs';
 import { car } from '../../refs';
 import { getAmmoVector } from '../utils/vectorConversion';
 import { getDirectionOfTravel } from './getDirectionOfTravel';
@@ -33,16 +33,19 @@ export function updateCar() {
   const angle = getCarDirection().angleTo(dir);
   const reversing = angle < reverseAngle;
   const steerTorque = steerPower.current * (reversing ? -1 : 1);
-  const slowSpeedModifier = Math.min(dir.length() * 15, 5);
-  const highSpeedModifier = dir.length() * -2.5;
+  const slowSpeedModifier = Math.min(dir.length() * 20, 5);
+  const highSpeedModifier = dir.length() * -2;
   const speedAdjusted = steerTorque * (slowSpeedModifier + highSpeedModifier);
+  const compressionAdjusted =
+    speedAdjusted *
+    (Math.sqrt(wheelCompression.current.slice(0, 1).reduce((a, b) => a + b, 0)) + 0.2);
 
   if (keysDown.a) {
-    carTorque.add(new THREE.Vector3(0, -speedAdjusted, 0));
+    carTorque.add(new THREE.Vector3(0, -compressionAdjusted, 0));
   }
 
   if (keysDown.d) {
-    carTorque.add(new THREE.Vector3(0, speedAdjusted, 0));
+    carTorque.add(new THREE.Vector3(0, compressionAdjusted, 0));
   }
 
   objPhys?.applyCentralForce(getAmmoVector(carForce));

@@ -35,15 +35,15 @@ export function settingsPanel() {
   });
 
   div.appendChild(numberSlider('Power', enginePower, 0, 1000));
+  div.appendChild(numberSlider('Steering Sensitivity', steerPower, 100, 700));
   div.appendChild(numberSlider('Spring Length', springLength, 0, 3));
   div.appendChild(numberSlider('Spring Stiffness', sprintRate, 0, 1000));
   div.appendChild(numberSlider('Spring Damping', springDamping, 0, 10000));
   div.appendChild(numberSlider('Tire Grip', maxTireForce, 0, 1000));
   div.appendChild(numberSlider('Tire Snappiness', tireSnappiness, 0, 500));
-  div.appendChild(numberSlider('Steering Sensitivity', steerPower, 400, 1500));
   div.appendChild(numberSlider('Air Resistance', airResistance, 1, 30));
   div.appendChild(numberSlider('Body Roll', bodyRoll, 0, 1));
-  div.appendChild(numberSlider('Camera Follow Distance', camFollowDistance, 3, 15));
+  div.appendChild(numberSlider('Camera Follow Distance', camFollowDistance, 3, 20));
   div.appendChild(numberSlider('Camera Follow Height', camFollowHeight, 0, 10));
   div.appendChild(numberSlider('Camera Follow Speed', camFollowSpeed, 0, 1));
   div.appendChild(boolInput('Debug Arrows', renderHelperArrows));

@@ -3,7 +3,7 @@ import { getCarCornerPos } from '../car/getCarCorner';
 import { getCarDirection } from '../car/getCarDirection';
 import { getCarRelCorner } from '../car/getCarRelCorner';
 import { getDirectionOfTravel } from '../car/getDirectionOfTravel';
-import { bodyRoll, car, frontWheelDrive, rearWheelDrive } from '../../refs';
+import { bodyRoll, car, frontWheelDrive, rearWheelDrive, wheelCompression } from '../../refs';
 import { enginePower } from '../../refs';
 import { keysDown } from '../initWindowListeners';
 import { THREE } from '../utils/THREE';
@@ -72,6 +72,8 @@ export function updateWheel(
   );
   quat.multiply(additionalQuat);
   wheelMesh.setRotationFromQuaternion(quat || new THREE.Quaternion());
+
+  wheelCompression.current[front ? (left ? 0 : 1) : left ? 2 : 3] = compression;
 
   helperArrow(mult(suspensionForce, 0.02), wheelMeshPos, 0xffff00, `suspension${front}${left}`);
   helperArrow(mult(sideTireForce, 0.02), wheelMeshPos, 0x000000, `side${front}${left}`);
