@@ -1,4 +1,4 @@
-import { camera, renderer } from '../constant';
+import { camera, renderer } from '../refs';
 
 export let keysDown: Record<string, boolean> = {};
 

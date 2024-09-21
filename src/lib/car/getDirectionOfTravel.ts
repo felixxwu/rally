@@ -1,6 +1,6 @@
 import { THREE } from '../utils/THREE';
-import { oldCarPosition } from '../../constant';
-import { car } from '../../constant';
+import { oldCarPosition } from '../../refs';
+import { car } from '../../refs';
 
 export function getDirectionOfTravel() {
   const pos = car.current?.getWorldPosition(new THREE.Vector3());

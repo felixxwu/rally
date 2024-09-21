@@ -1,4 +1,4 @@
-import { car } from '../../constant';
+import { car } from '../../refs';
 import { THREE } from '../utils/THREE';
 
 export function getCarDirection(unitVector = new THREE.Vector3(0, 0, 1)) {

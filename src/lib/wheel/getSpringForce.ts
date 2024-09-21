@@ -1,13 +1,14 @@
-import { car } from '../../constant';
-import { terrainMesh } from '../../constant';
+import { car } from '../../refs';
+import { terrainMesh } from '../../refs';
 import { THREE } from '../utils/THREE';
-import { springDamping } from '../../constant';
-import { sprintRate } from '../../constant';
-import { springLength } from '../../constant';
+import { springDamping } from '../../refs';
+import { sprintRate } from '../../refs';
+import { springLength } from '../../refs';
+import { Ref } from '../utils/ref';
 
 export function getSpringForce(
   pos: THREE.Vector3,
-  prevDistance: { current: number }
+  prevDistance: Ref<number>
 ): [THREE.Vector3, number] {
   if (!terrainMesh.current || !car.current) return [new THREE.Vector3(), 0];
 
@@ -16,9 +17,9 @@ export function getSpringForce(
   const intersections = raycaster.intersectObject(terrainMesh.current, false);
   const distance = intersections[0]?.distance;
 
-  const compression = springLength - Math.min(springLength, distance);
+  const compression = springLength.current - Math.min(springLength.current, distance);
 
-  if (distance < springLength) {
+  if (distance < springLength.current) {
     const distanceDelta = distance - prevDistance.current;
     const velY = distanceDelta * springDamping;
     const damping = Math.max(0, -velY);

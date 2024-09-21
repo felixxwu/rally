@@ -10,10 +10,10 @@ import {
   physicsWorld,
   solver,
   transformAux1,
-} from '../../constant';
+} from '../../refs';
 import { updatePhysics } from './updatePhysics';
-import { terrainMinHeight } from '../../constant';
-import { terrainMaxHeight } from '../../constant';
+import { terrainMinHeight } from '../../refs';
+import { terrainMaxHeight } from '../../refs';
 
 export function initPhysics() {
   // Physics configuration

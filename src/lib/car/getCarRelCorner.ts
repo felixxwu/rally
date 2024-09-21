@@ -1,8 +1,8 @@
 import { THREE } from '../utils/THREE';
-import { wheelRadius } from '../../constant';
+import { wheelRadius } from '../../refs';
 import { getCarDirection } from './getCarDirection';
-import { carWidth } from '../../constant';
-import { carLength } from '../../constant';
+import { carWidth } from '../../refs';
+import { carLength } from '../../refs';
 
 export function getCarRelCorner(front: boolean, left: boolean) {
   const carEnd =

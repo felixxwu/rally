@@ -1,5 +1,5 @@
 import Stats from 'three/examples/jsm/libs/stats.module.js';
-import { container, scene, stats } from '../constant';
+import { container, scene, stats } from '../refs';
 import { THREE } from './utils/THREE';
 
 export function initGraphics() {

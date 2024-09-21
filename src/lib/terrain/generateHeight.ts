@@ -1,7 +1,7 @@
-import { terrainMinHeight } from '../../constant';
-import { terrainMaxHeight } from '../../constant';
-import { terrainDepth } from '../../constant';
-import { terrainWidth } from '../../constant';
+import { terrainMinHeight } from '../../refs';
+import { terrainMaxHeight } from '../../refs';
+import { terrainDepth } from '../../refs';
+import { terrainWidth } from '../../refs';
 
 export function generateHeight() {
   // Generates the height data (a sinus wave)

@@ -1,7 +1,7 @@
 import AmmoType from 'ammojs-typed';
-import { carHeight } from '../../constant';
-import { carWidth } from '../../constant';
-import { carLength } from '../../constant';
+import { carHeight } from '../../refs';
+import { carWidth } from '../../refs';
+import { carLength } from '../../refs';
 declare const Ammo: typeof AmmoType;
 
 export function addBumpStop(shape: AmmoType.btCompoundShape, front: boolean, left: boolean) {

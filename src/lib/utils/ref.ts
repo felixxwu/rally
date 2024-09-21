@@ -3,3 +3,5 @@ export function ref<T>(init: T) {
     current: init,
   };
 }
+
+export type Ref<T> = ReturnType<typeof ref<T>>;

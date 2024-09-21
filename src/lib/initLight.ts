@@ -1,4 +1,4 @@
-import { scene } from '../constant';
+import { scene } from '../refs';
 import { THREE } from './utils/THREE';
 
 export const initLight = () => {

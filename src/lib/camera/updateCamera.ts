@@ -1,7 +1,7 @@
-import { camera, camFollowDistance, camFollowHeight } from '../../constant';
+import { camera, camFollowDistance, camFollowHeight } from '../../refs';
 import { getCarDirection } from '../car/getCarDirection';
 
-import { car } from '../../constant';
+import { car } from '../../refs';
 import { THREE } from '../utils/THREE';
 
 export function updateCamera(deltaTime: number) {

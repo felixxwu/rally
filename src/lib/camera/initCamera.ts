@@ -1,6 +1,6 @@
-import { camera, onRender, renderer } from '../../constant'
-import { updateCamera } from './updateCamera'
-import { THREE } from '../utils/THREE'
+import { camera, onRender, renderer } from '../../refs';
+import { updateCamera } from './updateCamera';
+import { THREE } from '../utils/THREE';
 
 export function initCamera() {
   camera.current = new THREE.PerspectiveCamera(
@@ -8,7 +8,7 @@ export function initCamera() {
     window.innerWidth / window.innerHeight,
     0.2,
     2000
-  )
+  );
 
-  onRender.push(updateCamera)
+  onRender.push(updateCamera);
 }

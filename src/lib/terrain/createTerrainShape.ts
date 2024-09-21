@@ -1,13 +1,13 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { ammoHeightData, heightData } from '../../constant';
-import { terrainMinHeight } from '../../constant';
-import { terrainMaxHeight } from '../../constant';
-import { terrainDepth } from '../../constant';
-import { terrainWidth } from '../../constant';
-import { terrainDepthExtents } from '../../constant';
-import { terrainWidthExtents } from '../../constant';
+import { ammoHeightData, heightData } from '../../refs';
+import { terrainMinHeight } from '../../refs';
+import { terrainMaxHeight } from '../../refs';
+import { terrainDepth } from '../../refs';
+import { terrainWidth } from '../../refs';
+import { terrainDepthExtents } from '../../refs';
+import { terrainWidthExtents } from '../../refs';
 
 export function createTerrainShape() {
   // This parameter is not really used, since we are using PHY_FLOAT height data type and hence it is ignored

@@ -1,6 +1,6 @@
 import { THREE } from '../utils/THREE';
 import { getCarRelCorner } from './getCarRelCorner';
-import { car } from '../../constant';
+import { car } from '../../refs';
 
 export function getCarCornerPos(front: boolean, left: boolean) {
   const carPos = car.current?.getWorldPosition(new THREE.Vector3());

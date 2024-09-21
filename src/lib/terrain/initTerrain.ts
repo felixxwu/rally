@@ -6,7 +6,7 @@ import {
   terrainMesh,
   terrainWidth,
   terrainWidthExtents,
-} from '../../constant';
+} from '../../refs';
 import { generateHeight } from './generateHeight';
 import { THREE } from '../utils/THREE';
 

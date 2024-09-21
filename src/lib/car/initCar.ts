@@ -10,13 +10,13 @@ import {
   onRender,
   physicsWorld,
   scene,
-} from '../../constant';
+} from '../../refs';
 import { setUserData } from '../utils/userData';
 import { updateCar } from './updateCar';
 import { THREE } from '../utils/THREE';
-import { terrainMaxHeight } from '../../constant';
-import { terrainDepth } from '../../constant';
-import { terrainWidth } from '../../constant';
+import { terrainMaxHeight } from '../../refs';
+import { terrainDepth } from '../../refs';
+import { terrainWidth } from '../../refs';
 import { addBumpStop } from '../wheel/addBumpStop';
 
 export function initCar() {

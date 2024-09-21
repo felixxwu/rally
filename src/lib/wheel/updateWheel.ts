@@ -3,25 +3,24 @@ import { getCarCornerPos } from '../car/getCarCorner';
 import { getCarDirection } from '../car/getCarDirection';
 import { getCarRelCorner } from '../car/getCarRelCorner';
 import { getDirectionOfTravel } from '../car/getDirectionOfTravel';
-import { car } from '../../constant';
-import { enginePower } from '../../constant';
+import { car } from '../../refs';
+import { enginePower } from '../../refs';
 import { keysDown } from '../initWindowListeners';
 import { THREE } from '../utils/THREE';
 import { getUserData } from '../utils/userData';
 import { getAmmoVector } from '../utils/vectorConversion';
 import { getSpringForce } from './getSpringForce';
-import { maxTireForce } from '../../constant';
-import { tireSnappiness } from '../../constant';
-import { wheelRadius } from '../../constant';
-import { springLength } from '../../constant';
+import { maxTireForce } from '../../refs';
+import { tireSnappiness } from '../../refs';
+import { wheelRadius } from '../../refs';
+import { springLength } from '../../refs';
 import { helperArrow } from '../helperArrows/helperArrow';
 import { mult } from '../utils/multVec';
+import { Ref } from '../utils/ref';
 
 export function updateWheel(
   wheelMesh: Mesh,
-  prevDistance: {
-    current: number;
-  },
+  prevDistance: Ref<number>,
   front: boolean,
   left: boolean
 ) {
@@ -30,7 +29,7 @@ export function updateWheel(
   const quat = car.current?.getWorldQuaternion(new THREE.Quaternion());
   const wheelPos = getCarCornerPos(front, left);
   const [suspensionForce, compression] = getSpringForce(wheelPos, prevDistance);
-  const wheelOffset = new THREE.Vector3(0, wheelRadius - (springLength - compression), 0);
+  const wheelOffset = new THREE.Vector3(0, wheelRadius - (springLength.current - compression), 0);
   const wheelMeshPos = wheelPos.clone().add(wheelOffset.applyQuaternion(quat));
 
   const directionOfTravel = getDirectionOfTravel().multiplyScalar(50);
@@ -42,8 +41,8 @@ export function updateWheel(
     .clampLength(0, maxTireForce * compression);
 
   let power = 0;
-  if (keysDown.w) power = enginePower;
-  if (keysDown.s) power = -enginePower;
+  if (keysDown.w) power = enginePower.current;
+  if (keysDown.s) power = -enginePower.current;
   const straightForce = forwardVec.clone().multiplyScalar(power * compression);
 
   const objPhys = getUserData(car.current).physicsBody;
@@ -53,7 +52,10 @@ export function updateWheel(
     .add(straightForce)
     .clampLength(0, adjustedMaxTireForce);
   const totalForce = suspensionForce.clone().add(totalTireForce);
-  objPhys.applyForce(getAmmoVector(totalForce), getAmmoVector(getCarRelCorner(front, left)));
+  objPhys.applyForce(
+    getAmmoVector(totalForce),
+    getAmmoVector(getCarRelCorner(front, left).clone().add(wheelOffset.applyQuaternion(quat)))
+  );
 
   wheelMesh.position.copy(wheelMeshPos);
   const additionalQuat = new THREE.Quaternion().setFromAxisAngle(
