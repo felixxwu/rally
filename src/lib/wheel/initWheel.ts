@@ -11,6 +11,8 @@ export function initWheel(front: boolean, left: boolean) {
     new THREE.MeshBasicMaterial({ color: 0x000000 })
   );
 
+  wheelMesh.castShadow = true;
+
   scene.current?.add(wheelMesh);
 
   onRender.push(deltaTime => {

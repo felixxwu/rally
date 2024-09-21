@@ -47,6 +47,7 @@ export const oldCarPosition = ref<THREE.Vector3 | null>(null);
 export const carLength = 4;
 export const carWidth = 2;
 export const carHeight = 1;
+// TODO turn into single bias value
 export const frontWheelDrive = ref(true);
 export const rearWheelDrive = ref(true);
 

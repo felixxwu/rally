@@ -6,7 +6,7 @@ export const initLight = () => {
   scene.current?.add(ambientLight);
 
   const light = new THREE.DirectionalLight(0xffffff, 3);
-  light.position.set(1000, 500, 500);
+  light.position.set(1000, 250, 500);
   light.castShadow = true;
   const dLight = 2000;
   const sLight = dLight * 0.25;
