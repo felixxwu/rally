@@ -10,31 +10,45 @@ import {
   onRender,
   physicsWorld,
   scene,
+  terrainMesh,
 } from '../../refs';
-import { setUserData } from '../utils/userData';
+import { getUserData, setUserData } from '../utils/userData';
 import { updateCar } from './updateCar';
 import { THREE } from '../utils/THREE';
 import { terrainMaxHeight } from '../../refs';
 import { terrainDepth } from '../../refs';
 import { terrainWidth } from '../../refs';
 import { addBumpStop } from '../wheel/addBumpStop';
+import { add } from '../utils/addVec';
 
 export function initCar() {
   car.current = new THREE.Mesh(
     new THREE.BoxGeometry(carWidth, carHeight, carLength, 1, 1, 1),
     createObjectMaterial()
   );
+  // const shape = new Ammo.btSphereShape(carWidth / 2);
+  // shape.
+  // const shape = new Ammo.btBoxShape(new Ammo.btVector3(carWidth / 2, carHeight / 2, carLength / 2));
+
   const shape = new Ammo.btCompoundShape();
+
+  // const wheel1Transform = new Ammo.btTransform();
+  // wheel1Transform.setOrigin(new Ammo.btVector3(0, carLength / 2, 0));
+  // shape.addChildShape(wheel1Transform, new Ammo.btSphereShape(carLength / 2));
+
   addBumpStop(shape, true, true);
   addBumpStop(shape, true, false);
   addBumpStop(shape, false, true);
   addBumpStop(shape, false, false);
 
-  car.current.position.set(
-    (Math.random() - 0.5) * terrainWidth * 0.6,
-    terrainMaxHeight + 10,
-    (Math.random() - 0.5) * terrainDepth * 0.6
-  );
+  const raycaster = new THREE.Raycaster(new THREE.Vector3(0, 100, 0), new THREE.Vector3(0, -1, 0));
+  const intersects = raycaster.intersectObject(terrainMesh.current!);
+
+  car.current.position.copy(add(intersects[0].point, [0, 5, 20]));
+  // const transform = new Ammo.btTransform().setOrigin(new Ammo.btVector3(intersects[0].point.x, intersects[0].point.y + 65, intersects[0].point.z))
+  // getUserData(car.current)?.physicsBody?.setWorldTransform(
+
+  // )
 
   const mass = 15;
   const localInertia = new Ammo.btVector3(0, 0, 0);

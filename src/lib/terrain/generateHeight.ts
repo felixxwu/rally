@@ -1,7 +1,21 @@
-import { terrainMinHeight } from '../../refs';
+import { createNoise2D } from 'simplex-noise';
+import { scale, terrainMinHeight } from '../../refs';
 import { terrainMaxHeight } from '../../refs';
 import { terrainDepth } from '../../refs';
 import { terrainWidth } from '../../refs';
+
+let seed = 3;
+function random() {
+  var x = Math.sin(seed++) * 10000;
+  return x - Math.floor(x);
+}
+
+const simplex = createNoise2D(random);
+
+const noise = (level, x, z) =>
+  simplex(scale + level * x * scale, scale + level * z * scale) / level +
+  (level > 1 ? noise(level / 2, x, z) : 0) +
+  0.1;
 
 export function generateHeight() {
   // Generates the height data (a sinus wave)
@@ -9,18 +23,12 @@ export function generateHeight() {
   const data = new Float32Array(size);
 
   const hRange = terrainMaxHeight - terrainMinHeight;
-  const w2 = terrainWidth / 2;
-  const d2 = terrainDepth / 2;
-  const phaseMult = 30;
 
   let p = 0;
 
   for (let j = 0; j < terrainDepth; j++) {
     for (let i = 0; i < terrainWidth; i++) {
-      const radius = Math.sqrt(Math.pow((i - w2) / w2, 2.0) + Math.pow((j - d2) / d2, 2.0));
-
-      const height =
-        (Math.sin(radius * phaseMult) + 1) * 0.5 * hRange * (1 / (radius + 1)) + terrainMinHeight;
+      const height = Math.pow(noise(8, i, j), 2) * hRange + terrainMinHeight;
 
       data[p] = height;
 

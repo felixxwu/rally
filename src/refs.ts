@@ -8,12 +8,13 @@ import { ref } from './lib/utils/ref';
 // Heightfield parameters
 export const terrainWidthExtents = 2000;
 export const terrainDepthExtents = 2000;
+export const scale = 0.02;
 export const terrainWidth = 100;
 export const terrainDepth = 100;
 export const terrainHalfWidth = terrainWidth / 2;
 export const terrainHalfDepth = terrainDepth / 2;
-export const terrainMaxHeight = 20;
-export const terrainMinHeight = -2;
+export const terrainMaxHeight = 30;
+export const terrainMinHeight = 0;
 export const terrainMesh = ref<Mesh | null>(null);
 export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
@@ -56,9 +57,9 @@ export const reverseAngle = Math.PI * 0.8;
 
 // Wheels and suspension
 export const maxTireForce = ref(300);
-export const springLength = ref(1.3);
-export const sprintRate = ref(200);
-export const springDamping = ref(4000);
+export const springLength = ref(1.15);
+export const sprintRate = ref(300);
+export const springDamping = ref(5000);
 export const wheelRadius = 0.4;
 export const tireSnappiness = ref(150);
 export const wheelCompression = ref([0, 0, 0, 0]);
