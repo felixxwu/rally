@@ -15,9 +15,10 @@ export const terrainHalfWidth = terrainWidth / 2;
 export const terrainHalfDepth = terrainDepth / 2;
 export const terrainMaxHeight = 30;
 export const terrainMinHeight = 0;
-export const terrainMesh = ref<Mesh | null>(null);
 export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
+export const terrainMesh = ref<Mesh | null>(null);
+export const roadMesh = ref<Mesh | null>(null);
 
 // Graphics variables
 export const container = ref<HTMLElement | null>(null);
@@ -37,9 +38,9 @@ export const physicsWorld = ref<AmmoType.btDiscreteDynamicsWorld | null>(null);
 export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 
 // Car
-export const airResistance = ref(2);
+export const airResistance = ref(10);
 export const minAirResistance = 10;
-export const steerPower = ref(500);
+export const steerPower = ref(400);
 export const enginePower = ref(300);
 export const brakePower = ref(600);
 export const brakeRearBias = ref(0.5);
@@ -58,7 +59,7 @@ export const reverseAngle = Math.PI * 0.8;
 // Wheels and suspension
 export const maxTireForce = ref(500);
 export const springLength = ref(1.1);
-export const sprintRate = ref(300);
+export const sprintRate = ref(350);
 export const springDamping = ref(7000);
 export const wheelRadius = 0.4;
 export const tireSnappiness = ref(20);
@@ -67,9 +68,9 @@ export const wheelCompression = ref([0, 0, 0, 0]);
 export const camFollowDistance = ref(10);
 export const camFollowHeight = ref(5);
 export const camFollowSpeed = ref(0.05);
-export const renderHelperArrows = ref(false);
+export const renderHelperArrows = ref(true);
 
-export const slowSpeedModScalar = 10;
-export const slowSpeedModMax = 5;
+export const slowSpeedModScalar = 20;
+export const slowSpeedModMax = 4;
 export const highSpeedModScalar = 1.5;
 export const highSpeedModMax = 3;

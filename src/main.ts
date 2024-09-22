@@ -1,16 +1,17 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { initPhysics } from './lib/physics/initPhysics';
-import { initGraphics } from './lib/initGraphics';
-import { initCar } from './lib/car/initCar';
-import { initTerrain } from './lib/terrain/initTerrain';
-import { initRenderer } from './lib/render/initRenderer';
-import { initLight } from './lib/initLight';
 import { initCamera } from './lib/camera/initCamera';
+import { initCar } from './lib/car/initCar';
+import { initGraphics } from './lib/initGraphics';
+import { initLight } from './lib/initLight';
 import { initWindowListeners } from './lib/initWindowListeners';
-import { initWheel } from './lib/wheel/initWheel';
+import { initPhysics } from './lib/physics/initPhysics';
+import { initRenderer } from './lib/render/initRenderer';
+import { initTerrain } from './lib/terrain/initTerrain';
 import { initUI } from './lib/UI/initUI';
+import { initWheel } from './lib/wheel/initWheel';
+import { initRoad } from './lib/terrain/initRoad';
 
 Ammo().then(init);
 
@@ -20,8 +21,9 @@ export function init() {
   initRenderer();
   initCamera();
   initLight();
-  initTerrain();
   initPhysics();
+  initTerrain();
+  initRoad();
   initCar();
   initWheel(true, true);
   initWheel(true, false);

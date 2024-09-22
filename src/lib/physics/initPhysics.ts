@@ -1,7 +1,6 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { createTerrainShape } from '../terrain/createTerrainShape';
 import {
   broadphase,
   collisionConfiguration,
@@ -11,9 +10,6 @@ import {
   solver,
   transformAux1,
 } from '../../refs';
-import { updatePhysics } from './updatePhysics';
-import { terrainMinHeight } from '../../refs';
-import { terrainMaxHeight } from '../../refs';
 
 export function initPhysics() {
   // Physics configuration
@@ -28,25 +24,6 @@ export function initPhysics() {
     collisionConfiguration.current
   );
   physicsWorld.current.setGravity(new Ammo.btVector3(0, -20, 0));
-
-  // Create the terrain body
-  const groundShape = createTerrainShape();
-  const groundTransform = new Ammo.btTransform();
-  groundTransform.setIdentity();
-  // Shifts the terrain, since bullet re-centers it on its bounding box.
-  groundTransform.setOrigin(new Ammo.btVector3(0, (terrainMaxHeight + terrainMinHeight) / 2, 0));
-  const groundMass = 0;
-  const groundLocalInertia = new Ammo.btVector3(0, 0, 0);
-  const groundMotionState = new Ammo.btDefaultMotionState(groundTransform);
-  const groundBody = new Ammo.btRigidBody(
-    new Ammo.btRigidBodyConstructionInfo(
-      groundMass,
-      groundMotionState,
-      groundShape,
-      groundLocalInertia
-    )
-  );
-  physicsWorld.current.addRigidBody(groundBody);
 
   transformAux1.current = new Ammo.btTransform();
 

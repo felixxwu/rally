@@ -1,7 +1,13 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { car, oldCarPosition, terrainDepthExtents, terrainWidthExtents } from '../../refs';
+import {
+  car,
+  oldCarPosition,
+  roadMesh,
+  terrainDepthExtents,
+  terrainWidthExtents,
+} from '../../refs';
 import { terrainMesh } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { springDamping } from '../../refs';
@@ -15,13 +21,17 @@ export function getSpringForce(
   pos: THREE.Vector3,
   prevDistance: Ref<number>
 ): [THREE.Vector3, number] {
-  if (!terrainMesh.current || !car.current) return [new THREE.Vector3(), 0];
+  if (!terrainMesh.current || !car.current || !roadMesh.current) return [new THREE.Vector3(), 0];
 
   const raycaster = new THREE.Raycaster(pos, new THREE.Vector3(0, -1, 0));
-  const intersections = raycaster.intersectObject(terrainMesh.current, false);
-  const distance = intersections[0]?.distance;
+  const terrainIntersections = raycaster.intersectObject(terrainMesh.current, false);
+  const roadIntersections = raycaster.intersectObject(roadMesh.current, false);
+  const terrainDistance = terrainIntersections[0]?.distance;
+  const roadDistance = roadIntersections[0]?.distance;
 
-  if (!distance) {
+  const distance = Math.min(terrainDistance ?? Infinity, roadDistance ?? Infinity);
+
+  if (distance === Infinity) {
     const dir = getCarDirection();
     const transform = new Ammo.btTransform();
     const x = pos.x > terrainWidthExtents / 2 || pos.x < -terrainWidthExtents / 2 ? 0 : pos.x;
@@ -38,7 +48,7 @@ export function getSpringForce(
     return [new THREE.Vector3(0, 0, 0), 0];
   }
 
-  const normal = intersections[0]?.normal || new THREE.Vector3(0, 1, 0);
+  const normal = terrainIntersections[0]?.normal || new THREE.Vector3(0, 1, 0);
 
   const compression = springLength.current - Math.min(springLength.current, distance);
 

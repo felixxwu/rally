@@ -1,15 +1,17 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { ammoHeightData, heightData } from '../../refs';
-import { terrainMinHeight } from '../../refs';
-import { terrainMaxHeight } from '../../refs';
-import { terrainDepth } from '../../refs';
-import { terrainWidth } from '../../refs';
-import { terrainDepthExtents } from '../../refs';
-import { terrainWidthExtents } from '../../refs';
+import {
+  ammoHeightData,
+  terrainDepth,
+  terrainDepthExtents,
+  terrainMaxHeight,
+  terrainMinHeight,
+  terrainWidth,
+  terrainWidthExtents,
+} from '../../refs';
 
-export function createTerrainShape() {
+export function createTerrainShape(heightData: Float32Array) {
   // This parameter is not really used, since we are using PHY_FLOAT height data type and hence it is ignored
   const heightScale = 1;
 
@@ -23,7 +25,7 @@ export function createTerrainShape() {
   const flipQuadEdges = false;
 
   // Creates height data buffer in Ammo heap
-  ammoHeightData.current = Ammo._malloc(4 * terrainWidth * terrainDepth);
+  const ammoHeightData = Ammo._malloc(4 * terrainWidth * terrainDepth);
 
   // Copy the javascript height data array to the Ammo one.
   let p = 0;
@@ -33,7 +35,7 @@ export function createTerrainShape() {
     for (let i = 0; i < terrainWidth; i++) {
       // write 32-bit float data to memory
 
-      Ammo.HEAPF32[((ammoHeightData.current ?? 0) + p2) >> 2] = heightData.current?.[p] ?? 0;
+      Ammo.HEAPF32[((ammoHeightData ?? 0) + p2) >> 2] = heightData[p] ?? 0;
 
       p++;
 
@@ -46,7 +48,7 @@ export function createTerrainShape() {
   const heightFieldShape = new Ammo.btHeightfieldTerrainShape(
     terrainWidth,
     terrainDepth,
-    ammoHeightData.current,
+    ammoHeightData,
     heightScale,
     terrainMinHeight,
     terrainMaxHeight,

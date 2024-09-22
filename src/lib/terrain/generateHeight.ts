@@ -1,8 +1,5 @@
 import { createNoise2D } from 'simplex-noise';
-import { scale, terrainMinHeight } from '../../refs';
-import { terrainMaxHeight } from '../../refs';
-import { terrainDepth } from '../../refs';
-import { terrainWidth } from '../../refs';
+import { scale, terrainDepth, terrainMaxHeight, terrainMinHeight, terrainWidth } from '../../refs';
 
 let seed = 3;
 function random() {
