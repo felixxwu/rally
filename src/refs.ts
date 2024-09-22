@@ -56,7 +56,7 @@ export const rearWheelDrive = ref(true);
 export const reverseAngle = Math.PI * 0.8;
 
 // Wheels and suspension
-export const maxTireForce = ref(300);
+export const maxTireForce = ref(500);
 export const springLength = ref(1.1);
 export const sprintRate = ref(300);
 export const springDamping = ref(7000);
