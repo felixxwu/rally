@@ -1,4 +1,4 @@
-import { scene } from '../refs';
+import { scene, terrainDepthExtents, terrainWidthExtents } from '../refs';
 import { THREE } from './utils/THREE';
 
 export const initLight = () => {
@@ -6,9 +6,9 @@ export const initLight = () => {
   scene.current?.add(ambientLight);
 
   const light = new THREE.DirectionalLight(0xffffff, 3);
-  light.position.set(1000, 250, 500);
+  light.position.set(terrainWidthExtents / 2, 250, terrainDepthExtents / 2);
   light.castShadow = true;
-  const dLight = 2000;
+  const dLight = terrainWidthExtents;
   const sLight = dLight * 0.25;
   light.shadow.camera.left = -sLight;
   light.shadow.camera.right = sLight;

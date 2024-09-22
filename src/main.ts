@@ -12,7 +12,9 @@ import { initWindowListeners } from './lib/initWindowListeners';
 import { initWheel } from './lib/wheel/initWheel';
 import { initUI } from './lib/UI/initUI';
 
-Ammo().then(() => {
+Ammo().then(init);
+
+export function init() {
   initUI();
   initGraphics();
   initRenderer();
@@ -26,4 +28,4 @@ Ammo().then(() => {
   initWheel(false, true);
   initWheel(false, false);
   initWindowListeners();
-});
+}

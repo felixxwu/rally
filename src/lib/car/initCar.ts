@@ -43,12 +43,7 @@ export function initCar() {
 
   const raycaster = new THREE.Raycaster(new THREE.Vector3(0, 100, 0), new THREE.Vector3(0, -1, 0));
   const intersects = raycaster.intersectObject(terrainMesh.current!);
-
   car.current.position.copy(add(intersects[0].point, [0, 5, 20]));
-  // const transform = new Ammo.btTransform().setOrigin(new Ammo.btVector3(intersects[0].point.x, intersects[0].point.y + 65, intersects[0].point.z))
-  // getUserData(car.current)?.physicsBody?.setWorldTransform(
-
-  // )
 
   const mass = 15;
   const localInertia = new Ammo.btVector3(0, 0, 0);

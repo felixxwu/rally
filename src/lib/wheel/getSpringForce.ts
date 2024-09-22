@@ -1,16 +1,15 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { car } from '../../refs';
+import { car, oldCarPosition, terrainDepthExtents, terrainWidthExtents } from '../../refs';
 import { terrainMesh } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { springDamping } from '../../refs';
 import { sprintRate } from '../../refs';
 import { springLength } from '../../refs';
 import { Ref } from '../utils/ref';
-import { helperArrow } from '../helperArrows/helperArrow';
-import { add } from '../utils/addVec';
 import { getUserData } from '../utils/userData';
+import { getCarDirection } from '../car/getCarDirection';
 
 export function getSpringForce(
   pos: THREE.Vector3,
@@ -23,17 +22,18 @@ export function getSpringForce(
   const distance = intersections[0]?.distance;
 
   if (!distance) {
-    // car.current.position.copy(add(pos, [0, 100, 0]));
-
-    getUserData(car.current)?.physicsBody?.setLinearVelocity(new Ammo.btVector3(0, 0, 0));
-    const oldTranform = getUserData(car.current)?.physicsBody?.getWorldTransform();
-    const axis = oldTranform.getRotation().getAxis();
+    const dir = getCarDirection();
     const transform = new Ammo.btTransform();
-    transform.setOrigin(new Ammo.btVector3(pos.x, pos.y + 3, pos.z));
+    const x = pos.x > terrainWidthExtents / 2 || pos.x < -terrainWidthExtents / 2 ? 0 : pos.x;
+    const z = pos.z > terrainDepthExtents / 2 || pos.z < -terrainDepthExtents / 2 ? 0 : pos.z;
+    oldCarPosition.current = null;
+    transform.setOrigin(new Ammo.btVector3(x, pos.y + 5, z));
     const quat = new Ammo.btQuaternion(0, 0, 0, 1);
-    quat.setRotation(axis, 0);
-    transform.setRotation(new Ammo.btQuaternion(0, 0, 0, 1));
+    const angle = Math.atan2(dir.x, dir.z);
+    quat.setRotation(new Ammo.btVector3(0, 1, 0), angle);
+    transform.setRotation(quat);
     getUserData(car.current)?.physicsBody?.setWorldTransform(transform);
+    getUserData(car.current)?.physicsBody?.setLinearVelocity(new Ammo.btVector3(0, 0, 0));
 
     return [new THREE.Vector3(0, 0, 0), 0];
   }

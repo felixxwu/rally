@@ -8,9 +8,9 @@ import { ref } from './lib/utils/ref';
 // Heightfield parameters
 export const terrainWidthExtents = 2000;
 export const terrainDepthExtents = 2000;
-export const scale = 0.02;
-export const terrainWidth = 100;
-export const terrainDepth = 100;
+export const scale = 0.04;
+export const terrainWidth = 50;
+export const terrainDepth = 50;
 export const terrainHalfWidth = terrainWidth / 2;
 export const terrainHalfDepth = terrainDepth / 2;
 export const terrainMaxHeight = 30;
@@ -37,14 +37,14 @@ export const physicsWorld = ref<AmmoType.btDiscreteDynamicsWorld | null>(null);
 export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 
 // Car
-export const airResistance = ref(10);
+export const airResistance = ref(2);
 export const minAirResistance = 10;
-export const steerPower = ref(350);
-export const enginePower = ref(200);
+export const steerPower = ref(500);
+export const enginePower = ref(300);
 export const brakePower = ref(600);
 export const brakeRearBias = ref(0.5);
 export const angularDamping = 0.99999997;
-export const bodyRoll = ref(0.3);
+export const bodyRoll = ref(0.4);
 export const car = ref<Mesh | null>(null);
 export const oldCarPosition = ref<THREE.Vector3 | null>(null);
 export const carLength = 4;
@@ -57,14 +57,19 @@ export const reverseAngle = Math.PI * 0.8;
 
 // Wheels and suspension
 export const maxTireForce = ref(300);
-export const springLength = ref(1.15);
+export const springLength = ref(1.1);
 export const sprintRate = ref(300);
-export const springDamping = ref(5000);
+export const springDamping = ref(7000);
 export const wheelRadius = 0.4;
-export const tireSnappiness = ref(150);
+export const tireSnappiness = ref(20);
 export const wheelCompression = ref([0, 0, 0, 0]);
 
 export const camFollowDistance = ref(10);
 export const camFollowHeight = ref(5);
 export const camFollowSpeed = ref(0.05);
 export const renderHelperArrows = ref(false);
+
+export const slowSpeedModScalar = 10;
+export const slowSpeedModMax = 5;
+export const highSpeedModScalar = 1.5;
+export const highSpeedModMax = 3;

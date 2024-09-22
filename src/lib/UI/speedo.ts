@@ -32,7 +32,7 @@ export function speedo() {
           const angle = getCarDirection().angleTo(dir);
           const reversing = angle > Math.PI / 2 && dir.length() * 100 > 1;
 
-          text.innerHTML = `${reversing ? '-' : ''}${Math.round(dir.length() * 100)}`;
+          text.innerHTML = `${reversing ? '-' : ''}${Math.round(dir.length() * 50)}`;
         });
       },
     })
