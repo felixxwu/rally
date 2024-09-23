@@ -42,7 +42,9 @@ export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>) {
 
   const distance = Math.min(terrainDistance, roadDistance) - raycasterOffset;
 
-  const normal = terrainIntersections[0]?.normal || new THREE.Vector3(0, 1, 0);
+  const terrainNormal = terrainIntersections[0]?.normal || new THREE.Vector3(0, 1, 0);
+  const roadNormal = roadIntersections[0]?.normal || new THREE.Vector3(0, 1, 0);
+  const normal = surface === 'grass' ? terrainNormal : roadNormal;
 
   const compression = springLength.current - Math.min(springLength.current, distance);
 

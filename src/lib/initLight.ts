@@ -6,7 +6,7 @@ export const initLight = () => {
   scene.current?.add(ambientLight);
 
   const light = new THREE.DirectionalLight(0xffffff, 3);
-  light.position.set(terrainWidthExtents / 2, 250, terrainDepthExtents / 2);
+  light.position.set((terrainWidthExtents / 2) * 1.1, 250, (terrainDepthExtents / 2) * 1.1);
   light.castShadow = true;
   const dLight = terrainWidthExtents;
   const sLight = dLight * 0.25;

@@ -31,10 +31,14 @@ export function createTerrainMesh(heightData: Float32Array) {
   terrainMesh.receiveShadow = true;
   terrainMesh.castShadow = true;
 
-  new THREE.TextureLoader().load('./grass.jpg', function (texture) {
+  new THREE.TextureLoader().load('./grass-small.png', function (texture) {
+    texture.anisotropy = 0;
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(terrainWidth - 1, terrainDepth - 1);
+    texture.magFilter = THREE.NearestFilter;
+    texture.minFilter = THREE.NearestFilter;
+
     groundMaterial.map = texture;
     groundMaterial.needsUpdate = true;
   });

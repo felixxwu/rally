@@ -40,12 +40,12 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 
 // steering
 export const steerPower = ref(3200, 2000, 5000, 100);
-export const steerModMap = createXYMap([0, 0], [1, 0.15], [3, 0.3], [30, 1], [100, 0.4]); // x = speed, y = steering input modifier
+export const steerModMap = createXYMap([0, 0], [1, 0.2], [3, 0.4], [30, 1], [100, 0.4]); // x = speed, y = steering input modifier
 export const angularDamping = 0.99999997;
 export const reverseAngle = Math.PI * 0.8;
 
 // tires and suspension
-export const tireGrip = ref(350, 0, 1000, 10);
+export const tireGrip = ref(200, 0, 1000, 10);
 export const springLength = ref(1.1, 0.5, 3, 0.01);
 export const sprintRate = ref(300, 0, 600, 10);
 export const springDamping = ref(5000, 0, 15000, 100);
@@ -59,7 +59,7 @@ export const brakePower = ref(600, 0, 1200, 100);
 export const brakeRearBias = ref(0.5, 0, 1, 0.01);
 
 // surface grips
-export const tarmacGrip = ref(1.3, 0, 2, 0.1);
+export const tarmacGrip = ref(1.5, 0, 2, 0.1);
 export const grassGrip = ref(0.5, 0, 2, 0.1);
 
 // car physics
@@ -77,7 +77,7 @@ export const rearWheelDrive = ref(true);
 
 // camera
 export const camFollowDistance = ref(10, 3, 20, 1);
-export const camFollowHeight = ref(5, 0, 10, 1);
+export const camFollowHeight = ref(7, 0, 10, 1);
 export const camFollowSpeed = ref(0.05, 0, 1, 0.01);
 
 // debug

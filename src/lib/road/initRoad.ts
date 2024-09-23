@@ -7,7 +7,8 @@ import { createRoadTriangles } from './createRoadTriangles';
 
 export function initRoad() {
   const vecs = [...Array(10000)].map(
-    (_, i) => [Math.sin(i * 0.03) * 40, Math.sin(i * 0.02) * 10 - 3 + i * 0.1, i + 50] as Vector
+    (_, i) =>
+      [Math.sin(i * 0.05) * 40 - 20, Math.sin(i * 0.02) * 20 - 3 + i * 0.1, i * 2 + 50] as Vector
   );
 
   const triangles = createRoadTriangles(vecs);
