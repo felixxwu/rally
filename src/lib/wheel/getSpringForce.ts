@@ -17,19 +17,31 @@ import { Ref } from '../utils/ref';
 import { getUserData } from '../utils/userData';
 import { getCarDirection } from '../car/getCarDirection';
 
-export function getSpringForce(
-  pos: THREE.Vector3,
-  prevDistance: Ref<number>
-): [THREE.Vector3, number] {
-  if (!terrainMesh.current || !car.current || !roadMesh.current) return [new THREE.Vector3(), 0];
+type Surface = 'tarmac' | 'grass';
+
+const defaultReturn = {
+  suspensionForce: new THREE.Vector3(),
+  compression: 0,
+  surface: 'tarmac' as Surface,
+};
+
+export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>) {
+  if (!terrainMesh.current || !car.current || !roadMesh.current) {
+    return defaultReturn;
+  }
 
   const raycaster = new THREE.Raycaster(pos, new THREE.Vector3(0, -1, 0));
   const terrainIntersections = raycaster.intersectObject(terrainMesh.current, false);
   const roadIntersections = raycaster.intersectObject(roadMesh.current, false);
-  const terrainDistance = terrainIntersections[0]?.distance;
-  const roadDistance = roadIntersections[0]?.distance;
+  const terrainDistance = terrainIntersections[0]?.distance ?? Infinity;
+  const roadDistance = roadIntersections[0]?.distance ?? Infinity;
 
-  const distance = Math.min(terrainDistance ?? Infinity, roadDistance ?? Infinity);
+  let surface: Surface = 'tarmac';
+  if (terrainDistance < roadDistance) {
+    surface = 'grass';
+  }
+
+  const distance = Math.min(terrainDistance, roadDistance);
 
   if (distance === Infinity) {
     const dir = getCarDirection();
@@ -45,7 +57,7 @@ export function getSpringForce(
     getUserData(car.current)?.physicsBody?.setWorldTransform(transform);
     getUserData(car.current)?.physicsBody?.setLinearVelocity(new Ammo.btVector3(0, 0, 0));
 
-    return [new THREE.Vector3(0, 0, 0), 0];
+    return defaultReturn;
   }
 
   const normal = terrainIntersections[0]?.normal || new THREE.Vector3(0, 1, 0);
@@ -60,8 +72,8 @@ export function getSpringForce(
     prevDistance.current = distance;
     const upForce = normal.setLength(damping + spring);
 
-    return [upForce, compression];
+    return { suspensionForce: upForce, compression, surface };
   } else {
-    return [new THREE.Vector3(0, 0, 0), 0];
+    return { ...defaultReturn, surface };
   }
 }

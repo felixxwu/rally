@@ -1,6 +1,6 @@
 import { getCarCornerPos } from '../car/getCarCorner';
 import { getCarRelCorner } from '../car/getCarRelCorner';
-import { bodyRoll } from '../../refs';
+import { bodyRoll, grassGrip, tarmacGrip } from '../../refs';
 import { getAmmoVector } from '../utils/vectorConversion';
 import { getSpringForce } from './getSpringForce';
 import { tireGrip } from '../../refs';
@@ -20,15 +20,21 @@ export function getTotalTireForce(
 ) {
   const wheelPos = getCarCornerPos(front, left);
 
-  const [suspensionForce, compression] = getSpringForce(wheelPos, prevDistance);
+  const { suspensionForce, compression, surface } = getSpringForce(wheelPos, prevDistance);
   const sideTireForce = getSideTireForce(deltaTime, compression);
   const straightTireForce = getStraightTireForce(deltaTime, compression, front);
   const { wheelMeshPos, wheelOffsetFromCorner } = getWheelMeshPos(compression, front, left);
 
   const sqrtCompression = Math.sqrt(compression);
   const tireGripAfterCompression = tireGrip.current * sqrtCompression;
+  const surfaceGrip = (() => {
+    if (surface === 'grass') return grassGrip.current;
+    if (surface === 'tarmac') return tarmacGrip.current;
+    return 1;
+  })();
+  const tireGripAfterSurface = tireGripAfterCompression * surfaceGrip;
   const totalTireForce = add(sideTireForce, createArr(straightTireForce));
-  const totalClampedTireForce = totalTireForce.clampLength(0, tireGripAfterCompression);
+  const totalClampedTireForce = totalTireForce.clampLength(0, tireGripAfterSurface);
   const ammoForce = getAmmoVector(add(suspensionForce, createArr(totalClampedTireForce)));
   const cornerPos = getCarRelCorner(front, left).clone();
   const ammoPos = getAmmoVector(cornerPos.add(mult(wheelOffsetFromCorner, bodyRoll.current)));

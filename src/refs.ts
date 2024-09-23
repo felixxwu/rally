@@ -62,6 +62,10 @@ export const wheelRadius = 0.4;
 export const tireSnappiness = ref(100);
 export const wheelCompression = ref([0, 0, 0, 0]);
 
+// surface grips
+export const tarmacGrip = ref(1.2);
+export const grassGrip = ref(0.8);
+
 // power & brakes
 export const enginePower = ref(150);
 export const brakePower = ref(600);
@@ -71,9 +75,10 @@ export const brakeRearBias = ref(0.5);
 export const bodyRoll = ref(0.5);
 export const car = ref<Mesh | null>(null);
 export const oldCarPosition = ref<THREE.Vector3 | null>(null);
-export const carLength = 4;
+export const carLength = 4.5;
 export const carWidth = 2;
 export const carHeight = 1;
+export const wheelEndOffset = 0.5;
 export const frontWheelDrive = ref(true);
 export const rearWheelDrive = ref(true);
 

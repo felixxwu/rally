@@ -51,22 +51,25 @@ export function settingsPanel() {
         style: `
           width: calc(100% - 20px);
           max-width: 500px;
+          max-height: 80%;
+          overflow-y: auto;
+          overflow-x: hidden;
           margin: 20px;
           display: flex;
           flex-direction: column;
           gap: 5px;
         `,
       },
-      numberSlider('Power', enginePower, 0, 1000),
-      numberSlider('Steering Sensitivity', steerPower, 200, 800),
+      numberSlider('Power', enginePower, 0, 500),
+      numberSlider('Steering Sensitivity', steerPower, 800, 2000),
       numberSlider('Spring Length', springLength, 0.5, 3),
       numberSlider('Spring Stiffness', sprintRate, 0, 600),
       numberSlider('Spring Damping', springDamping, 0, 15000),
       numberSlider('Tire Grip', tireGrip, 0, 1000),
-      numberSlider('Tire Snappiness', tireSnappiness, 0, 50),
+      numberSlider('Tire Snappiness', tireSnappiness, 50, 200),
       numberSlider('Brake Strength', brakePower, 0, 1200),
       numberSlider('Brake Bias (Rear)', brakeRearBias, 0, 1),
-      numberSlider('Air Resistance', airResistance, 1, 10),
+      numberSlider('Air Resistance', airResistance, 0.1, 0.5),
       numberSlider('Body Roll', bodyRoll, 0, 1),
       numberSlider('Camera Follow Distance', camFollowDistance, 3, 20),
       numberSlider('Camera Follow Height', camFollowHeight, 0, 10),
@@ -80,7 +83,7 @@ export function settingsPanel() {
 
 function numberSlider(name: string, ref: Ref<number>, min: number, max: number) {
   const value = el.span({
-    style: `color: white; text-align: right; font-size: 12px;`,
+    style: `color: white; text-align: right;`,
     oncreate: span => {
       span.textContent = `${ref.current}`;
     },
@@ -96,7 +99,7 @@ function numberSlider(name: string, ref: Ref<number>, min: number, max: number) 
         width: 100%;
       `,
     },
-    el.span({ style: `color: white; font-size: 12px;` }, name),
+    el.span({ style: `color: white;` }, name),
     value,
     el.input({
       type: 'range',
@@ -110,6 +113,9 @@ function numberSlider(name: string, ref: Ref<number>, min: number, max: number) 
           ref.current = parseFloat(input.value);
           value.textContent = `${ref.current}`;
         };
+        ref.listeners.push(value => {
+          input.value = `${value}`;
+        });
       },
     })
   );
@@ -123,7 +129,7 @@ function boolInput(name: string, ref: Ref<boolean>) {
         justify-content: space-between;
       `,
     },
-    el.span({ style: `color: white; font-size: 12px;` }, name),
+    el.span({ style: `color: white;` }, name),
     el.input({
       type: 'checkbox',
       style: `outline: none;`,
@@ -133,6 +139,9 @@ function boolInput(name: string, ref: Ref<boolean>) {
         input.oninput = () => {
           ref.current = input.checked;
         };
+        ref.listeners.push(value => {
+          input.checked = value;
+        });
       },
     })
   );

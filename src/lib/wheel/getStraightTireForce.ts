@@ -21,7 +21,7 @@ export function getStraightTireForce(deltaTime: number, compression: number, fro
   let usingBrakes = false;
   if (keysDown.w) {
     if (reversing) {
-      brakeForce = mult(speed.clone().normalize(), brakePower.current * brakeBiasMod);
+      brakeForce = mult(speed.clone().normalize(), -brakePower.current * brakeBiasMod);
       usingBrakes = true;
     } else {
       if (wheelHasPower(front)) {
@@ -41,7 +41,7 @@ export function getStraightTireForce(deltaTime: number, compression: number, fro
   }
   if (keysDown[' ']) {
     if (!front) {
-      brakeForce = mult(speed.clone().normalize(), 10000 * (reversing ? 1 : -1));
+      brakeForce = mult(speed.clone().normalize(), -10000);
     }
   }
   if (frontWheelDrive.current && rearWheelDrive.current) {
