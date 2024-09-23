@@ -1,21 +1,23 @@
 import { createNoise2D } from 'simplex-noise';
 import { scale, terrainDepth, terrainMaxHeight, terrainMinHeight, terrainWidth } from '../../refs';
+import { ref } from '../utils/ref';
 
-let seed = 3;
+let seedRef = ref(1);
 function random() {
-  var x = Math.sin(seed++) * 10000;
+  var x = Math.sin(seedRef.current++) * 10000;
   return x - Math.floor(x);
 }
 
-const simplex = createNoise2D(random);
+export function generateHeight(seed: number) {
+  seedRef.current = seed;
 
-const noise = (level, x, z) =>
-  simplex(scale + level * x * scale, scale + level * z * scale) / level +
-  (level > 1 ? noise(level / 2, x, z) : 0) +
-  0.1;
+  const simplex = createNoise2D(random);
 
-export function generateHeight() {
-  // Generates the height data (a sinus wave)
+  const noise = (level, x, z) =>
+    simplex(scale + level * x * scale, scale + level * z * scale) / level +
+    (level > 1 ? noise(level / 2, x, z) : 0) +
+    0.1;
+
   const size = terrainWidth * terrainDepth;
   const data = new Float32Array(size);
 

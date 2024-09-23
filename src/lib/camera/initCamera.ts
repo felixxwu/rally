@@ -10,5 +10,8 @@ export function initCamera() {
     2000
   );
 
+  camera.current.position.set(0, 1500, -1);
+  camera.current.lookAt(0, 0, 0);
+
   onRender.push(updateCamera);
 }

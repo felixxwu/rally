@@ -26,10 +26,13 @@ export function init() {
   initPhysics();
   initTerrain();
   initRoad();
-  initCar();
-  initWheel(true, true);
-  initWheel(true, false);
-  initWheel(false, true);
-  initWheel(false, false);
   initWindowListeners();
+
+  setTimeout(() => {
+    initCar();
+    initWheel(true, true);
+    initWheel(true, false);
+    initWheel(false, true);
+    initWheel(false, false);
+  }, 1000);
 }
