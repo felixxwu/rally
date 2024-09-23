@@ -16,6 +16,8 @@ import {
   sprintRate,
   steerPower,
   tireSnappiness,
+  tarmacGrip,
+  grassGrip,
 } from '../../refs';
 import { Ref } from '../utils/ref';
 import { el } from './el';
@@ -74,6 +76,9 @@ export function settingsPanel() {
       numberSlider('Camera Follow Distance', camFollowDistance, 3, 20),
       numberSlider('Camera Follow Height', camFollowHeight, 0, 10),
       numberSlider('Camera Follow Speed', camFollowSpeed, 0, 1),
+      numberSlider('Tarmac Grip', tarmacGrip, 0, 2),
+      numberSlider('Grass Grip', grassGrip, 0, 2),
+
       boolInput('Front Wheel Drive', frontWheelDrive),
       boolInput('Rear Wheel Drive', rearWheelDrive),
       boolInput('Debug Arrows', renderHelperArrows)

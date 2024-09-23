@@ -63,8 +63,8 @@ export const tireSnappiness = ref(100);
 export const wheelCompression = ref([0, 0, 0, 0]);
 
 // surface grips
-export const tarmacGrip = ref(1.2);
-export const grassGrip = ref(0.8);
+export const tarmacGrip = ref(1.5);
+export const grassGrip = ref(0.5);
 
 // power & brakes
 export const enginePower = ref(150);
