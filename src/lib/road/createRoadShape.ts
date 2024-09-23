@@ -9,7 +9,7 @@ export type Triangle = [Vector, Vector, Vector];
 const ammoVecCache: Record<string, AmmoType.btVector3> = {};
 const threeVecCache: Record<string, THREE.Vector3> = {};
 
-export function createShape(triangles: Triangle[]) {
+export function createRoadShape(triangles: Triangle[]) {
   const triangleMesh = new Ammo.btTriangleMesh();
 
   for (const triangle of triangles) {
@@ -40,8 +40,27 @@ export function createShape(triangles: Triangle[]) {
 
   geom.setFromPoints(points);
 
-  const groundMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
+  geom.computeVertexNormals();
+
+  const wireframe = new THREE.WireframeGeometry(geom);
+  const line = new THREE.LineSegments(wireframe);
+  if (!Array.isArray(line.material)) {
+    line.material.colorWrite;
+  }
+
+  const groundMaterial = new THREE.MeshStandardMaterial({ color: '#888', roughness: 0.4 });
   const mesh = new THREE.Mesh(geom, groundMaterial);
+
+  mesh.receiveShadow = true;
+  mesh.castShadow = true;
+
+  new THREE.TextureLoader().load('./rock.jpg', function (texture) {
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(1, 1);
+    groundMaterial.map = texture;
+    groundMaterial.needsUpdate = true;
+  });
 
   return { rigidBody, mesh };
 }

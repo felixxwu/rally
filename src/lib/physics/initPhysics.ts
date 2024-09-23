@@ -23,7 +23,7 @@ export function initPhysics() {
     solver.current,
     collisionConfiguration.current
   );
-  physicsWorld.current.setGravity(new Ammo.btVector3(0, -20, 0));
+  physicsWorld.current.setGravity(new Ammo.btVector3(0, -30, 0));
 
   transformAux1.current = new Ammo.btTransform();
 

@@ -1,6 +1,6 @@
 import { onRender } from '../../refs';
 import { getCarDirection } from '../car/getCarDirection';
-import { getDirectionOfTravel } from '../car/getDirectionOfTravel';
+import { getSpeedVec } from '../car/getSpeedVec';
 import { el } from './el';
 
 let i = 0;
@@ -28,11 +28,11 @@ export function speedo() {
           i++;
           if (i % 10 !== 0) return;
 
-          const dir = getDirectionOfTravel(deltaTime);
-          const angle = getCarDirection().angleTo(dir);
-          const reversing = angle > Math.PI / 2 && dir.length() * 100 > 1;
+          const speed = getSpeedVec(deltaTime);
+          const angle = getCarDirection().angleTo(speed);
+          const reversing = angle > Math.PI / 2 && speed.length() > 1;
 
-          text.innerHTML = `${reversing ? '-' : ''}${Math.round(dir.length() * 50)}`;
+          text.innerHTML = `${reversing ? '-' : ''}${Math.round(speed.length())}`;
         });
       },
     })

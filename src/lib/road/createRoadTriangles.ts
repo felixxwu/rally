@@ -1,7 +1,6 @@
-import { helperArrow } from '../helperArrows/helperArrow';
 import { createArr, createVec } from '../utils/createVec';
 import { THREE } from '../utils/THREE';
-import { Triangle, Vector } from './createShape';
+import { Triangle, Vector } from './createRoadShape';
 
 const roadWidth = 15;
 

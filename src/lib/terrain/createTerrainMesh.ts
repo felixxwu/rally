@@ -22,7 +22,11 @@ export function createTerrainMesh(heightData: Float32Array) {
 
   geometry.computeVertexNormals();
 
-  const groundMaterial = new THREE.MeshPhongMaterial({ color: 0xc7c7c7 });
+  const groundMaterial = new THREE.MeshStandardMaterial({
+    color: 0xc7c7c7,
+    roughness: 1,
+    metalness: 0,
+  });
   const terrainMesh = new THREE.Mesh(geometry, groundMaterial);
   terrainMesh.receiveShadow = true;
   terrainMesh.castShadow = true;

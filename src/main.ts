@@ -11,7 +11,7 @@ import { initRenderer } from './lib/render/initRenderer';
 import { initTerrain } from './lib/terrain/initTerrain';
 import { initUI } from './lib/UI/initUI';
 import { initWheel } from './lib/wheel/initWheel';
-import { initRoad } from './lib/terrain/initRoad';
+import { initRoad } from './lib/road/initRoad';
 
 Ammo().then(init);
 

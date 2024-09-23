@@ -1,4 +1,4 @@
-import { camera, renderer } from '../refs';
+import { camera, renderer, renderHelperArrows } from '../refs';
 
 export let keysDown: Record<string, boolean> = {};
 
@@ -57,6 +57,10 @@ function onWindowResize() {
 
 function onKeyDown(event: KeyboardEvent) {
   keysDown[event.key] = true;
+
+  if (event.key === 'h') {
+    renderHelperArrows.current = !renderHelperArrows.current;
+  }
 }
 
 function onKeyUp(event: KeyboardEvent) {

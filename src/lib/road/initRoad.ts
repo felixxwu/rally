@@ -2,17 +2,17 @@ import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
 import { physicsWorld, roadMesh, scene } from '../../refs';
-import { createShape, Triangle, Vector } from './createShape';
+import { createRoadShape, Triangle, Vector } from './createRoadShape';
 import { createRoadTriangles } from './createRoadTriangles';
 
 export function initRoad() {
-  const vecs = [...Array(500)].map(
-    (_, i) => [Math.sin(i * 0.07) * 10, Math.sin(i * 0.08) * 5 - 3 + i * 0.2, i * 2 + 50] as Vector
+  const vecs = [...Array(10000)].map(
+    (_, i) => [Math.sin(i * 0.03) * 40, Math.sin(i * 0.02) * 10 - 3 + i * 0.1, i + 50] as Vector
   );
 
   const triangles = createRoadTriangles(vecs);
 
-  const { rigidBody, mesh } = createShape(triangles);
+  const { rigidBody, mesh } = createRoadShape(triangles);
   scene.current?.add(mesh);
   roadMesh.current = mesh;
   physicsWorld.current?.addRigidBody(rigidBody);

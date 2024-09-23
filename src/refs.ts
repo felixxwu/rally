@@ -4,6 +4,7 @@ import Stats from './lib/jsm/stats.module';
 import { Mesh } from './types';
 import { THREE } from './lib/utils/THREE';
 import { ref } from './lib/utils/ref';
+import { createXYMap } from './lib/utils/createXYMap';
 
 // Heightfield parameters
 export const terrainWidthExtents = 2000;
@@ -38,26 +39,22 @@ export const physicsWorld = ref<AmmoType.btDiscreteDynamicsWorld | null>(null);
 export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 
 // Car
-export const airResistance = ref(10);
+export const airResistance = ref(0.15);
 export const minAirResistance = 10;
-export const steerPower = ref(400);
-export const enginePower = ref(300);
-export const brakePower = ref(600);
-export const brakeRearBias = ref(0.5);
+
+// steering
+export const steerPower = ref(1500);
+export const steerModMap = createXYMap([0, 0], [30, 1], [100, 0.4]);
+export const slowSpeedSteerThreshold = 30; // speed under which slow speed steering is used
+export const highSpeedSteerThresholdLower = 60; // speed over which high speed steering is used
+export const highSpeedSteerThresholdUpper = 100; // speed over which high speed steering is NOT used
+export const highSpeedModScalar = 0.05;
+export const highSpeedModMax = 1.8;
 export const angularDamping = 0.99999997;
-export const bodyRoll = ref(0.4);
-export const car = ref<Mesh | null>(null);
-export const oldCarPosition = ref<THREE.Vector3 | null>(null);
-export const carLength = 4;
-export const carWidth = 2;
-export const carHeight = 1;
-// TODO turn into single bias value
-export const frontWheelDrive = ref(true);
-export const rearWheelDrive = ref(true);
 export const reverseAngle = Math.PI * 0.8;
 
-// Wheels and suspension
-export const maxTireForce = ref(500);
+// tires and suspension
+export const tireGrip = ref(350);
 export const springLength = ref(1.1);
 export const sprintRate = ref(350);
 export const springDamping = ref(7000);
@@ -65,12 +62,25 @@ export const wheelRadius = 0.4;
 export const tireSnappiness = ref(20);
 export const wheelCompression = ref([0, 0, 0, 0]);
 
+// power & brakes
+export const enginePower = ref(250);
+export const brakePower = ref(600);
+export const brakeRearBias = ref(0.5);
+
+// car body
+export const bodyRoll = ref(0.5);
+export const car = ref<Mesh | null>(null);
+export const oldCarPosition = ref<THREE.Vector3 | null>(null);
+export const carLength = 4;
+export const carWidth = 2;
+export const carHeight = 1;
+export const frontWheelDrive = ref(true);
+export const rearWheelDrive = ref(true);
+
+// camera
 export const camFollowDistance = ref(10);
 export const camFollowHeight = ref(5);
 export const camFollowSpeed = ref(0.05);
-export const renderHelperArrows = ref(true);
+export const renderHelperArrows = ref(false);
 
-export const slowSpeedModScalar = 20;
-export const slowSpeedModMax = 4;
-export const highSpeedModScalar = 1.5;
-export const highSpeedModMax = 3;
+// export const map = createXYMap([0, 0]);

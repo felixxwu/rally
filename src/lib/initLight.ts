@@ -18,8 +18,8 @@ export const initLight = () => {
   light.shadow.camera.near = dLight / 30;
   light.shadow.camera.far = dLight;
 
-  light.shadow.mapSize.x = 1024 * 8;
-  light.shadow.mapSize.y = 1024 * 8;
+  light.shadow.mapSize.x = 1024 * 64;
+  light.shadow.mapSize.y = 1024 * 64;
 
   scene.current?.add(light);
 };

@@ -1,4 +1,4 @@
-import { Vector } from '../terrain/createShape';
+import { Vector } from '../road/createRoadShape';
 import { THREE } from './THREE';
 
 export function createVec(arr: Vector) {

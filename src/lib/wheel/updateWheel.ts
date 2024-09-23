@@ -2,7 +2,6 @@ import { Mesh } from '../../types';
 import { getCarCornerPos } from '../car/getCarCorner';
 import { getCarDirection } from '../car/getCarDirection';
 import { getCarRelCorner } from '../car/getCarRelCorner';
-import { getDirectionOfTravel } from '../car/getDirectionOfTravel';
 import {
   bodyRoll,
   brakePower,
@@ -19,7 +18,7 @@ import { THREE } from '../utils/THREE';
 import { getUserData } from '../utils/userData';
 import { getAmmoVector } from '../utils/vectorConversion';
 import { getSpringForce } from './getSpringForce';
-import { maxTireForce } from '../../refs';
+import { tireGrip } from '../../refs';
 import { tireSnappiness } from '../../refs';
 import { wheelRadius } from '../../refs';
 import { springLength } from '../../refs';
@@ -27,6 +26,7 @@ import { helperArrow } from '../helperArrows/helperArrow';
 import { mult } from '../utils/multVec';
 import { Ref } from '../utils/ref';
 import { wheelHasPower } from './wheelHasPower';
+import { getSpeedVec } from '../car/getSpeedVec';
 
 export function updateWheel(
   wheelMesh: Mesh,
@@ -43,20 +43,19 @@ export function updateWheel(
   const wheelOffset = new THREE.Vector3(0, wheelRadius - (springLength.current - compression), 0);
   const wheelMeshPos = wheelPos.clone().add(wheelOffset.applyQuaternion(quat));
 
-  const dir = getDirectionOfTravel(deltaTime);
+  const speed = getSpeedVec(deltaTime);
   const sideVec = getCarDirection(new THREE.Vector3(1, 0, 0));
   const forwardVec = getCarDirection(new THREE.Vector3(0, 0, 1));
-  if (dir.length() < 0.01) dir.copy(forwardVec);
+  if (speed.length() < 1) speed.copy(forwardVec);
 
-  const directionOfTravel = dir.multiplyScalar(50);
-  const projected = directionOfTravel.clone().projectOnVector(sideVec);
+  const projected = speed.clone().projectOnVector(sideVec);
   const sqrtCompression = Math.sqrt(compression);
   const sideTireForce = projected
     .multiplyScalar(-tireSnappiness.current)
-    .clampLength(0, maxTireForce.current * sqrtCompression);
+    .clampLength(0, tireGrip.current * sqrtCompression);
 
-  const angle = getCarDirection().angleTo(dir);
-  const reversing = angle > reverseAngle && dir.length() > 0.1;
+  const angle = getCarDirection().angleTo(speed);
+  const reversing = angle > reverseAngle && speed.length() > 1;
 
   let power = 0;
   let usingBrakes = false;
@@ -82,13 +81,13 @@ export function updateWheel(
   }
   if (frontWheelDrive.current && rearWheelDrive.current) power /= 2;
   const straightForce = (
-    usingBrakes ? mult(dir.clone().normalize(), reversing ? -1 : 1) : forwardVec
+    usingBrakes ? mult(speed.clone().normalize(), reversing ? -1 : 1) : forwardVec
   )
     .clone()
     .multiplyScalar(power * sqrtCompression);
 
   const objPhys = getUserData(car.current).physicsBody;
-  const adjustedMaxTireForce = maxTireForce.current * sqrtCompression;
+  const adjustedMaxTireForce = tireGrip.current * sqrtCompression;
   const totalTireForce = sideTireForce
     .clone()
     .add(straightForce)
