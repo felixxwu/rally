@@ -23,25 +23,15 @@ export function initCar() {
     new THREE.BoxGeometry(carWidth, carHeight, carLength, 1, 1, 1),
     createObjectMaterial()
   );
-  // const shape = new Ammo.btSphereShape(carWidth / 2);
-  // shape.
-  // const shape = new Ammo.btBoxShape(
-  //   new Ammo.btVector3(carWidth / 2, carHeight / 2, carLength / 2 + wheelEndOffset)
-  // );
 
   const shape = new Ammo.btCompoundShape();
 
-  // const wheel1Transform = new Ammo.btTransform();
-  // wheel1Transform.setOrigin(new Ammo.btVector3(0, carLength / 2, 0));
-  // shape.addChildShape(wheel1Transform, new Ammo.btSphereShape(carLength / 2));
+  addBumpStop(shape, car.current, true, true);
+  addBumpStop(shape, car.current, true, false);
+  addBumpStop(shape, car.current, false, true);
+  addBumpStop(shape, car.current, false, false);
 
-  addBumpStop(shape, true, true);
-  addBumpStop(shape, true, false);
-  addBumpStop(shape, false, true);
-  addBumpStop(shape, false, false);
-  // addBody(shape, true);
-  // addBody(shape, false);
-
+  // set spawn position
   const raycaster = new THREE.Raycaster(new THREE.Vector3(0, 100, 0), new THREE.Vector3(0, -1, 0));
   const intersects = raycaster.intersectObject(terrainMesh.current!);
   car.current.position.copy(add(intersects[0].point, [0, 5, 20]));
@@ -75,7 +65,7 @@ export function initCar() {
   onRender.push(updateCar);
 }
 
-function createObjectMaterial() {
+export function createObjectMaterial() {
   const c = Math.floor(Math.random() * (1 << 24));
   return new THREE.MeshStandardMaterial({ color: c, roughness: 0, metalness: 0.2 });
 }

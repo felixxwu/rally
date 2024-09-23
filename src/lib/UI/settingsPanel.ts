@@ -18,6 +18,7 @@ import {
   tireSnappiness,
   tarmacGrip,
   grassGrip,
+  renderHitCarBox,
 } from '../../refs';
 import { Ref } from '../utils/ref';
 import { el } from './el';
@@ -56,37 +57,62 @@ export function settingsPanel() {
           max-height: 80%;
           overflow-y: auto;
           overflow-x: hidden;
-          margin: 20px;
+          padding: 20px;
           display: flex;
           flex-direction: column;
           gap: 5px;
         `,
       },
-      numberSlider('Power', enginePower, 0, 500),
-      numberSlider('Steering Sensitivity', steerPower, 1000, 3000),
-      numberSlider('Spring Length', springLength, 0.5, 3),
-      numberSlider('Spring Stiffness', sprintRate, 0, 600),
-      numberSlider('Spring Damping', springDamping, 0, 15000),
-      numberSlider('Tire Grip', tireGrip, 0, 1000),
-      numberSlider('Tire Snappiness', tireSnappiness, 50, 200),
-      numberSlider('Brake Strength', brakePower, 0, 1200),
-      numberSlider('Brake Bias (Rear)', brakeRearBias, 0, 1),
-      numberSlider('Air Resistance', airResistance, 0.1, 0.5),
-      numberSlider('Body Roll', bodyRoll, 0, 1),
-      numberSlider('Camera Follow Distance', camFollowDistance, 3, 20),
-      numberSlider('Camera Follow Height', camFollowHeight, 0, 10),
-      numberSlider('Camera Follow Speed', camFollowSpeed, 0, 1),
-      numberSlider('Tarmac Grip', tarmacGrip, 0, 2),
-      numberSlider('Grass Grip', grassGrip, 0, 2),
+      section('Tires & Suspension'),
+      numberSlider('Steering Sensitivity', steerPower),
+      numberSlider('Tire Grip', tireGrip),
+      numberSlider('Spring Length', springLength),
+      numberSlider('Spring Stiffness', sprintRate),
+      numberSlider('Spring Damping', springDamping),
+      numberSlider('Tire Snappiness', tireSnappiness),
 
+      section('Engine & Brakes'),
+      numberSlider('Power', enginePower),
+      numberSlider('Brake Strength', brakePower),
+      numberSlider('Brake Bias (Rear)', brakeRearBias),
+
+      section('Surfaces'),
+      numberSlider('Tarmac Grip', tarmacGrip),
+      numberSlider('Grass Grip', grassGrip),
+
+      section('Car Physics'),
+      numberSlider('Body Roll', bodyRoll),
+      numberSlider('Air Resistance', airResistance),
       boolInput('Front Wheel Drive', frontWheelDrive),
       boolInput('Rear Wheel Drive', rearWheelDrive),
-      boolInput('Debug Arrows', renderHelperArrows)
+
+      section('Camera'),
+      numberSlider('Camera Follow Distance', camFollowDistance),
+      numberSlider('Camera Follow Height', camFollowHeight),
+      numberSlider('Camera Follow Speed', camFollowSpeed),
+
+      section('Debug'),
+      boolInput('Debug Arrows', renderHelperArrows),
+      boolInput('Show Hitbox', renderHitCarBox)
     )
   );
 }
 
-function numberSlider(name: string, ref: Ref<number>, min: number, max: number) {
+function section(text: string) {
+  return el.div(
+    {
+      style: `
+        color: white;
+        text-transform: uppercase;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      `,
+    },
+    text
+  );
+}
+
+function numberSlider(name: string, ref: Ref<number>) {
   const value = el.span({
     style: `color: white; text-align: right;`,
     oncreate: span => {
@@ -108,9 +134,9 @@ function numberSlider(name: string, ref: Ref<number>, min: number, max: number) 
     value,
     el.input({
       type: 'range',
-      min: `${min}`,
-      max: `${max}`,
-      step: '0.01',
+      min: `${ref.min ?? 0}`,
+      max: `${ref.max ?? 100}`,
+      step: `${ref.step ?? 0.01}`,
       style: `width: 100%; grid-area: input;`,
       oncreate: input => {
         input.value = `${ref.current}`;

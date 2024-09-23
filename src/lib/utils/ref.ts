@@ -1,8 +1,13 @@
 declare const Proxy;
 
-export function ref<T>(init: T): { current: T; listeners: ((value: T) => void)[] } {
+export function ref<T>(
+  init: T,
+  min?: number,
+  max?: number,
+  step?: number
+): { current: T; listeners: ((value: T) => void)[]; min?: number; max?: number; step?: number } {
   return new Proxy(
-    { current: init, listeners: <((value: T) => void)[]>[] },
+    { current: init, listeners: <((value: T) => void)[]>[], min, max, step },
     {
       get(target, key) {
         return target[key];

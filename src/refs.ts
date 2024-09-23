@@ -38,54 +38,48 @@ export const solver = ref<AmmoType.btSequentialImpulseConstraintSolver | null>(n
 export const physicsWorld = ref<AmmoType.btDiscreteDynamicsWorld | null>(null);
 export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 
-// Car
-export const airResistance = ref(0.15);
-export const minAirResistance = 10;
-
 // steering
-export const steerPower = ref(2400);
+export const steerPower = ref(3200, 2000, 5000, 100);
 export const steerModMap = createXYMap([0, 0], [1, 0.15], [3, 0.3], [30, 1], [100, 0.4]); // x = speed, y = steering input modifier
-export const slowSpeedSteerThreshold = 30; // speed under which slow speed steering is used
-export const highSpeedSteerThresholdLower = 60; // speed over which high speed steering is used
-export const highSpeedSteerThresholdUpper = 100; // speed over which high speed steering is NOT used
-export const highSpeedModScalar = 0.05;
-export const highSpeedModMax = 1.8;
 export const angularDamping = 0.99999997;
 export const reverseAngle = Math.PI * 0.8;
 
 // tires and suspension
-export const tireGrip = ref(350);
-export const springLength = ref(1.1);
-export const sprintRate = ref(350);
-export const springDamping = ref(5000);
+export const tireGrip = ref(350, 0, 1000, 10);
+export const springLength = ref(1.1, 0.5, 3, 0.01);
+export const sprintRate = ref(300, 0, 600, 10);
+export const springDamping = ref(5000, 0, 15000, 100);
 export const wheelRadius = 0.4;
-export const tireSnappiness = ref(100);
+export const tireSnappiness = ref(100, 50, 200, 1);
 export const wheelCompression = ref([0, 0, 0, 0]);
 
-// surface grips
-export const tarmacGrip = ref(1.5);
-export const grassGrip = ref(0.5);
-
 // power & brakes
-export const enginePower = ref(150);
-export const brakePower = ref(600);
-export const brakeRearBias = ref(0.5);
+export const enginePower = ref(150, 0, 500, 10);
+export const brakePower = ref(600, 0, 1200, 100);
+export const brakeRearBias = ref(0.5, 0, 1, 0.01);
 
-// car body
-export const bodyRoll = ref(0.6);
+// surface grips
+export const tarmacGrip = ref(1.3, 0, 2, 0.1);
+export const grassGrip = ref(0.5, 0, 2, 0.1);
+
+// car physics
+export const bodyRoll = ref(0.6, 0, 1, 0.1);
+export const airResistance = ref(0.15, 0.1, 0.5, 0.01);
+export const minAirResistance = 10;
 export const car = ref<Mesh | null>(null);
 export const oldCarPosition = ref<THREE.Vector3 | null>(null);
-export const carLength = 4.5;
+export const carLength = 4.2;
 export const carWidth = 2;
 export const carHeight = 1;
-export const wheelEndOffset = 0.5;
+export const wheelEndOffset = 0.2;
 export const frontWheelDrive = ref(true);
 export const rearWheelDrive = ref(true);
 
 // camera
-export const camFollowDistance = ref(10);
-export const camFollowHeight = ref(5);
-export const camFollowSpeed = ref(0.05);
-export const renderHelperArrows = ref(false);
+export const camFollowDistance = ref(10, 3, 20, 1);
+export const camFollowHeight = ref(5, 0, 10, 1);
+export const camFollowSpeed = ref(0.05, 0, 1, 0.01);
 
-// export const map = createXYMap([0, 0]);
+// debug
+export const renderHelperArrows = ref(false);
+export const renderHitCarBox = ref(false);

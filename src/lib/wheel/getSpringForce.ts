@@ -11,7 +11,7 @@ import { Ref } from '../utils/ref';
 import { getCarDirection } from '../car/getCarDirection';
 
 type Surface = 'tarmac' | 'grass';
-export const raycasterOffset = 1;
+export const raycasterOffset = 2;
 
 const defaultReturn = {
   suspensionForce: new THREE.Vector3(),
