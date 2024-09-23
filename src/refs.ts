@@ -43,7 +43,7 @@ export const airResistance = ref(0.15);
 export const minAirResistance = 10;
 
 // steering
-export const steerPower = ref(1500);
+export const steerPower = ref(2400);
 export const steerModMap = createXYMap([0, 0], [1, 0.15], [3, 0.3], [30, 1], [100, 0.4]); // x = speed, y = steering input modifier
 export const slowSpeedSteerThreshold = 30; // speed under which slow speed steering is used
 export const highSpeedSteerThresholdLower = 60; // speed over which high speed steering is used
@@ -72,7 +72,7 @@ export const brakePower = ref(600);
 export const brakeRearBias = ref(0.5);
 
 // car body
-export const bodyRoll = ref(0.5);
+export const bodyRoll = ref(0.6);
 export const car = ref<Mesh | null>(null);
 export const oldCarPosition = ref<THREE.Vector3 | null>(null);
 export const carLength = 4.5;

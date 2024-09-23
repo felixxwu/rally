@@ -1,23 +1,17 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import {
-  car,
-  oldCarPosition,
-  roadMesh,
-  terrainDepthExtents,
-  terrainWidthExtents,
-} from '../../refs';
+import { car, roadMesh } from '../../refs';
 import { terrainMesh } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { springDamping } from '../../refs';
 import { sprintRate } from '../../refs';
 import { springLength } from '../../refs';
 import { Ref } from '../utils/ref';
-import { getUserData } from '../utils/userData';
 import { getCarDirection } from '../car/getCarDirection';
 
 type Surface = 'tarmac' | 'grass';
+export const raycasterOffset = 1;
 
 const defaultReturn = {
   suspensionForce: new THREE.Vector3(),
@@ -30,7 +24,12 @@ export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>) {
     return defaultReturn;
   }
 
-  const raycaster = new THREE.Raycaster(pos, new THREE.Vector3(0, -1, 0));
+  const dir = getCarDirection(new THREE.Vector3(0, 1, 0));
+
+  const raycaster = new THREE.Raycaster(
+    pos.clone().add(dir.multiplyScalar(raycasterOffset)),
+    dir.clone().negate()
+  );
   const terrainIntersections = raycaster.intersectObject(terrainMesh.current, false);
   const roadIntersections = raycaster.intersectObject(roadMesh.current, false);
   const terrainDistance = terrainIntersections[0]?.distance ?? Infinity;
@@ -41,24 +40,7 @@ export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>) {
     surface = 'grass';
   }
 
-  const distance = Math.min(terrainDistance, roadDistance);
-
-  if (distance === Infinity) {
-    const dir = getCarDirection();
-    const transform = new Ammo.btTransform();
-    const x = pos.x > terrainWidthExtents / 2 || pos.x < -terrainWidthExtents / 2 ? 0 : pos.x;
-    const z = pos.z > terrainDepthExtents / 2 || pos.z < -terrainDepthExtents / 2 ? 0 : pos.z;
-    oldCarPosition.current = null;
-    transform.setOrigin(new Ammo.btVector3(x, pos.y + 5, z));
-    const quat = new Ammo.btQuaternion(0, 0, 0, 1);
-    const angle = Math.atan2(dir.x, dir.z);
-    quat.setRotation(new Ammo.btVector3(0, 1, 0), angle);
-    transform.setRotation(quat);
-    getUserData(car.current)?.physicsBody?.setWorldTransform(transform);
-    getUserData(car.current)?.physicsBody?.setLinearVelocity(new Ammo.btVector3(0, 0, 0));
-
-    return defaultReturn;
-  }
+  const distance = Math.min(terrainDistance, roadDistance) - raycasterOffset;
 
   const normal = terrainIntersections[0]?.normal || new THREE.Vector3(0, 1, 0);
 

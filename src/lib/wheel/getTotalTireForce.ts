@@ -18,9 +18,9 @@ export function getTotalTireForce(
   left: boolean,
   deltaTime: number
 ) {
-  const wheelPos = getCarCornerPos(front, left);
+  const cornerPos = getCarCornerPos(front, left);
 
-  const { suspensionForce, compression, surface } = getSpringForce(wheelPos, prevDistance);
+  const { suspensionForce, compression, surface } = getSpringForce(cornerPos, prevDistance);
   const sideTireForce = getSideTireForce(deltaTime, compression);
   const straightTireForce = getStraightTireForce(deltaTime, compression, front);
   const { wheelMeshPos, wheelOffsetFromCorner } = getWheelMeshPos(compression, front, left);
@@ -36,8 +36,10 @@ export function getTotalTireForce(
   const totalTireForce = add(sideTireForce, createArr(straightTireForce));
   const totalClampedTireForce = totalTireForce.clampLength(0, tireGripAfterSurface);
   const ammoForce = getAmmoVector(add(suspensionForce, createArr(totalClampedTireForce)));
-  const cornerPos = getCarRelCorner(front, left).clone();
-  const ammoPos = getAmmoVector(cornerPos.add(mult(wheelOffsetFromCorner, bodyRoll.current)));
+  const cornerPosRelative = getCarRelCorner(front, left).clone();
+  const ammoPos = getAmmoVector(
+    cornerPosRelative.add(mult(wheelOffsetFromCorner, bodyRoll.current))
+  );
 
   return {
     wheelMeshPos,

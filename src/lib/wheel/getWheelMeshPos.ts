@@ -11,7 +11,8 @@ export function getWheelMeshPos(compression: number, front: boolean, left: boole
 
   const quat = car.current.getWorldQuaternion(new THREE.Quaternion());
   const wheelPos = getCarCornerPos(front, left);
-  const wheelOffset = new THREE.Vector3(0, wheelRadius - (springLength.current - compression), 0);
+  const suspensionLength = Math.min(wheelRadius - (springLength.current - compression), 0);
+  const wheelOffset = new THREE.Vector3(0, suspensionLength, 0);
   const wheelOffsetFromCorner = wheelOffset.applyQuaternion(quat);
   return { wheelMeshPos: wheelPos.clone().add(wheelOffset), wheelOffsetFromCorner };
 }

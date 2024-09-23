@@ -63,7 +63,7 @@ export function settingsPanel() {
         `,
       },
       numberSlider('Power', enginePower, 0, 500),
-      numberSlider('Steering Sensitivity', steerPower, 800, 2000),
+      numberSlider('Steering Sensitivity', steerPower, 1000, 3000),
       numberSlider('Spring Length', springLength, 0.5, 3),
       numberSlider('Spring Stiffness', sprintRate, 0, 600),
       numberSlider('Spring Damping', springDamping, 0, 15000),
