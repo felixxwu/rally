@@ -12,6 +12,7 @@ import { initTerrain } from './lib/terrain/initTerrain';
 import { initUI } from './lib/UI/initUI';
 import { initWheel } from './lib/wheel/initWheel';
 import { initRoad } from './lib/road/initRoad';
+import { initSky } from './lib/initSky';
 
 Ammo().then(init);
 
@@ -21,6 +22,7 @@ export function init() {
   initRenderer();
   initCamera();
   initLight();
+  initSky();
   initPhysics();
   initTerrain();
   initRoad();
