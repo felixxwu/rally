@@ -48,19 +48,13 @@ export function createRoadShape(triangles: Triangle[]) {
     line.material.colorWrite;
   }
 
-  const groundMaterial = new THREE.MeshStandardMaterial({ color: '#888', roughness: 0.4 });
+  const groundMaterial = new THREE.MeshStandardMaterial({ color: '#888', roughness: 0.8 });
+  groundMaterial.needsUpdate = true;
+
   const mesh = new THREE.Mesh(geom, groundMaterial);
 
   mesh.receiveShadow = true;
   mesh.castShadow = true;
-
-  new THREE.TextureLoader().load('./rock.jpg', function (texture) {
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(1, 1);
-    groundMaterial.map = texture;
-    groundMaterial.needsUpdate = true;
-  });
 
   return { rigidBody, mesh };
 }

@@ -7,8 +7,8 @@ export function initWheel(front: boolean, left: boolean) {
   let prevDistance = ref(springLength.current);
 
   const wheelMesh = new THREE.Mesh(
-    new THREE.CylinderGeometry(wheelRadius, wheelRadius, 0.3, 32),
-    new THREE.MeshBasicMaterial({ color: 0x000000 })
+    new THREE.CylinderGeometry(wheelRadius, wheelRadius, 0.3, 16),
+    new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 1, metalness: 1 })
   );
 
   wheelMesh.castShadow = true;

@@ -44,7 +44,7 @@ export const minAirResistance = 10;
 
 // steering
 export const steerPower = ref(1500);
-export const steerModMap = createXYMap([0, 0], [30, 1], [100, 0.4]);
+export const steerModMap = createXYMap([0, 0], [1, 0.15], [3, 0.3], [30, 1], [100, 0.4]); // x = speed, y = steering input modifier
 export const slowSpeedSteerThreshold = 30; // speed under which slow speed steering is used
 export const highSpeedSteerThresholdLower = 60; // speed over which high speed steering is used
 export const highSpeedSteerThresholdUpper = 100; // speed over which high speed steering is NOT used
@@ -57,13 +57,13 @@ export const reverseAngle = Math.PI * 0.8;
 export const tireGrip = ref(350);
 export const springLength = ref(1.1);
 export const sprintRate = ref(350);
-export const springDamping = ref(7000);
+export const springDamping = ref(5000);
 export const wheelRadius = 0.4;
-export const tireSnappiness = ref(20);
+export const tireSnappiness = ref(100);
 export const wheelCompression = ref([0, 0, 0, 0]);
 
 // power & brakes
-export const enginePower = ref(250);
+export const enginePower = ref(150);
 export const brakePower = ref(600);
 export const brakeRearBias = ref(0.5);
 

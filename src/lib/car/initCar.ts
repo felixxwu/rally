@@ -76,5 +76,5 @@ export function initCar() {
 
 function createObjectMaterial() {
   const c = Math.floor(Math.random() * (1 << 24));
-  return new THREE.MeshPhongMaterial({ color: c });
+  return new THREE.MeshStandardMaterial({ color: c, roughness: 0, metalness: 0.2 });
 }
