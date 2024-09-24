@@ -1,4 +1,5 @@
 import { ref } from '../utils/ref';
+import { info } from './info';
 import { mobileUI } from './mobileUi';
 import { settingsIcon } from './settingsIcon';
 import { settingsPanel } from './settingsPanel';
@@ -12,6 +13,7 @@ export function initUI() {
 
   ui.innerHTML = '';
 
+  ui.appendChild(info());
   ui.appendChild(speedo());
   ui.appendChild(mobileUI());
   ui.appendChild(settingsPanel());

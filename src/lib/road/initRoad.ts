@@ -5,9 +5,12 @@ import { physicsWorld, roadMesh, scene, terrainWidth, terrainWidthExtents } from
 import { createRoadShape } from './createRoadShape';
 import { createRoadTriangles } from './createRoadTriangles';
 import { createRoadPoints } from './createRoadPoints';
+import { infoText } from '../UI/info';
 
-export function initRoad() {
-  const vecs = createRoadPoints();
+export async function initRoad() {
+  const vecs = await createRoadPoints();
+
+  infoText.current = 'Finishing up road';
 
   const triangles = createRoadTriangles(vecs);
 
@@ -15,6 +18,8 @@ export function initRoad() {
   scene.current?.add(mesh);
   roadMesh.current = mesh;
   physicsWorld.current?.addRigidBody(rigidBody);
+
+  infoText.current = '';
 }
 
 function toWorldPos(x: number, z: number) {

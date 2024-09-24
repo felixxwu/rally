@@ -1,9 +1,10 @@
 import { spawn, terrainDepthExtents, terrainMesh, terrainWidthExtents } from '../../refs';
+import { infoText } from '../UI/info';
 import { add } from '../utils/addVec';
 import { THREE } from '../utils/THREE';
 import { Vector } from './createRoadShape';
 
-export function createRoadPoints() {
+export async function createRoadPoints() {
   const vecs: Vector[] = [];
   const point = new THREE.Vector2(spawn.current.x, spawn.current.z);
   const roadDir = new THREE.Vector2(0, 1);
@@ -13,10 +14,13 @@ export function createRoadPoints() {
   const pointMoveDist = 3;
   const numNeightborsToBlur = 20;
   const crossingDistance = 5;
+  const maxPoints = 5000;
 
-  console.log('Calculating road points...');
-  for (let i = 0; i < 5000; i++) {
-    if (i % 100 === 0) console.log(i);
+  for (let i = 0; i < maxPoints; i++) {
+    if (i % 100 === 0) {
+      infoText.current = `Generating road... ${Math.round((i / maxPoints) * 100)}%`;
+      await new Promise(r => setTimeout(r));
+    }
     const raycaster = new THREE.Raycaster(
       new THREE.Vector3(point.x, 100, point.y),
       new THREE.Vector3(0, -1, 0)

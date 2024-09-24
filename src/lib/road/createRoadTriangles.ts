@@ -2,7 +2,7 @@ import { createArr, createVec } from '../utils/createVec';
 import { THREE } from '../utils/THREE';
 import { Triangle, Vector } from './createRoadShape';
 
-const roadWidth = 15;
+const roadWidth = 10;
 
 export function createRoadTriangles(vecs: Vector[]) {
   console.log('Creating road triangles...');

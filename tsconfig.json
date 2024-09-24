@@ -5,6 +5,7 @@
     "esModuleInterop": true,
     "alwaysStrict": true,
     "strictNullChecks": true,
+    "lib": ["ES2015", "DOM"]
   },
   "paths": {
     "*": ["*.d.ts"]

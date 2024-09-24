@@ -16,7 +16,7 @@ import { initSky } from './lib/initSky';
 
 Ammo().then(init);
 
-export function init() {
+export async function init() {
   initUI();
   initGraphics();
   initRenderer();
@@ -27,14 +27,11 @@ export function init() {
   initTerrain();
   initWindowListeners();
 
-  setTimeout(() => {
-    initRoad();
-    setTimeout(() => {
-      initCar();
-      initWheel(true, true);
-      initWheel(true, false);
-      initWheel(false, true);
-      initWheel(false, false);
-    });
-  });
+  await initRoad();
+
+  initCar();
+  initWheel(true, true);
+  initWheel(true, false);
+  initWheel(false, true);
+  initWheel(false, false);
 }
