@@ -20,9 +20,8 @@ export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
 export const terrainMesh = ref<Mesh | null>(null);
 export const roadMesh = ref<Mesh | null>(null);
-export const spawn = ref(
-  new THREE.Vector3(terrainWidthExtents / 2 - 300, 0, terrainDepthExtents / 2 - 300)
-);
+export const seed = ref(0);
+export const seedLevel = ref(8);
 
 // Graphics variables
 export const container = ref<HTMLElement | null>(null);

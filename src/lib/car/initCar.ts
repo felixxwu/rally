@@ -10,7 +10,6 @@ import {
   onRender,
   physicsWorld,
   scene,
-  spawn,
   terrainMesh,
 } from '../../refs';
 import { setUserData } from '../utils/userData';
@@ -18,8 +17,10 @@ import { updateCar } from './updateCar';
 import { THREE } from '../utils/THREE';
 import { addBumpStop } from '../wheel/addBumpStop';
 import { add } from '../utils/addVec';
+import { getSpawn } from '../utils/getSpawn';
 
 export function initCar() {
+  const spawn = getSpawn();
   car.current = new THREE.Mesh(
     new THREE.BoxGeometry(carWidth, carHeight, carLength, 1, 1, 1),
     createObjectMaterial()
@@ -34,7 +35,7 @@ export function initCar() {
 
   // set spawn position
   const raycaster = new THREE.Raycaster(
-    new THREE.Vector3(spawn.current.x, 1000, spawn.current.z),
+    new THREE.Vector3(spawn.x, 1000, spawn.z),
     new THREE.Vector3(0, -1, 0)
   );
   const intersects = raycaster.intersectObject(terrainMesh.current!);

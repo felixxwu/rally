@@ -1,6 +1,7 @@
-import { scene, spawn, terrainDepthExtents, terrainMesh, terrainWidthExtents } from '../../refs';
+import { scene, terrainDepthExtents, terrainMesh, terrainWidthExtents } from '../../refs';
 import { infoText } from '../UI/info';
 import { add } from '../utils/addVec';
+import { getSpawn } from '../utils/getSpawn';
 import { THREE } from '../utils/THREE';
 import { createRoadShape, Vector } from './createRoadShape';
 import { createRoadTriangles } from './createRoadTriangles';
@@ -8,24 +9,25 @@ import { createRoadTriangles } from './createRoadTriangles';
 let temporaryMesh: THREE.Mesh | null = null;
 
 export async function createRoadPoints() {
+  const spawn = getSpawn();
   const vecs: Vector[] = [];
   const longestVecs: Vector[][] = [];
-  const point = new THREE.Vector2(spawn.current.x, spawn.current.z);
-  const roadDir = new THREE.Vector2(0, 1);
+  const point = new THREE.Vector2(spawn.x, spawn.z);
+  const roadDir = new THREE.Vector2(0, 1).normalize();
 
   const maxAngle = 0.03;
   const nearbyDistance = 200;
   const pointMoveDist = 3;
   const numNeightborsToBlur = 20;
   const crossingDistance = 50;
-  const maxPoints = 4000;
+  const maxPoints = 3000;
   const maxAttempts = 8000;
   let expBackoff = 1;
 
   for (let i = 0; i < maxAttempts; i++) {
     if (vecs.length >= maxPoints) break;
     if (i % 100 === 99) {
-      infoText.current = `Generating road... ${Math.round((i / maxPoints) * 100)}%`;
+      infoText.current = `Generating road... ${Math.round((i / maxAttempts) * 100)}%`;
 
       if (temporaryMesh) {
         scene.current?.remove(temporaryMesh);
@@ -128,7 +130,6 @@ export async function createRoadPoints() {
         );
         longestVecs.push([...vecs.slice(0, -50)]);
         const cutoff = Math.max(0, firstPointNearCrossing - expBackoff);
-        console.log(`cutoff`, cutoff);
         point.set(vecs[cutoff][0], vecs[cutoff][2]);
         vecs.splice(cutoff, vecs.length - cutoff);
         expBackoff += 20;
