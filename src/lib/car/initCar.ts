@@ -18,6 +18,7 @@ import { THREE } from '../utils/THREE';
 import { addBumpStop } from '../wheel/addBumpStop';
 import { add } from '../utils/addVec';
 import { getSpawn } from '../utils/getSpawn';
+import { ray } from '../utils/ray';
 
 export function initCar() {
   const spawn = getSpawn();
@@ -34,12 +35,8 @@ export function initCar() {
   addBumpStop(shape, car.current, false, false);
 
   // set spawn position
-  const raycaster = new THREE.Raycaster(
-    new THREE.Vector3(spawn.x, 1000, spawn.z),
-    new THREE.Vector3(0, -1, 0)
-  );
-  const intersects = raycaster.intersectObject(terrainMesh.current!);
-  car.current.position.copy(add(intersects[0].point, [0, 5, 20]));
+  const intersection = ray(new THREE.Vector3(spawn.x, 1000, spawn.z), new THREE.Vector3(0, -1, 0));
+  car.current.position.copy(add(intersection.point, [0, 5, 20]));
 
   const mass = 15;
   const localInertia = new Ammo.btVector3(0, 10, 0);

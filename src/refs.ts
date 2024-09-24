@@ -22,10 +22,20 @@ export const terrainMesh = ref<Mesh | null>(null);
 export const roadMesh = ref<Mesh | null>(null);
 export const grassLeftMesh = ref<Mesh | null>(null);
 export const grassRightMesh = ref<Mesh | null>(null);
-export const seed = ref(0);
+export const seed = ref(8);
 export const seedLevel = ref(8);
 export const roadColor = '#888';
 export const grassColor = '#4e884e';
+
+// Road generation
+
+export const maxAngle = 0.03;
+export const nearbyDistance = 200;
+export const pointMoveDist = 3;
+export const numNeightborsToBlur = 20;
+export const crossingDistance = 50;
+export const maxPoints = 3000;
+export const maxAttempts = 8000;
 
 // Graphics variables
 export const container = ref<HTMLElement | null>(null);
@@ -85,7 +95,7 @@ export const rearWheelDrive = ref(true);
 // camera
 export const camFollowDistance = ref(12, 3, 30, 1);
 export const camFollowHeight = ref(15, 0, 30, 1);
-export const camFollowSpeed = ref(0.1, 0, 1, 0.01);
+export const camFollowSpeed = ref(0.05, 0, 1, 0.01);
 
 // debug
 export const renderHelperArrows = ref(false);

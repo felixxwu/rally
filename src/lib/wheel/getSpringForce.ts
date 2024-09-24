@@ -56,8 +56,6 @@ export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>) {
 
   distance -= raycasterOffset;
 
-  console.log(`surface`, surface);
-
   // const terrainIntersections = raycaster.intersectObject(terrainMesh.current, false);
   // const roadIntersections = raycaster.intersectObject(roadMesh.current, false);
   // const terrainDistance = terrainIntersections[0]?.distance ?? Infinity;

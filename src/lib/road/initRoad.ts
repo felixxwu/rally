@@ -22,7 +22,7 @@ export async function initRoad() {
 
   infoText.current = 'Finishing up road';
 
-  const { road, grassLeft, grassRight } = createRoadTriangles(vecs);
+  const { road, grassLeft, grassRight } = await createRoadTriangles(vecs);
 
   const { rigidBody: roadRigidBody, mesh: localRoad } = createRoadShape(road, roadColor, 0.7);
   const { rigidBody: grassLeftRigidBody, mesh: localGrassLeftMesh } = createRoadShape(
