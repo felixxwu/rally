@@ -16,7 +16,7 @@ export const initLight = () => {
   light.shadow.camera.bottom = -sLight;
 
   light.shadow.camera.near = dLight / 30;
-  light.shadow.camera.far = dLight;
+  light.shadow.camera.far = dLight * 1.5;
 
   light.shadow.mapSize.x = 1024 * 64;
   light.shadow.mapSize.y = 1024 * 64;

@@ -63,8 +63,8 @@ export const brakePower = ref(600, 0, 1200, 100);
 export const brakeRearBias = ref(0.5, 0, 1, 0.01);
 
 // surface grips
-export const tarmacGrip = ref(1.5, 0, 2, 0.1);
-export const grassGrip = ref(0.5, 0, 2, 0.1);
+export const tarmacGrip = ref(2, 0, 3, 0.1);
+export const grassGrip = ref(0.5, 0, 3, 0.1);
 
 // car physics
 export const bodyRoll = ref(0.6, 0, 1, 0.1);
@@ -80,9 +80,9 @@ export const frontWheelDrive = ref(true);
 export const rearWheelDrive = ref(true);
 
 // camera
-export const camFollowDistance = ref(10, 3, 20, 1);
-export const camFollowHeight = ref(7, 0, 10, 1);
-export const camFollowSpeed = ref(0.05, 0, 1, 0.01);
+export const camFollowDistance = ref(12, 3, 30, 1);
+export const camFollowHeight = ref(15, 0, 30, 1);
+export const camFollowSpeed = ref(0.1, 0, 1, 0.01);
 
 // debug
 export const renderHelperArrows = ref(false);

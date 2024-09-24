@@ -7,7 +7,7 @@ import { createTerrainRigidBody } from './createTerrainRigidBody';
 import { createTerrainMesh } from './createTerrainMesh';
 
 export function initTerrain() {
-  const heightData = generateHeight(5, 8);
+  const heightData = generateHeight(69, 8);
   const rigidBody = createTerrainRigidBody(heightData);
   const mesh = createTerrainMesh(heightData);
 

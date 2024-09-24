@@ -8,7 +8,7 @@ export function initCamera() {
     80,
     window.innerWidth / window.innerHeight,
     0.2,
-    1500
+    2000
   );
 
   camera.current.position.set(0, 1400, -1);

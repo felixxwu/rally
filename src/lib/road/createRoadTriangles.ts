@@ -5,7 +5,6 @@ import { Triangle, Vector } from './createRoadShape';
 const roadWidth = 10;
 
 export function createRoadTriangles(vecs: Vector[]) {
-  console.log('Creating road triangles...');
   const triangles: Triangle[] = [];
 
   for (let i = 0; i < vecs.length; i++) {
@@ -20,19 +19,19 @@ export function createRoadTriangles(vecs: Vector[]) {
     const nextVec = createVec(vecs[i + 1]);
     const { left: nextLeft, right: nextRight } = getSideVecs(vecs, i + 1);
 
-    // if (leftHandedTriangle) {
-    //   triangles.push([createArr(left), createArr(prevRight), createArr(nextRight)]);
-    // } else {
-    //   triangles.push([createArr(prevLeft), createArr(right), createArr(nextLeft)]);
-    // }
-
     if (leftHandedTriangle) {
-      triangles.push([createArr(nextLeft), createArr(prevLeft), createArr(vec)]);
-      triangles.push([createArr(prevRight), createArr(nextRight), createArr(vec)]);
+      triangles.push([createArr(left), createArr(prevRight), createArr(nextRight)]);
     } else {
-      triangles.push([createArr(left), createArr(prevVec), createArr(nextVec)]);
-      triangles.push([createArr(right), createArr(nextVec), createArr(prevVec)]);
+      triangles.push([createArr(prevLeft), createArr(right), createArr(nextLeft)]);
     }
+
+    // if (leftHandedTriangle) {
+    //   triangles.push([createArr(nextLeft), createArr(prevLeft), createArr(vec)]);
+    //   triangles.push([createArr(prevRight), createArr(nextRight), createArr(vec)]);
+    // } else {
+    //   triangles.push([createArr(left), createArr(prevVec), createArr(nextVec)]);
+    //   triangles.push([createArr(right), createArr(nextVec), createArr(prevVec)]);
+    // }
 
     // triangles.push([createArr(prevLeft), createArr(prevVec), createArr(vec)]);
     // triangles.push([createArr(prevLeft), createArr(vec), createArr(left)]);

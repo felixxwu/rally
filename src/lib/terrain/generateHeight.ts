@@ -31,7 +31,7 @@ export function generateHeight(seed: number, level: number) {
 
   for (let j = 0; j < terrainDepth; j++) {
     for (let i = 0; i < terrainWidth; i++) {
-      const height = Math.pow(noise(i, j), 2) * hRange + terrainMinHeight;
+      const height = Math.pow(noise(i, j), 2) * hRange + terrainMinHeight + i * -3 + j * 3 + 100;
 
       data[p] = height;
 

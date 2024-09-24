@@ -34,7 +34,7 @@ export function initCar() {
 
   // set spawn position
   const raycaster = new THREE.Raycaster(
-    new THREE.Vector3(spawn.current.x, 100, spawn.current.z),
+    new THREE.Vector3(spawn.current.x, 1000, spawn.current.z),
     new THREE.Vector3(0, -1, 0)
   );
   const intersects = raycaster.intersectObject(terrainMesh.current!);
