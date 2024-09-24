@@ -14,12 +14,15 @@ export const terrainWidth = 50;
 export const terrainDepth = 50;
 export const terrainHalfWidth = terrainWidth / 2;
 export const terrainHalfDepth = terrainDepth / 2;
-export const terrainMaxHeight = 30;
+export const terrainMaxHeight = 40;
 export const terrainMinHeight = 0;
 export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
 export const terrainMesh = ref<Mesh | null>(null);
 export const roadMesh = ref<Mesh | null>(null);
+export const spawn = ref(
+  new THREE.Vector3(terrainWidthExtents / 2 - 300, 0, terrainDepthExtents / 2 - 300)
+);
 
 // Graphics variables
 export const container = ref<HTMLElement | null>(null);
@@ -29,6 +32,7 @@ export const scene = ref<THREE.Scene | null>(null);
 export const renderer = ref<THREE.WebGLRenderer | null>(null);
 export const clock = new THREE.Clock();
 export const onRender: ((deltaTime: number) => void)[] = [];
+export const freeCam = ref(false);
 
 // Physics variables
 export const collisionConfiguration = ref<AmmoType.btDefaultCollisionConfiguration | null>(null);

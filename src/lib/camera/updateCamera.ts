@@ -1,4 +1,4 @@
-import { camera, camFollowDistance, camFollowHeight, camFollowSpeed } from '../../refs';
+import { camera, camFollowDistance, camFollowHeight, camFollowSpeed, freeCam } from '../../refs';
 import { getCarDirection } from '../car/getCarDirection';
 
 import { car } from '../../refs';
@@ -20,6 +20,8 @@ export function updateCamera(deltaTime: number) {
   //   transform.y + (camVector?.y || 0),
   //   transform.z + (camVector?.z || 0),
   // )
+
+  if (freeCam.current) return;
 
   camera.current?.position.lerp(
     transform.clone().add(camVector || new THREE.Vector3()),

@@ -19,6 +19,7 @@ import {
   tarmacGrip,
   grassGrip,
   renderHitCarBox,
+  freeCam,
 } from '../../refs';
 import { Ref } from '../utils/ref';
 import { el } from './el';
@@ -93,7 +94,8 @@ export function settingsPanel() {
 
       section('Debug'),
       boolInput('Debug Arrows', renderHelperArrows),
-      boolInput('Show Hitbox', renderHitCarBox)
+      boolInput('Show Hitbox', renderHitCarBox),
+      boolInput('Free Cam', freeCam)
     )
   );
 }

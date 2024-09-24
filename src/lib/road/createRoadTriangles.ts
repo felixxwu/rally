@@ -5,6 +5,7 @@ import { Triangle, Vector } from './createRoadShape';
 const roadWidth = 15;
 
 export function createRoadTriangles(vecs: Vector[]) {
+  console.log('Creating road triangles...');
   const triangles: Triangle[] = [];
 
   for (let i = 0; i < vecs.length; i++) {

@@ -10,6 +10,7 @@ import {
   onRender,
   physicsWorld,
   scene,
+  spawn,
   terrainMesh,
 } from '../../refs';
 import { setUserData } from '../utils/userData';
@@ -32,7 +33,10 @@ export function initCar() {
   addBumpStop(shape, car.current, false, false);
 
   // set spawn position
-  const raycaster = new THREE.Raycaster(new THREE.Vector3(0, 100, 0), new THREE.Vector3(0, -1, 0));
+  const raycaster = new THREE.Raycaster(
+    new THREE.Vector3(spawn.current.x, 100, spawn.current.z),
+    new THREE.Vector3(0, -1, 0)
+  );
   const intersects = raycaster.intersectObject(terrainMesh.current!);
   car.current.position.copy(add(intersects[0].point, [0, 5, 20]));
 

@@ -1,4 +1,4 @@
-import { camera, renderer, renderHelperArrows } from '../refs';
+import { camera, freeCam, renderer, renderHelperArrows } from '../refs';
 
 export let keysDown: Record<string, boolean> = {};
 
@@ -60,6 +60,10 @@ function onKeyDown(event: KeyboardEvent) {
 
   if (event.key === 'h') {
     renderHelperArrows.current = !renderHelperArrows.current;
+  }
+
+  if (event.key === 'f') {
+    freeCam.current = !freeCam.current;
   }
 }
 
