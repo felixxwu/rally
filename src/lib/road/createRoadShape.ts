@@ -9,7 +9,7 @@ export type Triangle = [Vector, Vector, Vector];
 const ammoVecCache: Record<string, AmmoType.btVector3> = {};
 const threeVecCache: Record<string, THREE.Vector3> = {};
 
-export function createRoadShape(triangles: Triangle[]) {
+export function createRoadShape(triangles: Triangle[], color: string, roughness: number) {
   const triangleMesh = new Ammo.btTriangleMesh();
 
   for (const triangle of triangles) {
@@ -48,7 +48,7 @@ export function createRoadShape(triangles: Triangle[]) {
     line.material.colorWrite;
   }
 
-  const groundMaterial = new THREE.MeshStandardMaterial({ color: '#888', roughness: 0.8 });
+  const groundMaterial = new THREE.MeshStandardMaterial({ color, roughness });
   groundMaterial.needsUpdate = true;
 
   const mesh = new THREE.Mesh(geom, groundMaterial);

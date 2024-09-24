@@ -20,8 +20,12 @@ export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
 export const terrainMesh = ref<Mesh | null>(null);
 export const roadMesh = ref<Mesh | null>(null);
+export const grassLeftMesh = ref<Mesh | null>(null);
+export const grassRightMesh = ref<Mesh | null>(null);
 export const seed = ref(0);
 export const seedLevel = ref(8);
+export const roadColor = '#888';
+export const grassColor = '#4e884e';
 
 // Graphics variables
 export const container = ref<HTMLElement | null>(null);

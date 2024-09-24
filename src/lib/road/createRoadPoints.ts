@@ -1,4 +1,11 @@
-import { scene, terrainDepthExtents, terrainMesh, terrainWidthExtents } from '../../refs';
+import {
+  grassColor,
+  roadColor,
+  scene,
+  terrainDepthExtents,
+  terrainMesh,
+  terrainWidthExtents,
+} from '../../refs';
 import { infoText } from '../UI/info';
 import { add } from '../utils/addVec';
 import { getSpawn } from '../utils/getSpawn';
@@ -6,7 +13,8 @@ import { THREE } from '../utils/THREE';
 import { createRoadShape, Vector } from './createRoadShape';
 import { createRoadTriangles } from './createRoadTriangles';
 
-let temporaryMesh: THREE.Mesh | null = null;
+let temporaryMesh: { road: THREE.Mesh; grassLeft: THREE.Mesh; grassRight: THREE.Mesh } | null =
+  null;
 
 export async function createRoadPoints() {
   const spawn = getSpawn();
@@ -30,14 +38,20 @@ export async function createRoadPoints() {
       infoText.current = `Generating road... ${Math.round((i / maxAttempts) * 100)}%`;
 
       if (temporaryMesh) {
-        scene.current?.remove(temporaryMesh);
+        scene.current?.remove(temporaryMesh.road);
+        scene.current?.remove(temporaryMesh.grassLeft);
+        scene.current?.remove(temporaryMesh.grassRight);
       }
 
-      const triangles = createRoadTriangles(vecs);
+      const { road, grassLeft, grassRight } = createRoadTriangles(vecs);
 
-      const { mesh } = createRoadShape(triangles);
-      temporaryMesh = mesh;
-      scene.current?.add(temporaryMesh);
+      const { mesh: roadMesh } = createRoadShape(road, roadColor, 0.7);
+      const { mesh: grassLeftMesh } = createRoadShape(grassLeft, grassColor, 1);
+      const { mesh: grassRightMesh } = createRoadShape(grassRight, grassColor, 1);
+      temporaryMesh = { road: roadMesh, grassLeft: grassLeftMesh, grassRight: grassRightMesh };
+      scene.current?.add(roadMesh);
+      scene.current?.add(grassLeftMesh);
+      scene.current?.add(grassRightMesh);
 
       await new Promise(r => setTimeout(r));
     }
@@ -196,7 +210,9 @@ export async function createRoadPoints() {
   }
 
   if (temporaryMesh) {
-    scene.current?.remove(temporaryMesh);
+    scene.current?.remove(temporaryMesh.road);
+    scene.current?.remove(temporaryMesh.grassLeft);
+    scene.current?.remove(temporaryMesh.grassRight);
   }
 
   return blurredVecs;

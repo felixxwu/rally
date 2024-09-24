@@ -1,7 +1,7 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { car, roadMesh } from '../../refs';
+import { car, grassLeftMesh, grassRightMesh, roadMesh } from '../../refs';
 import { terrainMesh } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { springDamping } from '../../refs';
@@ -12,6 +12,13 @@ import { getCarDirection } from '../car/getCarDirection';
 
 type Surface = 'tarmac' | 'grass';
 export const raycasterOffset = 2;
+
+const collisionMeshes = [
+  { mesh: terrainMesh, surface: 'grass' as Surface },
+  { mesh: roadMesh, surface: 'tarmac' as Surface },
+  { mesh: grassLeftMesh, surface: 'grass' as Surface },
+  { mesh: grassRightMesh, surface: 'grass' as Surface },
+];
 
 const defaultReturn = {
   suspensionForce: new THREE.Vector3(),
@@ -30,21 +37,41 @@ export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>) {
     pos.clone().add(dir.multiplyScalar(raycasterOffset)),
     dir.clone().negate()
   );
-  const terrainIntersections = raycaster.intersectObject(terrainMesh.current, false);
-  const roadIntersections = raycaster.intersectObject(roadMesh.current, false);
-  const terrainDistance = terrainIntersections[0]?.distance ?? Infinity;
-  const roadDistance = roadIntersections[0]?.distance ?? Infinity;
+
+  let distance = Infinity;
+  let normal = new THREE.Vector3(0, 1, 0);
 
   let surface: Surface = 'tarmac';
-  if (terrainDistance < roadDistance) {
-    surface = 'grass';
+  for (const { mesh, surface: meshSurface } of collisionMeshes) {
+    if (!mesh.current) continue;
+    const intersections = raycaster.intersectObject(mesh.current, false);
+    const newDistance = intersections[0]?.distance ?? Infinity;
+
+    if (newDistance < distance) {
+      normal = intersections[0]?.normal || new THREE.Vector3(0, 1, 0);
+      surface = meshSurface;
+    }
+    distance = Math.min(distance, newDistance);
   }
 
-  const distance = Math.min(terrainDistance, roadDistance) - raycasterOffset;
+  distance -= raycasterOffset;
 
-  const terrainNormal = terrainIntersections[0]?.normal || new THREE.Vector3(0, 1, 0);
-  const roadNormal = roadIntersections[0]?.normal || new THREE.Vector3(0, 1, 0);
-  const normal = surface === 'grass' ? terrainNormal : roadNormal;
+  console.log(`surface`, surface);
+
+  // const terrainIntersections = raycaster.intersectObject(terrainMesh.current, false);
+  // const roadIntersections = raycaster.intersectObject(roadMesh.current, false);
+  // const terrainDistance = terrainIntersections[0]?.distance ?? Infinity;
+  // const roadDistance = roadIntersections[0]?.distance ?? Infinity;
+
+  // if (terrainDistance < roadDistance) {
+  //   surface = 'grass';
+  // }
+
+  // const distance = Math.min(terrainDistance, roadDistance) - raycasterOffset;
+
+  // const terrainNormal = terrainIntersections[0]?.normal || new THREE.Vector3(0, 1, 0);
+  // const roadNormal = roadIntersections[0]?.normal || new THREE.Vector3(0, 1, 0);
+  // const normal = surface === 'grass' ? terrainNormal : roadNormal;
 
   const compression = springLength.current - Math.min(springLength.current, distance);
 

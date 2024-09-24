@@ -2,27 +2,45 @@ import { createArr, createVec } from '../utils/createVec';
 import { THREE } from '../utils/THREE';
 import { Triangle, Vector } from './createRoadShape';
 
-const roadWidth = 12;
+const halfRoadWidth = 6;
+const grassWidth = 6;
 
 export function createRoadTriangles(vecs: Vector[]) {
-  const triangles: Triangle[] = [];
+  const road: Triangle[] = [];
+  const grassLeft: Triangle[] = [];
+  const grassRight: Triangle[] = [];
 
   for (let i = 0; i < vecs.length; i++) {
     const leftHandedTriangle = i % 2 === 0;
 
     if (i < 2 || i >= vecs.length - 2) continue;
 
-    const prevVec = createVec(vecs[i - 1]);
-    const { left: prevLeft, right: prevRight } = getSideVecs(vecs, i - 1);
     const vec = createVec(vecs[i]);
-    const { left, right } = getSideVecs(vecs, i);
+    const prevVec = createVec(vecs[i - 1]);
     const nextVec = createVec(vecs[i + 1]);
-    const { left: nextLeft, right: nextRight } = getSideVecs(vecs, i + 1);
+
+    const { left, right, leftGrass, rightGrass } = getSideVecs(vecs, i);
+    const {
+      left: prevLeft,
+      right: prevRight,
+      leftGrass: prevLeftGrass,
+      rightGrass: prevRightGrass,
+    } = getSideVecs(vecs, i - 1);
+    const {
+      left: nextLeft,
+      right: nextRight,
+      leftGrass: nextLeftGrass,
+      rightGrass: nextRightGrass,
+    } = getSideVecs(vecs, i + 1);
 
     if (leftHandedTriangle) {
-      triangles.push([createArr(left), createArr(prevRight), createArr(nextRight)]);
+      road.push([createArr(left), createArr(prevRight), createArr(nextRight)]);
+      grassLeft.push([createArr(nextLeftGrass), createArr(prevLeftGrass), createArr(left)]);
+      grassRight.push([createArr(prevRight), createArr(rightGrass), createArr(nextRight)]);
     } else {
-      triangles.push([createArr(prevLeft), createArr(right), createArr(nextLeft)]);
+      road.push([createArr(prevLeft), createArr(right), createArr(nextLeft)]);
+      grassLeft.push([createArr(prevLeft), createArr(nextLeft), createArr(leftGrass)]);
+      grassRight.push([createArr(right), createArr(prevRightGrass), createArr(nextRightGrass)]);
     }
 
     // if (leftHandedTriangle) {
@@ -39,8 +57,10 @@ export function createRoadTriangles(vecs: Vector[]) {
     // triangles.push([createArr(prevRight), createArr(right), createArr(vec)]);
   }
 
-  return triangles;
+  return { road, grassLeft, grassRight };
 }
+
+// function getGrassTriangles
 
 function getSideVecs(vecs: Vector[], i: number) {
   const vec = createVec(vecs[i]);
@@ -57,15 +77,17 @@ function getSideVecs(vecs: Vector[], i: number) {
     .clone()
     .projectOnPlane(createVec([0, 1, 0]))
     .applyQuaternion(leftQuat)
-    .setLength(roadWidth);
+    .setLength(halfRoadWidth);
   const projectedRight = diff
     .clone()
     .projectOnPlane(createVec([0, 1, 0]))
     .applyQuaternion(rightQuat)
-    .setLength(roadWidth);
+    .setLength(halfRoadWidth);
 
   return {
     left: vec.clone().add(projectedLeft),
+    leftGrass: vec.clone().add(projectedLeft.clone().setLength(grassWidth + halfRoadWidth)),
     right: vec.clone().add(projectedRight),
+    rightGrass: vec.clone().add(projectedRight.clone().setLength(grassWidth + halfRoadWidth)),
   };
 }
