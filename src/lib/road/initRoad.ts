@@ -9,6 +9,7 @@ import {
   roadColor,
   roadMesh,
   scene,
+  temporaryMesh,
   terrainWidth,
   terrainWidthExtents,
 } from '../../refs';
@@ -23,6 +24,12 @@ export async function initRoad() {
   infoText.current = 'Finishing up road';
 
   const { road, grassLeft, grassRight } = await createRoadTriangles(vecs);
+
+  if (temporaryMesh.current) {
+    scene.current?.remove(temporaryMesh.current.road);
+    // scene.current?.remove(temporaryMesh.grassLeft);
+    // scene.current?.remove(temporaryMesh.grassRight);
+  }
 
   const { rigidBody: roadRigidBody, mesh: localRoad } = createRoadShape(road, roadColor, 0.7);
   const { rigidBody: grassLeftRigidBody, mesh: localGrassLeftMesh } = createRoadShape(

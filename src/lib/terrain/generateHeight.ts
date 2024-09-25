@@ -1,4 +1,11 @@
-import { terrainDepth, terrainMaxHeight, terrainMinHeight, terrainWidth } from '../../refs';
+import {
+  terrainDepth,
+  terrainMaxHeight,
+  terrainMinHeight,
+  terrainSlopeX,
+  terrainSlopeZ,
+  terrainWidth,
+} from '../../refs';
 import { ref } from '../utils/ref';
 import { createNoiseFunc } from './createNoiseFunc';
 
@@ -16,7 +23,12 @@ export function generateHeight() {
 
   for (let j = 0; j < terrainDepth; j++) {
     for (let i = 0; i < terrainWidth; i++) {
-      const height = Math.pow(noise(i, j), 2) * hRange + terrainMinHeight + i * -3 + j * 3 + 100;
+      const height =
+        Math.pow(noise(i, j), 2) * hRange +
+        terrainMinHeight +
+        i * terrainSlopeX +
+        j * terrainSlopeZ +
+        100;
 
       data[p] = height;
 

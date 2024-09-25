@@ -9,6 +9,7 @@ import {
   pointMoveDist,
   roadColor,
   scene,
+  temporaryMesh,
   terrainDepthExtents,
   terrainMesh,
   terrainWidthExtents,
@@ -20,8 +21,7 @@ import { ray } from '../utils/ray';
 import { THREE } from '../utils/THREE';
 import { createRoadShape, Vector } from './createRoadShape';
 import { createRoadTriangles } from './createRoadTriangles';
-
-let temporaryMesh: { road: THREE.Mesh } | null = null;
+import { createTemporaryMesh } from './createTemporaryMesh';
 
 // let temporaryMesh: { road: THREE.Mesh; grassLeft: THREE.Mesh; grassRight: THREE.Mesh } | null =
 //   null;
@@ -30,7 +30,7 @@ export async function createRoadPoints() {
   const spawn = getSpawn();
   const vecs: Vector[] = [];
   const longestVecs: Vector[][] = [];
-  const point = new THREE.Vector2(spawn.x, spawn.z);
+  const point = new THREE.Vector2(spawn.x, spawn.z - 30);
   const roadDir = new THREE.Vector2(0, 1).normalize();
 
   let expBackoff = 1;
@@ -40,24 +40,7 @@ export async function createRoadPoints() {
     if (i % 100 === 99) {
       infoText.current = `Generating Road... ${Math.round((i / maxAttempts) * 100)}%`;
 
-      if (temporaryMesh) {
-        scene.current?.remove(temporaryMesh.road);
-        // scene.current?.remove(temporaryMesh.grassLeft);
-        // scene.current?.remove(temporaryMesh.grassRight);
-      }
-
-      const { road } = await createRoadTriangles(vecs, true);
-
-      const { mesh: roadMesh } = createRoadShape(road, roadColor, 0.7);
-      // const { mesh: grassLeftMesh } = createRoadShape(grassLeft, grassColor, 1);
-      // const { mesh: grassRightMesh } = createRoadShape(grassRight, grassColor, 1);
-      temporaryMesh = { road: roadMesh };
-      // temporaryMesh = { road: roadMesh, grassLeft: grassLeftMesh, grassRight: grassRightMesh };
-      scene.current?.add(roadMesh);
-      // scene.current?.add(grassLeftMesh);
-      // scene.current?.add(grassRightMesh);
-
-      await new Promise(r => setTimeout(r));
+      await createTemporaryMesh(vecs);
     }
     const intersection = ray(
       new THREE.Vector3(point.x, 1000, point.y),
@@ -216,11 +199,7 @@ export async function createRoadPoints() {
     blurredVecs.push([neighbors[half][0], newY, neighbors[half][2]] as Vector);
   }
 
-  if (temporaryMesh) {
-    scene.current?.remove(temporaryMesh.road);
-    // scene.current?.remove(temporaryMesh.grassLeft);
-    // scene.current?.remove(temporaryMesh.grassRight);
-  }
+  await createTemporaryMesh(blurredVecs);
 
   return blurredVecs;
 }

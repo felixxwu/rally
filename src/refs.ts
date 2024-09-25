@@ -14,7 +14,7 @@ export const terrainWidth = 50;
 export const terrainDepth = 50;
 export const terrainHalfWidth = terrainWidth / 2;
 export const terrainHalfDepth = terrainDepth / 2;
-export const terrainMaxHeight = 40;
+export const terrainMaxHeight = 100;
 export const terrainMinHeight = 0;
 export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
@@ -22,10 +22,14 @@ export const terrainMesh = ref<Mesh | null>(null);
 export const roadMesh = ref<Mesh | null>(null);
 export const grassLeftMesh = ref<Mesh | null>(null);
 export const grassRightMesh = ref<Mesh | null>(null);
-export const seed = ref(8);
+export const seed = ref(4);
 export const seedLevel = ref(8);
 export const roadColor = '#888';
 export const grassColor = '#4e884e';
+export const terrainSlopeX = -0;
+export const terrainSlopeZ = 3;
+
+export let temporaryMesh = ref<{ road: THREE.Mesh } | null>(null);
 
 // Road generation
 
@@ -77,7 +81,7 @@ export const brakeRearBias = ref(0.5, 0, 1, 0.01);
 
 // surface grips
 export const tarmacGrip = ref(2, 0, 3, 0.1);
-export const grassGrip = ref(0.5, 0, 3, 0.1);
+export const grassGrip = ref(0.8, 0, 3, 0.1);
 
 // car physics
 export const bodyRoll = ref(0.6, 0, 1, 0.1);
@@ -92,9 +96,9 @@ export const frontWheelDrive = ref(true);
 export const rearWheelDrive = ref(true);
 
 // camera
-export const camFollowDistance = ref(12, 3, 30, 1);
-export const camFollowHeight = ref(15, 0, 30, 1);
-export const camFollowSpeed = ref(0.05, 0, 1, 0.01);
+export const camFollowDistance = ref(8, 3, 30, 1);
+export const camFollowHeight = ref(11, 0, 30, 1);
+export const camFollowSpeed = ref(0.06, 0, 1, 0.01);
 
 // debug
 export const renderHelperArrows = ref(false);
