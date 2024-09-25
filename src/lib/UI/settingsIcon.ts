@@ -1,15 +1,18 @@
 import { el } from './el';
-import { panelOpen } from './initUI';
+import { panelOpen } from '../../refs';
 
 export function settingsIcon() {
   return el.img({
     src: '/settings.svg',
-    width: '40',
+    width: '25',
     style: `
         position: fixed;
         top: 10px;
         right: 10px;
         cursor: pointer;
+        background-color: black;
+        padding: 15px;
+        opacity: 0.7;
       `,
     oncreate: img => {
       img.onclick = () => {

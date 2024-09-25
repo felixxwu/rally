@@ -1,17 +1,13 @@
 import {
   crossingDistance,
-  grassColor,
   maxAngle,
   maxAttempts,
   maxPoints,
   nearbyDistance,
   numNeightborsToBlur,
   pointMoveDist,
-  roadColor,
-  scene,
-  temporaryMesh,
+  startRoadLength,
   terrainDepthExtents,
-  terrainMesh,
   terrainWidthExtents,
 } from '../../refs';
 import { infoText } from '../UI/info';
@@ -19,8 +15,7 @@ import { add } from '../utils/addVec';
 import { getSpawn } from '../utils/getSpawn';
 import { ray } from '../utils/ray';
 import { THREE } from '../utils/THREE';
-import { createRoadShape, Vector } from './createRoadShape';
-import { createRoadTriangles } from './createRoadTriangles';
+import { Vector } from './createRoadShape';
 import { createTemporaryMesh } from './createTemporaryMesh';
 
 // let temporaryMesh: { road: THREE.Mesh; grassLeft: THREE.Mesh; grassRight: THREE.Mesh } | null =
@@ -140,11 +135,11 @@ export async function createRoadPoints() {
       }
     }
 
-    const nearbyPointsSum = nearbyPoints
-      .map(v => new THREE.Vector2(v[0], v[2]))
-      .reduce((acc, v) => acc.add(point.clone().sub(v)), new THREE.Vector2(0, 0));
-    const nearbyPointsInvDir = nearbyPointsSum.clone().normalize();
-    const cross = nearbyPointsInvDir.clone().cross(roadDir);
+    // start of road
+    if (i < startRoadLength) {
+      point.add(roadDir.clone().multiplyScalar(pointMoveDist));
+      continue;
+    }
 
     const closeToMapEdge =
       point.x < -(terrainWidthExtents / 2 - nearbyDistance) ||
@@ -163,6 +158,12 @@ export async function createRoadPoints() {
       point.add(roadDir.clone().multiplyScalar(pointMoveDist));
       continue;
     }
+
+    const nearbyPointsSum = nearbyPoints
+      .map(v => new THREE.Vector2(v[0], v[2]))
+      .reduce((acc, v) => acc.add(point.clone().sub(v)), new THREE.Vector2(0, 0));
+    const nearbyPointsInvDir = nearbyPointsSum.clone().normalize();
+    const cross = nearbyPointsInvDir.clone().cross(roadDir);
 
     // nearby points detected
     if (cross !== 0) {

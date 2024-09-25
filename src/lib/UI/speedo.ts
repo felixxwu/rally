@@ -12,16 +12,22 @@ export function speedo() {
         position: fixed;
         bottom: 0px;
         left: 0px;
-        text-align: center;
         width: 100%;
         color: white;
-        font-size: 50px;
-        padding: 10px;
+        display: flex;
+        justify-content: center;
       `,
     },
     el.div({
       style: `
         min-width: 100px;
+        max-width: 200px;
+        font-size: 30px;
+        background-color: black;
+        opacity: 0.7;
+        text-align: center;
+        padding: 10px;
+        margin: 10px;
       `,
       oncreate: text => {
         onRender.push(deltaTime => {

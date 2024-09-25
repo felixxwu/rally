@@ -7,7 +7,7 @@ export function getSpawn() {
 
   return new THREE.Vector3(
     (terrainWidthExtents / 2 - noise(7, 13) * terrainWidthExtents) * 0.6,
-    100,
+    200,
     (terrainDepthExtents / 2 - noise(17, 19) * terrainDepthExtents) * 0.6
   );
 }

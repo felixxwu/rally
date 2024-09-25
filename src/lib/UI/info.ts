@@ -12,15 +12,34 @@ export function info() {
         left: 0;
         width: 100%;
         padding: 10px;
-        color: white;
-        text-align: center;
+        display: flex;
+        justify-content: center;
       `,
-      oncreate(div) {
-        infoText.listeners.push(value => {
-          div.innerHTML = value;
-        });
-      },
     },
-    infoText.current
+    el.div(
+      {
+        style: `
+          color: white;
+          text-align: center;
+          padding: 10px;
+          background-color: black;
+          opacity: 0.7;
+          max-width: 500px;
+          width: 100%;
+        `,
+        oncreate(div) {
+          infoText.listeners.push(value => {
+            div.innerHTML = value;
+
+            if (value) {
+              div.style.display = 'block';
+            } else {
+              div.style.display = 'none';
+            }
+          });
+        },
+      },
+      infoText.current
+    )
   );
 }

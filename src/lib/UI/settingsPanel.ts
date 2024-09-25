@@ -20,10 +20,11 @@ import {
   grassGrip,
   renderHitCarBox,
   freeCam,
+  seed,
 } from '../../refs';
 import { Ref } from '../utils/ref';
 import { el } from './el';
-import { panelOpen } from './initUI';
+import { panelOpen } from '../../refs';
 
 export function settingsPanel() {
   return el.div(
@@ -64,6 +65,7 @@ export function settingsPanel() {
           gap: 5px;
         `,
       },
+      section('Seed: ' + seed.current),
       section('Tires & Suspension'),
       numberSlider('Steering Sensitivity', steerPower),
       numberSlider('Tire Grip', tireGrip),
@@ -108,6 +110,7 @@ function section(text: string) {
         text-transform: uppercase;
         margin-top: 20px;
         margin-bottom: 10px;
+        font-size: 20px;
       `,
     },
     text

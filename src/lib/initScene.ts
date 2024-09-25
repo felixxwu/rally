@@ -1,8 +1,8 @@
-import Stats from '../lib/jsm/stats.module';
+import Stats from './jsm/stats.module';
 import { container, scene, stats } from '../refs';
 import { THREE } from './utils/THREE';
 
-export function initGraphics() {
+export function initScene() {
   container.current = document.getElementById('container');
 
   stats.current = new Stats();

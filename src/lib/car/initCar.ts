@@ -10,7 +10,6 @@ import {
   onRender,
   physicsWorld,
   scene,
-  terrainMesh,
 } from '../../refs';
 import { setUserData } from '../utils/userData';
 import { updateCar } from './updateCar';
@@ -36,7 +35,7 @@ export function initCar() {
 
   // set spawn position
   const intersection = ray(new THREE.Vector3(spawn.x, 1000, spawn.z), new THREE.Vector3(0, -1, 0));
-  car.current.position.copy(add(intersection.point, [0, 5, 20]));
+  car.current.position.copy(add(intersection.point, [0, 10, 20]));
 
   const mass = 15;
   const localInertia = new Ammo.btVector3(0, 10, 0);

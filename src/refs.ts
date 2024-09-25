@@ -14,7 +14,7 @@ export const terrainWidth = 50;
 export const terrainDepth = 50;
 export const terrainHalfWidth = terrainWidth / 2;
 export const terrainHalfDepth = terrainDepth / 2;
-export const terrainMaxHeight = 100;
+export const terrainMaxHeight = 120;
 export const terrainMinHeight = 0;
 export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
@@ -22,17 +22,16 @@ export const terrainMesh = ref<Mesh | null>(null);
 export const roadMesh = ref<Mesh | null>(null);
 export const grassLeftMesh = ref<Mesh | null>(null);
 export const grassRightMesh = ref<Mesh | null>(null);
-export const seed = ref(2);
+export const seed = ref(0);
 export const seedLevel = ref(8);
 export const roadColor = '#888';
 export const grassColor = '#4e884e';
-export const maxTerrainSlopeX = 3;
-export const maxTerrainSlopeZ = 3;
+export const maxTerrainSlopeX = 5;
+export const maxTerrainSlopeZ = 5;
 
 export let temporaryMesh = ref<{ road: THREE.Mesh } | null>(null);
 
 // Road generation
-
 export const maxAngle = 0.03;
 export const nearbyDistance = 200;
 export const pointMoveDist = 3;
@@ -40,6 +39,13 @@ export const numNeightborsToBlur = 20;
 export const crossingDistance = 50;
 export const maxPoints = 3000;
 export const maxAttempts = 8000;
+export const halfRoadWidth = 6;
+export const startRoadWidth = 20;
+export const startRoadLength = 20;
+export const grassWidth = 6;
+export const maxBankingLength = 30;
+export const bankingAngleStart = 0.3;
+export const bankingAngleStep = 0.05;
 
 // Graphics variables
 export const container = ref<HTMLElement | null>(null);
@@ -66,7 +72,7 @@ export const angularDamping = 0.99999997;
 export const reverseAngle = Math.PI * 0.8;
 
 // tires and suspension
-export const tireGrip = ref(200, 0, 1000, 10);
+export const tireGrip = ref(220, 0, 1000, 10);
 export const springLength = ref(1.1, 0.5, 3, 0.01);
 export const sprintRate = ref(300, 0, 600, 10);
 export const springDamping = ref(5000, 0, 15000, 100);
@@ -76,12 +82,12 @@ export const wheelCompression = ref([0, 0, 0, 0]);
 
 // power & brakes
 export const enginePower = ref(150, 0, 500, 10);
-export const brakePower = ref(600, 0, 1200, 100);
+export const brakePower = ref(150, 0, 1200, 100);
 export const brakeRearBias = ref(0.5, 0, 1, 0.01);
 
 // surface grips
 export const tarmacGrip = ref(2, 0, 3, 0.1);
-export const grassGrip = ref(0.7, 0, 3, 0.1);
+export const grassGrip = ref(0.6, 0, 3, 0.1);
 
 // car physics
 export const bodyRoll = ref(0.6, 0, 1, 0.1);
@@ -103,3 +109,7 @@ export const camFollowSpeed = ref(0.06, 0, 1, 0.01);
 // debug
 export const renderHelperArrows = ref(false);
 export const renderHitCarBox = ref(false);
+
+// UI
+export const panelOpen = ref(false);
+export const startGame = ref(false);

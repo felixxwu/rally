@@ -1,17 +1,18 @@
+import {
+  bankingAngleStart,
+  bankingAngleStep,
+  startRoadLength,
+  startRoadWidth,
+  halfRoadWidth,
+  grassWidth,
+  maxBankingLength,
+} from '../../refs';
 import { createNoiseFunc } from '../terrain/createNoiseFunc';
 import { infoText } from '../UI/info';
 import { createArr, createVec } from '../utils/createVec';
 import { ray } from '../utils/ray';
 import { THREE } from '../utils/THREE';
 import { Triangle, Vector } from './createRoadShape';
-
-const halfRoadWidth = 6;
-const startRoadWidth = 20;
-const startRoadLength = 20;
-const grassWidth = 6;
-const maxBankingLength = 30;
-const bankingAngleStart = 0.3;
-const bankingAngleStep = 0.05;
 
 export async function createRoadTriangles(vecs: Vector[], skipGrass?: boolean) {
   const road: Triangle[] = [];

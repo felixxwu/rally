@@ -8,6 +8,12 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>Rally</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="container"></div>
@@ -20,6 +26,7 @@
     <style>
       body {
         margin: 0;
+        background-color: hsl(38, 100%, 88%);
       }
 
       canvas {
@@ -38,9 +45,23 @@
       }
 
       * {
-        font-family: sans-serif;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 18px;
+
         user-select: none;
         -webkit-tap-highlight-color: transparent;
+      }
+
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      input[type='number'] {
+        -moz-appearance: textfield;
+        appearance: textfield;
       }
     </style>
   </body>
