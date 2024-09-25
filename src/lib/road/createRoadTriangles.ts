@@ -1,3 +1,4 @@
+import { createNoiseFunc } from '../terrain/createNoiseFunc';
 import { infoText } from '../UI/info';
 import { createArr, createVec } from '../utils/createVec';
 import { ray } from '../utils/ray';
@@ -22,19 +23,19 @@ export async function createRoadTriangles(vecs: Vector[], skipGrass?: boolean) {
 
     if (i < 2 || i >= vecs.length - 2) continue;
 
-    const { left, right, leftGrass, rightGrass } = getSideVecs(vecs, i);
+    const { left, right, leftGrass, rightGrass } = getSideVecs(vecs, i, skipGrass);
     const {
       left: prevLeft,
       right: prevRight,
       leftGrass: prevLeftGrass,
       rightGrass: prevRightGrass,
-    } = getSideVecs(vecs, i - 1);
+    } = getSideVecs(vecs, i - 1, skipGrass);
     const {
       left: nextLeft,
       right: nextRight,
       leftGrass: nextLeftGrass,
       rightGrass: nextRightGrass,
-    } = getSideVecs(vecs, i + 1);
+    } = getSideVecs(vecs, i + 1, skipGrass);
 
     if (leftHandedTriangle) {
       road.push([createArr(left), createArr(prevRight), createArr(nextRight)]);
@@ -130,7 +131,7 @@ export async function createRoadTriangles(vecs: Vector[], skipGrass?: boolean) {
   return { road, grassLeft, grassRight };
 }
 
-function getSideVecs(vecs: Vector[], i: number) {
+function getSideVecs(vecs: Vector[], i: number, skipGrass?: boolean) {
   const vec = createVec(vecs[i]);
   const prev = createVec(vecs[i - 1]);
   const next = createVec(vecs[i + 1]);
@@ -155,11 +156,32 @@ function getSideVecs(vecs: Vector[], i: number) {
     .applyQuaternion(rightQuat)
     .setLength(roadWidth);
 
+  const left = vec.clone().add(projectedLeft);
+  const right = vec.clone().add(projectedRight);
+
+  if (skipGrass) {
+    return {
+      left,
+      right,
+      leftGrass: left,
+      rightGrass: right,
+    };
+  }
+
+  const noise = createNoiseFunc();
+  const noiseScale = 0.1;
+  const leftGrass = vec.clone().add(projectedLeft.clone().setLength(grassWidth + roadWidth));
+  const rightGrass = vec.clone().add(projectedRight.clone().setLength(grassWidth + roadWidth));
+  const leftNoise = noise(leftGrass.x * noiseScale, leftGrass.z * noiseScale) * 2 - 1;
+  const rightNoise = noise(rightGrass.x * noiseScale, rightGrass.z * noiseScale) * 2 - 1;
+  leftGrass.add(new THREE.Vector3(0, leftNoise, 0));
+  rightGrass.add(new THREE.Vector3(0, rightNoise, 0));
+
   return {
-    left: vec.clone().add(projectedLeft),
-    leftGrass: vec.clone().add(projectedLeft.clone().setLength(grassWidth + roadWidth)),
-    right: vec.clone().add(projectedRight),
-    rightGrass: vec.clone().add(projectedRight.clone().setLength(grassWidth + roadWidth)),
+    left,
+    leftGrass,
+    right,
+    rightGrass,
   };
 }
 

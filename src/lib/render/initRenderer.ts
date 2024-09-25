@@ -14,14 +14,12 @@ export function initRenderer() {
 }
 
 function animate() {
-  console.time('render');
   const deltaTime = clock.getDelta();
   if (deltaTime !== 0) {
     onRender.forEach(callback => callback(deltaTime));
   }
 
   renderer.current?.render(scene.current!, camera.current!);
-  console.timeEnd('render');
 
   stats.current.update();
 }

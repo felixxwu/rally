@@ -2,14 +2,13 @@ import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
 import {
-  ammoHeightData,
   terrainDepth,
   terrainDepthExtents,
-  terrainMaxHeight,
   terrainMinHeight,
   terrainWidth,
   terrainWidthExtents,
 } from '../../refs';
+import { getSeededHeight } from './getSeededHeight';
 
 export function createTerrainShape(heightData: Float32Array) {
   // This parameter is not really used, since we are using PHY_FLOAT height data type and hence it is ignored
@@ -51,7 +50,7 @@ export function createTerrainShape(heightData: Float32Array) {
     ammoHeightData,
     heightScale,
     terrainMinHeight,
-    terrainMaxHeight,
+    getSeededHeight(),
     upAxis,
     hdt,
     flipQuadEdges

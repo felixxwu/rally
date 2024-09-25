@@ -22,12 +22,12 @@ export const terrainMesh = ref<Mesh | null>(null);
 export const roadMesh = ref<Mesh | null>(null);
 export const grassLeftMesh = ref<Mesh | null>(null);
 export const grassRightMesh = ref<Mesh | null>(null);
-export const seed = ref(4);
+export const seed = ref(2);
 export const seedLevel = ref(8);
 export const roadColor = '#888';
 export const grassColor = '#4e884e';
-export const terrainSlopeX = -0;
-export const terrainSlopeZ = 3;
+export const maxTerrainSlopeX = 3;
+export const maxTerrainSlopeZ = 3;
 
 export let temporaryMesh = ref<{ road: THREE.Mesh } | null>(null);
 
@@ -81,7 +81,7 @@ export const brakeRearBias = ref(0.5, 0, 1, 0.01);
 
 // surface grips
 export const tarmacGrip = ref(2, 0, 3, 0.1);
-export const grassGrip = ref(0.8, 0, 3, 0.1);
+export const grassGrip = ref(0.7, 0, 3, 0.1);
 
 // car physics
 export const bodyRoll = ref(0.6, 0, 1, 0.1);

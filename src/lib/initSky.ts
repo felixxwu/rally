@@ -16,7 +16,7 @@ export function initSky() {
 
   const effectController = {
     turbidity: 10,
-    rayleigh: 3,
+    rayleigh: 1,
     mieCoefficient: 0.005,
     mieDirectionalG: 0.7,
     elevation: 2,

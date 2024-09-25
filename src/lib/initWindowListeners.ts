@@ -1,4 +1,5 @@
 import { camera, freeCam, renderer, renderHelperArrows } from '../refs';
+import { THREE } from './utils/THREE';
 
 export let keysDown: Record<string, boolean> = {};
 
@@ -53,6 +54,8 @@ function onWindowResize() {
   camera.current.updateProjectionMatrix();
 
   renderer.current?.setSize(window.innerWidth, window.innerHeight);
+  const size = renderer.current?.getSize(new THREE.Vector2());
+  console.log(`size`, size);
 }
 
 function onKeyDown(event: KeyboardEvent) {
