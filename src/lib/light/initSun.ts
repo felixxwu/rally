@@ -1,4 +1,4 @@
-import { scene, terrainDepthExtents, terrainWidthExtents } from '../../refs';
+import { lightValues, scene, terrainWidthExtents, timeOfDay } from '../../refs';
 import { THREE } from '../utils/THREE';
 
 export function initSun() {
@@ -23,4 +23,20 @@ export function initSun() {
   light.shadow.mapSize.y = 1024 * 16;
 
   scene.current?.add(light);
+
+  timeOfDay.listeners.push(() => {
+    const intensity = lightValues[timeOfDay.current].light;
+    light.intensity = intensity;
+
+    const ambientIntensity = lightValues[timeOfDay.current].ambient;
+    ambientLight.intensity = ambientIntensity;
+
+    const elevation = lightValues[timeOfDay.current].lightAngle;
+    const phi = THREE.MathUtils.degToRad(90 - elevation);
+    light.position.setFromSphericalCoords(10000, phi, 0);
+
+    const colour = lightValues[timeOfDay.current].color;
+    light.color.setHex(colour);
+  });
+  timeOfDay.triggerListeners();
 }

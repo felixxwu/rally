@@ -1,7 +1,7 @@
 import AmmoType from 'ammojs-typed';
 
 import Stats from './lib/jsm/stats.module';
-import { Mesh } from './types';
+import { Mesh, TimeOfDay } from './types';
 import { THREE } from './lib/utils/THREE';
 import { ref } from './lib/utils/ref';
 import { createXYMap } from './lib/utils/createXYMap';
@@ -32,7 +32,7 @@ export const maxTerrainSlopeZ = 5;
 export let temporaryMesh = ref<{ road: THREE.Mesh } | null>(null);
 
 // Road generation
-export const maxAngle = 0.03;
+export const maxAngle = 0.032;
 export const nearbyDistance = 200;
 export const pointMoveDist = 3;
 export const numNeightborsToBlur = 20;
@@ -105,6 +105,35 @@ export const rearWheelDrive = ref(true);
 export const camFollowDistance = ref(8, 3, 30, 1);
 export const camFollowHeight = ref(11, 0, 30, 1);
 export const camFollowSpeed = ref(0.06, 0, 1, 0.01);
+
+// sky
+export const carLightIntensity = 500;
+export const timeOfDay = ref<TimeOfDay>('Day');
+//@ts-ignore
+window.timeOfDay = timeOfDay;
+export const lightValues = {
+  Day: {
+    light: 2.5,
+    ambient: 1,
+    lightAngle: 45,
+    sunElevation: 45,
+    color: 0xffffff,
+  },
+  Sunset: {
+    light: 2.2,
+    ambient: 1,
+    lightAngle: 5,
+    sunElevation: 0,
+    color: 0xffaa88,
+  },
+  Night: {
+    light: 0,
+    ambient: 0.5,
+    lightAngle: 90,
+    sunElevation: -90,
+    color: 0x222222,
+  },
+};
 
 // debug
 export const renderHelperArrows = ref(false);

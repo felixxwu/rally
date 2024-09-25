@@ -10,6 +10,7 @@ export function initRenderer() {
   renderer.current.setSize(window.innerWidth, window.innerHeight);
   renderer.current.setAnimationLoop(animate);
   renderer.current.shadowMap.enabled = true;
+  renderer.current.toneMapping = THREE.AgXToneMapping;
   container.current?.appendChild(renderer.current.domElement);
 }
 

@@ -142,10 +142,10 @@ export async function createRoadPoints() {
     }
 
     const closeToMapEdge =
-      point.x < -(terrainWidthExtents / 2 - nearbyDistance) ||
-      point.x > terrainWidthExtents / 2 - nearbyDistance ||
-      point.y < -(terrainDepthExtents / 2 - nearbyDistance) ||
-      point.y > terrainDepthExtents / 2 - nearbyDistance;
+      point.x < -(terrainWidthExtents / 2 - nearbyDistance * 1.5) ||
+      point.x > terrainWidthExtents / 2 - nearbyDistance * 1.5 ||
+      point.y < -(terrainDepthExtents / 2 - nearbyDistance * 1.5) ||
+      point.y > terrainDepthExtents / 2 - nearbyDistance * 1.5;
 
     if (closeToMapEdge) {
       const crossToCenter = roadDir.clone().cross(point.clone().normalize());

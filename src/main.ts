@@ -12,7 +12,7 @@ import { initTerrain } from './lib/terrain/initTerrain';
 import { initUI } from './lib/UI/initUI';
 import { initWheel } from './lib/wheel/initWheel';
 import { initRoad } from './lib/road/initRoad';
-import { initSky } from './lib/initSky';
+import { initSky } from './lib/light/initSky';
 import { startGame } from './refs';
 
 Ammo().then(init);
