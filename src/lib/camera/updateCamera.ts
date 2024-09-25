@@ -3,12 +3,12 @@ import { getCarDirection } from '../car/getCarDirection';
 
 import { car } from '../../refs';
 import { THREE } from '../utils/THREE';
+import { getCarTransform } from '../car/getCarTransform';
 
 export function updateCamera(deltaTime: number) {
   if (!car.current) return;
 
-  const transform = car.current.getWorldPosition(new THREE.Vector3());
-
+  const transform = getCarTransform();
   const direction = getCarDirection();
 
   const camVector = direction

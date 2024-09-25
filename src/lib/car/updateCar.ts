@@ -5,7 +5,6 @@ import { keysDown } from '../initWindowListeners';
 import { updatePhysics } from '../physics/updatePhysics';
 import { THREE } from '../utils/THREE';
 import { getUserData } from '../utils/userData';
-import { oldCarPosition } from '../../refs';
 import { car } from '../../refs';
 import { getAmmoVector } from '../utils/vectorConversion';
 import { getSteerTorque } from './getSteerTorque';
@@ -16,7 +15,6 @@ export function updateCar(deltaTime: number) {
 
   const objPhys = getUserData(car.current).physicsBody;
   const carTorque = new THREE.Vector3();
-  const carPos = car.current.getWorldPosition(new THREE.Vector3());
 
   const airResistanceForce = getAirResistanceForce(deltaTime);
   const steerTorque = getSteerTorque(deltaTime);
@@ -33,6 +31,4 @@ export function updateCar(deltaTime: number) {
   objPhys?.applyLocalTorque(getAmmoVector(carTorque));
 
   updatePhysics(car.current);
-
-  oldCarPosition.current = carPos.clone();
 }

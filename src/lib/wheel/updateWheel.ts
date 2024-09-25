@@ -38,7 +38,8 @@ export function updateWheel(
     new THREE.Vector3(0, 0, 1),
     Math.PI / 2
   );
-  const quat = car.current.getWorldQuaternion(new THREE.Quaternion());
+  const ammoQuat = getUserData(car.current).physicsBody.getWorldTransform().getRotation();
+  const quat = new THREE.Quaternion(ammoQuat.x(), ammoQuat.y(), ammoQuat.z(), ammoQuat.w());
   quat.multiply(additionalQuat);
   wheelMesh.setRotationFromQuaternion(quat || new THREE.Quaternion());
 

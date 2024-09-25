@@ -84,7 +84,6 @@ export const bodyRoll = ref(0.6, 0, 1, 0.1);
 export const airResistance = ref(0.15, 0.1, 0.5, 0.01);
 export const minAirResistance = 10;
 export const car = ref<Mesh | null>(null);
-export const oldCarPosition = ref<THREE.Vector3 | null>(null);
 export const carLength = 4.2;
 export const carWidth = 2;
 export const carHeight = 1;
