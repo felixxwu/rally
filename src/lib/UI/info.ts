@@ -24,7 +24,7 @@ export function info() {
           padding: 10px;
           background-color: black;
           opacity: 0.7;
-          max-width: 500px;
+          max-width: 250px;
           width: 100%;
         `,
         oncreate(div) {

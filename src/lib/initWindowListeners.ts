@@ -48,12 +48,10 @@ function onTouch(e: TouchEvent) {
 }
 
 function onWindowResize() {
-  if (!camera.current) return;
-
-  camera.current.aspect = window.innerWidth / window.innerHeight;
-  camera.current.updateProjectionMatrix();
-
   renderer.current?.setSize(window.innerWidth, window.innerHeight);
+
+  if (camera.current) camera.current.aspect = window.innerWidth / window.innerHeight;
+  camera.current?.updateProjectionMatrix();
 }
 
 function onKeyDown(event: KeyboardEvent) {

@@ -4,7 +4,7 @@ declare const Ammo: typeof AmmoType;
 import { initCamera } from './lib/camera/initCamera';
 import { initCar } from './lib/car/initCar';
 import { initScene } from './lib/initScene';
-import { initLight } from './lib/initLight';
+import { initLight } from './lib/light/initLight';
 import { initWindowListeners } from './lib/initWindowListeners';
 import { initPhysics } from './lib/physics/initPhysics';
 import { initRenderer } from './lib/render/initRenderer';
@@ -24,10 +24,10 @@ export async function init() {
   initCamera();
   initLight();
   initSky();
+  initWindowListeners();
 
   startGame.listeners.push(async value => {
     if (value) {
-      initWindowListeners();
       initPhysics();
       initTerrain();
 

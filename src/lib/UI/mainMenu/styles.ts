@@ -25,21 +25,23 @@ export const StartButton = `
   color: white;
   background-color: black;
   padding: 15px 20px;
-  width: 100%;
+  max-width: 100%;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 18px;
+  margin: 0 10px;
 `;
 
 export const SeedInput = `
   color: white;
   background-color: black;
   padding: 15px 20px;
-  width: 100%;
+  max-width: 100%;
   border: none;
   outline: none;
   text-align: center;
   font-size: 18px;
+  margin: 0 10px;
 `;
