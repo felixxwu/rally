@@ -5,11 +5,8 @@ import {
   maxTerrainSlopeZ,
   terrainWidth,
 } from '../../refs';
-import { ref } from '../utils/ref';
 import { createNoiseFunc } from './createNoiseFunc';
 import { getSeededHeight } from './getSeededHeight';
-
-export let seedRef = ref(0);
 
 export function generateHeight() {
   const noise = createNoiseFunc();

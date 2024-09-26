@@ -2,7 +2,7 @@ import AmmoType from 'ammojs-typed';
 import { renderHitCarBox, wheelEndOffset } from '../../refs';
 import { carWidth } from '../../refs';
 import { carLength } from '../../refs';
-import { raycasterOffset } from './getSpringForce';
+import { raycasterOffset } from '../../refs';
 import { Mesh } from '../../types';
 import { THREE } from '../utils/THREE';
 import { createObjectMaterial } from '../car/initCar';

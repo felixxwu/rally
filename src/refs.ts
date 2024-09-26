@@ -67,8 +67,8 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 export const gravity = 35;
 
 // steering
-export const steerPower = ref(3200, 2000, 5000, 100);
-export const steerModMap = createXYMap([0, 0], [1, 0.2], [3, 0.4], [30, 1], [100, 0.4]); // x = speed, y = steering input modifier
+export const steerPower = ref(3000, 2000, 5000, 100);
+export const steerModMap = createXYMap([0, 0], [1, 0.4], [3, 0.5], [30, 1], [100, 0.4]); // x = speed, y = steering input modifier
 export const angularDamping = 0.99999997;
 export const reverseAngle = Math.PI * 0.8;
 
@@ -94,7 +94,7 @@ export const surfaceGrips: {
   tarmac: { ref: ref(2, 0, 3, 0.1), colour: '#000', opacity: 1 },
   grass: { ref: ref(0.6, 0, 3, 0.1), colour: '#040', opacity: 0.3 },
 };
-export const showSkidMarkThreshold = 0.33;
+export const showSkidMarkThreshold = 0.5;
 export const skidMarkIntensity = 5;
 export const skidMarkOpacity = 0.5;
 export const maxSkidMarks = 200;
@@ -158,3 +158,5 @@ export const renderHitCarBox = ref(false);
 // UI
 export const panelOpen = ref(false);
 export const startGame = ref(false);
+export const resetGame = ref(false);
+export const raycasterOffset = 2;

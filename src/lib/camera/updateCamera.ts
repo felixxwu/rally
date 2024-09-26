@@ -4,8 +4,9 @@ import { getCarDirection } from '../car/getCarDirection';
 import { car } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { getCarTransform } from '../car/getCarTransform';
+import { ref } from '../utils/ref';
 
-const lastXPos: THREE.Vector3[] = [];
+const lastXPos = ref<THREE.Vector3[]>([]);
 
 export function updateCamera() {
   if (!car.current) return;
@@ -19,11 +20,11 @@ export function updateCamera() {
 
   if (freeCam.current) return;
 
-  lastXPos.push(transform.clone());
-  if (lastXPos.length > 20) lastXPos.shift();
-  const avgPos = lastXPos
+  lastXPos.current.push(transform.clone());
+  if (lastXPos.current.length > 20) lastXPos.current.shift();
+  const avgPos = lastXPos.current
     .reduce((acc, pos) => acc.add(pos), new THREE.Vector3())
-    .divideScalar(lastXPos.length);
+    .divideScalar(lastXPos.current.length);
 
   // camera.current?.position.set(
   //   avgPos.x + (camVector?.x || 0),

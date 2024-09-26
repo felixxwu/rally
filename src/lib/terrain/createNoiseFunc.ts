@@ -1,6 +1,8 @@
 import { createNoise2D } from 'simplex-noise';
 import { seed, scale, seedLevel } from '../../refs';
-import { seedRef } from './generateHeight';
+import { ref } from '../utils/ref';
+
+const seedRef = ref(0);
 
 // noise between 0 -1
 export function createNoiseFunc() {

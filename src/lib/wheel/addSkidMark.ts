@@ -12,14 +12,17 @@ import {
 import { Surface } from '../../types';
 import { getFromThreeV3Cache } from '../road/createRoadShape';
 import { createVec } from '../utils/createVec';
+import { ref } from '../utils/ref';
 import { THREE } from '../utils/THREE';
 
-const skidMarks: {
-  mesh: THREE.Mesh | null;
-  point: THREE.Vector3;
-  pointLeft: THREE.Vector3;
-  pointRight: THREE.Vector3;
-}[][] = [[], [], [], []];
+const skidMarks = ref<
+  {
+    mesh: THREE.Mesh | null;
+    point: THREE.Vector3;
+    pointLeft: THREE.Vector3;
+    pointRight: THREE.Vector3;
+  }[][]
+>([[], [], [], []]);
 
 export function addSkidMark(
   compression: number,
@@ -29,7 +32,7 @@ export function addSkidMark(
   left: boolean,
   surface: Surface
 ) {
-  const wheelSkidMarks = skidMarks[front ? (left ? 0 : 1) : left ? 2 : 3];
+  const wheelSkidMarks = skidMarks.current[front ? (left ? 0 : 1) : left ? 2 : 3];
   if (!car.current) return;
 
   const prevPoint = wheelSkidMarks[wheelSkidMarks.length - 1]?.point || wheelMeshPos;

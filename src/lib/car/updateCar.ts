@@ -19,11 +19,11 @@ export function updateCar() {
   const airResistanceForce = getAirResistanceForce();
   const steerTorque = getSteerTorque();
 
-  if (keysDown.a) {
+  if (keysDown.current.a) {
     carTorque.add(new THREE.Vector3(0, -steerTorque, 0));
   }
 
-  if (keysDown.d) {
+  if (keysDown.current.d) {
     carTorque.add(new THREE.Vector3(0, steerTorque, 0));
   }
 

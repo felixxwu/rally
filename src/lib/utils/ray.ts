@@ -1,7 +1,8 @@
 import { terrainMesh } from '../../refs';
+import { ref } from './ref';
 import { THREE } from './THREE';
 
-const rayCache: Record<string, THREE.Intersection> = {};
+const rayCache = ref<Record<string, THREE.Intersection>>({});
 
 export function ray(
   origin: THREE.Vector3,
@@ -17,13 +18,13 @@ export function ray(
 
   let intersection: THREE.Intersection;
 
-  if (rayCache[stringRep]) {
-    intersection = rayCache[stringRep];
+  if (rayCache.current[stringRep]) {
+    intersection = rayCache.current[stringRep];
   } else {
     const raycaster = new THREE.Raycaster(origin, rayDirection, near, far);
     const intersections = raycaster.intersectObject(terrainMesh.current!);
     intersection = intersections[0];
-    rayCache[stringRep] = intersection;
+    rayCache.current[stringRep] = intersection;
   }
 
   return intersection;

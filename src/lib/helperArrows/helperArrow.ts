@@ -1,14 +1,15 @@
 import { renderHelperArrows, scene } from '../../refs';
+import { ref } from '../utils/ref';
 import { THREE } from '../utils/THREE';
 
-const arrows = {};
+const arrows = ref<Record<string, THREE.ArrowHelper>>({});
 
 export function helperArrow(vec: THREE.Vector3, origin: THREE.Vector3, color: number, id: string) {
-  let arrowHelper: THREE.ArrowHelper = arrows[id];
+  let arrowHelper = arrows.current[id];
   if (!arrowHelper) {
     arrowHelper = new THREE.ArrowHelper();
     scene.current?.add(arrowHelper);
-    arrows[id] = arrowHelper;
+    arrows.current[id] = arrowHelper;
   }
 
   arrowHelper.setDirection(vec.clone().normalize());

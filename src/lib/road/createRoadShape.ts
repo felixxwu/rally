@@ -2,12 +2,13 @@ import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
 import { THREE } from '../utils/THREE';
+import { ref } from '../utils/ref';
 
 export type Vector = [number, number, number];
 export type Triangle = [Vector, Vector, Vector];
 
-const ammoVecCache: Record<string, AmmoType.btVector3> = {};
-const threeVecCache: Record<string, THREE.Vector3> = {};
+const ammoVecCache = ref<Record<string, AmmoType.btVector3>>({});
+const threeVecCache = ref<Record<string, THREE.Vector3>>({});
 
 export function createRoadShape(triangles: Triangle[], color: string, roughness: number) {
   const triangleMesh = new Ammo.btTriangleMesh();
@@ -53,23 +54,23 @@ export function createRoadShape(triangles: Triangle[], color: string, roughness:
 
 function getFromAmmoCache(vector: Vector) {
   const stringRep = `${vector[0]},${vector[1]},${vector[2]}`;
-  const cached = ammoVecCache[stringRep];
+  const cached = ammoVecCache.current[stringRep];
   if (cached) {
     return cached;
   } else {
-    ammoVecCache[stringRep] = new Ammo.btVector3(vector[0], vector[1], vector[2]);
-    return ammoVecCache[stringRep];
+    ammoVecCache.current[stringRep] = new Ammo.btVector3(vector[0], vector[1], vector[2]);
+    return ammoVecCache.current[stringRep];
   }
 }
 
 function getFromThreeCache(vector: Vector) {
   const stringRep = `${vector[0]},${vector[1]},${vector[2]}`;
-  const cached = threeVecCache[stringRep];
+  const cached = threeVecCache.current[stringRep];
   if (cached) {
     return cached;
   } else {
-    threeVecCache[stringRep] = new THREE.Vector3(vector[0], vector[1], vector[2]);
-    return threeVecCache[stringRep];
+    threeVecCache.current[stringRep] = new THREE.Vector3(vector[0], vector[1], vector[2]);
+    return threeVecCache.current[stringRep];
   }
 }
 

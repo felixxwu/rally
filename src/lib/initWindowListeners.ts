@@ -1,7 +1,7 @@
-import { camera, freeCam, renderer, renderHelperArrows } from '../refs';
-import { THREE } from './utils/THREE';
+import { camera, freeCam, renderer, renderHelperArrows, resetGame } from '../refs';
+import { ref } from './utils/ref';
 
-export let keysDown: Record<string, boolean> = {};
+export let keysDown = ref<Record<string, boolean>>({});
 
 export function initWindowListeners() {
   window.onresize = onWindowResize;
@@ -29,7 +29,7 @@ function onTouch(e: TouchEvent) {
     if (!el) continue;
     const rect = el?.getBoundingClientRect();
 
-    keysDown[key] = false;
+    keysDown.current[key] = false;
     el.style.opacity = '0.5';
 
     for (const touch of touches) {
@@ -40,7 +40,7 @@ function onTouch(e: TouchEvent) {
         rect.top <= touch.clientY &&
         touch.clientY <= rect.bottom
       ) {
-        keysDown[key] = true;
+        keysDown.current[key] = true;
         el.style.opacity = '1';
       }
     }
@@ -55,7 +55,7 @@ function onWindowResize() {
 }
 
 function onKeyDown(event: KeyboardEvent) {
-  keysDown[event.key] = true;
+  keysDown.current[event.key] = true;
 
   if (event.key === 'h') {
     renderHelperArrows.current = !renderHelperArrows.current;
@@ -64,8 +64,12 @@ function onKeyDown(event: KeyboardEvent) {
   if (event.key === 'f') {
     freeCam.current = !freeCam.current;
   }
+
+  // if (event.key === 'Escape') {
+  //   resetGame.current = true;
+  // }
 }
 
 function onKeyUp(event: KeyboardEvent) {
-  keysDown[event.key] = false;
+  keysDown.current[event.key] = false;
 }

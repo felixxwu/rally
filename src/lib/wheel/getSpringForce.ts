@@ -1,7 +1,7 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { car, grassLeftMesh, grassRightMesh, roadMesh } from '../../refs';
+import { car, grassLeftMesh, grassRightMesh, raycasterOffset, roadMesh } from '../../refs';
 import { terrainMesh } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { springDamping } from '../../refs';
@@ -10,8 +10,6 @@ import { springLength } from '../../refs';
 import { Ref } from '../utils/ref';
 import { getCarDirection } from '../car/getCarDirection';
 import { Surface } from '../../types';
-
-export const raycasterOffset = 2;
 
 const collisionMeshes = [
   { mesh: terrainMesh, surface: 'grass' as Surface },

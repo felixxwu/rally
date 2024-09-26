@@ -125,7 +125,7 @@ export async function createRoadPoints() {
           ' points'
         );
         longestVecs.push([...vecs.slice(0, -50)]);
-        const cutoff = Math.max(startRoadLength, firstPointNearCrossing - backoff);
+        const cutoff = Math.max(startRoadLength * 1.5, firstPointNearCrossing - backoff);
         point.set(vecs[cutoff][0], vecs[cutoff][2]);
         vecs.splice(cutoff, vecs.length - cutoff);
         backoff += 1;

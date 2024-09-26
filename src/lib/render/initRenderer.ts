@@ -14,11 +14,11 @@ export function initRenderer() {
   container.current?.appendChild(renderer.current.domElement);
 }
 
-let delta = 0;
+// let delta = 0;
 // let interval = 1 / 120;
 
 function render() {
-  delta = clock.getDelta();
+  const delta = clock.getDelta();
 
   // if (delta <= interval) return;
 

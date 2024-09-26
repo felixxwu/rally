@@ -19,7 +19,7 @@ export function getStraightTireForce(front: boolean) {
   let engineForce = new THREE.Vector3();
   let brakeForce = new THREE.Vector3();
   let usingBrakes = false;
-  if (keysDown.w) {
+  if (keysDown.current.w) {
     if (reversing) {
       brakeForce = mult(speed.clone().normalize(), -brakePower.current * brakeBiasMod);
       usingBrakes = true;
@@ -29,7 +29,7 @@ export function getStraightTireForce(front: boolean) {
       }
     }
   }
-  if (keysDown.s) {
+  if (keysDown.current.s) {
     if (reversing) {
       if (wheelHasPower(front)) {
         engineForce = mult(forwardUnitVec, -enginePower.current);
@@ -39,7 +39,7 @@ export function getStraightTireForce(front: boolean) {
       usingBrakes = true;
     }
   }
-  if (keysDown[' ']) {
+  if (keysDown.current[' ']) {
     if (!front) {
       brakeForce = mult(speed.clone().normalize(), -10000);
     }

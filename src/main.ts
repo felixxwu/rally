@@ -13,7 +13,8 @@ import { initUI } from './lib/UI/initUI';
 import { initWheel } from './lib/wheel/initWheel';
 import { initRoad } from './lib/road/initRoad';
 import { initSky } from './lib/light/initSky';
-import { startGame } from './refs';
+import { container, renderer, resetGame, startGame } from './refs';
+import { resetAllRefs } from './lib/utils/ref';
 
 Ammo().then(init);
 
@@ -38,6 +39,17 @@ export async function init() {
       initWheel(true, false);
       initWheel(false, true);
       initWheel(false, false);
+    }
+  });
+
+  resetGame.listeners.push(value => {
+    if (value) {
+      renderer.current?.dispose();
+      resetAllRefs();
+      document.getElementById('container')!.innerHTML = '';
+      setTimeout(() => {
+        init();
+      });
     }
   });
 }

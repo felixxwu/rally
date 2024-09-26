@@ -1,5 +1,7 @@
 declare const Proxy;
 
+const allRefs: Ref<any>[] = [];
+
 export function ref<T>(
   init: T,
   min?: number,
@@ -7,15 +9,17 @@ export function ref<T>(
   step?: number
 ): {
   current: T;
+  initial: T;
   listeners: ((value: T) => void)[];
   min?: number;
   max?: number;
   step?: number;
   triggerListeners: () => void;
 } {
-  return new Proxy(
+  const ref = new Proxy(
     {
       current: init,
+      initial: JSON.parse(JSON.stringify(init)),
       listeners: <((value: T) => void)[]>[],
       min,
       max,
@@ -40,6 +44,17 @@ export function ref<T>(
       },
     }
   );
+
+  allRefs.push(ref);
+
+  return ref;
 }
 
 export type Ref<T> = ReturnType<typeof ref<T>>;
+
+export function resetAllRefs() {
+  allRefs.forEach(ref => {
+    ref.listeners = [];
+    ref.current = ref.initial;
+  });
+}
