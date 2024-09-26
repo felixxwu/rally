@@ -7,7 +7,7 @@ import { steerPower } from '../../refs';
 import { getCarDirection } from './getCarDirection';
 import { getSpeedVec } from './getSpeedVec';
 
-export function getSteerTorque(deltaTime: number) {
+export function getSteerTorque() {
   if (!car.current) return 0;
 
   const speed = getSpeedVec();

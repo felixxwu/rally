@@ -8,12 +8,12 @@ import { wheelHasPower } from './wheelHasPower';
 import { getSpeedVec } from '../car/getSpeedVec';
 import { isReversing } from './isReversing';
 
-export function getStraightTireForce(deltaTime: number, compression: number, front: boolean) {
+export function getStraightTireForce(front: boolean) {
   const speed = getSpeedVec();
   const forwardUnitVec = getCarDirection(new THREE.Vector3(0, 0, 1)).normalize();
   if (speed.length() < 1) speed.copy(forwardUnitVec);
 
-  const reversing = isReversing(deltaTime);
+  const reversing = isReversing();
   const brakeBiasMod = front ? 1 - brakeRearBias.current : brakeRearBias.current;
 
   let engineForce = new THREE.Vector3();

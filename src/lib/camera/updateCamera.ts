@@ -7,7 +7,7 @@ import { getCarTransform } from '../car/getCarTransform';
 
 const lastXPos: THREE.Vector3[] = [];
 
-export function updateCamera(deltaTime: number) {
+export function updateCamera() {
   if (!car.current) return;
 
   const transform = getCarTransform();

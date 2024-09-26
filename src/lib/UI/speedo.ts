@@ -30,7 +30,7 @@ export function speedo() {
         margin: 10px;
       `,
       oncreate: text => {
-        onRender.push(deltaTime => {
+        onRender.push(() => {
           i++;
           if (i % 10 !== 0) return;
 

@@ -10,14 +10,14 @@ import { getAmmoVector } from '../utils/vectorConversion';
 import { getSteerTorque } from './getSteerTorque';
 import { getAirResistanceForce } from './getAirResistanceForce';
 
-export function updateCar(deltaTime: number) {
+export function updateCar() {
   if (!car.current) return;
 
   const objPhys = getUserData(car.current).physicsBody;
   const carTorque = new THREE.Vector3();
 
-  const airResistanceForce = getAirResistanceForce(deltaTime);
-  const steerTorque = getSteerTorque(deltaTime);
+  const airResistanceForce = getAirResistanceForce();
+  const steerTorque = getSteerTorque();
 
   if (keysDown.a) {
     carTorque.add(new THREE.Vector3(0, -steerTorque, 0));

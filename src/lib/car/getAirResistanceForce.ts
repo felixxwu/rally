@@ -11,7 +11,7 @@ import { THREE } from '../utils/THREE';
 import { getSpeedVec } from './getSpeedVec';
 import { getCarTransform } from './getCarTransform';
 
-export function getAirResistanceForce(deltaTime: number) {
+export function getAirResistanceForce() {
   if (!car.current) return new THREE.Vector3();
 
   const speed = getSpeedVec();

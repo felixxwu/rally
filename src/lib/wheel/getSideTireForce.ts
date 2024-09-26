@@ -4,7 +4,7 @@ import { tireGrip } from '../../refs';
 import { tireSnappiness } from '../../refs';
 import { getSpeedVec } from '../car/getSpeedVec';
 
-export function getSideTireForce(deltaTime: number, compression: number) {
+export function getSideTireForce(compression: number) {
   const speed = getSpeedVec();
   const sideVec = getCarDirection(new THREE.Vector3(1, 0, 0));
   const forwardVec = getCarDirection(new THREE.Vector3(0, 0, 1));

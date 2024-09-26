@@ -12,17 +12,12 @@ import { createArr } from '../utils/createVec';
 import { getSideTireForce } from './getSideTireForce';
 import { getStraightTireForce } from './getStraightTireForce';
 
-export function getTotalTireForce(
-  prevDistance: Ref<number>,
-  front: boolean,
-  left: boolean,
-  deltaTime: number
-) {
+export function getTotalTireForce(prevDistance: Ref<number>, front: boolean, left: boolean) {
   const cornerPos = getCarCornerPos(front, left);
 
   const { suspensionForce, compression, surface } = getSpringForce(cornerPos, prevDistance);
-  const sideTireForce = getSideTireForce(deltaTime, compression);
-  const straightTireForce = getStraightTireForce(deltaTime, compression, front);
+  const sideTireForce = getSideTireForce(compression);
+  const straightTireForce = getStraightTireForce(front);
   const { wheelMeshPos, wheelOffsetFromCorner } = getWheelMeshPos(compression, front, left);
 
   const sqrtCompression = Math.sqrt(compression);

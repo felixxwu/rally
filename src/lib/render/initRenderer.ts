@@ -8,19 +8,27 @@ export function initRenderer() {
   renderer.current = new THREE.WebGLRenderer({ antialias: true });
   renderer.current.setPixelRatio(window.devicePixelRatio);
   renderer.current.setSize(window.innerWidth, window.innerHeight);
-  renderer.current.setAnimationLoop(animate);
+  renderer.current.setAnimationLoop(render);
   renderer.current.shadowMap.enabled = true;
   renderer.current.toneMapping = THREE.AgXToneMapping;
   container.current?.appendChild(renderer.current.domElement);
 }
 
-function animate() {
-  const deltaTime = clock.getDelta();
-  if (deltaTime !== 0) {
-    onRender.forEach(callback => callback(deltaTime));
+let delta = 0;
+let interval = 1 / 60;
+
+function render() {
+  delta += clock.getDelta();
+
+  if (delta <= interval) return;
+
+  if (delta !== 0) {
+    onRender.forEach(callback => callback(delta));
   }
 
   renderer.current?.render(scene.current!, camera.current!);
 
   stats.current.update();
+
+  delta = delta % interval;
 }
