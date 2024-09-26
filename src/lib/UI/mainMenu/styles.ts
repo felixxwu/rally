@@ -1,4 +1,7 @@
-export const FullSize = `
+import { css } from 'goober';
+import { styled } from '../styled';
+
+export const FullSize = styled('div')(css`
   position: fixed;
   top: 0;
   left: 0;
@@ -10,18 +13,18 @@ export const FullSize = `
   align-items: center;
   opacity: 0.7;
   margin: auto;
-`;
+`);
 
-export const Container = `
+export const Container = styled('div')(css`
   width: 100%;
   max-width: 500px;
   height: 100px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-`;
+`);
 
-export const StartButton = `
+export const StartButton = styled('div')(css`
   color: white;
   background-color: black;
   padding: 15px 20px;
@@ -32,9 +35,9 @@ export const StartButton = `
   align-items: center;
   font-size: 18px;
   margin: 0 10px;
-`;
+`);
 
-export const SeedInput = `
+export const SeedInput = styled('input')(css`
   color: white;
   background-color: black;
   padding: 15px 20px;
@@ -44,4 +47,4 @@ export const SeedInput = `
   text-align: center;
   font-size: 18px;
   margin: 0 10px;
-`;
+`);

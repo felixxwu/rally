@@ -25,7 +25,7 @@ export async function createRoadPoints() {
   const point = new THREE.Vector2(spawn.x, spawn.z - 30);
   const roadDir = new THREE.Vector2(0, 1).normalize();
 
-  let expBackoff = 1;
+  let backoff = 1;
 
   for (let i = 0; i < maxAttempts; i++) {
     if (vecs.length >= maxPoints) break;
@@ -125,10 +125,10 @@ export async function createRoadPoints() {
           ' points'
         );
         longestVecs.push([...vecs.slice(0, -50)]);
-        const cutoff = Math.max(0, firstPointNearCrossing - expBackoff);
+        const cutoff = Math.max(startRoadLength, firstPointNearCrossing - backoff);
         point.set(vecs[cutoff][0], vecs[cutoff][2]);
         vecs.splice(cutoff, vecs.length - cutoff);
-        expBackoff += 20;
+        backoff += 1;
       }
     }
 

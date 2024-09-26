@@ -1,15 +1,13 @@
 import { seed, startGame, timeOfDay } from '../../../refs';
-import { el } from '../el';
 import { Container, FullSize, SeedInput, StartButton } from './styles';
 
 export function mainMenu() {
-  return el.div(
-    { style: FullSize },
-    el.div(
-      { style: Container },
-      el.div(
+  return FullSize(
+    {},
+    Container(
+      {},
+      StartButton(
         {
-          style: StartButton,
           oncreate: div => {
             div.onclick = () => {
               startGame.current = true;
@@ -18,20 +16,7 @@ export function mainMenu() {
         },
         'Start'
       ),
-      el.input({
-        style: SeedInput,
-        type: 'number',
-        oncreate: input => {
-          const newSeed = Math.round(Math.random() * 1000);
-          input.value = newSeed + '';
-          seed.current = newSeed;
-          input.oninput = e => {
-            seed.current = parseInt((e.target as HTMLInputElement).value);
-          };
-        },
-      }),
-      el.div({
-        style: StartButton,
+      StartButton({
         oncreate: div => {
           timeOfDay.listeners.push(value => {
             div.textContent = value;
@@ -51,6 +36,17 @@ export function mainMenu() {
               timeOfDay.current = 'Day';
               return;
             }
+          };
+        },
+      }),
+      SeedInput({
+        type: 'number',
+        oncreate: input => {
+          const newSeed = Math.round(Math.random() * 1000);
+          input.value = newSeed + '';
+          seed.current = newSeed;
+          input.oninput = e => {
+            seed.current = parseInt((e.target as HTMLInputElement).value);
           };
         },
       })

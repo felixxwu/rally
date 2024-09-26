@@ -114,7 +114,7 @@ export const rearWheelDrive = ref(true);
 // camera
 export const camFollowDistance = ref(9, 3, 30, 1);
 export const camFollowHeight = ref(9, 0, 30, 1);
-export const camFollowSpeed = ref(0.1, 0, 1, 0.01);
+export const camFollowSpeed = ref(0.2, 0, 1, 0.01);
 
 // sky
 export const carLightIntensity = 500;

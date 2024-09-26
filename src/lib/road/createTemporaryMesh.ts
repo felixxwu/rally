@@ -9,6 +9,8 @@ export async function createTemporaryMesh(vecs: Vector[]) {
 
   const { road } = await createRoadTriangles(vecs, true);
 
+  if (road.length === 0) return;
+
   const { mesh: roadMesh } = createRoadShape(road, roadColor, 0.7);
   temporaryMesh.current = { road: roadMesh };
   scene.current?.add(roadMesh);

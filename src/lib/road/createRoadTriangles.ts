@@ -15,6 +15,10 @@ import { THREE } from '../utils/THREE';
 import { Triangle, Vector } from './createRoadShape';
 
 export async function createRoadTriangles(vecs: Vector[], skipGrass?: boolean) {
+  if (vecs.length < 10) {
+    return { road: [], grassLeft: [], grassRight: [] };
+  }
+
   const road: Triangle[] = [];
   const grassLeft: Triangle[] = [];
   const grassRight: Triangle[] = [];

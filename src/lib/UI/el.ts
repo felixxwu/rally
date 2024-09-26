@@ -21,7 +21,9 @@ export const el = new Proxy(
       };
     },
   }
-) as {
+) as El;
+
+export type El = {
   [tag in keyof HTMLElementTagNameMap]: (
     attributes: {
       [key in keyof HTMLElementTagNameMap[tag]]?: string;
