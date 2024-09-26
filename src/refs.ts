@@ -73,7 +73,7 @@ export const angularDamping = 0.99999997;
 export const reverseAngle = Math.PI * 0.8;
 
 // tires and suspension
-export const tireGrip = ref(220, 0, 1000, 10);
+export const tireGrip = ref(200, 0, 1000, 10);
 export const springLength = ref(1.1, 0.5, 3, 0.01);
 export const sprintRate = ref(300, 0, 600, 10);
 export const springDamping = ref(5000, 0, 15000, 100);
@@ -84,7 +84,7 @@ export const wheelCompression = ref([0, 0, 0, 0]);
 
 // power & brakes
 export const enginePower = ref(100, 0, 500, 10);
-export const brakePower = ref(150, 0, 1200, 100);
+export const brakePower = ref(200, 0, 1200, 100);
 export const brakeRearBias = ref(0.5, 0, 1, 0.01);
 
 // surface grips
@@ -94,7 +94,7 @@ export const surfaceGrips: {
   tarmac: { ref: ref(2, 0, 3, 0.1), colour: '#000', opacity: 1 },
   grass: { ref: ref(0.6, 0, 3, 0.1), colour: '#040', opacity: 0.3 },
 };
-export const showSkidMarkThreshold = 0.5;
+export const showSkidMarkThreshold = 0.35;
 export const skidMarkIntensity = 5;
 export const skidMarkOpacity = 0.5;
 export const maxSkidMarks = 200;
@@ -112,8 +112,8 @@ export const frontWheelDrive = ref(true);
 export const rearWheelDrive = ref(true);
 
 // camera
-export const camFollowDistance = ref(9, 3, 30, 1);
-export const camFollowHeight = ref(9, 0, 30, 1);
+export const camFollowDistance = ref(6, 3, 30, 1);
+export const camFollowHeight = ref(7, 0, 30, 1);
 export const camFollowSpeed = ref(0.2, 0, 1, 0.01);
 
 // sky

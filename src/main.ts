@@ -13,7 +13,7 @@ import { initUI } from './lib/UI/initUI';
 import { initWheel } from './lib/wheel/initWheel';
 import { initRoad } from './lib/road/initRoad';
 import { initSky } from './lib/light/initSky';
-import { container, renderer, resetGame, startGame } from './refs';
+import { renderer, resetGame, startGame } from './refs';
 import { resetAllRefs } from './lib/utils/ref';
 
 Ammo().then(init);

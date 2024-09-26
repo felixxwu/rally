@@ -197,6 +197,36 @@ export async function createRoadPoints() {
     blurredVecs.push([neighbors[half][0], newY, neighbors[half][2]] as Vector);
   }
 
+  // make start and end all the same height
+  const highestStartPoint = blurredVecs
+    .slice(0, startRoadLength)
+    .reduce((acc, v) => Math.max(acc, v[1]), 0);
+  const highestEndPoint = blurredVecs
+    .slice(-startRoadLength)
+    .reduce((acc, v) => Math.max(acc, v[1]), 0);
+
+  for (let i = 0; i < blurredVecs.length; i++) {
+    if (i < startRoadLength) {
+      blurredVecs[i][1] = highestStartPoint;
+    } else if (i > blurredVecs.length - startRoadLength) {
+      blurredVecs[i][1] = highestEndPoint;
+    } else if (i >= startRoadLength && i < startRoadLength * 2) {
+      // create ramp up
+      const diff = highestStartPoint - blurredVecs[i][1];
+      blurredVecs[i][1] += Math.max(0, (diff * (startRoadLength * 2 - i)) / startRoadLength);
+    } else if (
+      i <= blurredVecs.length - startRoadLength &&
+      i > blurredVecs.length - startRoadLength * 2
+    ) {
+      // create ramp down
+      const diff = highestEndPoint - blurredVecs[i][1];
+      blurredVecs[i][1] += Math.max(
+        0,
+        (diff * (i - (blurredVecs.length - startRoadLength * 2))) / startRoadLength
+      );
+    }
+  }
+
   await createTemporaryMesh(blurredVecs);
 
   return blurredVecs;
