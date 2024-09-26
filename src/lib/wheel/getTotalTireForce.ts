@@ -1,6 +1,6 @@
 import { getCarCornerPos } from '../car/getCarCorner';
 import { getCarRelCorner } from '../car/getCarRelCorner';
-import { bodyRoll, grassGrip, tarmacGrip } from '../../refs';
+import { bodyRoll, surfaceGrips } from '../../refs';
 import { getAmmoVector } from '../utils/vectorConversion';
 import { getSpringForce } from './getSpringForce';
 import { tireGrip } from '../../refs';
@@ -27,11 +27,7 @@ export function getTotalTireForce(
 
   const sqrtCompression = Math.sqrt(compression);
   const tireGripAfterCompression = tireGrip.current * sqrtCompression;
-  const surfaceGrip = (() => {
-    if (surface === 'grass') return grassGrip.current;
-    if (surface === 'tarmac') return tarmacGrip.current;
-    return 1;
-  })();
+  const surfaceGrip = surfaceGrips[surface].ref.current;
   const tireGripAfterSurface = tireGripAfterCompression * surfaceGrip;
   const totalTireForce = add(sideTireForce, createArr(straightTireForce));
   const totalClampedTireForce = totalTireForce.clampLength(0, tireGripAfterSurface);
@@ -49,5 +45,6 @@ export function getTotalTireForce(
     suspensionForce,
     sideTireForce,
     totalTireForce,
+    surface,
   };
 }

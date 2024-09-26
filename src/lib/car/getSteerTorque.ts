@@ -10,7 +10,7 @@ import { getSpeedVec } from './getSpeedVec';
 export function getSteerTorque(deltaTime: number) {
   if (!car.current) return 0;
 
-  const speed = getSpeedVec(deltaTime);
+  const speed = getSpeedVec();
 
   const angle = getCarDirection().angleTo(speed);
   const reversing = angle < reverseAngle;

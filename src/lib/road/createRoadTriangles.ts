@@ -186,8 +186,6 @@ function getSideVecs(vecs: Vector[], i: number, skipGrass?: boolean) {
   };
 }
 
-let j = 0;
-
 function getBankingPoint(
   vecs: Vector[],
   i: number,

@@ -2,7 +2,7 @@ import { car } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { getUserData } from '../utils/userData';
 
-export function getSpeedVec(deltaTime: number) {
+export function getSpeedVec() {
   if (!car.current) return new THREE.Vector3();
 
   const physicsBody = getUserData(car.current).physicsBody;

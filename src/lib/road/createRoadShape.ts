@@ -39,17 +39,9 @@ export function createRoadShape(triangles: Triangle[], color: string, roughness:
   }
 
   geom.setFromPoints(points);
-
   geom.computeVertexNormals();
 
-  const wireframe = new THREE.WireframeGeometry(geom);
-  const line = new THREE.LineSegments(wireframe);
-  if (!Array.isArray(line.material)) {
-    line.material.colorWrite;
-  }
-
   const groundMaterial = new THREE.MeshStandardMaterial({ color, roughness });
-  groundMaterial.needsUpdate = true;
 
   const mesh = new THREE.Mesh(geom, groundMaterial);
 
@@ -79,4 +71,8 @@ function getFromThreeCache(vector: Vector) {
     threeVecCache[stringRep] = new THREE.Vector3(vector[0], vector[1], vector[2]);
     return threeVecCache[stringRep];
   }
+}
+
+export function getFromThreeV3Cache(vector: THREE.Vector3) {
+  return getFromThreeCache([vector.x, vector.y, vector.z]);
 }

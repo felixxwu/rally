@@ -14,7 +14,7 @@ import { getCarTransform } from './getCarTransform';
 export function getAirResistanceForce(deltaTime: number) {
   if (!car.current) return new THREE.Vector3();
 
-  const speed = getSpeedVec(deltaTime);
+  const speed = getSpeedVec();
   const inverseTravel = speed.clone().multiplyScalar(-airResistance.current);
   const squared = inverseTravel.clone().multiplyScalar(inverseTravel.length());
   const carPos = getCarTransform();

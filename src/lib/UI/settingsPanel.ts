@@ -16,11 +16,10 @@ import {
   sprintRate,
   steerPower,
   tireSnappiness,
-  tarmacGrip,
-  grassGrip,
   renderHitCarBox,
   freeCam,
   seed,
+  surfaceGrips,
 } from '../../refs';
 import { Ref } from '../utils/ref';
 import { el } from './el';
@@ -80,8 +79,8 @@ export function settingsPanel() {
       numberSlider('Brake Bias (Rear)', brakeRearBias),
 
       section('Surfaces'),
-      numberSlider('Tarmac Grip', tarmacGrip),
-      numberSlider('Grass Grip', grassGrip),
+      numberSlider('Tarmac Grip', surfaceGrips.tarmac.ref),
+      numberSlider('Grass Grip', surfaceGrips.grass.ref),
 
       section('Car Physics'),
       numberSlider('Body Roll', bodyRoll),

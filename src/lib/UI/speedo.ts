@@ -34,7 +34,7 @@ export function speedo() {
           i++;
           if (i % 10 !== 0) return;
 
-          const speed = getSpeedVec(deltaTime);
+          const speed = getSpeedVec();
           const angle = getCarDirection().angleTo(speed);
           const reversing = angle > Math.PI / 2 && speed.length() > 1;
 

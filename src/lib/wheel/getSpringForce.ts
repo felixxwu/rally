@@ -9,8 +9,8 @@ import { sprintRate } from '../../refs';
 import { springLength } from '../../refs';
 import { Ref } from '../utils/ref';
 import { getCarDirection } from '../car/getCarDirection';
+import { Surface } from '../../types';
 
-type Surface = 'tarmac' | 'grass';
 export const raycasterOffset = 2;
 
 const collisionMeshes = [

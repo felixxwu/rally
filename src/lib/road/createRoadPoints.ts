@@ -18,9 +18,6 @@ import { THREE } from '../utils/THREE';
 import { Vector } from './createRoadShape';
 import { createTemporaryMesh } from './createTemporaryMesh';
 
-// let temporaryMesh: { road: THREE.Mesh; grassLeft: THREE.Mesh; grassRight: THREE.Mesh } | null =
-//   null;
-
 export async function createRoadPoints() {
   const spawn = getSpawn();
   const vecs: Vector[] = [];

@@ -1,9 +1,9 @@
 import AmmoType from 'ammojs-typed';
 
 import Stats from './lib/jsm/stats.module';
-import { Mesh, TimeOfDay } from './types';
+import { Mesh, Surface, TimeOfDay } from './types';
 import { THREE } from './lib/utils/THREE';
-import { ref } from './lib/utils/ref';
+import { Ref, ref } from './lib/utils/ref';
 import { createXYMap } from './lib/utils/createXYMap';
 
 // Heightfield parameters
@@ -14,7 +14,7 @@ export const terrainWidth = 50;
 export const terrainDepth = 50;
 export const terrainHalfWidth = terrainWidth / 2;
 export const terrainHalfDepth = terrainDepth / 2;
-export const terrainMaxHeight = 120;
+export const terrainMaxHeight = 100;
 export const terrainMinHeight = 0;
 export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
@@ -77,6 +77,7 @@ export const springLength = ref(1.1, 0.5, 3, 0.01);
 export const sprintRate = ref(300, 0, 600, 10);
 export const springDamping = ref(5000, 0, 15000, 100);
 export const wheelRadius = 0.4;
+export const wheelWidth = 0.3;
 export const tireSnappiness = ref(100, 50, 200, 1);
 export const wheelCompression = ref([0, 0, 0, 0]);
 
@@ -86,8 +87,16 @@ export const brakePower = ref(150, 0, 1200, 100);
 export const brakeRearBias = ref(0.5, 0, 1, 0.01);
 
 // surface grips
-export const tarmacGrip = ref(2, 0, 3, 0.1);
-export const grassGrip = ref(0.6, 0, 3, 0.1);
+export const surfaceGrips: {
+  [key in Surface]: { ref: Ref<number>; colour: string; opacity: number };
+} = {
+  tarmac: { ref: ref(2, 0, 3, 0.1), colour: '#000', opacity: 1 },
+  grass: { ref: ref(0.6, 0, 3, 0.1), colour: '#040', opacity: 0.3 },
+};
+export const showSkidMarkThreshold = 0.3;
+export const skidMarkIntensity = 5;
+export const skidMarkOpacity = 0.5;
+export const maxSkidMarks = 300;
 
 // car physics
 export const bodyRoll = ref(0.6, 0, 1, 0.1);
@@ -109,9 +118,15 @@ export const camFollowSpeed = ref(0.06, 0, 1, 0.01);
 // sky
 export const carLightIntensity = 500;
 export const timeOfDay = ref<TimeOfDay>('Day');
-//@ts-ignore
-window.timeOfDay = timeOfDay;
-export const lightValues = {
+export const lightValues: {
+  [key in TimeOfDay]: {
+    light: number;
+    ambient: number;
+    lightAngle: number;
+    sunElevation: number;
+    color: number;
+  };
+} = {
   Day: {
     light: 2.5,
     ambient: 1,
@@ -120,15 +135,15 @@ export const lightValues = {
     color: 0xffffff,
   },
   Sunset: {
-    light: 2.2,
-    ambient: 1,
+    light: 2.7,
+    ambient: 1.2,
     lightAngle: 5,
     sunElevation: 0,
     color: 0xffaa88,
   },
   Night: {
     light: 0,
-    ambient: 0.5,
+    ambient: 0.7,
     lightAngle: 90,
     sunElevation: -90,
     color: 0x222222,

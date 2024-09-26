@@ -6,6 +6,7 @@ import { helperArrow } from '../helperArrows/helperArrow';
 import { mult } from '../utils/multVec';
 import { Ref } from '../utils/ref';
 import { getTotalTireForce } from './getTotalTireForce';
+import { addSkidMark } from './addSkidMark';
 
 export function updateWheel(
   wheelMesh: Mesh,
@@ -24,6 +25,7 @@ export function updateWheel(
     suspensionForce,
     sideTireForce,
     totalTireForce,
+    surface,
   } = getTotalTireForce(prevDistance, front, left, deltaTime);
 
   // apply forces to the car
@@ -45,6 +47,8 @@ export function updateWheel(
 
   // save compression to refs
   wheelCompression.current[front ? (left ? 0 : 1) : left ? 2 : 3] = compression;
+
+  addSkidMark(compression, wheelMeshPos, totalTireForce, front, left, surface);
 
   // helper arrows
   helperArrow(mult(suspensionForce, 0.02), wheelMeshPos, 0xffff00, `suspension${front}${left}`);

@@ -9,7 +9,7 @@ import { getSpeedVec } from '../car/getSpeedVec';
 import { isReversing } from './isReversing';
 
 export function getStraightTireForce(deltaTime: number, compression: number, front: boolean) {
-  const speed = getSpeedVec(deltaTime);
+  const speed = getSpeedVec();
   const forwardUnitVec = getCarDirection(new THREE.Vector3(0, 0, 1)).normalize();
   if (speed.length() < 1) speed.copy(forwardUnitVec);
 
