@@ -8,6 +8,13 @@
         "source": "**",
         "destination": "/index.html"
       }
+    ],
+    "redirects": [
+      {
+        "source": "https://blockyrally.web.app",
+        "destination": "https://infinite-rally.web.app",
+        "type": 301
+      }
     ]
   }
 }
