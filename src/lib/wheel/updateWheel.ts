@@ -7,6 +7,8 @@ import { mult } from '../utils/multVec';
 import { Ref } from '../utils/ref';
 import { getTotalTireForce } from './getTotalTireForce';
 import { addSkidMark } from './addSkidMark';
+import { getSpeedVec } from '../car/getSpeedVec';
+import { getCarDirection } from '../car/getCarDirection';
 
 export function updateWheel(
   wheelMesh: Mesh,
@@ -42,7 +44,15 @@ export function updateWheel(
   const ammoQuat = getUserData(car.current).physicsBody.getWorldTransform().getRotation();
   const quat = new THREE.Quaternion(ammoQuat.x(), ammoQuat.y(), ammoQuat.z(), ammoQuat.w());
   quat.multiply(additionalQuat);
-  wheelMesh.setRotationFromQuaternion(quat || new THREE.Quaternion());
+
+  const carDir = getCarDirection();
+  const speed = getSpeedVec().clone().normalize();
+  const cross = carDir.clone().cross(speed);
+  cross.clampLength(0, front ? 0.7 : 0);
+  const quat2 = new THREE.Quaternion().setFromEuler(new THREE.Euler().setFromVector3(cross));
+  quat2.multiply(quat);
+
+  wheelMesh.setRotationFromQuaternion(quat2 || new THREE.Quaternion());
 
   // save compression to refs
   wheelCompression.current[front ? (left ? 0 : 1) : left ? 2 : 3] = compression;
