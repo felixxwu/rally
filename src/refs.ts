@@ -64,6 +64,7 @@ export const broadphase = ref<AmmoType.btDbvtBroadphase | null>(null);
 export const solver = ref<AmmoType.btSequentialImpulseConstraintSolver | null>(null);
 export const physicsWorld = ref<AmmoType.btDiscreteDynamicsWorld | null>(null);
 export const transformAux1 = ref<AmmoType.btTransform | null>(null);
+export const gravity = 35;
 
 // steering
 export const steerPower = ref(3200, 2000, 5000, 100);
@@ -82,7 +83,7 @@ export const tireSnappiness = ref(100, 50, 200, 1);
 export const wheelCompression = ref([0, 0, 0, 0]);
 
 // power & brakes
-export const enginePower = ref(150, 0, 500, 10);
+export const enginePower = ref(100, 0, 500, 10);
 export const brakePower = ref(150, 0, 1200, 100);
 export const brakeRearBias = ref(0.5, 0, 1, 0.01);
 
@@ -93,7 +94,7 @@ export const surfaceGrips: {
   tarmac: { ref: ref(2, 0, 3, 0.1), colour: '#000', opacity: 1 },
   grass: { ref: ref(0.6, 0, 3, 0.1), colour: '#040', opacity: 0.3 },
 };
-export const showSkidMarkThreshold = 0.3;
+export const showSkidMarkThreshold = 0.33;
 export const skidMarkIntensity = 5;
 export const skidMarkOpacity = 0.5;
 export const maxSkidMarks = 200;
@@ -111,9 +112,9 @@ export const frontWheelDrive = ref(true);
 export const rearWheelDrive = ref(true);
 
 // camera
-export const camFollowDistance = ref(8, 3, 30, 1);
-export const camFollowHeight = ref(11, 0, 30, 1);
-export const camFollowSpeed = ref(0.06, 0, 1, 0.01);
+export const camFollowDistance = ref(9, 3, 30, 1);
+export const camFollowHeight = ref(9, 0, 30, 1);
+export const camFollowSpeed = ref(0.1, 0, 1, 0.01);
 
 // sky
 export const carLightIntensity = 500;

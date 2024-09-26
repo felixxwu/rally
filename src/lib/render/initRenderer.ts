@@ -15,12 +15,12 @@ export function initRenderer() {
 }
 
 let delta = 0;
-let interval = 1 / 60;
+// let interval = 1 / 120;
 
 function render() {
-  delta += clock.getDelta();
+  delta = clock.getDelta();
 
-  if (delta <= interval) return;
+  // if (delta <= interval) return;
 
   if (delta !== 0) {
     onRender.forEach(callback => callback(delta));
@@ -30,5 +30,5 @@ function render() {
 
   stats.current.update();
 
-  delta = delta % interval;
+  // delta = delta % interval;
 }

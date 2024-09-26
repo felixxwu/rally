@@ -1,5 +1,5 @@
 import { carLightIntensity, onRender, scene, timeOfDay, wheelEndOffset } from '../../refs';
-import { getCarCornerPos } from '../car/getCarCorner';
+import { getCarCornerMeshPos } from '../car/getCarCorner';
 import { getCarDirection } from '../car/getCarDirection';
 import { THREE } from '../utils/THREE';
 
@@ -22,7 +22,7 @@ export function initCarLight(left: boolean) {
       carLightLeft.intensity = carLightIntensity;
     }
 
-    const carPosLeft = getCarCornerPos(true, left)
+    const carPosLeft = getCarCornerMeshPos(true, left)
       .clone()
       .add(carDir.clone().setLength(wheelEndOffset + 2));
     carLightLeft.position.copy(carPosLeft);

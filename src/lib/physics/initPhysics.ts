@@ -5,6 +5,7 @@ import {
   broadphase,
   collisionConfiguration,
   dispatcher,
+  gravity,
   onRender,
   physicsWorld,
   solver,
@@ -23,11 +24,11 @@ export function initPhysics() {
     solver.current,
     collisionConfiguration.current
   );
-  physicsWorld.current.setGravity(new Ammo.btVector3(0, -30, 0));
+  physicsWorld.current.setGravity(new Ammo.btVector3(0, -gravity, 0));
 
   transformAux1.current = new Ammo.btTransform();
 
   onRender.push(deltaTime => {
-    physicsWorld.current?.stepSimulation(deltaTime, 1, 1 / 60);
+    physicsWorld.current?.stepSimulation(deltaTime, 10, 1 / 120);
   });
 }
