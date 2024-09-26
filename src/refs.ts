@@ -42,7 +42,7 @@ export const maxAttempts = 8000;
 export const halfRoadWidth = 6;
 export const startRoadWidth = 20;
 export const startRoadLength = 20;
-export const grassWidth = 6;
+export const grassWidth = 4;
 export const maxBankingLength = 30;
 export const bankingAngleStart = 0.3;
 export const bankingAngleStep = 0.05;
@@ -96,7 +96,7 @@ export const surfaceGrips: {
 export const showSkidMarkThreshold = 0.3;
 export const skidMarkIntensity = 5;
 export const skidMarkOpacity = 0.5;
-export const maxSkidMarks = 300;
+export const maxSkidMarks = 200;
 
 // car physics
 export const bodyRoll = ref(0.6, 0, 1, 0.1);

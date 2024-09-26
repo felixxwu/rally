@@ -173,15 +173,19 @@ function getSideVecs(vecs: Vector[], i: number, skipGrass?: boolean) {
   const noiseScale = 0.1;
   const leftGrass = vec.clone().add(projectedLeft.clone().setLength(grassWidth + roadWidth));
   const rightGrass = vec.clone().add(projectedRight.clone().setLength(grassWidth + roadWidth));
-  const leftNoise = noise(leftGrass.x * noiseScale, leftGrass.z * noiseScale) * 2 - 1;
-  const rightNoise = noise(rightGrass.x * noiseScale, rightGrass.z * noiseScale) * 2 - 1;
-  leftGrass.add(new THREE.Vector3(0, leftNoise, 0));
-  rightGrass.add(new THREE.Vector3(0, rightNoise, 0));
+  const leftNoise = noise(leftGrass.x * noiseScale + 1, leftGrass.z * noiseScale + 1) * 2 - 1;
+  const rightNoise = noise(rightGrass.x * noiseScale + 1, rightGrass.z * noiseScale + 1) * 2 - 1;
+  const leftGrassNoise = noise(leftGrass.x * noiseScale, leftGrass.z * noiseScale) * 2 - 1;
+  const rightGrassNoise = noise(rightGrass.x * noiseScale, rightGrass.z * noiseScale) * 2 - 1;
+  const leftRoad = vec.clone().add(projectedLeft.multiplyScalar(1 - leftNoise / 3));
+  const rightRoad = vec.clone().add(projectedRight.multiplyScalar(1 - rightNoise / 3));
+  leftGrass.add(new THREE.Vector3(0, leftGrassNoise * 1.2, 0));
+  rightGrass.add(new THREE.Vector3(0, rightGrassNoise * 1.2, 0));
 
   return {
-    left,
+    left: leftRoad,
     leftGrass,
-    right,
+    right: rightRoad,
     rightGrass,
   };
 }
