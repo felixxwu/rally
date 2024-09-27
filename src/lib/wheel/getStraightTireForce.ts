@@ -40,7 +40,7 @@ export function getStraightTireForce(front: boolean) {
     }
   }
   if (keysDown.current[' ']) {
-    if (!front) {
+    if (!front && speed.length() > 2) {
       brakeForce = mult(speed.clone().normalize(), -10000);
     }
   }

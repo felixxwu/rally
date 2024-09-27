@@ -24,7 +24,7 @@ export const grassLeftMesh = ref<Mesh | null>(null);
 export const grassRightMesh = ref<Mesh | null>(null);
 export const seed = ref(0);
 export const seedLevel = ref(8);
-export const roadColor = '#888';
+export const roadColor = '#777';
 export const grassColor = '#4e884e';
 export const maxTerrainSlopeX = 5;
 export const maxTerrainSlopeZ = 5;
@@ -38,7 +38,7 @@ export const pointMoveDist = 3;
 export const numNeightborsToBlur = 20;
 export const crossingDistance = 50;
 export const maxPoints = 3000;
-export const maxAttempts = 8000;
+export const maxAttempts = 6000;
 export const halfRoadWidth = 6;
 export const startRoadWidth = 20;
 export const startRoadLength = 20;
@@ -68,8 +68,8 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 export const gravity = 35;
 
 // steering
-export const steerPower = ref(3000, 2000, 5000, 100);
-export const steerModMap = createXYMap([0, 0], [1, 0.4], [3, 0.5], [30, 1], [100, 0.4]); // x = speed, y = steering input modifier
+export const steerPower = ref(4000, 2000, 6000, 100);
+export const steerModMap = createXYMap([0, 0], [1, 0.5], [20, 1], [50, 0.5]); // x = speed, y = steering input modifier
 export const angularDamping = 0.99999997;
 export const reverseAngle = Math.PI * 0.8;
 
