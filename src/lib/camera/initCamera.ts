@@ -14,7 +14,7 @@ export function initCamera() {
 
   const spawn = getSpawn();
 
-  camera.current.position.set(0, 2000, -1);
+  camera.current.position.set(0, 2000, -10);
   camera.current.lookAt(0, 0, 0);
 
   setTimeout(() => {

@@ -158,5 +158,4 @@ export const renderHitCarBox = ref(false);
 // UI
 export const panelOpen = ref(false);
 export const startGame = ref(false);
-export const resetGame = ref(false);
 export const raycasterOffset = 2;

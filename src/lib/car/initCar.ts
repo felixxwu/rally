@@ -9,16 +9,14 @@ import {
   carWidth,
   onRender,
   physicsWorld,
-  roadMesh,
   scene,
-  startRoadLength,
 } from '../../refs';
 import { setUserData } from '../utils/userData';
 import { updateCar } from './updateCar';
 import { THREE } from '../utils/THREE';
 import { addBumpStop } from '../wheel/addBumpStop';
-import { add } from '../utils/addVec';
 import { getSpawn } from '../utils/getSpawn';
+import { resetCar } from './resetCar';
 
 export function initCar() {
   const spawn = getSpawn();
@@ -33,16 +31,6 @@ export function initCar() {
   addBumpStop(shape, car.current, true, false);
   addBumpStop(shape, car.current, false, true);
   addBumpStop(shape, car.current, false, false);
-
-  // set spawn position
-
-  const raycaster = new THREE.Raycaster(
-    new THREE.Vector3(spawn.x, 1000, spawn.z + startRoadLength),
-    new THREE.Vector3(0, -1, 0)
-  );
-  const intersections = raycaster.intersectObject(roadMesh.current!);
-  const intersection = intersections[0];
-  car.current.position.copy(add(intersection.point, [0, 3, 0]));
 
   const mass = 15;
   const localInertia = new Ammo.btVector3(0, 10, 0);
@@ -69,6 +57,8 @@ export function initCar() {
   scene.current?.add(car.current);
 
   physicsWorld.current?.addRigidBody(body);
+
+  resetCar();
 
   onRender.push(updateCar);
 }

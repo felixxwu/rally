@@ -1,4 +1,5 @@
-import { camera, freeCam, renderer, renderHelperArrows, resetGame } from '../refs';
+import { camera, freeCam, panelOpen, renderer, renderHelperArrows } from '../refs';
+import { resetCar } from './car/resetCar';
 import { ref } from './utils/ref';
 
 export let keysDown = ref<Record<string, boolean>>({});
@@ -65,9 +66,13 @@ function onKeyDown(event: KeyboardEvent) {
     freeCam.current = !freeCam.current;
   }
 
-  // if (event.key === 'Escape') {
-  //   resetGame.current = true;
-  // }
+  if (event.key === 'r') {
+    resetCar();
+  }
+
+  if (event.key === 'Escape') {
+    panelOpen.current = !panelOpen.current;
+  }
 }
 
 function onKeyUp(event: KeyboardEvent) {
