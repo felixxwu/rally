@@ -18,7 +18,11 @@ export function getTotalTireForce(prevDistance: Ref<number>, front: boolean, lef
   const { suspensionForce, compression, surface } = getSpringForce(cornerPos, prevDistance);
   const sideTireForce = getSideTireForce(compression);
   const straightTireForce = getStraightTireForce(front);
-  const { wheelMeshPos, wheelOffsetFromCorner } = getWheelMeshPos(compression, front, left);
+  const { wheelMeshPos, wheelOffsetFromCorner, wheelmeshBottomPos } = getWheelMeshPos(
+    compression,
+    front,
+    left
+  );
 
   const sqrtCompression = Math.sqrt(compression);
   const tireGripAfterCompression = tireGrip.current * sqrtCompression;
@@ -41,5 +45,6 @@ export function getTotalTireForce(prevDistance: Ref<number>, front: boolean, lef
     sideTireForce,
     totalTireForce,
     surface,
+    wheelmeshBottomPos,
   };
 }

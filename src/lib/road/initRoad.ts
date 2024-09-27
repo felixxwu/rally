@@ -5,6 +5,7 @@ import {
   grassColor,
   grassLeftMesh,
   grassRightMesh,
+  onRender,
   physicsWorld,
   roadColor,
   roadMesh,
@@ -15,6 +16,7 @@ import { createRoadShape } from './createRoadShape';
 import { createRoadTriangles } from './createRoadTriangles';
 import { createRoadPoints } from './createRoadPoints';
 import { infoText } from '../UI/info';
+import { resetIfFarFromRoad } from './resetIfFarFromRoad';
 
 export async function initRoad() {
   const vecs = await createRoadPoints();
@@ -52,4 +54,8 @@ export async function initRoad() {
   physicsWorld.current?.addRigidBody(grassRightRigidBody);
 
   infoText.current = '';
+
+  onRender.push(() => {
+    // resetIfFarFromRoad(vecs);
+  });
 }

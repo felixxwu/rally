@@ -27,6 +27,7 @@ export function updateWheel(
     sideTireForce,
     totalTireForce,
     surface,
+    wheelmeshBottomPos,
   } = getTotalTireForce(prevDistance, front, left);
 
   // apply forces to the car
@@ -57,7 +58,7 @@ export function updateWheel(
   // save compression to refs
   wheelCompression.current[front ? (left ? 0 : 1) : left ? 2 : 3] = compression;
 
-  addSkidMark(compression, wheelMeshPos, totalTireForce, front, left, surface);
+  addSkidMark(compression, wheelmeshBottomPos, totalTireForce, front, left, surface);
 
   // helper arrows
   helperArrow(mult(suspensionForce, 0.02), wheelMeshPos, 0xffff00, `suspension${front}${left}`);

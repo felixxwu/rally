@@ -35,5 +35,5 @@ export function updateCamera() {
     avgPos.clone().add(camVector || new THREE.Vector3()),
     camFollowSpeed.current
   );
-  camera.current?.lookAt(avgPos.x, avgPos.y + camFollowHeight.current / 4, avgPos.z);
+  camera.current?.lookAt(avgPos.x, avgPos.y + camFollowHeight.current / 2, avgPos.z);
 }

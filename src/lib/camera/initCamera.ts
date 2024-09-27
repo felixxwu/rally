@@ -6,7 +6,7 @@ import { getSpawn } from '../utils/getSpawn';
 
 export function initCamera() {
   camera.current = new THREE.PerspectiveCamera(
-    90,
+    85,
     window.innerWidth / window.innerHeight,
     0.2,
     2500

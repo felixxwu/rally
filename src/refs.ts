@@ -54,6 +54,7 @@ export const camera = ref<THREE.PerspectiveCamera | null>(null);
 export const scene = ref<THREE.Scene | null>(null);
 export const renderer = ref<THREE.WebGLRenderer | null>(null);
 export const clock = new THREE.Clock();
+// make ref?
 export const onRender: ((deltaTime: number) => void)[] = [];
 export const freeCam = ref(false);
 
@@ -112,8 +113,8 @@ export const frontWheelDrive = ref(true);
 export const rearWheelDrive = ref(true);
 
 // camera
-export const camFollowDistance = ref(6, 3, 30, 1);
-export const camFollowHeight = ref(7, 0, 30, 1);
+export const camFollowDistance = ref(5, 3, 30, 1);
+export const camFollowHeight = ref(5, 0, 30, 1);
 export const camFollowSpeed = ref(0.2, 0, 1, 0.01);
 
 // sky

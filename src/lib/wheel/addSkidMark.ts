@@ -10,6 +10,7 @@ import {
   wheelWidth,
 } from '../../refs';
 import { Surface } from '../../types';
+import { getAirResistanceForce } from '../car/getAirResistanceForce';
 import { getFromThreeV3Cache } from '../road/createRoadShape';
 import { createVec } from '../utils/createVec';
 import { ref } from '../utils/ref';
@@ -78,11 +79,14 @@ function skidMarkSegment(
   surface: Surface
 ) {
   const maxTireGrip = tireGrip.current * surfaceGrips[surface].ref.current;
+  const airResistance = getAirResistanceForce();
+  const tireSlip = totalTireForce.clone().sub(airResistance.negate()).length();
+
   const opacity =
     Math.min(
       skidMarkOpacity,
       Math.sqrt(compression) *
-        ((totalTireForce.length() - maxTireGrip * showSkidMarkThreshold) / maxTireGrip) *
+        ((tireSlip - maxTireGrip * showSkidMarkThreshold) / maxTireGrip) *
         skidMarkIntensity
     ) * surfaceGrips[surface].opacity;
 
