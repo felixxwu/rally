@@ -5,7 +5,7 @@ import { el } from './el';
 
 let i = 0;
 
-export function speedo() {
+export function Speedo() {
   return el.div(
     {
       style: `

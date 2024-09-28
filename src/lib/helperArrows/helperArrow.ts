@@ -21,3 +21,12 @@ export function helperArrow(vec: THREE.Vector3, origin: THREE.Vector3, color: nu
 
   return arrowHelper;
 }
+
+export function helperArrowFromTo(
+  from: THREE.Vector3,
+  to: THREE.Vector3,
+  color: number,
+  id: string
+) {
+  return helperArrow(to.clone().sub(from), from, color, id);
+}

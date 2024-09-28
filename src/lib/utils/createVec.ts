@@ -1,7 +1,7 @@
 import { Vector } from '../road/createRoadShape';
 import { THREE } from './THREE';
 
-export function createVec(arr: Vector) {
+export function vec3(arr: Vector) {
   return new THREE.Vector3(arr[0], arr[1], arr[2]);
 }
 

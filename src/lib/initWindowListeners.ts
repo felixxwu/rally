@@ -1,5 +1,5 @@
 import { camera, freeCam, panelOpen, renderer, renderHelperArrows } from '../refs';
-import { resetCar } from './car/resetCar';
+import { resetToLastProgress } from './road/resetIfFarFromRoad';
 import { ref } from './utils/ref';
 
 export let keysDown = ref<Record<string, boolean>>({});
@@ -67,7 +67,7 @@ function onKeyDown(event: KeyboardEvent) {
   }
 
   if (event.key === 'r') {
-    resetCar();
+    resetToLastProgress();
   }
 
   if (event.key === 'Escape') {

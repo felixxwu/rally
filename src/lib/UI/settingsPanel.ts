@@ -25,7 +25,7 @@ import { Ref } from '../utils/ref';
 import { el } from './el';
 import { panelOpen } from '../../refs';
 
-export function settingsPanel() {
+export function SettingsPanel() {
   return el.div(
     {
       style: `

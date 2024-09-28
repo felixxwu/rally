@@ -1,10 +1,6 @@
 import { startGame } from '../../refs';
-import { info } from './info';
+import { DrivingUI } from './drivingUI';
 import { mainMenu } from './mainMenu';
-import { mobileUI } from './mobileUi';
-import { settingsIcon } from './settingsIcon';
-import { settingsPanel } from './settingsPanel';
-import { speedo } from './speedo';
 
 export function initUI() {
   const ui = document.getElementById('ui');
@@ -14,11 +10,7 @@ export function initUI() {
     ui.innerHTML = '';
 
     if (value) {
-      ui.appendChild(info());
-      ui.appendChild(speedo());
-      ui.appendChild(mobileUI());
-      ui.appendChild(settingsPanel());
-      ui.appendChild(settingsIcon());
+      ui.appendChild(DrivingUI());
     } else {
       ui.appendChild(mainMenu());
     }

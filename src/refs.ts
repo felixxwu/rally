@@ -5,6 +5,7 @@ import { Mesh, Surface, TimeOfDay } from './types';
 import { THREE } from './lib/utils/THREE';
 import { Ref, ref } from './lib/utils/ref';
 import { createXYMap } from './lib/utils/createXYMap';
+import { Vector } from './lib/road/createRoadShape';
 
 // Heightfield parameters
 export const terrainWidthExtents = 2000;
@@ -38,7 +39,7 @@ export const pointMoveDist = 3;
 export const numNeightborsToBlur = 20;
 export const crossingDistance = 50;
 export const maxPoints = 3000;
-export const maxAttempts = 6000;
+export const maxAttempts = 5000;
 export const halfRoadWidth = 6;
 export const startRoadWidth = 20;
 export const startRoadLength = 20;
@@ -46,6 +47,8 @@ export const grassWidth = 4;
 export const maxBankingLength = 30;
 export const bankingAngleStart = 0.3;
 export const bankingAngleStep = 0.05;
+export const roadVecs = ref<Vector[]>([]);
+export const resetDistance = 50;
 
 // Graphics variables
 export const container = ref<HTMLElement | null>(null);
@@ -68,9 +71,9 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 export const gravity = 35;
 
 // steering
-export const steerPower = ref(4000, 2000, 6000, 100);
-export const steerModMap = createXYMap([0, 0], [1, 0.5], [20, 1], [50, 0.5]); // x = speed, y = steering input modifier
-export const angularDamping = 0.99999997;
+export const steerPower = ref(1300, 2000, 6000, 100);
+export const steerModMap = createXYMap([0, 0], [1, 0], [2, 0.6], [20, 1], [50, 0.6]); // x = speed, y = steering input modifier
+export const angularDamping = 0.99;
 export const reverseAngle = Math.PI * 0.8;
 
 // tires and suspension
@@ -84,24 +87,24 @@ export const tireSnappiness = ref(100, 50, 200, 1);
 export const wheelCompression = ref([0, 0, 0, 0]);
 
 // power & brakes
-export const enginePower = ref(100, 0, 500, 10);
-export const brakePower = ref(200, 0, 1200, 100);
+export const enginePower = ref(80, 0, 500, 10);
+export const brakePower = ref(150, 0, 1200, 100);
 export const brakeRearBias = ref(0.5, 0, 1, 0.01);
 
 // surface grips
 export const surfaceGrips: {
   [key in Surface]: { ref: Ref<number>; colour: string; opacity: number };
 } = {
-  tarmac: { ref: ref(2, 0, 3, 0.1), colour: '#000', opacity: 1 },
+  tarmac: { ref: ref(1, 0, 3, 0.1), colour: '#000', opacity: 1 },
   grass: { ref: ref(0.6, 0, 3, 0.1), colour: '#040', opacity: 0.3 },
 };
-export const showSkidMarkThreshold = 0.35;
+export const showSkidMarkThreshold = 0.7;
 export const skidMarkIntensity = 5;
 export const skidMarkOpacity = 0.5;
 export const maxSkidMarks = 200;
 
 // car physics
-export const bodyRoll = ref(0.6, 0, 1, 0.1);
+export const bodyRoll = ref(1.5, 0, 1, 0.1);
 export const airResistance = ref(0.15, 0.1, 0.5, 0.01);
 export const minAirResistance = 10;
 export const car = ref<Mesh | null>(null);
@@ -111,6 +114,7 @@ export const carHeight = 1;
 export const wheelEndOffset = 0.2;
 export const frontWheelDrive = ref(true);
 export const rearWheelDrive = ref(true);
+export const progress = ref(0);
 
 // camera
 export const camFollowDistance = ref(5, 3, 30, 1);

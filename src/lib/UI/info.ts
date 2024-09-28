@@ -3,7 +3,7 @@ import { el } from './el';
 
 export const infoText = ref('');
 
-export function info() {
+export function Info() {
   return el.div(
     {
       style: `

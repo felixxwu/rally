@@ -1,7 +1,7 @@
 import { el } from './el';
 import { panelOpen } from '../../refs';
 
-export function settingsIcon() {
+export function SettingsIcon() {
   return el.img({
     src: '/settings.svg',
     width: '25',

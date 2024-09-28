@@ -9,7 +9,7 @@ import { mult } from '../utils/multVec';
 import { add } from '../utils/addVec';
 import { THREE } from '../utils/THREE';
 import { getSpeedVec } from './getSpeedVec';
-import { getCarTransform } from './getCarTransform';
+import { getCarPos } from './getCarTransform';
 
 export function getAirResistanceForce() {
   if (!car.current) return new THREE.Vector3();
@@ -17,7 +17,7 @@ export function getAirResistanceForce() {
   const speed = getSpeedVec();
   const inverseTravel = speed.clone().multiplyScalar(-airResistance.current);
   const squared = inverseTravel.clone().multiplyScalar(inverseTravel.length());
-  const carPos = getCarTransform();
+  const carPos = getCarPos();
   squared.setLength(squared.length() + minAirResistance);
 
   if (speed.length() > 1) {

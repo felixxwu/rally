@@ -19,11 +19,11 @@ import { infoText } from '../UI/info';
 import { resetIfFarFromRoad } from './resetIfFarFromRoad';
 
 export async function initRoad() {
-  const vecs = await createRoadPoints();
+  await createRoadPoints();
 
   infoText.current = 'Finishing up road';
 
-  const { road, grassLeft, grassRight } = await createRoadTriangles(vecs);
+  const { road, grassLeft, grassRight } = await createRoadTriangles();
 
   if (temporaryMesh.current) {
     scene.current?.remove(temporaryMesh.current.road);
@@ -56,6 +56,6 @@ export async function initRoad() {
   infoText.current = '';
 
   onRender.push(() => {
-    // resetIfFarFromRoad(vecs);
+    resetIfFarFromRoad();
   });
 }

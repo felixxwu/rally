@@ -1,7 +1,7 @@
 import { el } from './el';
 import { mobileControl } from './mobileControl';
 
-export function mobileUI() {
+export function MobileUI() {
   return el.div(
     {
       style: `

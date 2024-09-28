@@ -6,15 +6,17 @@ import {
   halfRoadWidth,
   grassWidth,
   maxBankingLength,
+  roadVecs,
 } from '../../refs';
 import { createNoiseFunc } from '../terrain/createNoiseFunc';
 import { infoText } from '../UI/info';
-import { createArr, createVec } from '../utils/createVec';
+import { createArr, vec3 } from '../utils/createVec';
 import { ray } from '../utils/ray';
 import { THREE } from '../utils/THREE';
 import { Triangle, Vector } from './createRoadShape';
 
-export async function createRoadTriangles(vecs: Vector[], skipGrass?: boolean) {
+export async function createRoadTriangles(skipGrass?: boolean) {
+  const vecs = roadVecs.current;
   if (vecs.length < 10) {
     return { road: [], grassLeft: [], grassRight: [] };
   }
@@ -137,27 +139,27 @@ export async function createRoadTriangles(vecs: Vector[], skipGrass?: boolean) {
 }
 
 function getSideVecs(vecs: Vector[], i: number, skipGrass?: boolean) {
-  const vec = createVec(vecs[i]);
-  const prev = createVec(vecs[i - 1]);
-  const next = createVec(vecs[i + 1]);
+  const vec = vec3(vecs[i]);
+  const prev = vec3(vecs[i - 1]);
+  const next = vec3(vecs[i + 1]);
   const diff = next.clone().sub(prev);
 
   const leftQuat = new THREE.Quaternion();
-  leftQuat.setFromAxisAngle(createVec([0, 1, 0]), Math.PI / 2);
+  leftQuat.setFromAxisAngle(vec3([0, 1, 0]), Math.PI / 2);
   const rightQuat = new THREE.Quaternion();
-  rightQuat.setFromAxisAngle(createVec([0, 1, 0]), Math.PI / -2);
+  rightQuat.setFromAxisAngle(vec3([0, 1, 0]), Math.PI / -2);
 
   const roadWidth =
     i < startRoadLength || i >= vecs.length - startRoadLength ? startRoadWidth : halfRoadWidth;
 
   const projectedLeft = diff
     .clone()
-    .projectOnPlane(createVec([0, 1, 0]))
+    .projectOnPlane(vec3([0, 1, 0]))
     .applyQuaternion(leftQuat)
     .setLength(roadWidth);
   const projectedRight = diff
     .clone()
-    .projectOnPlane(createVec([0, 1, 0]))
+    .projectOnPlane(vec3([0, 1, 0]))
     .applyQuaternion(rightQuat)
     .setLength(roadWidth);
 
@@ -215,10 +217,10 @@ function getBankingPoint(
 
   if (Math.abs(angle) > Math.PI / 2) return null;
 
-  const vec = createVec(vecs[i]);
+  const vec = vec3(vecs[i]);
   const sideDir = grassSide.clone().sub(vec).normalize();
-  const prev = createVec(vecs[i - 1]);
-  const next = createVec(vecs[i + 1]);
+  const prev = vec3(vecs[i - 1]);
+  const next = vec3(vecs[i + 1]);
   const diff = next.clone().sub(prev);
   const quat = new THREE.Quaternion();
   quat.setFromAxisAngle(diff.clone().normalize(), angle);

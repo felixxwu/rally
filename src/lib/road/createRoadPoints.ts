@@ -6,6 +6,7 @@ import {
   nearbyDistance,
   numNeightborsToBlur,
   pointMoveDist,
+  roadVecs,
   startRoadLength,
   terrainDepthExtents,
   terrainWidthExtents,
@@ -20,7 +21,6 @@ import { createTemporaryMesh } from './createTemporaryMesh';
 
 export async function createRoadPoints() {
   const spawn = getSpawn();
-  const vecs: Vector[] = [];
   const longestVecs: Vector[][] = [];
   const point = new THREE.Vector2(spawn.x, spawn.z - 30);
   const roadDir = new THREE.Vector2(0, 1).normalize();
@@ -28,11 +28,11 @@ export async function createRoadPoints() {
   let backoff = 1;
 
   for (let i = 0; i < maxAttempts; i++) {
-    if (vecs.length >= maxPoints) break;
+    if (roadVecs.current.length >= maxPoints) break;
     if (i % 100 === 99) {
       infoText.current = `Generating Road... ${Math.round((i / maxAttempts) * 100)}%`;
 
-      await createTemporaryMesh(vecs);
+      await createTemporaryMesh();
     }
     const intersection = ray(
       new THREE.Vector3(point.x, 1000, point.y),
@@ -41,7 +41,7 @@ export async function createRoadPoints() {
     if (!intersection) break;
     const intersectionPoint = intersection.point;
     const newPoint = add(intersectionPoint, [0, 1, 0]);
-    vecs.push([newPoint.x, newPoint.y, newPoint.z] as Vector);
+    roadVecs.current.push([newPoint.x, newPoint.y, newPoint.z] as Vector);
 
     const leftDir = point
       .clone()
@@ -74,10 +74,10 @@ export async function createRoadPoints() {
     const rightHeightDiff = Math.abs(rightIntersection.y - intersectionPoint.y);
 
     let crossing = false;
-    const nearbyPoints = vecs
+    const nearbyPoints = roadVecs.current
       .filter((v, i) => {
-        const isLastNearbyVecs = i > vecs.length - nearbyDistance * 1.5;
-        const isLastCrossingVecs = i > vecs.length - crossingDistance * 1.5;
+        const isLastNearbyVecs = i > roadVecs.current.length - nearbyDistance * 1.5;
+        const isLastCrossingVecs = i > roadVecs.current.length - crossingDistance * 1.5;
 
         if (
           !isLastCrossingVecs &&
@@ -105,8 +105,8 @@ export async function createRoadPoints() {
     if (crossing) {
       let firstPointNearCrossing: number | undefined;
 
-      for (let i = 0; i < vecs.length; i++) {
-        const v = vecs[i];
+      for (let i = 0; i < roadVecs.current.length; i++) {
+        const v = roadVecs.current[i];
         if (
           v[0] > point.x - crossingDistance &&
           v[0] < point.x + crossingDistance &&
@@ -119,15 +119,10 @@ export async function createRoadPoints() {
       }
 
       if (firstPointNearCrossing) {
-        console.log(
-          'Crossing detected, removing ',
-          vecs.length - firstPointNearCrossing,
-          ' points'
-        );
-        longestVecs.push([...vecs.slice(0, -50)]);
+        longestVecs.push([...roadVecs.current.slice(0, -50)]);
         const cutoff = Math.max(startRoadLength * 1.5, firstPointNearCrossing - backoff);
-        point.set(vecs[cutoff][0], vecs[cutoff][2]);
-        vecs.splice(cutoff, vecs.length - cutoff);
+        point.set(roadVecs.current[cutoff][0], roadVecs.current[cutoff][2]);
+        roadVecs.current.splice(cutoff, roadVecs.current.length - cutoff);
         backoff += 1;
       }
     }
@@ -184,7 +179,10 @@ export async function createRoadPoints() {
 
   await new Promise(r => setTimeout(r));
 
-  const longestVec = longestVecs.reduce((acc, v) => (v.length > acc.length ? v : acc), vecs);
+  const longestVec = longestVecs.reduce(
+    (acc, v) => (v.length > acc.length ? v : acc),
+    roadVecs.current
+  );
 
   const blurredVecs: Vector[] = [];
 
@@ -227,7 +225,6 @@ export async function createRoadPoints() {
     }
   }
 
-  await createTemporaryMesh(blurredVecs);
-
-  return blurredVecs;
+  roadVecs.current = blurredVecs;
+  await createTemporaryMesh();
 }

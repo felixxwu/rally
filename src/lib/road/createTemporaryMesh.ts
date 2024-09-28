@@ -2,12 +2,12 @@ import { roadColor, scene, temporaryMesh } from '../../refs';
 import { createRoadShape, Vector } from './createRoadShape';
 import { createRoadTriangles } from './createRoadTriangles';
 
-export async function createTemporaryMesh(vecs: Vector[]) {
+export async function createTemporaryMesh() {
   if (temporaryMesh.current) {
     scene.current?.remove(temporaryMesh.current.road);
   }
 
-  const { road } = await createRoadTriangles(vecs, true);
+  const { road } = await createRoadTriangles(true);
 
   if (road.length === 0) return;
 

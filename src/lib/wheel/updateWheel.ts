@@ -1,5 +1,5 @@
 import { Mesh } from '../../types';
-import { car, wheelCompression } from '../../refs';
+import { car, steerModMap, wheelCompression } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { getUserData } from '../utils/userData';
 import { helperArrow } from '../helperArrows/helperArrow';
@@ -9,6 +9,7 @@ import { getTotalTireForce } from './getTotalTireForce';
 import { addSkidMark } from './addSkidMark';
 import { getSpeedVec } from '../car/getSpeedVec';
 import { getCarDirection } from '../car/getCarDirection';
+import { createQuat } from '../utils/createQuat';
 
 export function updateWheel(
   wheelMesh: Mesh,
@@ -48,9 +49,11 @@ export function updateWheel(
 
   const carDir = getCarDirection();
   const speed = getSpeedVec().clone().normalize();
-  const cross = carDir.clone().cross(speed);
-  cross.clampLength(0, front ? 0.7 : 0);
-  const quat2 = new THREE.Quaternion().setFromEuler(new THREE.Euler().setFromVector3(cross));
+  const { threeQuat: quat2 } = createQuat(
+    carDir,
+    speed,
+    (front ? 1 : 0) * steerModMap(speed.length())
+  );
   quat2.multiply(quat);
 
   wheelMesh.setRotationFromQuaternion(quat2 || new THREE.Quaternion());
@@ -62,6 +65,5 @@ export function updateWheel(
 
   // helper arrows
   helperArrow(mult(suspensionForce, 0.02), wheelMeshPos, 0xffff00, `suspension${front}${left}`);
-  helperArrow(mult(sideTireForce, 0.02), wheelMeshPos, 0x000000, `side${front}${left}`);
   helperArrow(mult(totalTireForce, 0.02), wheelMeshPos, 0xff0000, `tire${front}${left}`);
 }

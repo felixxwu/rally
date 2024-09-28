@@ -12,7 +12,7 @@ import {
 import { Surface } from '../../types';
 import { getAirResistanceForce } from '../car/getAirResistanceForce';
 import { getFromThreeV3Cache } from '../road/createRoadShape';
-import { createVec } from '../utils/createVec';
+import { vec3 } from '../utils/createVec';
 import { ref } from '../utils/ref';
 import { THREE } from '../utils/THREE';
 
@@ -42,10 +42,10 @@ export function addSkidMark(
 
   const diff = prevPoint.clone().sub(wheelMeshPos);
   const rightQuat = new THREE.Quaternion();
-  rightQuat.setFromAxisAngle(createVec([0, 1, 0]), Math.PI / -2);
+  rightQuat.setFromAxisAngle(vec3([0, 1, 0]), Math.PI / -2);
   const right = diff
     .clone()
-    .projectOnPlane(createVec([0, 1, 0]))
+    .projectOnPlane(vec3([0, 1, 0]))
     .applyQuaternion(rightQuat)
     .setLength(wheelWidth);
   const wheelLeft = wheelMeshPos.clone().add(right.clone().divideScalar(-2));

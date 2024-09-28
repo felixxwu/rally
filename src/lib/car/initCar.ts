@@ -16,7 +16,7 @@ import { updateCar } from './updateCar';
 import { THREE } from '../utils/THREE';
 import { addBumpStop } from '../wheel/addBumpStop';
 import { getSpawn } from '../utils/getSpawn';
-import { resetCar } from './resetCar';
+import { resetCar } from './setCarPos';
 
 export function initCar() {
   const spawn = getSpawn();
