@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "infinite-rally",
+    "site": "blockyrally",
     "public": "dist",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
@@ -11,7 +11,7 @@
     ],
     "redirects": [
       {
-        "source": "https://blockyrally.web.app",
+        "source": "/",
         "destination": "https://infinite-rally.web.app",
         "type": 301
       }
