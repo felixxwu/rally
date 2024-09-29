@@ -2,11 +2,9 @@ import {
   car,
   maxSkidMarks,
   scene,
-  showSkidMarkThreshold,
   skidMarkIntensity,
   skidMarkOpacity,
   surfaceGrips,
-  tireGrip,
   wheelWidth,
 } from '../../refs';
 import { Surface } from '../../types';
@@ -29,6 +27,7 @@ export function addSkidMark(
   compression: number,
   wheelMeshPos: THREE.Vector3,
   totalTireForce: THREE.Vector3,
+  totalTireForceBeforeClamp: THREE.Vector3,
   front: boolean,
   left: boolean,
   surface: Surface
@@ -58,6 +57,7 @@ export function addSkidMark(
     prevRight,
     compression,
     totalTireForce,
+    totalTireForceBeforeClamp,
     surface
   );
   mesh && scene.current?.add(mesh);
@@ -76,19 +76,17 @@ function skidMarkSegment(
   prevRight: THREE.Vector3,
   compression: number,
   totalTireForce: THREE.Vector3,
+  totalTireForceBeforeClamp: THREE.Vector3,
   surface: Surface
 ) {
-  const maxTireGrip = tireGrip.current * surfaceGrips[surface].ref.current;
-  const airResistance = getAirResistanceForce();
-  const tireSlip = totalTireForce.clone().sub(airResistance.negate()).length();
+  const airResistance = getAirResistanceForce().length();
+  const beforeClamp = totalTireForceBeforeClamp.length();
+  const afterClamp = totalTireForce.length();
 
-  const opacity =
-    Math.min(
-      skidMarkOpacity,
-      Math.sqrt(compression) *
-        ((tireSlip - maxTireGrip * showSkidMarkThreshold) / maxTireGrip) *
-        skidMarkIntensity
-    ) * surfaceGrips[surface].opacity;
+  const opacity = Math.min(
+    (beforeClamp - afterClamp - airResistance) * skidMarkIntensity * compression,
+    skidMarkOpacity
+  );
 
   if (opacity <= 0) {
     return null;

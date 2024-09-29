@@ -77,7 +77,7 @@ export const angularDamping = 0.99;
 export const reverseAngle = Math.PI * 0.8;
 
 // tires and suspension
-export const tireGrip = ref(200, 0, 1000, 10);
+export const tireGrip = ref(150, 0, 1000, 10);
 export const springLength = ref(1.1, 0.5, 3, 0.01);
 export const sprintRate = ref(400, 0, 600, 10);
 export const springDamping = ref(5000, 0, 15000, 100);
@@ -95,11 +95,10 @@ export const brakeRearBias = ref(0.5, 0, 1, 0.01);
 export const surfaceGrips: {
   [key in Surface]: { ref: Ref<number>; colour: string; opacity: number };
 } = {
-  tarmac: { ref: ref(1, 0, 3, 0.1), colour: '#000', opacity: 1 },
+  tarmac: { ref: ref(1.5, 0, 3, 0.1), colour: '#000', opacity: 1 },
   grass: { ref: ref(0.6, 0, 3, 0.1), colour: '#040', opacity: 0.3 },
 };
-export const showSkidMarkThreshold = 0.7;
-export const skidMarkIntensity = 5;
+export const skidMarkIntensity = 0.003;
 export const skidMarkOpacity = 0.5;
 export const maxSkidMarks = 200;
 
