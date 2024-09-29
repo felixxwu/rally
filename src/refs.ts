@@ -73,9 +73,9 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 export const gravity = 35;
 
 // steering
-export const steerPower = ref(1300, 1000, 2000, 100);
+export const steerPower = ref(1000, 500, 2000, 100);
 export const steerModMap = createXYMap([0, 0], [1, 0], [2, 0.6], [20, 1], [50, 0.6]); // x = speed, y = steering input modifier
-export const angularDamping = 0.99;
+export const angularDamping = 0.95;
 export const reverseAngle = Math.PI * 0.8;
 
 // tires and suspension
@@ -104,7 +104,7 @@ export const skidMarkIntensity = 0.005;
 export const maxSkidMarks = 200;
 
 // car physics
-export const bodyRoll = ref(0.7, 0, 1, 0.1);
+export const bodyRoll = ref(0.5, 0, 1, 0.1);
 export const airResistance = ref(0.15, 0.1, 0.5, 0.01);
 export const minAirResistance = 10;
 export const car = ref<Mesh | null>(null);
@@ -167,3 +167,14 @@ export const raycasterOffset = 2;
 export const stageTime = ref(0);
 export const stageTimeStarted = ref(false);
 export const countDown = ref(0);
+
+// controls
+export const keysDownMobile = ref<Record<string, boolean>>({});
+export const keysDown = ref<Record<string, boolean>>({});
+export const internalController = ref({
+  steer: 0,
+  throttle: 0,
+  brake: 0,
+  handbrake: 0,
+  reset: false,
+});

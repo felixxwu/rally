@@ -1,7 +1,7 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { keysDown } from '../initWindowListeners';
+import { internalController } from '../../refs';
 import { updatePhysics } from '../physics/updatePhysics';
 import { THREE } from '../utils/THREE';
 import { getUserData } from '../utils/userData';
@@ -19,13 +19,9 @@ export function updateCar() {
   const airResistanceForce = getAirResistanceForce();
   const steerTorque = getSteerTorque();
 
-  if (keysDown.current.a) {
-    carTorque.add(new THREE.Vector3(0, -steerTorque, 0));
-  }
+  const steerValue = internalController.current.steer;
 
-  if (keysDown.current.d) {
-    carTorque.add(new THREE.Vector3(0, steerTorque, 0));
-  }
+  carTorque.add(new THREE.Vector3(0, steerTorque * steerValue, 0));
 
   objPhys?.applyCentralForce(getAmmoVector(airResistanceForce));
   objPhys?.applyLocalTorque(getAmmoVector(carTorque));

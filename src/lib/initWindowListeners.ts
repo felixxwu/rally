@@ -1,8 +1,13 @@
-import { camera, freeCam, panelOpen, renderer, renderHelperArrows } from '../refs';
+import {
+  camera,
+  freeCam,
+  keysDown,
+  keysDownMobile,
+  panelOpen,
+  renderer,
+  renderHelperArrows,
+} from '../refs';
 import { resetToLastProgress } from './road/resetIfFarFromRoad';
-import { ref } from './utils/ref';
-
-export let keysDown = ref<Record<string, boolean>>({});
 
 export function initWindowListeners() {
   window.onresize = onWindowResize;
@@ -30,7 +35,7 @@ function onTouch(e: TouchEvent) {
     if (!el) continue;
     const rect = el?.getBoundingClientRect();
 
-    keysDown.current[key] = false;
+    keysDownMobile.current[key] = false;
     el.style.opacity = '0.5';
 
     for (const touch of touches) {
@@ -41,7 +46,7 @@ function onTouch(e: TouchEvent) {
         rect.top <= touch.clientY &&
         touch.clientY <= rect.bottom
       ) {
-        keysDown.current[key] = true;
+        keysDownMobile.current[key] = true;
         el.style.opacity = '1';
       }
     }

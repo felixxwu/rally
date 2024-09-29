@@ -6,7 +6,7 @@ import { Mesh } from '../../types';
 import { THREE } from '../utils/THREE';
 
 const lastXPos: THREE.Vector3[] = [];
-const numLastXPos = 20;
+const numLastXPos = 10;
 
 export function updatePhysics(objThree: Mesh) {
   const objPhys = getUserData(objThree).physicsBody;
@@ -25,6 +25,6 @@ export function updatePhysics(objThree: Mesh) {
       .divideScalar(lastXPos.length);
 
     objThree.position.copy(avgXPos);
-    objThree.quaternion.slerp(quat, 0.2);
+    objThree.quaternion.copy(quat);
   }
 }

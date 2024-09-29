@@ -14,6 +14,7 @@ import { initWheel } from './lib/wheel/initWheel';
 import { initRoad } from './lib/road/initRoad';
 import { initSky } from './lib/light/initSky';
 import { stageTimeStarted, startGame } from './refs';
+import { initInternalController } from './lib/initInternalController';
 
 Ammo().then(init);
 
@@ -25,6 +26,7 @@ export async function init() {
   initLight();
   initSky();
   initWindowListeners();
+  initInternalController();
 
   startGame.listeners.push(async value => {
     if (value) {

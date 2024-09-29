@@ -1,7 +1,12 @@
 import { getCarDirection } from '../car/getCarDirection';
-import { brakePower, brakeRearBias, frontWheelDrive, rearWheelDrive } from '../../refs';
+import {
+  brakePower,
+  brakeRearBias,
+  frontWheelDrive,
+  internalController,
+  rearWheelDrive,
+} from '../../refs';
 import { enginePower } from '../../refs';
-import { keysDown } from '../initWindowListeners';
 import { THREE } from '../utils/THREE';
 import { mult } from '../utils/multVec';
 import { wheelHasPower } from './wheelHasPower';
@@ -16,33 +21,31 @@ export function getStraightTireForce(front: boolean) {
   const reversing = isReversing();
   const brakeBiasMod = front ? 1 - brakeRearBias.current : brakeRearBias.current;
 
+  const throttle = internalController.current.throttle;
+  const brake = internalController.current.brake;
+  const handeBrake = internalController.current.handbrake;
+
   let engineForce = new THREE.Vector3();
   let brakeForce = new THREE.Vector3();
   let usingBrakes = false;
-  if (keysDown.current.w) {
-    if (reversing) {
-      brakeForce = mult(speed.clone().normalize(), -brakePower.current * brakeBiasMod);
-      usingBrakes = true;
-    } else {
-      if (wheelHasPower(front)) {
-        engineForce = mult(forwardUnitVec, enginePower.current);
-      }
+  if (reversing) {
+    brakeForce = mult(speed.clone().normalize(), -brakePower.current * brakeBiasMod * throttle);
+    usingBrakes = true;
+  } else {
+    if (wheelHasPower(front)) {
+      engineForce = mult(forwardUnitVec, enginePower.current * throttle);
     }
   }
-  if (keysDown.current.s) {
-    if (reversing) {
-      if (wheelHasPower(front)) {
-        engineForce = mult(forwardUnitVec, -enginePower.current);
-      }
-    } else {
-      brakeForce = mult(speed.clone().normalize(), -brakePower.current * brakeBiasMod);
-      usingBrakes = true;
+  if (reversing) {
+    if (wheelHasPower(front)) {
+      engineForce = mult(forwardUnitVec, -enginePower.current * brake);
     }
+  } else {
+    brakeForce = mult(speed.clone().normalize(), -brakePower.current * brakeBiasMod * brake);
+    usingBrakes = true;
   }
-  if (keysDown.current[' ']) {
-    if (!front && speed.length() > 2) {
-      brakeForce = mult(speed.clone().normalize(), -10000);
-    }
+  if (!front && speed.length() > 2) {
+    brakeForce = mult(speed.clone().normalize(), -10000 * handeBrake);
   }
   if (frontWheelDrive.current && rearWheelDrive.current) {
     engineForce.multiplyScalar(0.5);
