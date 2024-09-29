@@ -25,7 +25,7 @@ export const grassLeftMesh = ref<Mesh | null>(null);
 export const grassRightMesh = ref<Mesh | null>(null);
 export const seed = ref(0);
 export const seedLevel = ref(8);
-export const roadColor = '#777';
+export const roadColor = '#888';
 export const grassColor = '#4e884e';
 export const maxTerrainSlopeX = 5;
 export const maxTerrainSlopeZ = 5;
@@ -79,7 +79,7 @@ export const reverseAngle = Math.PI * 0.8;
 // tires and suspension
 export const tireGrip = ref(200, 0, 1000, 10);
 export const springLength = ref(1.1, 0.5, 3, 0.01);
-export const sprintRate = ref(300, 0, 600, 10);
+export const sprintRate = ref(400, 0, 600, 10);
 export const springDamping = ref(5000, 0, 15000, 100);
 export const wheelRadius = 0.4;
 export const wheelWidth = 0.3;
@@ -104,7 +104,7 @@ export const skidMarkOpacity = 0.5;
 export const maxSkidMarks = 200;
 
 // car physics
-export const bodyRoll = ref(1.5, 0, 1, 0.1);
+export const bodyRoll = ref(0.7, 0, 1, 0.1);
 export const airResistance = ref(0.15, 0.1, 0.5, 0.01);
 export const minAirResistance = 10;
 export const car = ref<Mesh | null>(null);
