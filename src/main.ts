@@ -13,8 +13,9 @@ import { initUI } from './lib/UI/initUI';
 import { initWheel } from './lib/wheel/initWheel';
 import { initRoad } from './lib/road/initRoad';
 import { initSky } from './lib/light/initSky';
-import { stageTimeStarted, startGame } from './refs';
+import { currentMenu, devMode, stageTimeStarted, startGame } from './refs';
 import { initInternalController } from './lib/initInternalController';
+import { DrivingUI } from './lib/UI/DrivingUI';
 
 Ammo().then(init);
 
@@ -44,4 +45,9 @@ export async function init() {
       stageTimeStarted.current = true;
     }
   });
+
+  if (devMode) {
+    currentMenu.current = DrivingUI();
+    startGame.current = true;
+  }
 }

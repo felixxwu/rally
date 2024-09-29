@@ -1,5 +1,5 @@
 import { css } from 'goober';
-import { styled } from '../styled';
+import { styled } from '../../utils/styled';
 
 export const FullSize = styled('div')(css`
   position: fixed;

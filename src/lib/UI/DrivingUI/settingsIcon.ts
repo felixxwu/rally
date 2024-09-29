@@ -1,5 +1,5 @@
-import { el } from './el';
-import { panelOpen } from '../../refs';
+import { el } from '../../utils/el';
+import { panelOpen } from '../../../refs';
 
 export function SettingsIcon() {
   return el.img({

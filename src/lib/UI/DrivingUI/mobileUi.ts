@@ -1,4 +1,4 @@
-import { el } from './el';
+import { el } from '../../utils/el';
 import { mobileControl } from './mobileControl';
 
 export function MobileUI() {

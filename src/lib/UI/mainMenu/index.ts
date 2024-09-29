@@ -1,4 +1,5 @@
-import { seed, startGame, timeOfDay } from '../../../refs';
+import { currentMenu, seed, startGame, timeOfDay } from '../../../refs';
+import { DrivingUI } from '../DrivingUI';
 import { Container, FullSize, SeedInput, StartButton } from './styles';
 
 export function mainMenu() {
@@ -11,6 +12,7 @@ export function mainMenu() {
           oncreate: div => {
             div.onclick = () => {
               startGame.current = true;
+              currentMenu.current = DrivingUI();
             };
           },
         },

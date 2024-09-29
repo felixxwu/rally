@@ -1,4 +1,4 @@
-import { el } from './el';
+import { el } from '../../utils/el';
 
 export function mobileControl(key: string, rotation: number) {
   return el.img({

@@ -1,6 +1,6 @@
 import { css } from 'goober';
-import { styled } from './styled';
-import { progress, resetDistance, roadVecs, stageTime, startRoadLength } from '../../refs';
+import { styled } from '../../utils/styled';
+import { progress, resetDistance, roadVecs, stageTime, startRoadLength } from '../../../refs';
 
 export function Progress() {
   return Container(

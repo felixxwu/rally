@@ -1,7 +1,7 @@
-import { onRender } from '../../refs';
-import { getCarDirection } from '../car/getCarDirection';
-import { getSpeedVec } from '../car/getSpeedVec';
-import { el } from './el';
+import { onRender } from '../../../refs';
+import { getCarDirection } from '../../car/getCarDirection';
+import { getSpeedVec } from '../../car/getSpeedVec';
+import { el } from '../../utils/el';
 
 let i = 0;
 

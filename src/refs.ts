@@ -6,6 +6,11 @@ import { THREE } from './lib/utils/THREE';
 import { Ref, ref } from './lib/utils/ref';
 import { createXYMap } from './lib/utils/createXYMap';
 import { Vector } from './lib/road/createRoadShape';
+import { SplashScreen } from './lib/UI/SplashScreen';
+import { DrivingUI } from './lib/UI/DrivingUI';
+
+// immediately start a game
+export const devMode = false;
 
 // Heightfield parameters
 export const terrainWidthExtents = 2000;
@@ -33,7 +38,7 @@ export const maxTerrainSlopeZ = 6;
 export let temporaryMesh = ref<{ road: THREE.Mesh } | null>(null);
 
 // Road generation
-export const maxPoints = 3000;
+export const maxPoints = devMode ? 1000 : 3000;
 export const maxAttempts = 7000;
 export const maxAngle = 0.04;
 export const nearbyDistance = 200;
@@ -167,6 +172,8 @@ export const raycasterOffset = 2;
 export const stageTime = ref(0);
 export const stageTimeStarted = ref(false);
 export const countDown = ref(0);
+export const currentMenu = ref(devMode ? DrivingUI() : SplashScreen());
+export const transitionTime = 1000;
 
 // controls
 export const keysDownMobile = ref<Record<string, boolean>>({});

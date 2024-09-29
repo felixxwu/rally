@@ -20,10 +20,10 @@ import {
   freeCam,
   seed,
   surfaceGrips,
-} from '../../refs';
-import { Ref } from '../utils/ref';
-import { el } from './el';
-import { panelOpen } from '../../refs';
+} from '../../../refs';
+import { Ref } from '../../utils/ref';
+import { el } from '../../utils/el';
+import { panelOpen } from '../../../refs';
 
 export function SettingsPanel() {
   return el.div(

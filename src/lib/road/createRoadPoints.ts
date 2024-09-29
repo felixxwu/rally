@@ -12,7 +12,7 @@ import {
   terrainDepthExtents,
   terrainWidthExtents,
 } from '../../refs';
-import { infoText } from '../UI/info';
+import { infoText } from '../UI/DrivingUI/info';
 import { add } from '../utils/addVec';
 import { getSpawn } from '../utils/getSpawn';
 import { ray } from '../utils/ray';

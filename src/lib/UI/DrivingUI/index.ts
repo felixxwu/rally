@@ -1,4 +1,4 @@
-import { el } from './el';
+import { el } from '../../utils/el';
 import { Info } from './info';
 import { MobileUI } from './mobileUi';
 import { Progress } from './progress';

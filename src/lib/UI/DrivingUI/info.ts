@@ -1,5 +1,5 @@
-import { ref } from '../utils/ref';
-import { el } from './el';
+import { ref } from '../../utils/ref';
+import { el } from '../../utils/el';
 
 export const infoText = ref('');
 
