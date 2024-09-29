@@ -1,5 +1,5 @@
 import { Mesh } from '../../types';
-import { car, steerModMap, wheelCompression } from '../../refs';
+import { car, reverseAngle, steerModMap, wheelCompression } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { getUserData } from '../utils/userData';
 import { helperArrow } from '../helperArrows/helperArrow';
@@ -48,11 +48,13 @@ export function updateWheel(
   quat.multiply(additionalQuat);
 
   const carDir = getCarDirection();
-  const speed = getSpeedVec().clone().normalize();
+  const speed = getSpeedVec();
+  const angle = getCarDirection().angleTo(speed);
+  const reversing = angle > reverseAngle;
   const { threeQuat: quat2 } = createQuat(
-    carDir,
-    speed,
-    (front ? 1 : 0) * steerModMap(speed.length())
+    carDir.clone().normalize(),
+    speed.clone().normalize(),
+    (front && !reversing ? 1 : 0) * steerModMap(speed.length())
   );
   quat2.multiply(quat);
 

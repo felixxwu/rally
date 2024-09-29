@@ -15,7 +15,7 @@ export const terrainWidth = 50;
 export const terrainDepth = 50;
 export const terrainHalfWidth = terrainWidth / 2;
 export const terrainHalfDepth = terrainDepth / 2;
-export const terrainMaxHeight = 100;
+export const terrainMaxHeight = 130;
 export const terrainMinHeight = 0;
 export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
@@ -27,28 +27,30 @@ export const seed = ref(0);
 export const seedLevel = ref(8);
 export const roadColor = '#888';
 export const grassColor = '#4e884e';
-export const maxTerrainSlopeX = 5;
-export const maxTerrainSlopeZ = 5;
+export const maxTerrainSlopeX = 2.5;
+export const maxTerrainSlopeZ = 2.5;
 
 export let temporaryMesh = ref<{ road: THREE.Mesh } | null>(null);
 
 // Road generation
-export const maxAngle = 0.032;
+export const maxAngle = 0.04;
 export const nearbyDistance = 200;
 export const pointMoveDist = 3;
-export const numNeightborsToBlur = 20;
+export const numNeightborsToBlur = 50;
+export const numHeightNeightborsToBlur = 20;
 export const crossingDistance = 50;
 export const maxPoints = 3000;
-export const maxAttempts = 5000;
+export const maxAttempts = 7000;
 export const halfRoadWidth = 6;
 export const startRoadWidth = 20;
-export const startRoadLength = 20;
+export const startRoadLength = 30;
 export const grassWidth = 4;
 export const maxBankingLength = 30;
 export const bankingAngleStart = 0.3;
 export const bankingAngleStep = 0.05;
 export const roadVecs = ref<Vector[]>([]);
-export const resetDistance = 50;
+export const resetDistance = 20;
+export const progress = ref(0);
 
 // Graphics variables
 export const container = ref<HTMLElement | null>(null);
@@ -71,7 +73,7 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 export const gravity = 35;
 
 // steering
-export const steerPower = ref(1300, 2000, 6000, 100);
+export const steerPower = ref(1300, 1000, 2000, 100);
 export const steerModMap = createXYMap([0, 0], [1, 0], [2, 0.6], [20, 1], [50, 0.6]); // x = speed, y = steering input modifier
 export const angularDamping = 0.99;
 export const reverseAngle = Math.PI * 0.8;
@@ -87,18 +89,18 @@ export const tireSnappiness = ref(100, 50, 200, 1);
 export const wheelCompression = ref([0, 0, 0, 0]);
 
 // power & brakes
-export const enginePower = ref(80, 0, 500, 10);
-export const brakePower = ref(150, 0, 1200, 100);
-export const brakeRearBias = ref(0.5, 0, 1, 0.01);
+export const enginePower = ref(100, 0, 500, 10);
+export const brakePower = ref(450, 0, 1200, 100);
+export const brakeRearBias = ref(0.6, 0, 1, 0.01);
 
 // surface grips
 export const surfaceGrips: {
   [key in Surface]: { ref: Ref<number>; colour: string; opacity: number };
 } = {
-  tarmac: { ref: ref(1.5, 0, 3, 0.1), colour: '#000', opacity: 1 },
-  grass: { ref: ref(0.6, 0, 3, 0.1), colour: '#040', opacity: 0.3 },
+  tarmac: { ref: ref(1.8, 0, 3, 0.1), colour: '#000', opacity: 1 },
+  grass: { ref: ref(1, 0, 3, 0.1), colour: '#040', opacity: 0.3 },
 };
-export const skidMarkIntensity = 0.003;
+export const skidMarkIntensity = 0.005;
 export const skidMarkOpacity = 0.5;
 export const maxSkidMarks = 200;
 
@@ -113,7 +115,6 @@ export const carHeight = 1;
 export const wheelEndOffset = 0.2;
 export const frontWheelDrive = ref(true);
 export const rearWheelDrive = ref(true);
-export const progress = ref(0);
 
 // camera
 export const camFollowDistance = ref(5, 3, 30, 1);
@@ -134,21 +135,21 @@ export const lightValues: {
 } = {
   Day: {
     light: 2.5,
-    ambient: 1,
+    ambient: 0.8,
     lightAngle: 45,
     sunElevation: 45,
     color: 0xffffff,
   },
   Sunset: {
     light: 2.7,
-    ambient: 1.2,
+    ambient: 1.3,
     lightAngle: 5,
     sunElevation: 0,
     color: 0xffaa88,
   },
   Night: {
     light: 0,
-    ambient: 0.7,
+    ambient: 1.3,
     lightAngle: 90,
     sunElevation: -90,
     color: 0x222222,

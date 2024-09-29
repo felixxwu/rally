@@ -30,7 +30,7 @@ export function resetCar() {
   );
   const intersections = raycaster.intersectObject(roadMesh.current!);
   const intersection = intersections[0];
-  const ammoPos = add(intersection.point, [0, 3, 0]);
+  const ammoPos = add(intersection.point, [0, 5, 0]);
 
   setCarPos(ammoPos, vec3([0, 0, 1]));
 }

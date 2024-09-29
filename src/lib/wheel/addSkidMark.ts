@@ -88,7 +88,7 @@ function skidMarkSegment(
     skidMarkOpacity
   );
 
-  if (opacity <= 0) {
+  if (opacity <= 0.01) {
     return null;
   }
 

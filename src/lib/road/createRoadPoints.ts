@@ -4,6 +4,7 @@ import {
   maxAttempts,
   maxPoints,
   nearbyDistance,
+  numHeightNeightborsToBlur,
   numNeightborsToBlur,
   pointMoveDist,
   roadVecs,
@@ -120,7 +121,7 @@ export async function createRoadPoints() {
 
       if (firstPointNearCrossing) {
         longestVecs.push([...roadVecs.current.slice(0, -50)]);
-        const cutoff = Math.max(startRoadLength * 1.5, firstPointNearCrossing - backoff);
+        const cutoff = Math.max(startRoadLength * 2, firstPointNearCrossing - backoff);
         point.set(roadVecs.current[cutoff][0], roadVecs.current[cutoff][2]);
         roadVecs.current.splice(cutoff, roadVecs.current.length - cutoff);
         backoff += 1;
@@ -184,47 +185,85 @@ export async function createRoadPoints() {
     roadVecs.current
   );
 
-  const blurredVecs: Vector[] = [];
-
   // blurr vec heights
+  const blurredVecs: Vector[] = [];
   const half = Math.floor(numNeightborsToBlur / 2);
-  for (let i = half; i < longestVec.length - half; i++) {
-    const neighbors = longestVec.slice(i - half, i + half + 1);
-    const avgY = neighbors.reduce((acc, v) => acc + v[1], 0) / neighbors.length;
-    const newY = Math.max(neighbors[half][1], avgY);
-    blurredVecs.push([neighbors[half][0], newY, neighbors[half][2]] as Vector);
+  for (let i = 0; i < longestVec.length; i++) {
+    const neighbors = longestVec.slice(
+      Math.max(1, i - half),
+      Math.min(longestVec.length - 2, i + half + 1)
+    );
+    const avgX = neighbors.reduce((acc, n) => acc + n[0], 0) / neighbors.length;
+    const avgZ = neighbors.reduce((acc, n) => acc + n[2], 0) / neighbors.length;
+    const intersection = ray(new THREE.Vector3(avgX, 1000, avgZ), new THREE.Vector3(0, -1, 0));
+    const terrainHeight = intersection.point.y;
+    blurredVecs.push([avgX, terrainHeight, avgZ] as Vector);
+  }
+
+  const halfHeight = Math.floor(numHeightNeightborsToBlur / 2);
+  const maxNeighborHeightVecs: Vector[] = [];
+  for (let i = 0; i < blurredVecs.length; i++) {
+    const neighbors = blurredVecs.slice(
+      Math.max(1, i - halfHeight),
+      Math.min(blurredVecs.length - 2, i + halfHeight + 1)
+    );
+
+    let j = 0;
+    const { maxNeighborY } = neighbors.reduce(
+      (acc, n) => {
+        if (n[1] > acc.maxNeighborY) {
+          acc.maxNeighborY = n[1];
+          acc.index = j;
+        }
+        j++;
+        return acc;
+      },
+      { maxNeighborY: -Infinity, index: -1 }
+    );
+
+    maxNeighborHeightVecs.push([blurredVecs[i][0], maxNeighborY, blurredVecs[i][2]]);
+  }
+
+  const blurredHeightVecs: Vector[] = [];
+  for (let i = 0; i < blurredVecs.length; i++) {
+    const neighbors = maxNeighborHeightVecs.slice(
+      Math.max(1, i - halfHeight),
+      Math.min(maxNeighborHeightVecs.length - 2, i + halfHeight + 1)
+    );
+    const avgY = neighbors.reduce((acc, n) => acc + n[1], 0) / neighbors.length;
+    blurredHeightVecs.push([blurredVecs[i][0], avgY, blurredVecs[i][2]]);
   }
 
   // make start and end all the same height
-  const highestStartPoint = blurredVecs
+  const highestStartPoint = blurredHeightVecs
     .slice(0, startRoadLength)
     .reduce((acc, v) => Math.max(acc, v[1]), 0);
-  const highestEndPoint = blurredVecs
+  const highestEndPoint = blurredHeightVecs
     .slice(-startRoadLength)
     .reduce((acc, v) => Math.max(acc, v[1]), 0);
 
-  for (let i = 0; i < blurredVecs.length; i++) {
+  for (let i = 0; i < blurredHeightVecs.length; i++) {
     if (i < startRoadLength) {
-      blurredVecs[i][1] = highestStartPoint;
-    } else if (i > blurredVecs.length - startRoadLength) {
-      blurredVecs[i][1] = highestEndPoint;
+      blurredHeightVecs[i][1] = highestStartPoint;
+    } else if (i > blurredHeightVecs.length - startRoadLength) {
+      blurredHeightVecs[i][1] = highestEndPoint;
     } else if (i >= startRoadLength && i < startRoadLength * 2) {
       // create ramp up
-      const diff = highestStartPoint - blurredVecs[i][1];
-      blurredVecs[i][1] += Math.max(0, (diff * (startRoadLength * 2 - i)) / startRoadLength);
+      const diff = highestStartPoint - blurredHeightVecs[i][1];
+      blurredHeightVecs[i][1] += Math.max(0, (diff * (startRoadLength * 2 - i)) / startRoadLength);
     } else if (
-      i <= blurredVecs.length - startRoadLength &&
-      i > blurredVecs.length - startRoadLength * 2
+      i <= blurredHeightVecs.length - startRoadLength &&
+      i > blurredHeightVecs.length - startRoadLength * 2
     ) {
       // create ramp down
-      const diff = highestEndPoint - blurredVecs[i][1];
-      blurredVecs[i][1] += Math.max(
+      const diff = highestEndPoint - blurredHeightVecs[i][1];
+      blurredHeightVecs[i][1] += Math.max(
         0,
-        (diff * (i - (blurredVecs.length - startRoadLength * 2))) / startRoadLength
+        (diff * (i - (blurredHeightVecs.length - startRoadLength * 2))) / startRoadLength
       );
     }
   }
 
-  roadVecs.current = blurredVecs;
+  roadVecs.current = blurredHeightVecs;
   await createTemporaryMesh();
 }

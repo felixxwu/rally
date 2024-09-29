@@ -20,7 +20,7 @@ export function getAirResistanceForce() {
   const carPos = getCarPos();
   squared.setLength(squared.length() + minAirResistance);
 
-  if (speed.length() > 1) {
+  if (speed.length() > 0.1) {
     helperArrow(mult(inverseTravel, -2), add(carPos, [0, 1, 0]), 0x0000ff, 'travel');
     helperArrow(mult(squared, 0.1), add(carPos, [0, 1, 0]), 0xffffff, 'airResistance');
   }

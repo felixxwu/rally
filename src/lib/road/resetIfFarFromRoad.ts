@@ -13,12 +13,11 @@ export function resetIfFarFromRoad() {
       helperArrowFromTo(carPos, vec, 0xffffff, 'carPos');
       const progressMade = i - progress.current;
 
-      if (progressMade > resetDistance) {
+      if (progressMade > resetDistance * 2) {
         resetToLastProgress();
         return;
       }
       progress.current = i;
-      break;
     }
   }
 }
