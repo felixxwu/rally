@@ -16,8 +16,8 @@ export function generateHeight() {
 
   const hRange = getSeededHeight() - terrainMinHeight;
 
-  const slopeX = ((noise(43, 45) * 2 - 1) * maxTerrainSlopeX) ** 2;
-  const slopeZ = ((noise(3, 65) * 2 - 1) * maxTerrainSlopeZ) ** 2;
+  const slopeX = ((noise(43, 45) * 2 - 1) * Math.sqrt(maxTerrainSlopeX)) ** 2;
+  const slopeZ = ((noise(3, 65) * 2 - 1) * Math.sqrt(maxTerrainSlopeZ)) ** 2;
 
   console.log(`Seeded Height `, getSeededHeight());
   console.log(`Slope X`, slopeX);

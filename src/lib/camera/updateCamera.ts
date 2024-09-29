@@ -1,18 +1,24 @@
-import { camera, camFollowDistance, camFollowHeight, camFollowSpeed, freeCam } from '../../refs';
-import { getCarDirection } from '../car/getCarDirection';
+import {
+  camera,
+  camFollowDistance,
+  camFollowHeight,
+  camFollowSpeed,
+  freeCam,
+  stageTimeStarted,
+} from '../../refs';
+import { getCarMeshDirection } from '../car/getCarDirection';
 
 import { car } from '../../refs';
 import { THREE } from '../utils/THREE';
-import { getCarPos } from '../car/getCarTransform';
-import { ref } from '../utils/ref';
+import { getCarMeshPos } from '../car/getCarTransform';
 
-const lastXPos = ref<THREE.Vector3[]>([]);
+const carPosForLerp = new THREE.Vector3();
 
 export function updateCamera() {
   if (!car.current) return;
 
-  const carPos = getCarPos();
-  const direction = getCarDirection();
+  const carPos = getCarMeshPos();
+  const direction = getCarMeshDirection();
 
   const camVector = direction
     ?.multiplyScalar(-camFollowDistance.current)
@@ -20,20 +26,10 @@ export function updateCamera() {
 
   if (freeCam.current) return;
 
-  lastXPos.current.push(carPos.clone());
-  if (lastXPos.current.length > 20) lastXPos.current.shift();
-  const avgPos = lastXPos.current
-    .reduce((acc, pos) => acc.add(pos), new THREE.Vector3())
-    .divideScalar(lastXPos.current.length);
+  carPosForLerp.lerp(carPos, camFollowSpeed.current);
 
-  // camera.current?.position.set(
-  //   avgPos.x + (camVector?.x || 0),
-  //   avgPos.y + (camVector?.y || 0),
-  //   avgPos.z + (camVector?.z || 0)
-  // );
-  camera.current?.position.lerp(
-    avgPos.clone().add(camVector || new THREE.Vector3()),
-    camFollowSpeed.current
-  );
-  camera.current?.lookAt(avgPos.x, avgPos.y + camFollowHeight.current / 2, avgPos.z);
+  camera.current?.lookAt(carPos.x, carPos.y + camFollowHeight.current / 2, carPos.z);
+  if (stageTimeStarted.current) {
+    camera.current?.position.copy(carPosForLerp.clone().add(camVector || new THREE.Vector3()));
+  }
 }

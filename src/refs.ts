@@ -27,20 +27,20 @@ export const seed = ref(0);
 export const seedLevel = ref(8);
 export const roadColor = '#888';
 export const grassColor = '#4e884e';
-export const maxTerrainSlopeX = 2.5;
-export const maxTerrainSlopeZ = 2.5;
+export const maxTerrainSlopeX = 6;
+export const maxTerrainSlopeZ = 6;
 
 export let temporaryMesh = ref<{ road: THREE.Mesh } | null>(null);
 
 // Road generation
+export const maxPoints = 3000;
+export const maxAttempts = 7000;
 export const maxAngle = 0.04;
 export const nearbyDistance = 200;
 export const pointMoveDist = 3;
-export const numNeightborsToBlur = 50;
-export const numHeightNeightborsToBlur = 20;
+export const horizontalRoadSmoothing = 50;
+export const verticalRoadSmoothing = 20;
 export const crossingDistance = 50;
-export const maxPoints = 3000;
-export const maxAttempts = 7000;
 export const halfRoadWidth = 6;
 export const startRoadWidth = 20;
 export const startRoadLength = 30;
@@ -49,7 +49,7 @@ export const maxBankingLength = 30;
 export const bankingAngleStart = 0.3;
 export const bankingAngleStep = 0.05;
 export const roadVecs = ref<Vector[]>([]);
-export const resetDistance = 20;
+export const resetDistance = 30;
 export const progress = ref(0);
 
 // Graphics variables
@@ -81,7 +81,7 @@ export const reverseAngle = Math.PI * 0.8;
 // tires and suspension
 export const tireGrip = ref(150, 0, 1000, 10);
 export const springLength = ref(1.1, 0.5, 3, 0.01);
-export const sprintRate = ref(400, 0, 600, 10);
+export const sprintRate = ref(350, 0, 600, 10);
 export const springDamping = ref(5000, 0, 15000, 100);
 export const wheelRadius = 0.4;
 export const wheelWidth = 0.3;
@@ -95,13 +95,12 @@ export const brakeRearBias = ref(0.6, 0, 1, 0.01);
 
 // surface grips
 export const surfaceGrips: {
-  [key in Surface]: { ref: Ref<number>; colour: string; opacity: number };
+  [key in Surface]: { dry: Ref<number>; colour: string; opacity: number };
 } = {
-  tarmac: { ref: ref(1.8, 0, 3, 0.1), colour: '#000', opacity: 1 },
-  grass: { ref: ref(1, 0, 3, 0.1), colour: '#040', opacity: 0.3 },
+  tarmac: { dry: ref(1.7, 0, 3, 0.1), colour: '#000', opacity: 0.5 },
+  grass: { dry: ref(0.9, 0, 3, 0.1), colour: '#040', opacity: 0.2 },
 };
 export const skidMarkIntensity = 0.005;
-export const skidMarkOpacity = 0.5;
 export const maxSkidMarks = 200;
 
 // car physics
@@ -119,7 +118,8 @@ export const rearWheelDrive = ref(true);
 // camera
 export const camFollowDistance = ref(5, 3, 30, 1);
 export const camFollowHeight = ref(5, 0, 30, 1);
-export const camFollowSpeed = ref(0.2, 0, 1, 0.01);
+export const camFollowSpeed = ref(0.1, 0, 1, 0.01);
+export const fov = 90;
 
 // sky
 export const carLightIntensity = 500;
@@ -164,3 +164,6 @@ export const renderHitCarBox = ref(false);
 export const panelOpen = ref(false);
 export const startGame = ref(false);
 export const raycasterOffset = 2;
+export const stageTime = ref(0);
+export const stageTimeStarted = ref(false);
+export const countDown = ref(0);

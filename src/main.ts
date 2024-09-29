@@ -13,7 +13,7 @@ import { initUI } from './lib/UI/initUI';
 import { initWheel } from './lib/wheel/initWheel';
 import { initRoad } from './lib/road/initRoad';
 import { initSky } from './lib/light/initSky';
-import { startGame } from './refs';
+import { stageTimeStarted, startGame } from './refs';
 
 Ammo().then(init);
 
@@ -38,6 +38,8 @@ export async function init() {
       initWheel(true, false);
       initWheel(false, true);
       initWheel(false, false);
+
+      stageTimeStarted.current = true;
     }
   });
 }

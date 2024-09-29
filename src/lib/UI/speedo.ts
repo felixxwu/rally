@@ -35,10 +35,7 @@ export function Speedo() {
           if (i % 10 !== 0) return;
 
           const speed = getSpeedVec();
-          const angle = getCarDirection().angleTo(speed);
-          const reversing = angle > Math.PI / 2 && speed.length() > 1;
-
-          text.innerHTML = `${reversing ? '-' : ''}${Math.round(speed.length())}`;
+          text.innerHTML = `${Math.round(speed.length())}`;
         });
       },
     })

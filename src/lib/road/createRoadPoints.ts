@@ -4,8 +4,8 @@ import {
   maxAttempts,
   maxPoints,
   nearbyDistance,
-  numHeightNeightborsToBlur,
-  numNeightborsToBlur,
+  verticalRoadSmoothing,
+  horizontalRoadSmoothing,
   pointMoveDist,
   roadVecs,
   startRoadLength,
@@ -187,7 +187,7 @@ export async function createRoadPoints() {
 
   // blurr vec heights
   const blurredVecs: Vector[] = [];
-  const half = Math.floor(numNeightborsToBlur / 2);
+  const half = Math.floor(horizontalRoadSmoothing / 2);
   for (let i = 0; i < longestVec.length; i++) {
     const neighbors = longestVec.slice(
       Math.max(1, i - half),
@@ -200,7 +200,7 @@ export async function createRoadPoints() {
     blurredVecs.push([avgX, terrainHeight, avgZ] as Vector);
   }
 
-  const halfHeight = Math.floor(numHeightNeightborsToBlur / 2);
+  const halfHeight = Math.floor(verticalRoadSmoothing / 2);
   const maxNeighborHeightVecs: Vector[] = [];
   for (let i = 0; i < blurredVecs.length; i++) {
     const neighbors = blurredVecs.slice(

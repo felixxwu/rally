@@ -10,3 +10,11 @@ export function getCarPos() {
 
   return transform;
 }
+
+export function getCarMeshPos() {
+  if (!car.current) return new THREE.Vector3();
+
+  const transform = car.current.getWorldPosition(new THREE.Vector3());
+
+  return transform;
+}

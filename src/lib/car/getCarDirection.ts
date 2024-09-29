@@ -10,3 +10,11 @@ export function getCarDirection(unitVector = new THREE.Vector3(0, 0, 1)) {
 
   return unitVector.clone().applyQuaternion(quatFromAmmo);
 }
+
+export function getCarMeshDirection(unitVector = new THREE.Vector3(0, 0, 1)) {
+  if (!car.current) return unitVector;
+
+  const quat = car.current.getWorldQuaternion(new THREE.Quaternion());
+
+  return unitVector.clone().applyQuaternion(quat);
+}

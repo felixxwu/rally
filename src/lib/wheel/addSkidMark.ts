@@ -1,12 +1,4 @@
-import {
-  car,
-  maxSkidMarks,
-  scene,
-  skidMarkIntensity,
-  skidMarkOpacity,
-  surfaceGrips,
-  wheelWidth,
-} from '../../refs';
+import { car, maxSkidMarks, scene, skidMarkIntensity, surfaceGrips, wheelWidth } from '../../refs';
 import { Surface } from '../../types';
 import { getAirResistanceForce } from '../car/getAirResistanceForce';
 import { getFromThreeV3Cache } from '../road/createRoadShape';
@@ -85,7 +77,7 @@ function skidMarkSegment(
 
   const opacity = Math.min(
     (beforeClamp - afterClamp - airResistance) * skidMarkIntensity * compression,
-    skidMarkOpacity
+    surfaceGrips[surface].opacity
   );
 
   if (opacity <= 0.01) {

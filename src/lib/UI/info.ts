@@ -26,6 +26,7 @@ export function Info() {
           opacity: 0.7;
           max-width: 250px;
           width: 100%;
+          font-size: 26px;
         `,
         oncreate(div) {
           infoText.listeners.push(value => {

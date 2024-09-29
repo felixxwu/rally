@@ -79,8 +79,8 @@ export function SettingsPanel() {
       numberSlider('Brake Bias (Rear)', brakeRearBias),
 
       section('Surfaces'),
-      numberSlider('Tarmac Grip', surfaceGrips.tarmac.ref),
-      numberSlider('Grass Grip', surfaceGrips.grass.ref),
+      numberSlider('Tarmac Grip', surfaceGrips.tarmac.dry),
+      numberSlider('Grass Grip', surfaceGrips.grass.dry),
 
       section('Car Physics'),
       numberSlider('Body Roll', bodyRoll),
