@@ -1,29 +1,14 @@
-import {
-  currentMenu,
-  devMode,
-  onRender,
-  progress,
-  stageTime,
-  stageTimeStarted,
-  transitionTime,
-} from '../../refs';
+import { devMode, onRender, progress, stageTime, stageTimeStarted } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { infoText } from './DrivingUI/info';
 import { getProgressPercentage } from './DrivingUI/progress';
+import { createRoot } from 'react-dom/client';
+import { ReactUI } from './ReactUI';
 
 export function initUI() {
   const ui = document.getElementById('ui');
-  if (!ui) return;
-
-  currentMenu.listeners.push(async value => {
-    ui.style.transition = transitionTime + 'ms';
-    ui.style.opacity = '0';
-    await new Promise(resolve => setTimeout(resolve, transitionTime));
-    ui.innerHTML = '';
-    ui.appendChild(value);
-    ui.style.opacity = '1';
-  });
-  currentMenu.triggerListeners();
+  const root = createRoot(ui!);
+  root.render(<ReactUI />);
 
   const clock = new THREE.Clock();
 

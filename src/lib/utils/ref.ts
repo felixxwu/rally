@@ -10,7 +10,7 @@ export function ref<T>(
 ): {
   current: T;
   initial: T;
-  listeners: ((value: T) => void)[];
+  listeners: ((value: T, changed: boolean) => void)[];
   min?: number;
   max?: number;
   step?: number;
@@ -19,8 +19,9 @@ export function ref<T>(
   const ref = new Proxy(
     {
       current: init,
-      initial: JSON.parse(JSON.stringify(init)),
-      listeners: <((value: T) => void)[]>[],
+      prev: init,
+      initial: JSON.parse(JSON.stringify(init) ?? null),
+      listeners: <((value: T, changed: boolean) => void)[]>[],
       min,
       max,
       step,
@@ -30,7 +31,9 @@ export function ref<T>(
       get(target, key) {
         if (key === 'triggerListeners') {
           return () => {
-            target.listeners.forEach(listener => listener(target.current));
+            target.listeners.forEach(listener =>
+              listener(target.current, target.current !== target.prev)
+            );
           };
         }
         return target[key];
@@ -38,7 +41,8 @@ export function ref<T>(
       set(target, prop, value) {
         if (prop === 'current') {
           target.current = value;
-          target.listeners.forEach(listener => listener(value));
+          target.listeners.forEach(listener => listener(value, target.current !== target.prev));
+          target.prev = value;
         }
         return true;
       },

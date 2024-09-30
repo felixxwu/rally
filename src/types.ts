@@ -5,3 +5,5 @@ export type Mesh = THREE.Mesh<THREE.BufferGeometry, THREE.Material, THREE.Object
 export type TimeOfDay = 'Day' | 'Sunset' | 'Night';
 
 export type Surface = 'tarmac' | 'grass';
+
+export type Menu = 'main' | 'stageSelect' | 'splash' | 'hud';

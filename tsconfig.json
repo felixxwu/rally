@@ -5,7 +5,8 @@
     "esModuleInterop": true,
     "alwaysStrict": true,
     "strictNullChecks": true,
-    "lib": ["ES2015", "DOM"]
+    "lib": ["ES2015", "DOM"],
+    "jsx": "react-jsx"
   },
   "paths": {
     "*": ["*.d.ts"]

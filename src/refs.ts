@@ -1,13 +1,11 @@
 import AmmoType from 'ammojs-typed';
 
 import Stats from './lib/jsm/stats.module';
-import { Mesh, Surface, TimeOfDay } from './types';
+import { Menu, Mesh, Surface, TimeOfDay } from './types';
 import { THREE } from './lib/utils/THREE';
 import { Ref, ref } from './lib/utils/ref';
 import { createXYMap } from './lib/utils/createXYMap';
 import { Vector } from './lib/road/createRoadShape';
-import { SplashScreen } from './lib/UI/SplashScreen';
-import { DrivingUI } from './lib/UI/DrivingUI';
 
 // immediately start a game
 export const devMode = false;
@@ -28,7 +26,7 @@ export const terrainMesh = ref<Mesh | null>(null);
 export const roadMesh = ref<Mesh | null>(null);
 export const grassLeftMesh = ref<Mesh | null>(null);
 export const grassRightMesh = ref<Mesh | null>(null);
-export const seed = ref(0);
+export const seed = ref(Math.floor(Math.random() * 1000));
 export const seedLevel = ref(8);
 export const roadColor = '#888';
 export const grassColor = '#4e884e';
@@ -172,7 +170,7 @@ export const raycasterOffset = 2;
 export const stageTime = ref(0);
 export const stageTimeStarted = ref(false);
 export const countDown = ref(0);
-export const currentMenu = ref(devMode ? DrivingUI() : SplashScreen());
+export const currentMenu = ref<Menu>(devMode ? 'hud' : 'splash');
 export const transitionTime = 1000;
 
 // controls
@@ -185,3 +183,11 @@ export const internalController = ref({
   handbrake: 0,
   reset: false,
 });
+
+export const stopInternalController = ref(false);
+export const menuUp = ref(false);
+export const menuDown = ref(false);
+export const menuLeft = ref(false);
+export const menuRight = ref(false);
+export const menuSelect = ref(false);
+export const menuBack = ref(false);
