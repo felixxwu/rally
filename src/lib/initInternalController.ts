@@ -5,22 +5,17 @@ import {
   menuBack,
   menuDown,
   menuLeft,
+  menuPause,
   menuRight,
   menuSelect,
   menuUp,
-  onRender,
+  onRenderNoPausing,
   stopInternalController,
 } from '../refs';
-import {
-  getGamepad,
-  getGamepadBrake,
-  getGamepadHandbrake,
-  getGamepadSteer,
-  getGamepadThrottle,
-} from './utils/getGamepad';
+import { getGamepad } from './utils/getGamepad';
 
 export function initInternalController() {
-  onRender.push(() => {
+  onRenderNoPausing.push(() => {
     if (stopInternalController.current) return;
 
     internalController.current.steer = Math.max(
@@ -28,9 +23,11 @@ export function initInternalController() {
       Math.min(
         (keysDown.current['d'] ? 1 : 0) +
           (keysDown.current['a'] ? -1 : 0) +
+          (keysDown.current['ArrowRight'] ? 1 : 0) +
+          (keysDown.current['ArrowLeft'] ? -1 : 0) +
           (keysDownMobile.current['d'] ? 1 : 0) +
           (keysDownMobile.current['a'] ? -1 : 0) +
-          getGamepadSteer(),
+          (getGamepad()?.axes?.[0] ?? 0),
         1
       )
     );
@@ -38,21 +35,27 @@ export function initInternalController() {
       0,
       Math.min(
         (keysDown.current['w'] ? 1 : 0) +
+          (keysDown.current['ArrowUp'] ? 1 : 0) +
           (keysDownMobile.current['w'] ? 1 : 0) +
-          getGamepadThrottle(),
+          (getGamepad()?.buttons?.[7]?.value ?? 0) +
+          (getGamepad()?.buttons?.[9]?.value ?? 0),
         1
       )
     );
     internalController.current.brake = Math.max(
       0,
       Math.min(
-        (keysDown.current['s'] ? 1 : 0) + (keysDownMobile.current['s'] ? 1 : 0) + getGamepadBrake(),
+        (keysDown.current['s'] ? 1 : 0) +
+          (keysDown.current['ArrowDown'] ? 1 : 0) +
+          (keysDownMobile.current['s'] ? 1 : 0) +
+          (getGamepad()?.buttons?.[6]?.value ?? 0) +
+          (getGamepad()?.buttons?.[8]?.value ?? 0),
         1
       )
     );
     internalController.current.handbrake = Math.max(
       0,
-      Math.min((keysDown.current[' '] ? 1 : 0) + getGamepadHandbrake(), 1)
+      Math.min((keysDown.current[' '] ? 1 : 0) + (getGamepad()?.buttons?.[1]?.value ?? 0), 1)
     );
 
     menuUp.current =
@@ -84,5 +87,7 @@ export function initInternalController() {
       keysDown.current['Escape'] ||
       keysDown.current['Backspace'] ||
       getGamepad()?.buttons?.[1]?.value >= 0.5;
+
+    menuPause.current = keysDown.current['Escape'];
   });
 }

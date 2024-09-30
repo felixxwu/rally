@@ -9,21 +9,19 @@ export function CycleMenuItem({
   onHover,
   valueRef,
   cycleSet,
-  onCycleSelect,
 }: {
   selected: boolean;
   label: string;
   onHover: () => void;
   valueRef: Ref<string>;
   cycleSet: string[];
-  onCycleSelect: (value: string) => void;
 }) {
   const value = useCustomRef(valueRef);
   const index = cycleSet.indexOf(value);
 
   const handleCycle = (step = 1) => {
     const newIndex = (index + step + cycleSet.length) % cycleSet.length;
-    onCycleSelect(cycleSet[newIndex]);
+    valueRef.current = cycleSet[newIndex];
   };
 
   useCustomRef(menuLeft, value => {

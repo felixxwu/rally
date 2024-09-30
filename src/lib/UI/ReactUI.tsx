@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MainMenu } from './Menus/MainMenu';
 import { currentMenu, transitionTime } from '../../refs';
 import { Menu } from '../../types';
@@ -6,24 +6,29 @@ import { SplashScreen } from './Menus/SplashScreen';
 import styled from 'styled-components';
 import { StageSelect } from './Menus/StageSelect';
 import { HUD } from './HUD';
+import { PauseMenu } from './Menus/PauseMenu';
+import { SettingsMenu } from './Menus/SettingsMenu';
 
 export function ReactUI() {
   const [menu, setMenu] = useState<Menu>(currentMenu.current);
   const [opacity, setOpacity] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     currentMenu.listeners.push(value => {
+      containerRef.current!.style.transition = `${transitionTime.current}ms`;
       setOpacity(0);
       setTimeout(() => {
         setMenu(value);
         setOpacity(1);
-      }, transitionTime);
+      }, transitionTime.current);
     });
     currentMenu.triggerListeners();
   }, []);
 
   return (
     <Container
+      ref={containerRef}
       style={{
         opacity,
       }}
@@ -32,6 +37,8 @@ export function ReactUI() {
       {menu === 'splash' && <SplashScreen />}
       {menu === 'stageSelect' && <StageSelect />}
       {menu === 'hud' && <HUD />}
+      {menu === 'pause' && <PauseMenu />}
+      {menu === 'settings' && <SettingsMenu />}
     </Container>
   );
 }
@@ -45,5 +52,4 @@ const Container = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: ${transitionTime}ms;
 `;

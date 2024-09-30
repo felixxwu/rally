@@ -1,9 +1,8 @@
-import { frontWheelDrive, rearWheelDrive } from '../../refs';
+import { driveTrain } from '../../refs';
 
 export function wheelHasPower(front: boolean) {
-  if (front) {
-    return frontWheelDrive.current;
-  } else {
-    return rearWheelDrive.current;
-  }
+  if (driveTrain.current === 'AWD') return true;
+  if (driveTrain.current === 'FWD') return front;
+  if (driveTrain.current === 'RWD') return !front;
+  return false;
 }

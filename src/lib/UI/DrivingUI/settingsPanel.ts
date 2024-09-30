@@ -7,9 +7,7 @@ import {
   camFollowHeight,
   camFollowSpeed,
   enginePower,
-  frontWheelDrive,
   tireGrip,
-  rearWheelDrive,
   renderHelperArrows,
   springDamping,
   springLength,
@@ -85,8 +83,6 @@ export function SettingsPanel() {
       section('Car Physics'),
       numberSlider('Body Roll', bodyRoll),
       numberSlider('Air Resistance', airResistance),
-      boolInput('Front Wheel Drive', frontWheelDrive),
-      boolInput('Rear Wheel Drive', rearWheelDrive),
 
       section('Camera'),
       numberSlider('Camera Follow Distance', camFollowDistance),

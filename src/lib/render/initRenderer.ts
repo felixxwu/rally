@@ -1,7 +1,17 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { container, renderer, stats, clock, scene, camera, onRender } from '../../refs';
+import {
+  container,
+  renderer,
+  stats,
+  clock,
+  scene,
+  camera,
+  onRender,
+  gamePaused,
+  onRenderNoPausing,
+} from '../../refs';
 import { THREE } from '../utils/THREE';
 
 export function initRenderer() {
@@ -23,7 +33,11 @@ function render() {
   // if (delta <= interval) return;
 
   if (delta !== 0) {
-    onRender.forEach(callback => callback(delta));
+    onRender.forEach(callback => {
+      if (gamePaused.current) return;
+      callback(delta);
+    });
+    onRenderNoPausing.forEach(callback => callback(delta));
   }
 
   renderer.current?.render(scene.current!, camera.current!);

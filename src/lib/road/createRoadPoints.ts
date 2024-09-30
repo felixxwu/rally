@@ -231,7 +231,7 @@ export async function createRoadPoints() {
       Math.min(maxNeighborHeightVecs.length - 2, i + halfHeight + 1)
     );
     const avgY = neighbors.reduce((acc, n) => acc + n[1], 0) / neighbors.length;
-    blurredHeightVecs.push([blurredVecs[i][0], avgY, blurredVecs[i][2]]);
+    blurredHeightVecs.push([blurredVecs[i][0], avgY + 0.5, blurredVecs[i][2]]);
   }
 
   // make start and end all the same height

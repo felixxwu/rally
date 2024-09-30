@@ -18,7 +18,8 @@ export const terrainWidth = 50;
 export const terrainDepth = 50;
 export const terrainHalfWidth = terrainWidth / 2;
 export const terrainHalfDepth = terrainDepth / 2;
-export const terrainMaxHeight = 130;
+export const terrainMaxHeight = 120;
+export const terrainHeightExponent = 1.5; // higher = bias towards lower heights
 export const terrainMinHeight = 0;
 export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
@@ -64,6 +65,7 @@ export const renderer = ref<THREE.WebGLRenderer | null>(null);
 export const clock = new THREE.Clock();
 // make ref?
 export const onRender: ((deltaTime: number) => void)[] = [];
+export const onRenderNoPausing: ((deltaTime: number) => void)[] = [];
 export const freeCam = ref(false);
 
 // Physics variables
@@ -76,9 +78,9 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 export const gravity = 35;
 
 // steering
-export const steerPower = ref(1000, 500, 2000, 100);
+export const steerPower = ref(1100, 500, 2000, 100);
 export const steerModMap = createXYMap([0, 0], [1, 0], [2, 0.6], [20, 1], [50, 0.6]); // x = speed, y = steering input modifier
-export const angularDamping = 0.95;
+export const angularDamping = 0.97;
 export const reverseAngle = Math.PI * 0.8;
 
 // tires and suspension
@@ -93,7 +95,7 @@ export const wheelCompression = ref([0, 0, 0, 0]);
 
 // power & brakes
 export const enginePower = ref(100, 0, 500, 10);
-export const brakePower = ref(450, 0, 1200, 100);
+export const brakePower = ref(550, 0, 1200, 100);
 export const brakeRearBias = ref(0.6, 0, 1, 0.01);
 
 // surface grips
@@ -103,7 +105,7 @@ export const surfaceGrips: {
   tarmac: { dry: ref(1.7, 0, 3, 0.1), colour: '#000', opacity: 0.5 },
   grass: { dry: ref(0.9, 0, 3, 0.1), colour: '#040', opacity: 0.2 },
 };
-export const skidMarkIntensity = 0.005;
+export const skidMarkIntensity = 0.004;
 export const maxSkidMarks = 200;
 
 // car physics
@@ -115,8 +117,7 @@ export const carLength = 4.2;
 export const carWidth = 2;
 export const carHeight = 1;
 export const wheelEndOffset = 0.2;
-export const frontWheelDrive = ref(true);
-export const rearWheelDrive = ref(true);
+export const driveTrain = ref<'FWD' | 'RWD' | 'AWD'>('AWD');
 
 // camera
 export const camFollowDistance = ref(5, 3, 30, 1);
@@ -171,7 +172,9 @@ export const stageTime = ref(0);
 export const stageTimeStarted = ref(false);
 export const countDown = ref(0);
 export const currentMenu = ref<Menu>(devMode ? 'hud' : 'splash');
-export const transitionTime = 1000;
+export const defaultTransitionTime = 1000;
+export const transitionTime = ref(defaultTransitionTime);
+export const gamePaused = ref(false);
 
 // controls
 export const keysDownMobile = ref<Record<string, boolean>>({});
@@ -191,3 +194,4 @@ export const menuLeft = ref(false);
 export const menuRight = ref(false);
 export const menuSelect = ref(false);
 export const menuBack = ref(false);
+export const menuPause = ref(false);

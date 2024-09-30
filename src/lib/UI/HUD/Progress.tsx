@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useCustomRef } from '../../utils/useCustomRef';
-import { progress, resetDistance, roadVecs, stageTime } from '../../../refs';
+import { progress, resetDistance, roadVecs, stageTime, startRoadLength } from '../../../refs';
 import { useState } from 'react';
 
 export function Progress() {
@@ -18,7 +18,7 @@ export function Progress() {
   const roadVecsValue = useCustomRef(roadVecs);
 
   const getProgressPercentage = () =>
-    Math.min(1, (progressValue - resetDistance) / (roadVecsValue.length - resetDistance * 2)) * 100;
+    Math.min(1, (progressValue - resetDistance) / (roadVecsValue.length - startRoadLength)) * 100;
 
   return (
     <Container>

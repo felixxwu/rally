@@ -12,12 +12,6 @@ export function MainMenu() {
             currentMenu.current = 'stageSelect';
           },
         },
-        {
-          label: 'Settings (WIP)',
-          onChoose() {
-            console.log('Settings');
-          },
-        },
       ]}
     />
   );

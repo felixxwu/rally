@@ -14,18 +14,11 @@ export function StageSelect() {
             currentMenu.current = 'hud';
           },
         },
-        {
-          label: 'Seed',
-          numberRef: seed,
-        },
+        { label: 'Seed', numRef: seed },
         {
           label: 'Time of Day',
           cycleValueRef: timeOfDay,
           cycleSet: ['Day', 'Sunset', 'Night'] as TimeOfDay[],
-          onCycleSelect(value: TimeOfDay) {
-            console.log(`value`, value);
-            timeOfDay.current = value;
-          },
         },
         {
           label: 'Back',

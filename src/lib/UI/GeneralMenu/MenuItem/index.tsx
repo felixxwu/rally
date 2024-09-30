@@ -10,7 +10,6 @@ export function MenuItem({
   onChoose,
   cycleValueRef,
   cycleSet,
-  onCycleSelect,
   numberRef,
 }: {
   selected: boolean;
@@ -19,7 +18,6 @@ export function MenuItem({
   onChoose?: () => void;
   cycleValueRef?: Ref<string>;
   cycleSet?: string[];
-  onCycleSelect?: (value: string) => void;
   numberRef?: Ref<number>;
 }) {
   if (numberRef) {
@@ -28,7 +26,7 @@ export function MenuItem({
     );
   }
 
-  if (cycleValueRef && cycleSet && onCycleSelect) {
+  if (cycleValueRef && cycleSet) {
     return (
       <CycleMenuItem
         selected={selected}
@@ -36,7 +34,6 @@ export function MenuItem({
         onHover={onHover}
         valueRef={cycleValueRef}
         cycleSet={cycleSet}
-        onCycleSelect={onCycleSelect}
       />
     );
   }

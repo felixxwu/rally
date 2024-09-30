@@ -1,6 +1,6 @@
 import { MenuItem } from './MenuItem';
 import { menuBack, menuDown, menuSelect, menuUp } from '../../../refs';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useCustomRef } from '../../utils/useCustomRef';
 import { Ref } from '../../utils/ref';
@@ -14,8 +14,7 @@ export function GeneralMenu({
     onChoose?: () => void;
     cycleValueRef?: Ref<string>;
     cycleSet?: string[];
-    onCycleSelect?: (value: string) => void;
-    numberRef?: Ref<number>;
+    numRef?: Ref<number>;
   }[];
   onBack: () => void;
 }) {
@@ -44,21 +43,22 @@ export function GeneralMenu({
 
   return (
     <Container>
-      {items.map((item, index) => (
-        <MenuItem
-          key={index}
-          selected={index === selected}
-          label={item.label}
-          onChoose={item.onChoose}
-          onHover={() => {
-            setSelected(index);
-          }}
-          cycleValueRef={item.cycleValueRef}
-          cycleSet={item.cycleSet}
-          onCycleSelect={item.onCycleSelect}
-          numberRef={item.numberRef}
-        />
-      ))}
+      <InnerContainer>
+        {items.map((item, index) => (
+          <MenuItem
+            key={index}
+            selected={index === selected}
+            label={item.label}
+            onChoose={item.onChoose}
+            onHover={() => {
+              setSelected(index);
+            }}
+            cycleValueRef={item.cycleValueRef}
+            cycleSet={item.cycleSet}
+            numberRef={item.numRef}
+          />
+        ))}
+      </InnerContainer>
     </Container>
   );
 }
@@ -76,4 +76,10 @@ const Container = styled('div')`
   border-left: 5px solid rgba(0, 0, 0, 0.7);
   border-right: 5px solid rgba(0, 0, 0, 0.7);
   background-color: rgba(255, 255, 255, 0.1);
+`;
+
+const InnerContainer = styled('div')`
+  max-height: 100svh;
+  width: 100%;
+  overflow-y: auto;
 `;
