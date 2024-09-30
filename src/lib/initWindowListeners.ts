@@ -18,6 +18,8 @@ export function initWindowListeners() {
   window.ontouchmove = onTouch;
   window.ontouchend = onTouch;
   window.ontouchcancel = onTouch;
+
+  window.oncontextmenu = e => e.preventDefault();
 }
 
 function onTouch(e: TouchEvent) {
