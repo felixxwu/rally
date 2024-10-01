@@ -16,7 +16,8 @@ import { updateCar } from './updateCar';
 import { THREE } from '../utils/THREE';
 import { addBumpStop } from '../wheel/addBumpStop';
 import { getSpawn } from '../utils/getSpawn';
-import { resetCar } from './setCarPos';
+import { platFormCarPos, setCarPos } from './setCarPos';
+import { vec3 } from '../utils/createVec';
 
 export function initCar() {
   const spawn = getSpawn();
@@ -58,9 +59,9 @@ export function initCar() {
 
   physicsWorld.current?.addRigidBody(body);
 
-  resetCar();
+  setCarPos(platFormCarPos, vec3([0, 0, 1]));
 
-  onRender.push(updateCar);
+  onRender.current.push(updateCar);
 }
 
 export function createObjectMaterial() {

@@ -1,8 +1,8 @@
 import AmmoType from 'ammojs-typed';
+declare const Ammo: typeof AmmoType;
 import { terrainMinHeight } from '../../refs';
 import { createTerrainShape } from './createTerrainShape';
 import { getSeededHeight } from './getSeededHeight';
-declare const Ammo: typeof AmmoType;
 
 export function createTerrainRigidBody(heightData: Float32Array) {
   const shape = createTerrainShape(heightData);

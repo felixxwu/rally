@@ -15,7 +15,7 @@ export function initWheel(front: boolean, left: boolean) {
 
   scene.current?.add(wheelMesh);
 
-  onRender.push(() => {
+  onRender.current.push(() => {
     updateWheel(wheelMesh, prevDistance, front, left);
   });
 }

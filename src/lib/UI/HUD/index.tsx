@@ -1,4 +1,4 @@
-import { currentMenu, gamePaused, menuPause, transitionTime } from '../../../refs';
+import { currentMenu, stopOnRender, menuPause, transitionTime } from '../../../refs';
 import { useCustomRef } from '../../utils/useCustomRef';
 import { Info } from './Info';
 import { MobileHUD } from './MobileHUD';
@@ -8,7 +8,7 @@ export function HUD() {
   useCustomRef(menuPause, value => {
     if (value) {
       transitionTime.current = 0;
-      gamePaused.current = true;
+      stopOnRender.current = true;
       currentMenu.current = 'pause';
     }
   });

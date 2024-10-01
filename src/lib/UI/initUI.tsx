@@ -4,6 +4,7 @@ import { infoText } from './DrivingUI/info';
 import { getProgressPercentage } from './DrivingUI/progress';
 import { createRoot } from 'react-dom/client';
 import { ReactUI } from './ReactUI';
+import { resetCar } from '../car/setCarPos';
 
 export function initUI() {
   const ui = document.getElementById('ui');
@@ -15,6 +16,7 @@ export function initUI() {
   stageTimeStarted.listeners.push(async value => {
     if (value) {
       clock.stop();
+      resetCar();
       if (!devMode) {
         infoText.current = '';
         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -43,7 +45,7 @@ export function initUI() {
     }
   });
 
-  onRender.push(() => {
+  onRender.current.push(() => {
     if (stageTimeStarted.current) {
       stageTime.current = clock.getElapsedTime();
     }

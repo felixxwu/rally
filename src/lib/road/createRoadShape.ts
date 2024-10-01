@@ -3,12 +3,16 @@ declare const Ammo: typeof AmmoType;
 
 import { THREE } from '../utils/THREE';
 import { ref } from '../utils/ref';
+import { caches } from '../../refs';
 
 export type Vector = [number, number, number];
 export type Triangle = [Vector, Vector, Vector];
 
 const ammoVecCache = ref<Record<string, AmmoType.btVector3>>({});
 const threeVecCache = ref<Record<string, THREE.Vector3>>({});
+
+caches.push(ammoVecCache);
+caches.push(threeVecCache);
 
 export function createRoadShape(triangles: Triangle[], color: string, roughness: number) {
   const triangleMesh = new Ammo.btTriangleMesh();

@@ -1,6 +1,6 @@
 import { MenuItem } from './MenuItem';
 import { menuBack, menuDown, menuSelect, menuUp } from '../../../refs';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { useCustomRef } from '../../utils/useCustomRef';
 import { Ref } from '../../utils/ref';
@@ -75,7 +75,6 @@ const Container = styled('div')`
   font-size: 26px;
   border-left: 5px solid rgba(0, 0, 0, 0.7);
   border-right: 5px solid rgba(0, 0, 0, 0.7);
-  background-color: rgba(255, 255, 255, 0.1);
 `;
 
 const InnerContainer = styled('div')`

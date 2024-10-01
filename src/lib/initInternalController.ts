@@ -15,7 +15,7 @@ import {
 import { getGamepad } from './utils/getGamepad';
 
 export function initInternalController() {
-  onRenderNoPausing.push(() => {
+  onRenderNoPausing.current.push(() => {
     if (stopInternalController.current) return;
 
     internalController.current.steer = Math.max(

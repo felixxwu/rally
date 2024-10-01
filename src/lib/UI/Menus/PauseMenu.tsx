@@ -1,7 +1,12 @@
-import { currentMenu, defaultTransitionTime, gamePaused, transitionTime } from '../../../refs';
+import {
+  currentMenu,
+  defaultTransitionTime,
+  stopOnRender, transitionTime
+} from '../../../refs';
 import { GeneralMenu } from '../GeneralMenu';
 import { resetToLastProgress } from '../../road/resetIfFarFromRoad';
 import { BlurredContainer } from './styles';
+import { exitToMainMenu } from './exitToMainMenu';
 
 export function PauseMenu() {
   return (
@@ -15,7 +20,7 @@ export function PauseMenu() {
               transitionTime.current = defaultTransitionTime;
               currentMenu.current = 'hud';
               await new Promise(r => setTimeout(r, defaultTransitionTime));
-              gamePaused.current = false;
+              stopOnRender.current = false;
             },
           },
           {
@@ -24,7 +29,7 @@ export function PauseMenu() {
               transitionTime.current = defaultTransitionTime;
               currentMenu.current = 'hud';
               await new Promise(r => setTimeout(r, defaultTransitionTime));
-              gamePaused.current = false;
+              stopOnRender.current = false;
               resetToLastProgress();
             },
           },
@@ -33,6 +38,10 @@ export function PauseMenu() {
             onChoose() {
               currentMenu.current = 'settings';
             },
+          },
+          {
+            label: 'Quit to Main Menu',
+            onChoose: exitToMainMenu,
           },
         ]}
       />

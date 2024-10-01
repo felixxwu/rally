@@ -27,19 +27,22 @@ export function ReactUI() {
   }, []);
 
   return (
-    <Container
-      ref={containerRef}
-      style={{
-        opacity,
-      }}
-    >
-      {menu === 'main' && <MainMenu />}
-      {menu === 'splash' && <SplashScreen />}
-      {menu === 'stageSelect' && <StageSelect />}
-      {menu === 'hud' && <HUD />}
-      {menu === 'pause' && <PauseMenu />}
-      {menu === 'settings' && <SettingsMenu />}
-    </Container>
+    <>
+      <BackgroundCmp style={{ opacity: menu === 'hud' ? 0 : 1 }} />
+      <Container
+        ref={containerRef}
+        style={{
+          opacity,
+        }}
+      >
+        {menu === 'main' && <MainMenu />}
+        {menu === 'splash' && <SplashScreen />}
+        {menu === 'stageSelect' && <StageSelect />}
+        {menu === 'hud' && <HUD />}
+        {menu === 'pause' && <PauseMenu />}
+        {menu === 'settings' && <SettingsMenu />}
+      </Container>
+    </>
   );
 }
 
@@ -52,4 +55,14 @@ const Container = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const BackgroundCmp = styled('div')`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #a9b0b2;
+  transition: opacity ${transitionTime.current}ms;
 `;

@@ -1,5 +1,4 @@
 import { onRender } from '../../../refs';
-import { getCarDirection } from '../../car/getCarDirection';
 import { getSpeedVec } from '../../car/getSpeedVec';
 import { el } from '../../utils/el';
 
@@ -30,7 +29,7 @@ export function Speedo() {
         margin: 10px;
       `,
       oncreate: text => {
-        onRender.push(() => {
+        onRender.current.push(() => {
           i++;
           if (i % 10 !== 0) return;
 

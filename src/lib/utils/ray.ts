@@ -1,8 +1,9 @@
-import { terrainMesh } from '../../refs';
+import { caches, terrainMesh } from '../../refs';
 import { ref } from './ref';
 import { THREE } from './THREE';
 
 const rayCache = ref<Record<string, THREE.Intersection>>({});
+caches.push(rayCache);
 
 export function ray(
   origin: THREE.Vector3,

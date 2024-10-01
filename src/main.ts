@@ -15,6 +15,7 @@ import { initRoad } from './lib/road/initRoad';
 import { initSky } from './lib/light/initSky';
 import { devMode, stageTimeStarted, startGame } from './refs';
 import { initInternalController } from './lib/initInternalController';
+import { initPlatform } from './lib/terrain/initPlatform';
 
 Ammo().then(init);
 
@@ -28,19 +29,18 @@ export async function init() {
   initWindowListeners();
   initInternalController();
 
+  initPhysics();
+  initPlatform();
+  initCar();
+  initWheel(true, true);
+  initWheel(true, false);
+  initWheel(false, true);
+  initWheel(false, false);
+
   startGame.listeners.push(async value => {
     if (value) {
-      initPhysics();
       initTerrain();
-
       await initRoad();
-
-      initCar();
-      initWheel(true, true);
-      initWheel(true, false);
-      initWheel(false, true);
-      initWheel(false, false);
-
       stageTimeStarted.current = true;
     }
   });

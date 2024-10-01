@@ -1,7 +1,7 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { car, grassLeftMesh, grassRightMesh, raycasterOffset, roadMesh } from '../../refs';
+import { grassLeftMesh, grassRightMesh, platformMesh, raycasterOffset, roadMesh } from '../../refs';
 import { terrainMesh } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { springDamping } from '../../refs';
@@ -16,6 +16,7 @@ const collisionMeshes = [
   { mesh: roadMesh, surface: 'tarmac' as Surface },
   { mesh: grassLeftMesh, surface: 'grass' as Surface },
   { mesh: grassRightMesh, surface: 'grass' as Surface },
+  { mesh: platformMesh, surface: 'tarmac' as Surface },
 ];
 
 const defaultReturn = {
@@ -25,10 +26,6 @@ const defaultReturn = {
 };
 
 export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>) {
-  if (!terrainMesh.current || !car.current || !roadMesh.current) {
-    return defaultReturn;
-  }
-
   const dir = getCarDirection(new THREE.Vector3(0, 1, 0));
 
   const raycaster = new THREE.Raycaster(

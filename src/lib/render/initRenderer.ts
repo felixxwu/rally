@@ -9,7 +9,7 @@ import {
   scene,
   camera,
   onRender,
-  gamePaused,
+  stopOnRender,
   onRenderNoPausing,
 } from '../../refs';
 import { THREE } from '../utils/THREE';
@@ -33,16 +33,16 @@ function render() {
   // if (delta <= interval) return;
 
   if (delta !== 0) {
-    onRender.forEach(callback => {
-      if (gamePaused.current) return;
+    onRender.current.forEach(callback => {
+      if (stopOnRender.current) return;
       callback(delta);
     });
-    onRenderNoPausing.forEach(callback => callback(delta));
+    onRenderNoPausing.current.forEach(callback => callback(delta));
   }
 
   renderer.current?.render(scene.current!, camera.current!);
 
-  stats.current.update();
+  stats.current?.update();
 
   // delta = delta % interval;
 }

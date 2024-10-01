@@ -13,7 +13,7 @@ export function initCarLight(left: boolean) {
   spotLightHelperLeft.visible = false;
   scene.current?.add(spotLightHelperLeft);
 
-  onRender.push(() => {
+  onRender.current.push(() => {
     const carDir = getCarDirection();
 
     if (timeOfDay.current === 'Day') {

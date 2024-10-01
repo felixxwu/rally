@@ -9,7 +9,6 @@ import {
   currentMenu,
   driveTrain,
   enginePower,
-  gamePaused,
   seed,
   springDamping,
   springLength,

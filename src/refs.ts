@@ -10,6 +10,8 @@ import { Vector } from './lib/road/createRoadShape';
 // immediately start a game
 export const devMode = false;
 
+export const caches: Ref<any>[] = [];
+
 // Heightfield parameters
 export const terrainWidthExtents = 2000;
 export const terrainDepthExtents = 2000;
@@ -27,6 +29,7 @@ export const terrainMesh = ref<Mesh | null>(null);
 export const roadMesh = ref<Mesh | null>(null);
 export const grassLeftMesh = ref<Mesh | null>(null);
 export const grassRightMesh = ref<Mesh | null>(null);
+export const platformMesh = ref<Mesh | null>(null);
 export const seed = ref(Math.floor(Math.random() * 1000));
 export const seedLevel = ref(8);
 export const roadColor = '#888';
@@ -63,9 +66,8 @@ export const camera = ref<THREE.PerspectiveCamera | null>(null);
 export const scene = ref<THREE.Scene | null>(null);
 export const renderer = ref<THREE.WebGLRenderer | null>(null);
 export const clock = new THREE.Clock();
-// make ref?
-export const onRender: ((deltaTime: number) => void)[] = [];
-export const onRenderNoPausing: ((deltaTime: number) => void)[] = [];
+export const onRender = ref<((deltaTime: number) => void)[]>([]);
+export const onRenderNoPausing = ref<((deltaTime: number) => void)[]>([]);
 export const freeCam = ref(false);
 
 // Physics variables
@@ -170,11 +172,10 @@ export const startGame = ref(false);
 export const raycasterOffset = 2;
 export const stageTime = ref(0);
 export const stageTimeStarted = ref(false);
-export const countDown = ref(0);
 export const currentMenu = ref<Menu>(devMode ? 'hud' : 'splash');
 export const defaultTransitionTime = 1000;
 export const transitionTime = ref(defaultTransitionTime);
-export const gamePaused = ref(false);
+export const stopOnRender = ref(false);
 
 // controls
 export const keysDownMobile = ref<Record<string, boolean>>({});

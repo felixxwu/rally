@@ -17,6 +17,7 @@ import { createRoadTriangles } from './createRoadTriangles';
 import { createRoadPoints } from './createRoadPoints';
 import { infoText } from '../UI/DrivingUI/info';
 import { resetIfFarFromRoad } from './resetIfFarFromRoad';
+import { setUserData } from '../utils/userData';
 
 export async function initRoad() {
   await createRoadPoints();
@@ -49,13 +50,17 @@ export async function initRoad() {
   grassLeftMesh.current = localGrassLeftMesh;
   grassRightMesh.current = localGrassRightMesh;
 
+  setUserData(roadMesh.current, { physicsBody: roadRigidBody });
+  setUserData(grassLeftMesh.current, { physicsBody: grassLeftRigidBody });
+  setUserData(grassRightMesh.current, { physicsBody: grassRightRigidBody });
+
   physicsWorld.current?.addRigidBody(roadRigidBody);
   physicsWorld.current?.addRigidBody(grassLeftRigidBody);
   physicsWorld.current?.addRigidBody(grassRightRigidBody);
 
   infoText.current = '';
 
-  onRender.push(() => {
+  onRender.current.push(() => {
     resetIfFarFromRoad();
   });
 }
