@@ -80,9 +80,8 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 export const gravity = 35;
 
 // steering
-export const steerPower = ref(1100, 500, 2000, 100);
+export const steerPower = ref(1200, 500, 2000, 100);
 export const steerModMap = createXYMap([0, 0], [1, 0], [2, 0.6], [20, 1], [50, 0.6]); // x = speed, y = steering input modifier
-export const angularDamping = 0.97;
 export const reverseAngle = Math.PI * 0.8;
 
 // tires and suspension
@@ -97,7 +96,7 @@ export const wheelCompression = ref([0, 0, 0, 0]);
 
 // power & brakes
 export const enginePower = ref(100, 0, 500, 10);
-export const brakePower = ref(550, 0, 1200, 100);
+export const brakePower = ref(700, 0, 1200, 100);
 export const brakeRearBias = ref(0.6, 0, 1, 0.01);
 
 // surface grips
@@ -120,12 +119,14 @@ export const carWidth = 2;
 export const carHeight = 1;
 export const wheelEndOffset = 0.2;
 export const driveTrain = ref<'FWD' | 'RWD' | 'AWD'>('AWD');
+export const angularDamping = 0.99;
 
 // camera
 export const camFollowDistance = ref(5, 3, 30, 1);
 export const camFollowHeight = ref(5, 0, 30, 1);
 export const camFollowSpeed = ref(0.1, 0, 1, 0.01);
 export const fov = 90;
+export const carVisible = ref(false);
 
 // sky
 export const carLightIntensity = 500;

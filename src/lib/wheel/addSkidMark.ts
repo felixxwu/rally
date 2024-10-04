@@ -1,4 +1,12 @@
-import { car, maxSkidMarks, scene, skidMarkIntensity, surfaceGrips, wheelWidth } from '../../refs';
+import {
+  car,
+  carVisible,
+  maxSkidMarks,
+  scene,
+  skidMarkIntensity,
+  surfaceGrips,
+  wheelWidth,
+} from '../../refs';
 import { Surface } from '../../types';
 import { getAirResistanceForce } from '../car/getAirResistanceForce';
 import { getFromThreeV3Cache } from '../road/createRoadShape';
@@ -26,6 +34,7 @@ export function addSkidMark(
 ) {
   const wheelSkidMarks = skidMarks.current[front ? (left ? 0 : 1) : left ? 2 : 3];
   if (!car.current) return;
+  if (!carVisible.current) return;
 
   const prevPoint = wheelSkidMarks[wheelSkidMarks.length - 1]?.point || wheelMeshPos;
   const prevLeft = wheelSkidMarks[wheelSkidMarks.length - 1]?.pointLeft || wheelMeshPos;

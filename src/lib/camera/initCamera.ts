@@ -14,6 +14,9 @@ export function initCamera() {
   );
 
   camera.current.position.copy(defaultCamPos);
+  setTimeout(() => {
+    camera.current?.lookAt(0, -2, 0);
+  });
 
   onRender.current.push(updateCamera);
 

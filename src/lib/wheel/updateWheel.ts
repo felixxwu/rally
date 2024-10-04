@@ -1,5 +1,5 @@
 import { Mesh } from '../../types';
-import { car, reverseAngle, steerModMap, wheelCompression } from '../../refs';
+import { car, carVisible, reverseAngle, steerModMap, wheelCompression } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { getUserData } from '../utils/userData';
 import { helperArrow } from '../helperArrows/helperArrow';
@@ -18,6 +18,8 @@ export function updateWheel(
   left: boolean
 ) {
   if (!car.current) return;
+
+  wheelMesh.visible = carVisible.current;
 
   const {
     wheelMeshPos,

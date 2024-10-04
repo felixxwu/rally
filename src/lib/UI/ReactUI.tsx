@@ -63,6 +63,5 @@ const BackgroundCmp = styled('div')`
   left: 0;
   width: 100%;
   height: 100vh;
-  background: #a9b0b2;
   transition: opacity ${transitionTime.current}ms;
 `;

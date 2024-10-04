@@ -1,7 +1,7 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { internalController } from '../../refs';
+import { carVisible, internalController } from '../../refs';
 import { updatePhysics } from '../physics/updatePhysics';
 import { THREE } from '../utils/THREE';
 import { getUserData } from '../utils/userData';
@@ -12,6 +12,8 @@ import { getAirResistanceForce } from './getAirResistanceForce';
 
 export function updateCar() {
   if (!car.current) return;
+
+  car.current.visible = carVisible.current;
 
   const objPhys = getUserData(car.current).physicsBody;
   const carTorque = new THREE.Vector3();
