@@ -1,6 +1,7 @@
 import { currentMenu, stopOnRender, menuPause, transitionTime } from '../../../refs';
 import { useCustomRef } from '../../utils/useCustomRef';
 import { Info } from './Info';
+import { MiniMap } from './MiniMap';
 import { MobileHUD } from './MobileHUD';
 import { Progress } from './Progress';
 
@@ -18,6 +19,7 @@ export function HUD() {
       <Info />
       <Progress />
       <MobileHUD />
+      <MiniMap />
     </div>
   );
 }

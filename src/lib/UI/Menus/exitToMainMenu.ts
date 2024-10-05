@@ -1,6 +1,7 @@
 import {
   ammoHeightData,
   camera,
+  carVisible,
   currentMenu,
   defaultTransitionTime,
   grassLeftMesh,
@@ -45,6 +46,7 @@ export async function exitToMainMenu() {
 
   transitionTime.current = defaultTransitionTime;
   currentMenu.current = 'main';
+  carVisible.current = false;
   await new Promise(r => setTimeout(r, defaultTransitionTime));
   stopOnRender.current = false;
   stageTimeStarted.current = false;

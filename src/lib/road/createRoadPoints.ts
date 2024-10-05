@@ -31,6 +31,7 @@ export async function createRoadPoints() {
   for (let i = 0; i < maxAttempts; i++) {
     if (roadVecs.current.length >= maxPoints) break;
     if (i % 100 === 99) {
+      roadVecs.current = [...roadVecs.current];
       infoText.current = `Generating Road... ${Math.round((i / maxAttempts) * 100)}%`;
 
       await createTemporaryMesh();

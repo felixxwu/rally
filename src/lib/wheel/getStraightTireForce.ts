@@ -21,25 +21,21 @@ export function getStraightTireForce(front: boolean) {
 
   let engineForce = new THREE.Vector3();
   let brakeForce = new THREE.Vector3();
-  let usingBrakes = false;
-  if (reversing) {
-    brakeForce = mult(speed.clone().normalize(), -brakePower.current * brakeBiasMod * throttle);
-    usingBrakes = true;
-  } else {
-    if (wheelHasPower(front)) {
-      engineForce = mult(forwardUnitVec, enginePower.current * throttle);
-    }
-  }
+
   if (reversing) {
     if (wheelHasPower(front)) {
-      engineForce = mult(forwardUnitVec, -enginePower.current * brake);
+      engineForce.add(mult(forwardUnitVec, -enginePower.current * brake));
     }
+    brakeForce.add(mult(speed.clone().normalize(), -brakePower.current * throttle * brakeBiasMod));
   } else {
-    brakeForce = mult(speed.clone().normalize(), -brakePower.current * brakeBiasMod * brake);
-    usingBrakes = true;
+    if (wheelHasPower(front)) {
+      engineForce.add(mult(forwardUnitVec, enginePower.current * throttle));
+    }
+    brakeForce.add(mult(speed.clone().normalize(), -brakePower.current * brake * brakeBiasMod));
   }
+
   if (!front && speed.length() > 2) {
-    brakeForce = mult(speed.clone().normalize(), -10000 * handeBrake);
+    brakeForce.add(mult(speed.clone().normalize(), -10000 * handeBrake));
   }
   if (driveTrain.current === 'AWD') {
     engineForce.multiplyScalar(0.5);
