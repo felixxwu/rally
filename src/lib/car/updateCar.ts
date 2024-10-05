@@ -7,8 +7,8 @@ import { THREE } from '../utils/THREE';
 import { getUserData } from '../utils/userData';
 import { car } from '../../refs';
 import { getAmmoVector } from '../utils/vectorConversion';
-import { getSteerTorque } from './getSteerTorque';
 import { getAirResistanceForce } from './getAirResistanceForce';
+import { getMaxSteerTorque } from './getSteerTorque';
 
 export function updateCar() {
   if (!car.current) return;
@@ -19,7 +19,7 @@ export function updateCar() {
   const carTorque = new THREE.Vector3();
 
   const airResistanceForce = getAirResistanceForce();
-  const steerTorque = getSteerTorque();
+  const steerTorque = getMaxSteerTorque();
 
   const steerValue = internalController.current.steer;
 

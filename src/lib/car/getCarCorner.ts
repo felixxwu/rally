@@ -1,5 +1,5 @@
 import { THREE } from '../utils/THREE';
-import { getCarRelCorner } from './getCarRelCorner';
+import { getCarMeshRelCorner, getCarRelCorner } from './getCarRelCorner';
 import { car } from '../../refs';
 import { getUserData } from '../utils/userData';
 
@@ -15,5 +15,5 @@ export function getCarCornerMeshPos(front: boolean, left: boolean) {
   if (!car.current) return new THREE.Vector3();
 
   const carPos = car.current?.getWorldPosition(new THREE.Vector3());
-  return carPos?.clone().add(getCarRelCorner(front, left)) || new THREE.Vector3();
+  return carPos?.clone().add(getCarMeshRelCorner(front, left)) || new THREE.Vector3();
 }

@@ -80,7 +80,7 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 export const gravity = 35;
 
 // steering
-export const steerPower = ref(1500, 500, 2000, 100);
+export const steerPower = ref(1300, 500, 2000, 100);
 export const steerModMap = createXYMap([0, 0], [1, 0], [2, 0.6], [20, 1], [50, 0.5]); // x = speed, y = steering input modifier
 export const reverseAngle = Math.PI * 0.8;
 
