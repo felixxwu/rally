@@ -11,7 +11,7 @@ export function resetIfFarFromRoad() {
   for (let i = progress.current; i < vecs.length; i++) {
     const vec = vec3(vecs[i]);
     if (carPos.clone().sub(vec).length() <= resetDistance) {
-      helperArrowFromTo(carPos, vec, 0xffffff, 'carPos');
+      helperArrowFromTo(carPos, vec, 0x00ff00, 'carPos');
       const progressMade = i - progress.current;
 
       if (progressMade > resetDistance * 2) {

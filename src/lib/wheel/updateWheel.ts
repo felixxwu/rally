@@ -1,5 +1,12 @@
 import { Mesh } from '../../types';
-import { car, carVisible, reverseAngle, steerModMap, wheelCompression } from '../../refs';
+import {
+  car,
+  carVisible,
+  reverseAngle,
+  steerModMap,
+  wheelCompression,
+  wheelSurfaces,
+} from '../../refs';
 import { THREE } from '../utils/THREE';
 import { getUserData } from '../utils/userData';
 import { helperArrow } from '../helperArrows/helperArrow';
@@ -31,6 +38,8 @@ export function updateWheel(
     surface,
     wheelmeshBottomPos,
     totalTireForceBeforeClamp,
+    sideTireForce,
+    straightTireForce,
   } = getTotalTireForce(prevDistance, front, left);
 
   // apply forces to the car
@@ -64,12 +73,14 @@ export function updateWheel(
 
   // save compression to refs
   wheelCompression.current[front ? (left ? 0 : 1) : left ? 2 : 3] = compression;
+  wheelSurfaces.current[front ? (left ? 0 : 1) : left ? 2 : 3] = surface;
 
   addSkidMark(
     compression,
     wheelmeshBottomPos,
     totalClampedTireForce,
-    totalTireForceBeforeClamp,
+    sideTireForce,
+    straightTireForce,
     front,
     left,
     surface

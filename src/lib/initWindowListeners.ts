@@ -6,6 +6,7 @@ import {
   panelOpen,
   renderer,
   renderHelperArrows,
+  renderHitCarBox,
 } from '../refs';
 import { resetToLastProgress } from './road/resetIfFarFromRoad';
 
@@ -67,6 +68,10 @@ function onKeyDown(event: KeyboardEvent) {
 
   if (event.key === 'h') {
     renderHelperArrows.current = !renderHelperArrows.current;
+  }
+
+  if (event.key === 'b') {
+    renderHitCarBox.current = !renderHitCarBox.current;
   }
 
   if (event.key === 'f') {

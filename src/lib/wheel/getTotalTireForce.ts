@@ -49,5 +49,7 @@ export function getTotalTireForce(prevDistance: Ref<number>, front: boolean, lef
     totalTireForceBeforeClamp,
     surface,
     wheelmeshBottomPos,
+    sideTireForce,
+    straightTireForce,
   };
 }

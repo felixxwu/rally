@@ -21,12 +21,13 @@ export function addBumpStop(
   ];
   const size = carWidth;
 
-  const wheel1Transform = new Ammo.btTransform();
-  wheel1Transform.setOrigin(new Ammo.btVector3(pos[0], pos[1], pos[2]));
-  shape.addChildShape(wheel1Transform, new Ammo.btSphereShape(size));
+  const wheelTransform = new Ammo.btTransform();
+  wheelTransform.setOrigin(new Ammo.btVector3(pos[0], pos[1], pos[2]));
+  shape.addChildShape(wheelTransform, new Ammo.btSphereShape(size));
 
   const material = createObjectMaterial();
-  material.opacity = 0.9;
+  material.opacity = 0.5;
+  material.transparent = true;
   const hitbox = new THREE.Mesh(new THREE.SphereGeometry(size, 16, 16), material);
   hitbox.position.copy(new THREE.Vector3(pos[0], pos[1], pos[2]));
   hitbox.visible = renderHitCarBox.current;

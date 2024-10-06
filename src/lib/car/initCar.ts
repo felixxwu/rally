@@ -15,12 +15,10 @@ import { setUserData } from '../utils/userData';
 import { updateCar } from './updateCar';
 import { THREE } from '../utils/THREE';
 import { addBumpStop } from '../wheel/addBumpStop';
-import { getSpawn } from '../utils/getSpawn';
 import { platFormCarPos, setCarPos } from './setCarPos';
 import { vec3 } from '../utils/createVec';
 
 export function initCar() {
-  const spawn = getSpawn();
   car.current = new THREE.Mesh(
     new THREE.BoxGeometry(carWidth, carHeight, carLength, 1, 1, 1),
     createObjectMaterial()
@@ -34,7 +32,7 @@ export function initCar() {
   addBumpStop(shape, car.current, false, false);
 
   const mass = 15;
-  const localInertia = new Ammo.btVector3(0, 10, 0);
+  const localInertia = new Ammo.btVector3(0, 1, 0);
   shape.calculateLocalInertia(mass, localInertia);
   const transform = new Ammo.btTransform();
   transform.setIdentity();

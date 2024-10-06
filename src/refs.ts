@@ -80,7 +80,7 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 export const gravity = 35;
 
 // steering
-export const steerPower = ref(1300, 500, 2000, 100);
+export const steerPower = ref(1000, 500, 2000, 100);
 export const steerModMap = createXYMap([0, 0], [1, 0], [2, 0.6], [20, 1], [50, 0.5]); // x = speed, y = steering input modifier
 export const reverseAngle = Math.PI * 0.8;
 
@@ -93,10 +93,16 @@ export const wheelRadius = 0.4;
 export const wheelWidth = 0.3;
 export const tireSnappiness = ref(100, 50, 200, 1);
 export const wheelCompression = ref([0, 0, 0, 0]);
+export const wheelSurfaces = ref<[Surface, Surface, Surface, Surface]>([
+  'tarmac',
+  'tarmac',
+  'tarmac',
+  'tarmac',
+]);
 
 // power & brakes
-export const enginePower = ref(100, 0, 500, 10);
-export const brakePower = ref(300, 0, 1200, 100);
+export const enginePower = ref(150, 0, 500, 10);
+export const brakePower = ref(400, 0, 1200, 100);
 export const brakeRearBias = ref(0.6, 0, 1, 0.01);
 
 // surface grips
@@ -111,8 +117,8 @@ export const maxSkidMarks = 200;
 
 // car physics
 export const bodyRoll = ref(0.5, 0, 1, 0.1);
-export const airResistance = ref(0.15, 0.1, 0.5, 0.01);
-export const minAirResistance = 10;
+export const airResistance = ref(0.12, 0.1, 0.5, 0.01);
+export const minAirResistance = 15;
 export const car = ref<Mesh | null>(null);
 export const carLength = 4.2;
 export const carWidth = 2;

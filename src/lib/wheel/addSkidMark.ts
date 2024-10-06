@@ -27,7 +27,8 @@ export function addSkidMark(
   compression: number,
   wheelMeshPos: THREE.Vector3,
   totalTireForce: THREE.Vector3,
-  totalTireForceBeforeClamp: THREE.Vector3,
+  sideTireForce: THREE.Vector3,
+  straightTireForce: THREE.Vector3,
   front: boolean,
   left: boolean,
   surface: Surface
@@ -58,7 +59,8 @@ export function addSkidMark(
     prevRight,
     compression,
     totalTireForce,
-    totalTireForceBeforeClamp,
+    sideTireForce,
+    straightTireForce,
     surface
   );
   mesh && scene.current?.add(mesh);
@@ -77,11 +79,12 @@ function skidMarkSegment(
   prevRight: THREE.Vector3,
   compression: number,
   totalTireForce: THREE.Vector3,
-  totalTireForceBeforeClamp: THREE.Vector3,
+  sideTireForce: THREE.Vector3,
+  straightTireForce: THREE.Vector3,
   surface: Surface
 ) {
   const airResistance = getAirResistanceForce().length();
-  const beforeClamp = totalTireForceBeforeClamp.length();
+  const beforeClamp = sideTireForce.length() / 4 + straightTireForce.length();
   const afterClamp = totalTireForce.length();
 
   const opacity = Math.min(
