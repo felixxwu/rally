@@ -15,6 +15,7 @@ export function GeneralMenu({
     cycleValueRef?: Ref<string>;
     cycleSet?: string[];
     numRef?: Ref<number>;
+    boolRef?: Ref<boolean>;
   }[];
   onBack: () => void;
 }) {
@@ -56,6 +57,7 @@ export function GeneralMenu({
             cycleValueRef={item.cycleValueRef}
             cycleSet={item.cycleSet}
             numberRef={item.numRef}
+            booleanRef={item.boolRef}
           />
         ))}
       </InnerContainer>

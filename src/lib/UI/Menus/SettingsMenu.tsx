@@ -9,6 +9,8 @@ import {
   currentMenu,
   driveTrain,
   enginePower,
+  renderHelperArrows,
+  renderHitCarBox,
   seed,
   springDamping,
   springLength,
@@ -57,6 +59,10 @@ export function SettingsMenu() {
           { label: 'Camera Follow Distance', numRef: camFollowDistance },
           { label: 'Camera Follow Height', numRef: camFollowHeight },
           { label: 'Camera Follow Speed', numRef: camFollowSpeed },
+
+          { label: '[ Debug ]' },
+          { label: 'Visualise Forces', boolRef: renderHelperArrows },
+          { label: 'Render Car Hitbox', boolRef: renderHitCarBox },
 
           { label: 'Current Seed: ' + seed.current },
           {

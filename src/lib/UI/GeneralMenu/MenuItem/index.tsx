@@ -2,6 +2,7 @@ import { Ref } from '../../../utils/ref';
 import { SimpleMenuItem } from './SimpleMenuItem';
 import { NumberMenuItem } from './NumberMenuItem';
 import { CycleMenuItem } from './CycleMenuItem';
+import { ToggleMenuItem } from './ToggleMenuItem';
 
 export function MenuItem({
   selected,
@@ -11,6 +12,7 @@ export function MenuItem({
   cycleValueRef,
   cycleSet,
   numberRef,
+  booleanRef,
 }: {
   selected: boolean;
   label: string;
@@ -19,10 +21,17 @@ export function MenuItem({
   cycleValueRef?: Ref<string>;
   cycleSet?: string[];
   numberRef?: Ref<number>;
+  booleanRef?: Ref<boolean>;
 }) {
   if (numberRef) {
     return (
       <NumberMenuItem selected={selected} label={label} onHover={onHover} numberRef={numberRef} />
+    );
+  }
+
+  if (booleanRef) {
+    return (
+      <ToggleMenuItem selected={selected} label={label} onHover={onHover} boolRef={booleanRef} />
     );
   }
 
