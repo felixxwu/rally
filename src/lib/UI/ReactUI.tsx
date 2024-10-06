@@ -29,7 +29,6 @@ export function ReactUI() {
 
   return (
     <>
-      <BackgroundCmp style={{ opacity: menu === 'hud' ? 0 : 1 }} />
       <Container
         ref={containerRef}
         style={{
@@ -57,13 +56,4 @@ const Container = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const BackgroundCmp = styled('div')`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  transition: opacity ${transitionTime.current}ms;
 `;

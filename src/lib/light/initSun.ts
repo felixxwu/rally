@@ -1,28 +1,37 @@
-import { lightValues, scene, terrainWidthExtents, timeOfDay } from '../../refs';
+import { lightValues, onRender, scene, terrainWidthExtents, timeOfDay } from '../../refs';
+import { getCarPos } from '../car/getCarTransform';
 import { THREE } from '../utils/THREE';
+
+const sunDistance = 10000;
 
 export function initSun() {
   const ambientLight = new THREE.AmbientLight(0xbbbbbb);
-  ambientLight.intensity = 0.7;
   scene.current?.add(ambientLight);
 
-  const light = new THREE.DirectionalLight(0xffffff, 1);
-  light.position.set(terrainWidthExtents * 2, 300, 0);
+  const light = new THREE.DirectionalLight(0xffffff);
+  const sLight = terrainWidthExtents * 0.2;
+  const targetObject = new THREE.Object3D();
+  light.target = targetObject;
   light.castShadow = true;
-  const dLight = terrainWidthExtents * 2;
-  const sLight = dLight * 0.5;
   light.shadow.camera.left = -sLight;
   light.shadow.camera.right = sLight;
   light.shadow.camera.top = sLight;
   light.shadow.camera.bottom = -sLight;
-
-  light.shadow.camera.near = dLight / 30;
-  light.shadow.camera.far = dLight * 3;
-
-  light.shadow.mapSize.x = 1024 * 64;
-  light.shadow.mapSize.y = 1024 * 64;
+  light.shadow.camera.near = sunDistance / 2;
+  light.shadow.camera.far = sunDistance * 2;
+  light.shadow.mapSize.x = 1024 * 32;
+  light.shadow.mapSize.y = 1024 * 32;
 
   scene.current?.add(light);
+  scene.current?.add(targetObject);
+
+  // const shadowCameraHelper = new THREE.CameraHelper(light.shadow.camera);
+  // scene.current?.add(shadowCameraHelper);
+
+  onRender.current.push(() => {
+    const carPos = getCarPos();
+    targetObject.position.copy(carPos);
+  });
 
   timeOfDay.listeners.push(() => {
     const intensity = lightValues[timeOfDay.current].light;
@@ -33,7 +42,7 @@ export function initSun() {
 
     const elevation = lightValues[timeOfDay.current].lightAngle;
     const phi = THREE.MathUtils.degToRad(90 - elevation);
-    light.position.setFromSphericalCoords(10000, phi, 0);
+    light.position.setFromSphericalCoords(sunDistance, phi, 0);
 
     const colour = lightValues[timeOfDay.current].color;
     light.color.setHex(colour);

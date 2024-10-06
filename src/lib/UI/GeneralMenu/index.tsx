@@ -77,6 +77,7 @@ const Container = styled('div')`
   font-size: 26px;
   border-left: 5px solid rgba(0, 0, 0, 0.7);
   border-right: 5px solid rgba(0, 0, 0, 0.7);
+  background: rgba(255, 255, 255, 0.1);
 `;
 
 const InnerContainer = styled('div')`
