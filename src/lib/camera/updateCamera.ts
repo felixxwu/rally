@@ -3,6 +3,7 @@ import {
   camFollowDistance,
   camFollowHeight,
   camFollowSpeed,
+  countDownStarted,
   freeCam,
   stageTimeStarted,
 } from '../../refs';
@@ -28,7 +29,7 @@ export function updateCamera() {
 
   carPosForLerp.lerp(carPos, camFollowSpeed.current);
 
-  if (stageTimeStarted.current) {
+  if (stageTimeStarted.current || countDownStarted.current) {
     camera.current?.lookAt(carPos.x, carPos.y + camFollowHeight.current / 2, carPos.z);
     camera.current?.position.copy(carPosForLerp.clone().add(camVector || new THREE.Vector3()));
   }

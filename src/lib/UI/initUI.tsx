@@ -1,4 +1,5 @@
 import {
+  countDownStarted,
   currentMenu,
   devMode,
   infoText,
@@ -20,7 +21,7 @@ export function initUI() {
 
   const clock = new THREE.Clock();
 
-  stageTimeStarted.listeners.push(async value => {
+  countDownStarted.listeners.push(async value => {
     if (value) {
       clock.stop();
       resetCar();
@@ -39,6 +40,8 @@ export function initUI() {
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
       infoText.current = 'GO!';
+      stageTimeStarted.current = true;
+      countDownStarted.current = false;
       clock.start();
       await new Promise(resolve => setTimeout(resolve, 1000));
       infoText.current = '';

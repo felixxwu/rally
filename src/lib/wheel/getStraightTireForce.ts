@@ -1,5 +1,11 @@
 import { getCarDirection } from '../car/getCarDirection';
-import { brakePower, brakeRearBias, driveTrain, internalController } from '../../refs';
+import {
+  brakePower,
+  brakeRearBias,
+  driveTrain,
+  internalController,
+  stageTimeStarted,
+} from '../../refs';
 import { enginePower } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { mult } from '../utils/multVec';
@@ -34,8 +40,15 @@ export function getStraightTireForce(front: boolean) {
     brakeForce.add(mult(speed.clone().normalize(), -brakePower.current * brake * brakeBiasMod));
   }
 
+  if (!stageTimeStarted.current) {
+    engineForce.setLength(0);
+    brakeForce.setLength(0);
+  }
+
   if (!front && speed.length() > 2) {
-    brakeForce.add(mult(speed.clone().normalize(), -10000 * handeBrake));
+    brakeForce.add(
+      mult(speed.clone().normalize(), -10000 * (handeBrake + (stageTimeStarted.current ? 0 : 1)))
+    );
   }
   if (driveTrain.current === 'AWD') {
     engineForce.multiplyScalar(0.5);

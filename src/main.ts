@@ -13,7 +13,7 @@ import { initUI } from './lib/UI/initUI';
 import { initWheel } from './lib/wheel/initWheel';
 import { initRoad } from './lib/road/initRoad';
 import { initSky } from './lib/light/initSky';
-import { carVisible, devMode, stageTimeStarted, startGame } from './refs';
+import { carVisible, countDownStarted, devMode, stageTimeStarted, startGame } from './refs';
 import { initInternalController } from './lib/initInternalController';
 import { initPlatform } from './lib/terrain/initPlatform';
 
@@ -41,7 +41,7 @@ export async function init() {
     if (value) {
       initTerrain();
       await initRoad();
-      stageTimeStarted.current = true;
+      countDownStarted.current = true;
       carVisible.current = true;
     }
   });

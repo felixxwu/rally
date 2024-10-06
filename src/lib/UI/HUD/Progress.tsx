@@ -37,7 +37,11 @@ export function getTimerText(stageTime: number) {
   const seconds = Math.floor(stageTime % 60);
   const milliseconds = Math.floor((stageTime % 1) * 1000);
 
-  return `${minutes}:${padStart(seconds.toString(), 2, '0')}:${milliseconds}`;
+  return `${minutes}:${padStart(seconds.toString(), 2, '0')}:${padStart(
+    milliseconds.toString(),
+    3,
+    '0'
+  )}`;
 }
 
 const Container = styled('div')`

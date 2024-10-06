@@ -40,7 +40,7 @@ export const maxTerrainSlopeZ = 6;
 export let temporaryMesh = ref<{ road: THREE.Mesh } | null>(null);
 
 // Road generation
-export const maxPoints = devMode ? 1000 : 3000;
+export const maxPoints = devMode ? 1000 : 4000;
 export const maxAttempts = 7000;
 export const maxAngle = 0.04;
 export const nearbyDistance = 200;
@@ -173,6 +173,7 @@ export const startGame = ref(false);
 export const raycasterOffset = 2;
 export const stageTime = ref(0);
 export const stageTimeStarted = ref(false);
+export const countDownStarted = ref(false);
 export const currentMenu = ref<Menu>(devMode ? 'hud' : 'splash');
 export const defaultTransitionTime = 1000;
 export const transitionTime = ref(defaultTransitionTime);

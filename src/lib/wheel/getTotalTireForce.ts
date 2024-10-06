@@ -1,6 +1,6 @@
 import { getCarCornerPos } from '../car/getCarCorner';
 import { getCarRelCorner } from '../car/getCarRelCorner';
-import { bodyRoll, stageTime, surfaceGrips } from '../../refs';
+import { bodyRoll, surfaceGrips } from '../../refs';
 import { getAmmoVector } from '../utils/vectorConversion';
 import { getSpringForce } from './getSpringForce';
 import { tireGrip } from '../../refs';
@@ -32,9 +32,6 @@ export function getTotalTireForce(prevDistance: Ref<number>, front: boolean, lef
   const totalTireForce = sideTireForceClamped.clone().add(straightTireForce);
   const totalTireForceBeforeClamp = sideTireForce.clone().add(straightTireForce);
   const totalClampedTireForce = totalTireForce.clone().clampLength(0, tireGripAfterSurface);
-  if (stageTime.current === 0) {
-    totalClampedTireForce.setLength(0);
-  }
 
   const ammoForce = getAmmoVector(add(suspensionForce, createArr(totalClampedTireForce)));
   const cornerPosRelative = getCarRelCorner(front, left).clone();
