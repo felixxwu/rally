@@ -8,6 +8,7 @@ import {
   grassRightMesh,
   heightData,
   physicsWorld,
+  progress,
   roadMesh,
   roadVecs,
   scene,
@@ -47,6 +48,7 @@ export async function exitToMainMenu() {
   transitionTime.current = defaultTransitionTime;
   currentMenu.current = 'main';
   carVisible.current = false;
+  progress.current = 0;
   await new Promise(r => setTimeout(r, defaultTransitionTime));
   stopOnRender.current = false;
   stageTimeStarted.current = false;

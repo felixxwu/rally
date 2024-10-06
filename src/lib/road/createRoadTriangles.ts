@@ -7,9 +7,9 @@ import {
   grassWidth,
   maxBankingLength,
   roadVecs,
+  infoText,
 } from '../../refs';
 import { createNoiseFunc } from '../terrain/createNoiseFunc';
-import { infoText } from '../UI/DrivingUI/info';
 import { createArr, vec3 } from '../utils/createVec';
 import { ray } from '../utils/ray';
 import { THREE } from '../utils/THREE';

@@ -11,8 +11,8 @@ import {
   startRoadLength,
   terrainDepthExtents,
   terrainWidthExtents,
+  infoText,
 } from '../../refs';
-import { infoText } from '../UI/DrivingUI/info';
 import { add } from '../utils/addVec';
 import { getSpawn } from '../utils/getSpawn';
 import { ray } from '../utils/ray';

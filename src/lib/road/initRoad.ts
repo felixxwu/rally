@@ -5,6 +5,7 @@ import {
   grassColor,
   grassLeftMesh,
   grassRightMesh,
+  infoText,
   onRender,
   physicsWorld,
   roadColor,
@@ -15,7 +16,6 @@ import {
 import { createRoadShape } from './createRoadShape';
 import { createRoadTriangles } from './createRoadTriangles';
 import { createRoadPoints } from './createRoadPoints';
-import { infoText } from '../UI/DrivingUI/info';
 import { resetIfFarFromRoad } from './resetIfFarFromRoad';
 import { setUserData } from '../utils/userData';
 

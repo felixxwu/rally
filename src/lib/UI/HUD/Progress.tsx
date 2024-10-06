@@ -1,22 +1,19 @@
 import styled from 'styled-components';
 import { useCustomRef } from '../../utils/useCustomRef';
-import { progress, resetDistance, roadVecs, stageTime, startRoadLength } from '../../../refs';
+import { carVisible, progress, resetDistance, roadVecs, stageTime } from '../../../refs';
 import { useState } from 'react';
-import { getProgressPercentage } from '../DrivingUI/progress';
+import { padStart } from '../../utils/padStart';
 
 export function Progress() {
   const [timerText, setTimerText] = useState('');
 
-  useCustomRef(stageTime, value => {
-    const minutes = Math.floor(value / 60);
-    const seconds = Math.floor(value % 60);
-    const milliseconds = Math.floor((value % 1) * 1000);
+  const carIsVisible = useCustomRef(carVisible);
 
-    setTimerText(`${minutes}:${seconds}:${milliseconds}`);
+  useCustomRef(stageTime, value => {
+    setTimerText(getTimerText(value));
   });
 
-  const progressValue = useCustomRef(progress);
-  const roadVecsValue = useCustomRef(roadVecs);
+  if (!carIsVisible) return null;
 
   return (
     <Container>
@@ -24,6 +21,23 @@ export function Progress() {
       <Bar style={{ height: `${getProgressPercentage()}%` }} />
     </Container>
   );
+}
+
+export function getProgressPercentage() {
+  return (
+    Math.min(
+      1,
+      (progress.current - resetDistance) / (roadVecs.current.length - resetDistance * 2)
+    ) * 100
+  );
+}
+
+export function getTimerText(stageTime: number) {
+  const minutes = Math.floor(stageTime / 60);
+  const seconds = Math.floor(stageTime % 60);
+  const milliseconds = Math.floor((stageTime % 1) * 1000);
+
+  return `${minutes}:${padStart(seconds.toString(), 2, '0')}:${milliseconds}`;
 }
 
 const Container = styled('div')`

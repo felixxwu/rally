@@ -1,10 +1,17 @@
-import { devMode, onRender, progress, stageTime, stageTimeStarted } from '../../refs';
+import {
+  currentMenu,
+  devMode,
+  infoText,
+  onRender,
+  progress,
+  stageTime,
+  stageTimeStarted,
+} from '../../refs';
 import { THREE } from '../utils/THREE';
-import { infoText } from './DrivingUI/info';
-import { getProgressPercentage } from './DrivingUI/progress';
 import { createRoot } from 'react-dom/client';
 import { ReactUI } from './ReactUI';
 import { resetCar } from '../car/setCarPos';
+import { getProgressPercentage } from './HUD/Progress';
 
 export function initUI() {
   const ui = document.getElementById('ui');
@@ -42,6 +49,7 @@ export function initUI() {
     if (getProgressPercentage() === 100) {
       stageTimeStarted.current = false;
       clock.stop();
+      currentMenu.current = 'stageEnd';
     }
   });
 

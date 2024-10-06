@@ -2,6 +2,7 @@ import { progress, resetDistance, roadVecs } from '../../refs';
 import { getCarPos } from '../car/getCarTransform';
 import { setCarPos } from '../car/setCarPos';
 import { helperArrowFromTo } from '../helperArrows/helperArrow';
+import { getProgressPercentage } from '../UI/HUD/Progress';
 import { vec3 } from '../utils/createVec';
 
 export function resetIfFarFromRoad() {
@@ -17,7 +18,10 @@ export function resetIfFarFromRoad() {
         resetToLastProgress();
         return;
       }
-      progress.current = i;
+
+      if (getProgressPercentage() < 100) {
+        progress.current = i;
+      }
     }
   }
 }

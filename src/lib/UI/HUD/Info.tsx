@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useCustomRef } from '../../utils/useCustomRef';
-import { infoText } from '../DrivingUI/info';
+import { infoText } from '../../../refs';
 
 export function Info() {
   const text = useCustomRef(infoText);
@@ -19,7 +19,7 @@ const Container = styled('div')`
   top: 0;
   left: 0;
   width: 100%;
-  padding: 10px;
+  padding: 170px 0;
   display: flex;
   justify-content: center;
 `;

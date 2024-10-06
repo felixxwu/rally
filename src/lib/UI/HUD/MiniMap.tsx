@@ -68,10 +68,9 @@ export function MiniMap() {
 
 const Container = styled('div')`
   position: absolute;
-  top: 50px;
+  top: 10px;
   left: 0;
   width: 100%;
-  padding: 10px;
   display: flex;
   justify-content: center;
 `;

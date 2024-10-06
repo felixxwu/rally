@@ -177,6 +177,7 @@ export const currentMenu = ref<Menu>(devMode ? 'hud' : 'splash');
 export const defaultTransitionTime = 1000;
 export const transitionTime = ref(defaultTransitionTime);
 export const stopOnRender = ref(false);
+export const infoText = ref('');
 
 // controls
 export const keysDownMobile = ref<Record<string, boolean>>({});

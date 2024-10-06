@@ -8,6 +8,7 @@ import { StageSelect } from './Menus/StageSelect';
 import { HUD } from './HUD';
 import { PauseMenu } from './Menus/PauseMenu';
 import { SettingsMenu } from './Menus/SettingsMenu';
+import { StageEnd } from './Menus/StageEnd';
 
 export function ReactUI() {
   const [menu, setMenu] = useState<Menu>(currentMenu.current);
@@ -41,6 +42,7 @@ export function ReactUI() {
         {menu === 'hud' && <HUD />}
         {menu === 'pause' && <PauseMenu />}
         {menu === 'settings' && <SettingsMenu />}
+        {menu === 'stageEnd' && <StageEnd />}
       </Container>
     </>
   );
