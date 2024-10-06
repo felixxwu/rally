@@ -13,15 +13,15 @@ export const devMode = false;
 export const caches: Ref<any>[] = [];
 
 // Heightfield parameters
-export const terrainWidthExtents = 2000;
-export const terrainDepthExtents = 2000;
+export const terrainWidthExtents = 2500;
+export const terrainDepthExtents = 2500;
 export const scale = 0.04;
-export const terrainWidth = 50;
-export const terrainDepth = 50;
+export const terrainWidth = 40;
+export const terrainDepth = 40;
 export const terrainHalfWidth = terrainWidth / 2;
 export const terrainHalfDepth = terrainDepth / 2;
 export const terrainMaxHeight = 120;
-export const terrainHeightExponent = 1.5; // higher = bias towards lower heights
+export const terrainHeightExponent = 1.3; // higher = bias towards lower heights
 export const terrainMinHeight = 0;
 export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);

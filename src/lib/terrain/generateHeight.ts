@@ -1,28 +1,14 @@
-import {
-  terrainDepth,
-  terrainMinHeight,
-  maxTerrainSlopeX,
-  maxTerrainSlopeZ,
-  terrainWidth,
-} from '../../refs';
+import { terrainDepth, terrainMinHeight, terrainWidth } from '../../refs';
 import { createNoiseFunc } from './createNoiseFunc';
 import { getSeededHeight } from './getSeededHeight';
+import { getSlope } from './getSlope';
 
 export function generateHeight() {
   const noise = createNoiseFunc();
-
   const size = terrainWidth * terrainDepth;
   const data = new Float32Array(size);
-
   const hRange = getSeededHeight() - terrainMinHeight;
-
-  const slopeX = ((noise(43, 45) * 2 - 1) * Math.sqrt(maxTerrainSlopeX)) ** 2;
-  const slopeZ = ((noise(3, 65) * 2 - 1) * Math.sqrt(maxTerrainSlopeZ)) ** 2;
-
-  console.log(`Seeded Height `, getSeededHeight());
-  console.log(`Slope X`, slopeX);
-  console.log(`Slope Z`, slopeZ);
-
+  const { slopeX, slopeZ } = getSlope();
   let p = 0;
 
   for (let j = 0; j < terrainDepth; j++) {
