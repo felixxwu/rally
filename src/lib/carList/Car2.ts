@@ -5,7 +5,7 @@ export const car2: Car = {
   width: 1.9,
   height: 0.9,
   length: 4,
-  wheelRadius: 0.4,
+  wheelRadius: 0.37,
   wheelWidth: 0.3,
   wheelEndOffset: 0.3,
   mass: 15,
