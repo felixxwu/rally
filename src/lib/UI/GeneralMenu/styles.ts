@@ -25,3 +25,9 @@ export const NumberInput = styled('input')`
   outline: none;
   color: white;
 `;
+
+export const CycleInput = styled('div')`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

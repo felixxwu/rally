@@ -1,12 +1,5 @@
 import { getCarDirection } from '../car/getCarDirection';
-import {
-  brakePower,
-  brakeRearBias,
-  driveTrain,
-  internalController,
-  selectedCar,
-  stageTimeStarted,
-} from '../../refs';
+import { internalController, selectedCar, stageTimeStarted } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { mult } from '../utils/multVec';
 import { wheelHasPower } from './wheelHasPower';
@@ -19,7 +12,8 @@ export function getStraightTireForce(front: boolean) {
   if (speed.length() < 1) speed.copy(forwardUnitVec);
 
   const reversing = isReversing();
-  const brakeBiasMod = front ? 1 - brakeRearBias.current : brakeRearBias.current;
+  const { brakeRearBias, brakePower, power } = selectedCar.current;
+  const brakeBiasMod = front ? 1 - brakeRearBias : brakeRearBias;
 
   const throttle = internalController.current.throttle;
   const brake = internalController.current.brake;
@@ -30,14 +24,14 @@ export function getStraightTireForce(front: boolean) {
 
   if (reversing) {
     if (wheelHasPower(front)) {
-      engineForce.add(mult(forwardUnitVec, -selectedCar.current.power * brake));
+      engineForce.add(mult(forwardUnitVec, -power * brake));
     }
-    brakeForce.add(mult(speed.clone().normalize(), -brakePower.current * throttle * brakeBiasMod));
+    brakeForce.add(mult(speed.clone().normalize(), -brakePower * throttle * brakeBiasMod));
   } else {
     if (wheelHasPower(front)) {
-      engineForce.add(mult(forwardUnitVec, selectedCar.current.power * throttle));
+      engineForce.add(mult(forwardUnitVec, power * throttle));
     }
-    brakeForce.add(mult(speed.clone().normalize(), -brakePower.current * brake * brakeBiasMod));
+    brakeForce.add(mult(speed.clone().normalize(), -brakePower * brake * brakeBiasMod));
   }
 
   if (!stageTimeStarted.current) {
@@ -50,7 +44,7 @@ export function getStraightTireForce(front: boolean) {
       mult(speed.clone().normalize(), -10000 * (handeBrake + (stageTimeStarted.current ? 0 : 1)))
     );
   }
-  if (driveTrain.current === 'AWD') {
+  if (selectedCar.current.driveTrain === 'AWD') {
     engineForce.multiplyScalar(0.5);
   }
 

@@ -3,10 +3,10 @@ import {
   currentMenu,
   maxSkidMarks,
   scene,
+  selectedCar,
   skidMarkIntensity,
   stageTimeStarted,
   surfaceGrips,
-  wheelWidth,
 } from '../../refs';
 import { Surface } from '../../types';
 import { getAirResistanceForce } from '../car/getAirResistanceForce';
@@ -49,7 +49,7 @@ export function addSkidMark(
     .clone()
     .projectOnPlane(vec3([0, 1, 0]))
     .applyQuaternion(rightQuat)
-    .setLength(wheelWidth);
+    .setLength(selectedCar.current.wheelWidth);
   const wheelLeft = wheelMeshPos.clone().add(right.clone().divideScalar(-2));
   const wheelRight = wheelMeshPos.clone().add(right.clone().divideScalar(2));
 

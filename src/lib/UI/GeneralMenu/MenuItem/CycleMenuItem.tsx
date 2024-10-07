@@ -1,7 +1,9 @@
-import { Container, Text } from '../styles';
+import { Container, CycleInput, Text } from '../styles';
 import { useCustomRef } from '../../../utils/useCustomRef';
 import { menuLeft, menuRight, menuSelect } from '../../../../refs';
 import { Ref } from '../../../utils/ref';
+import { LeftTriangle } from '../../Icons/LeftTriangle';
+import { RightTriangle } from '../../Icons/RightTriangle';
 
 export function CycleMenuItem<T>({
   selected,
@@ -61,7 +63,11 @@ export function CycleMenuItem<T>({
       onClick={() => handleCycle()}
     >
       <Text>{label}</Text>
-      <Text>{labelFunction(cycleSet, index)}</Text>
+      <CycleInput>
+        <LeftTriangle size={30} color={selected ? 'white' : 'rgba(0, 0, 0, 0.7)'} />
+        <Text>{labelFunction(cycleSet, index)}</Text>
+        <RightTriangle size={30} color={selected ? 'white' : 'rgba(0, 0, 0, 0.7)'} />
+      </CycleInput>
     </Container>
   );
 }

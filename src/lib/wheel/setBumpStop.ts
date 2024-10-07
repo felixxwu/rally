@@ -1,5 +1,5 @@
 import AmmoType from 'ammojs-typed';
-import { renderHitCarBox, selectedCar, wheelEndOffset } from '../../refs';
+import { renderHitCarBox, selectedCar } from '../../refs';
 import { raycasterOffset } from '../../refs';
 import { Mesh } from '../../types';
 import { THREE } from '../utils/THREE';
@@ -12,23 +12,22 @@ export function setBumpStop(
   front: boolean,
   left: boolean
 ) {
-  const carWidth = selectedCar.current.width;
-  const carLength = selectedCar.current.length;
+  const { width, length, wheelEndOffset } = selectedCar.current;
 
   const pos = [
-    carWidth * (left ? 0.5 : -0.5),
+    width * (left ? 0.5 : -0.5),
     raycasterOffset,
-    (carLength / 2 - wheelEndOffset) * (front ? -1 : 1),
+    (length / 2 - wheelEndOffset) * (front ? -1 : 1),
   ];
 
   const wheelTransform = new Ammo.btTransform();
   wheelTransform.setOrigin(new Ammo.btVector3(pos[0], pos[1], pos[2]));
-  shape.addChildShape(wheelTransform, new Ammo.btSphereShape(carWidth));
+  shape.addChildShape(wheelTransform, new Ammo.btSphereShape(width));
 
   const material = createObjectMaterial();
   material.opacity = 0.5;
   material.transparent = true;
-  const hitbox = new THREE.Mesh(new THREE.SphereGeometry(carWidth, 16, 16), material);
+  const hitbox = new THREE.Mesh(new THREE.SphereGeometry(width, 16, 16), material);
   hitbox.position.copy(new THREE.Vector3(pos[0], pos[1], pos[2]));
   hitbox.visible = renderHitCarBox.current;
   carMesh.add(hitbox);

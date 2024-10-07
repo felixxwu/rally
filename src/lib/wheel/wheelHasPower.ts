@@ -1,8 +1,8 @@
-import { driveTrain } from '../../refs';
+import { selectedCar } from '../../refs';
 
 export function wheelHasPower(front: boolean) {
-  if (driveTrain.current === 'AWD') return true;
-  if (driveTrain.current === 'FWD') return front;
-  if (driveTrain.current === 'RWD') return !front;
+  if (selectedCar.current.driveTrain === 'AWD') return true;
+  if (selectedCar.current.driveTrain === 'FWD') return front;
+  if (selectedCar.current.driveTrain === 'RWD') return !front;
   return false;
 }

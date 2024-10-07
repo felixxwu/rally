@@ -1,7 +1,6 @@
 import { getCarCornerMeshPos } from '../car/getCarCorner';
 import { car, selectedCar } from '../../refs';
 import { THREE } from '../utils/THREE';
-import { springLength } from '../../refs';
 import { getUserData } from '../utils/userData';
 
 export function getWheelMeshPos(compression: number, front: boolean, left: boolean) {
@@ -13,11 +12,11 @@ export function getWheelMeshPos(compression: number, front: boolean, left: boole
     };
   }
 
-  const wheelRadius = selectedCar.current.wheelRadius;
+  const { wheelRadius, springLength } = selectedCar.current;
   const ammoQuat = getUserData(car.current).physicsBody.getWorldTransform().getRotation();
   const quat = new THREE.Quaternion(ammoQuat.x(), ammoQuat.y(), ammoQuat.z(), ammoQuat.w());
   const wheelPos = getCarCornerMeshPos(front, left);
-  const suspensionLength = Math.min(wheelRadius - (springLength.current - compression), 0);
+  const suspensionLength = Math.min(wheelRadius - (springLength - compression), 0);
 
   const wheelOffset = new THREE.Vector3(0, suspensionLength, 0);
   const wheelOffsetFromCorner = wheelOffset.applyQuaternion(quat);

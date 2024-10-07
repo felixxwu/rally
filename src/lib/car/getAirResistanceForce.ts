@@ -1,9 +1,8 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { minAirResistance } from '../../refs';
+import { minAirResistance, selectedCar } from '../../refs';
 import { car } from '../../refs';
-import { airResistance } from '../../refs';
 import { helperArrow } from '../helperArrows/helperArrow';
 import { mult } from '../utils/multVec';
 import { add } from '../utils/addVec';
@@ -15,7 +14,7 @@ export function getAirResistanceForce() {
   if (!car.current) return new THREE.Vector3();
 
   const speed = getSpeedVec();
-  const inverseTravel = speed.clone().multiplyScalar(-airResistance.current);
+  const inverseTravel = speed.clone().multiplyScalar(-selectedCar.current.airResistance);
   const squared = inverseTravel.clone().multiplyScalar(inverseTravel.length());
   const carPos = getCarPos();
   squared.setLength(squared.length() + minAirResistance);

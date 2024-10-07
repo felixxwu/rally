@@ -27,6 +27,7 @@ export function CarSelect() {
         <InfoContainer>
           <div>Engine Power: {car.power}</div>
           <div>Mass: {car.mass}</div>
+          <div>Drivetrain: {car.driveTrain}</div>
         </InfoContainer>
         <GeneralMenu
           items={[

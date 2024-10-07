@@ -10,9 +10,20 @@ export type Car = {
   height: number;
   length: number;
   wheelRadius: number;
+  wheelWidth: number;
+  wheelEndOffset: number;
   mass: number;
   power: number;
   steerPower: number;
+  tireGrip: number;
+  brakePower: number;
+  brakeRearBias: number;
+  driveTrain: 'FWD' | 'RWD' | 'AWD';
+  springLength: number;
+  springRate: number;
+  springDamping: number;
+  bodyRoll: number;
+  airResistance: number;
 };
 
 export function selectCar(newCar: Car) {

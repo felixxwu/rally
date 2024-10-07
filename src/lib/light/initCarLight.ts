@@ -1,4 +1,4 @@
-import { carLightIntensity, onRender, scene, timeOfDay, wheelEndOffset } from '../../refs';
+import { carLightIntensity, onRender, scene, selectedCar, timeOfDay } from '../../refs';
 import { getCarCornerMeshPos } from '../car/getCarCorner';
 import { getCarDirection } from '../car/getCarDirection';
 import { THREE } from '../utils/THREE';
@@ -24,7 +24,7 @@ export function initCarLight(left: boolean) {
 
     const carPosLeft = getCarCornerMeshPos(true, left)
       .clone()
-      .add(carDir.clone().setLength(wheelEndOffset + 2));
+      .add(carDir.clone().setLength(selectedCar.current.wheelEndOffset + 2));
     carLightLeft.position.copy(carPosLeft);
     carLightLeft.target.position.copy(carPosLeft.clone().add(carDir.clone().multiplyScalar(100)));
     spotLightHelperLeft.update();

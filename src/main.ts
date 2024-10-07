@@ -38,7 +38,6 @@ export async function init() {
 
   if (devMode) {
     startTerrainGeneration();
-    carSelected.current = true;
     carVisible.current = true;
   }
 }

@@ -1,12 +1,16 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { grassLeftMesh, grassRightMesh, platformMesh, raycasterOffset, roadMesh } from '../../refs';
+import {
+  grassLeftMesh,
+  grassRightMesh,
+  platformMesh,
+  raycasterOffset,
+  roadMesh,
+  selectedCar,
+} from '../../refs';
 import { terrainMesh } from '../../refs';
 import { THREE } from '../utils/THREE';
-import { springDamping } from '../../refs';
-import { sprintRate } from '../../refs';
-import { springLength } from '../../refs';
 import { Ref } from '../utils/ref';
 import { getCarDirection } from '../car/getCarDirection';
 import { Surface } from '../../types';
@@ -51,28 +55,14 @@ export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>) {
 
   distance -= raycasterOffset;
 
-  // const terrainIntersections = raycaster.intersectObject(terrainMesh.current, false);
-  // const roadIntersections = raycaster.intersectObject(roadMesh.current, false);
-  // const terrainDistance = terrainIntersections[0]?.distance ?? Infinity;
-  // const roadDistance = roadIntersections[0]?.distance ?? Infinity;
+  const { springLength, springDamping, springRate } = selectedCar.current;
+  const compression = springLength - Math.min(springLength, distance);
 
-  // if (terrainDistance < roadDistance) {
-  //   surface = 'grass';
-  // }
-
-  // const distance = Math.min(terrainDistance, roadDistance) - raycasterOffset;
-
-  // const terrainNormal = terrainIntersections[0]?.normal || new THREE.Vector3(0, 1, 0);
-  // const roadNormal = roadIntersections[0]?.normal || new THREE.Vector3(0, 1, 0);
-  // const normal = surface === 'grass' ? terrainNormal : roadNormal;
-
-  const compression = springLength.current - Math.min(springLength.current, distance);
-
-  if (distance < springLength.current) {
+  if (distance < springLength) {
     const distanceDelta = distance - prevDistance.current;
-    const velY = distanceDelta * springDamping.current;
+    const velY = distanceDelta * springDamping;
     const damping = Math.max(0, -velY);
-    const spring = compression * sprintRate.current;
+    const spring = compression * springRate;
     prevDistance.current = distance;
     const upForce = normal.setLength(damping + spring);
 

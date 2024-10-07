@@ -1,9 +1,8 @@
 import { getCarCornerPos } from '../car/getCarCorner';
 import { getCarRelCorner } from '../car/getCarRelCorner';
-import { bodyRoll, surfaceGrips } from '../../refs';
+import { selectedCar, surfaceGrips } from '../../refs';
 import { getAmmoVector } from '../utils/vectorConversion';
 import { getSpringForce } from './getSpringForce';
-import { tireGrip } from '../../refs';
 import { mult } from '../utils/multVec';
 import { Ref } from '../utils/ref';
 import { getWheelMeshPos } from './getWheelMeshPos';
@@ -24,8 +23,9 @@ export function getTotalTireForce(prevDistance: Ref<number>, front: boolean, lef
     left
   );
 
+  const { tireGrip, bodyRoll } = selectedCar.current;
   const sqrtCompression = Math.sqrt(compression);
-  const tireGripAfterCompression = tireGrip.current * sqrtCompression;
+  const tireGripAfterCompression = tireGrip * sqrtCompression;
   const surfaceGrip = surfaceGrips[surface].dry.current;
   const tireGripAfterSurface = tireGripAfterCompression * surfaceGrip;
   const sideTireForceClamped = sideTireForce.clone().clampLength(0, tireGripAfterSurface);
@@ -35,9 +35,7 @@ export function getTotalTireForce(prevDistance: Ref<number>, front: boolean, lef
 
   const ammoForce = getAmmoVector(add(suspensionForce, createArr(totalClampedTireForce)));
   const cornerPosRelative = getCarRelCorner(front, left).clone();
-  const ammoPos = getAmmoVector(
-    cornerPosRelative.add(mult(wheelOffsetFromCorner, bodyRoll.current))
-  );
+  const ammoPos = getAmmoVector(cornerPosRelative.add(mult(wheelOffsetFromCorner, bodyRoll)));
 
   return {
     wheelMeshPos,

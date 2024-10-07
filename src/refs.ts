@@ -10,7 +10,8 @@ import { Car } from './lib/carList';
 import { car1 } from './lib/carList/Car1';
 
 // immediately start a game
-export const devMode = false;
+export const devMode = true;
+export const selectedCar = ref<Car>(car1);
 
 export const caches: Ref<any>[] = [];
 
@@ -87,11 +88,6 @@ export const steerModMap = createXYMap([0, 0], [1, 0], [2, 0.6], [20, 1], [50, 0
 export const reverseAngle = Math.PI * 0.8;
 
 // tires and suspension
-export const tireGrip = ref(150, 0, 1000, 10);
-export const springLength = ref(1.1, 0.5, 3, 0.01);
-export const sprintRate = ref(350, 0, 600, 10);
-export const springDamping = ref(5000, 0, 15000, 100);
-export const wheelWidth = 0.3;
 export const tireSnappiness = ref(100, 50, 200, 1);
 export const wheelCompression = ref([0, 0, 0, 0]);
 export const wheelSurfaces = ref<[Surface, Surface, Surface, Surface]>([
@@ -100,10 +96,6 @@ export const wheelSurfaces = ref<[Surface, Surface, Surface, Surface]>([
   'tarmac',
   'tarmac',
 ]);
-
-// power & brakes
-export const brakePower = ref(400, 0, 1200, 100);
-export const brakeRearBias = ref(0.6, 0, 1, 0.01);
 
 // surface grips
 export const surfaceGrips: {
@@ -116,14 +108,9 @@ export const skidMarkIntensity = 0.004;
 export const maxSkidMarks = 200;
 
 // car
-export const bodyRoll = ref(0.5, 0, 1, 0.1);
-export const airResistance = ref(0.12, 0.1, 0.5, 0.01);
 export const minAirResistance = 15;
 export const car = ref<Mesh | null>(null);
-export const wheelEndOffset = 0.2;
-export const driveTrain = ref<'FWD' | 'RWD' | 'AWD'>('AWD');
 export const angularDamping = 0.99;
-export const selectedCar = ref<Car>(car1);
 
 // camera
 export const camFollowDistance = ref(5, 3, 30, 1);
@@ -179,7 +166,7 @@ export const raycasterOffset = 2;
 export const stageTime = ref(0);
 export const stageTimeStarted = ref(false);
 export const countDownStarted = ref(false);
-export const currentMenu = ref<Menu>(devMode ? 'hud' : 'splash');
+export const currentMenu = ref<Menu>(devMode ? 'carSelect' : 'splash');
 export const defaultTransitionTime = 1000;
 export const transitionTime = ref(defaultTransitionTime);
 export const stopOnRender = ref(false);
@@ -196,6 +183,7 @@ export const internalController = ref({
   reset: false,
 });
 
+// internal controller
 export const stopInternalController = ref(false);
 export const menuUp = ref(false);
 export const menuDown = ref(false);

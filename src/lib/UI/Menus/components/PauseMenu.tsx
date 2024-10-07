@@ -5,6 +5,13 @@ import { BlurredContainer } from '../styles';
 import { exitToMainMenu } from '../exitToMainMenu';
 
 export function PauseMenu() {
+  const resume = async () => {
+    transitionTime.current = defaultTransitionTime;
+    currentMenu.current = 'hud';
+    await new Promise(r => setTimeout(r, defaultTransitionTime));
+    stopOnRender.current = false;
+  };
+
   return (
     <BlurredContainer>
       <GeneralMenu
@@ -12,12 +19,7 @@ export function PauseMenu() {
         items={[
           {
             label: 'Resume',
-            onChoose: async () => {
-              transitionTime.current = defaultTransitionTime;
-              currentMenu.current = 'hud';
-              await new Promise(r => setTimeout(r, defaultTransitionTime));
-              stopOnRender.current = false;
-            },
+            onChoose: resume,
           },
           {
             label: 'Reset to track',
