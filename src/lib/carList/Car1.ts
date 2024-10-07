@@ -1,7 +1,7 @@
 import { Car } from '.';
 
 export const car1: Car = {
-  name: 'The Small One',
+  name: 'Cooper',
   glb: 'car1',
   width: 1.3,
   height: 1,

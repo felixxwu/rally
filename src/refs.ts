@@ -113,8 +113,8 @@ export const car = ref<Mesh | null>(null);
 export const angularDamping = 0.99;
 
 // camera
-export const camFollowDistance = ref(5, 3, 30, 1);
-export const camFollowHeight = ref(5, 0, 30, 1);
+export const camFollowDistance = ref(3.5, 3, 30, 1);
+export const camFollowHeight = ref(2.5, 0, 30, 1);
 export const camFollowSpeed = ref(0.15, 0, 1, 0.01);
 export const fov = 90;
 export const carVisible = ref(false);
