@@ -2,9 +2,10 @@ import { Car } from '.';
 
 export const car2: Car = {
   name: 'The Big One',
-  width: 1.9,
+  glb: 'car2',
+  width: 1.7,
   height: 0.9,
-  length: 4,
+  length: 4.5,
   wheelRadius: 0.37,
   wheelWidth: 0.3,
   wheelEndOffset: 0.3,

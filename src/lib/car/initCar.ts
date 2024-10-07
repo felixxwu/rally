@@ -9,18 +9,14 @@ import { setBumpStop } from '../wheel/setBumpStop';
 import { platFormCarPos, setCarPos } from './setCarPos';
 import { vec3 } from '../utils/createVec';
 import { createCleanupFunction } from '../utils/createCleanupFunction';
+import { asyncGLTFLoader } from '../utils/asyncGLTFLoader';
 
 export const carCleanUp = createCleanupFunction();
 
-export function initCar() {
-  const carWidth = selectedCar.current.width;
-  const carHeight = selectedCar.current.height;
-  const carLength = selectedCar.current.length;
+export async function initCar() {
+  const gltf = await asyncGLTFLoader(`./cars/${selectedCar.current.glb}.glb`);
 
-  car.current = new THREE.Mesh(
-    new THREE.BoxGeometry(carWidth, carHeight, carLength, 1, 1, 1),
-    createObjectMaterial()
-  );
+  car.current = new THREE.Mesh(gltf.geometry, createObjectMaterial());
 
   const shape = new Ammo.btCompoundShape();
 

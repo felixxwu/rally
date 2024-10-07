@@ -30,7 +30,7 @@ export async function init() {
 
   initPhysics();
   initPlatform();
-  initCar();
+  await initCar();
   initWheel(true, true);
   initWheel(true, false);
   initWheel(false, true);

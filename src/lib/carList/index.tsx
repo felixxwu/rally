@@ -6,6 +6,7 @@ import { car2 } from './Car2';
 
 export type Car = {
   name: string;
+  glb: string;
   width: number;
   height: number;
   length: number;
@@ -26,10 +27,10 @@ export type Car = {
   airResistance: number;
 };
 
-export function selectCar(newCar: Car) {
+export async function selectCar(newCar: Car) {
   selectedCar.current = newCar;
   carCleanUp.cleanup();
-  initCar();
+  await initCar();
   wheelCleanUp.cleanup();
   initWheel(true, true);
   initWheel(true, false);
