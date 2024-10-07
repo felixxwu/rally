@@ -9,7 +9,7 @@ import { getAmmoVector } from '../utils/vectorConversion';
 import { createQuat } from '../utils/createQuat';
 declare const Ammo: typeof AmmoType;
 
-export const platFormCarPos = vec3([0, 1, 0]);
+export const platFormCarPos = vec3([0, 1.5, 0]);
 
 export function setCarPos(pos: THREE.Vector3, dir: THREE.Vector3) {
   if (!car.current) return;

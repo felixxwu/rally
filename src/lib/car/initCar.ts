@@ -15,8 +15,13 @@ export const carCleanUp = createCleanupFunction();
 
 export async function initCar() {
   const gltf = await asyncGLTFLoader(`./cars/${selectedCar.current.glb}.glb`);
+  const texture = new THREE.TextureLoader().load(`./cars/${selectedCar.current.glb}.png`);
+  texture.flipY = false;
 
-  car.current = new THREE.Mesh(gltf.geometry, createObjectMaterial());
+  car.current = new THREE.Mesh(
+    gltf.geometry,
+    new THREE.MeshStandardMaterial({ roughness: 0, metalness: 0.2, map: texture })
+  );
 
   const shape = new Ammo.btCompoundShape();
 
