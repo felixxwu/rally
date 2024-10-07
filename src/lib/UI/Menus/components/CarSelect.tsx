@@ -52,7 +52,6 @@ export function CarSelect() {
 }
 
 const Container = styled('div')`
-  pointer-events: all;
   height: 100%;
   display: flex;
 `;

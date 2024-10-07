@@ -8,6 +8,7 @@ export const Container = styled('div')`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  pointer-events: all;
 `;
 
 export const Text = styled('div')`

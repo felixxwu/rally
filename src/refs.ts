@@ -10,7 +10,7 @@ import { Car } from './lib/carList';
 import { car1 } from './lib/carList/Car1';
 
 // immediately start a game
-export const devMode = false;
+export const devMode = true;
 export const selectedCar = ref<Car>(car1);
 
 export const caches: Ref<any>[] = [];
@@ -51,7 +51,7 @@ export const pointMoveDist = 3;
 export const horizontalRoadSmoothing = 50;
 export const verticalRoadSmoothing = 20;
 export const crossingDistance = 50;
-export const halfRoadWidth = 7;
+export const halfRoadWidth = 6;
 export const startRoadWidth = 20;
 export const startRoadLength = 30;
 export const grassWidth = 3;
