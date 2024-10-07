@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { MainMenu } from './Menus/MainMenu';
-import { currentMenu, transitionTime } from '../../refs';
+import { MainMenu } from './Menus/components/MainMenu';
+import { currentMenu, platformMesh, transitionTime } from '../../refs';
 import { Menu } from '../../types';
-import { SplashScreen } from './Menus/SplashScreen';
+import { SplashScreen } from './Menus/components/SplashScreen';
 import styled from 'styled-components';
-import { StageSelect } from './Menus/StageSelect';
+import { StageSelect } from './Menus/components/StageSelect';
 import { HUD } from './HUD';
-import { PauseMenu } from './Menus/PauseMenu';
-import { SettingsMenu } from './Menus/SettingsMenu';
-import { StageEnd } from './Menus/StageEnd';
+import { PauseMenu } from './Menus/components/PauseMenu';
+import { SettingsMenu } from './Menus/components/SettingsMenu';
+import { StageEnd } from './Menus/components/StageEnd';
+import { CarSelect } from './Menus/components/CarSelect';
 
 export function ReactUI() {
   const [menu, setMenu] = useState<Menu>(currentMenu.current);
@@ -27,6 +28,10 @@ export function ReactUI() {
     currentMenu.triggerListeners();
   }, []);
 
+  useEffect(() => {
+    platformMesh.current!.visible = menu === 'carSelect';
+  }, [menu]);
+
   return (
     <>
       <Container
@@ -42,6 +47,7 @@ export function ReactUI() {
         {menu === 'pause' && <PauseMenu />}
         {menu === 'settings' && <SettingsMenu />}
         {menu === 'stageEnd' && <StageEnd />}
+        {menu === 'carSelect' && <CarSelect />}
       </Container>
     </>
   );

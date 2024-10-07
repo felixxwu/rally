@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { useCustomRef } from '../../utils/useCustomRef';
 import {
-  carVisible,
+  countDownStarted,
   onRender,
   roadVecs,
+  stageTimeStarted,
   terrainDepthExtents,
   terrainWidthExtents,
 } from '../../../refs';
@@ -25,7 +26,7 @@ export function MiniMap() {
 
   useEffect(() => {
     onRender.current.push(() => {
-      if (!carVisible.current) {
+      if (!stageTimeStarted.current && !countDownStarted.current) {
         setCarTransform(null);
         return;
       }

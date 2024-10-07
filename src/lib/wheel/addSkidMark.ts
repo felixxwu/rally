@@ -1,9 +1,10 @@
 import {
   car,
-  carVisible,
+  currentMenu,
   maxSkidMarks,
   scene,
   skidMarkIntensity,
+  stageTimeStarted,
   surfaceGrips,
   wheelWidth,
 } from '../../refs';
@@ -35,7 +36,7 @@ export function addSkidMark(
 ) {
   const wheelSkidMarks = skidMarks.current[front ? (left ? 0 : 1) : left ? 2 : 3];
   if (!car.current) return;
-  if (!carVisible.current) return;
+  if (!stageTimeStarted.current && currentMenu.current !== 'stageEnd') return;
 
   const prevPoint = wheelSkidMarks[wheelSkidMarks.length - 1]?.point || wheelMeshPos;
   const prevLeft = wheelSkidMarks[wheelSkidMarks.length - 1]?.pointLeft || wheelMeshPos;

@@ -4,9 +4,9 @@ import {
   brakeRearBias,
   driveTrain,
   internalController,
+  selectedCar,
   stageTimeStarted,
 } from '../../refs';
-import { enginePower } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { mult } from '../utils/multVec';
 import { wheelHasPower } from './wheelHasPower';
@@ -30,12 +30,12 @@ export function getStraightTireForce(front: boolean) {
 
   if (reversing) {
     if (wheelHasPower(front)) {
-      engineForce.add(mult(forwardUnitVec, -enginePower.current * brake));
+      engineForce.add(mult(forwardUnitVec, -selectedCar.current.power * brake));
     }
     brakeForce.add(mult(speed.clone().normalize(), -brakePower.current * throttle * brakeBiasMod));
   } else {
     if (wheelHasPower(front)) {
-      engineForce.add(mult(forwardUnitVec, enginePower.current * throttle));
+      engineForce.add(mult(forwardUnitVec, selectedCar.current.power * throttle));
     }
     brakeForce.add(mult(speed.clone().normalize(), -brakePower.current * brake * brakeBiasMod));
   }

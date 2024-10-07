@@ -30,11 +30,11 @@ export async function createRoadPoints() {
 
   for (let i = 0; i < maxAttempts; i++) {
     if (roadVecs.current.length >= maxPoints) break;
-    if (i % 100 === 99) {
+    if (i % 10 === 0) {
       roadVecs.current = [...roadVecs.current];
       infoText.current = `Generating Road... ${Math.round((i / maxAttempts) * 100)}%`;
 
-      await createTemporaryMesh();
+      await new Promise(r => setTimeout(r));
     }
     const intersection = ray(
       new THREE.Vector3(point.x, 1000, point.y),

@@ -1,9 +1,11 @@
-import { currentMenu, seed, startGame, timeOfDay } from '../../../refs';
-import { TimeOfDay } from '../../../types';
-import { getSeededHeight } from '../../terrain/getSeededHeight';
-import { getSlope } from '../../terrain/getSlope';
-import { useCustomRef } from '../../utils/useCustomRef';
-import { GeneralMenu } from '../GeneralMenu';
+import { currentMenu, seed, timeOfDay } from '../../../../refs';
+import { TimeOfDay } from '../../../../types';
+import { getSeededHeight } from '../../../terrain/getSeededHeight';
+import { getSlope } from '../../../terrain/getSlope';
+import { startTerrainGeneration } from '../../../terrain/startTerrainGeneration';
+import { useCustomRef } from '../../../utils/useCustomRef';
+import { GeneralMenu } from '../../GeneralMenu';
+import { startCarSelection } from '../startCarSelection';
 
 export function StageSelect() {
   useCustomRef(seed, () => {
@@ -20,8 +22,8 @@ export function StageSelect() {
         {
           label: 'Start Game',
           onChoose() {
-            startGame.current = true;
-            currentMenu.current = 'hud';
+            startTerrainGeneration();
+            startCarSelection();
           },
         },
         { label: 'Seed', numRef: seed },

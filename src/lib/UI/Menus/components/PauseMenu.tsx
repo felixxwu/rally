@@ -1,12 +1,8 @@
-import {
-  currentMenu,
-  defaultTransitionTime,
-  stopOnRender, transitionTime
-} from '../../../refs';
-import { GeneralMenu } from '../GeneralMenu';
-import { resetToLastProgress } from '../../road/resetIfFarFromRoad';
-import { BlurredContainer } from './styles';
-import { exitToMainMenu } from './exitToMainMenu';
+import { currentMenu, defaultTransitionTime, stopOnRender, transitionTime } from '../../../../refs';
+import { GeneralMenu } from '../../GeneralMenu';
+import { resetToLastProgress } from '../../../road/resetIfFarFromRoad';
+import { BlurredContainer } from '../styles';
+import { exitToMainMenu } from '../exitToMainMenu';
 
 export function PauseMenu() {
   return (

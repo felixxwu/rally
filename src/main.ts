@@ -8,14 +8,13 @@ import { initLight } from './lib/light/initLight';
 import { initWindowListeners } from './lib/initWindowListeners';
 import { initPhysics } from './lib/physics/initPhysics';
 import { initRenderer } from './lib/render/initRenderer';
-import { initTerrain } from './lib/terrain/initTerrain';
 import { initUI } from './lib/UI/initUI';
 import { initWheel } from './lib/wheel/initWheel';
-import { initRoad } from './lib/road/initRoad';
 import { initSky } from './lib/light/initSky';
-import { carVisible, countDownStarted, devMode, stageTimeStarted, startGame } from './refs';
+import { carVisible, devMode, carSelected } from './refs';
 import { initInternalController } from './lib/initInternalController';
 import { initPlatform } from './lib/terrain/initPlatform';
+import { startTerrainGeneration } from './lib/terrain/startTerrainGeneration';
 
 Ammo().then(init);
 
@@ -37,16 +36,9 @@ export async function init() {
   initWheel(false, true);
   initWheel(false, false);
 
-  startGame.listeners.push(async value => {
-    if (value) {
-      initTerrain();
-      await initRoad();
-      countDownStarted.current = true;
-      carVisible.current = true;
-    }
-  });
-
   if (devMode) {
-    startGame.current = true;
+    startTerrainGeneration();
+    carSelected.current = true;
+    carVisible.current = true;
   }
 }

@@ -8,21 +8,19 @@ import {
   camFollowSpeed,
   currentMenu,
   driveTrain,
-  enginePower,
   renderHelperArrows,
   renderHitCarBox,
   seed,
   springDamping,
   springLength,
   sprintRate,
-  steerPower,
   surfaceGrips,
   tireGrip,
   tireSnappiness,
   transitionTime,
-} from '../../../refs';
-import { GeneralMenu } from '../GeneralMenu';
-import { BlurredContainer } from './styles';
+} from '../../../../refs';
+import { GeneralMenu } from '../../GeneralMenu';
+import { BlurredContainer } from '../styles';
 
 export function SettingsMenu() {
   return (
@@ -34,7 +32,6 @@ export function SettingsMenu() {
         }}
         items={[
           { label: '[ Tires & Suspension ]' },
-          { label: 'Steering Sensitivity', numRef: steerPower },
           { label: 'Tire Grip', numRef: tireGrip },
           { label: 'Spring Length', numRef: springLength },
           { label: 'Spring Stiffness', numRef: sprintRate },
@@ -42,7 +39,6 @@ export function SettingsMenu() {
           { label: 'Tire Snappiness', numRef: tireSnappiness },
 
           { label: '[ Engine & Brakes ]' },
-          { label: 'Engine Power', numRef: enginePower },
           { label: 'Brake Strength', numRef: brakePower },
           { label: 'Brake Bias (Rear)', numRef: brakeRearBias },
 

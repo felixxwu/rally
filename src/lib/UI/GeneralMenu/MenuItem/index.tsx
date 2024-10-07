@@ -4,13 +4,15 @@ import { NumberMenuItem } from './NumberMenuItem';
 import { CycleMenuItem } from './CycleMenuItem';
 import { ToggleMenuItem } from './ToggleMenuItem';
 
-export function MenuItem({
+export function MenuItem<T>({
   selected,
   label,
   onHover,
   onChoose,
   cycleValueRef,
   cycleSet,
+  labelFn,
+  onCycleChange,
   numberRef,
   booleanRef,
 }: {
@@ -18,8 +20,10 @@ export function MenuItem({
   label: string;
   onHover: () => void;
   onChoose?: () => void;
-  cycleValueRef?: Ref<string>;
-  cycleSet?: string[];
+  cycleValueRef?: Ref<T>;
+  cycleSet?: T[];
+  labelFn?: (cycleSet: T[], index: number) => string;
+  onCycleChange?: (value: T) => void;
   numberRef?: Ref<number>;
   booleanRef?: Ref<boolean>;
 }) {
@@ -43,6 +47,8 @@ export function MenuItem({
         onHover={onHover}
         valueRef={cycleValueRef}
         cycleSet={cycleSet}
+        labelFn={labelFn}
+        onChange={onCycleChange}
       />
     );
   }

@@ -3,25 +3,31 @@ import { useCustomRef } from '../../../utils/useCustomRef';
 import { menuLeft, menuRight, menuSelect } from '../../../../refs';
 import { Ref } from '../../../utils/ref';
 
-export function CycleMenuItem({
+export function CycleMenuItem<T>({
   selected,
   label,
   onHover,
   valueRef,
   cycleSet,
+  labelFn,
+  onChange,
 }: {
   selected: boolean;
   label: string;
   onHover: () => void;
-  valueRef: Ref<string>;
-  cycleSet: string[];
+  valueRef: Ref<T>;
+  cycleSet: T[];
+  labelFn?: (cycleSet: T[], index: number) => string;
+  onChange?: (value: T) => void;
 }) {
   const value = useCustomRef(valueRef);
   const index = cycleSet.indexOf(value);
+  const labelFunction = labelFn || ((cycleSet, index) => cycleSet[index] as string);
 
   const handleCycle = (step = 1) => {
     const newIndex = (index + step + cycleSet.length) % cycleSet.length;
     valueRef.current = cycleSet[newIndex];
+    onChange?.(cycleSet[newIndex]);
   };
 
   useCustomRef(menuLeft, value => {
@@ -55,7 +61,7 @@ export function CycleMenuItem({
       onClick={() => handleCycle()}
     >
       <Text>{label}</Text>
-      <Text>{cycleSet[index]}</Text>
+      <Text>{labelFunction(cycleSet, index)}</Text>
     </Container>
   );
 }

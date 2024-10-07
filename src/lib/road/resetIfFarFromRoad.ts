@@ -5,6 +5,7 @@ import { helperArrowFromTo } from '../helperArrows/helperArrow';
 import { getProgressPercentage } from '../UI/HUD/Progress';
 import { vec3 } from '../utils/createVec';
 
+// TODO add opaque screen while car is resetting to road
 export function resetIfFarFromRoad() {
   const vecs = roadVecs.current;
   const carPos = getCarPos();

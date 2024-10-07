@@ -1,24 +1,22 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import {
-  angularDamping,
-  car,
-  carHeight,
-  carLength,
-  carWidth,
-  onRender,
-  physicsWorld,
-  scene,
-} from '../../refs';
+import { angularDamping, car, onRender, physicsWorld, scene, selectedCar } from '../../refs';
 import { setUserData } from '../utils/userData';
 import { updateCar } from './updateCar';
 import { THREE } from '../utils/THREE';
-import { addBumpStop } from '../wheel/addBumpStop';
+import { setBumpStop } from '../wheel/setBumpStop';
 import { platFormCarPos, setCarPos } from './setCarPos';
 import { vec3 } from '../utils/createVec';
+import { createCleanupFunction } from '../utils/createCleanupFunction';
+
+export const carCleanUp = createCleanupFunction();
 
 export function initCar() {
+  const carWidth = selectedCar.current.width;
+  const carHeight = selectedCar.current.height;
+  const carLength = selectedCar.current.length;
+
   car.current = new THREE.Mesh(
     new THREE.BoxGeometry(carWidth, carHeight, carLength, 1, 1, 1),
     createObjectMaterial()
@@ -26,12 +24,12 @@ export function initCar() {
 
   const shape = new Ammo.btCompoundShape();
 
-  addBumpStop(shape, car.current, true, true);
-  addBumpStop(shape, car.current, true, false);
-  addBumpStop(shape, car.current, false, true);
-  addBumpStop(shape, car.current, false, false);
+  setBumpStop(shape, car.current, true, true);
+  setBumpStop(shape, car.current, true, false);
+  setBumpStop(shape, car.current, false, true);
+  setBumpStop(shape, car.current, false, false);
 
-  const mass = 15;
+  const mass = selectedCar.current.mass;
   const localInertia = new Ammo.btVector3(0, 1, 0);
   shape.calculateLocalInertia(mass, localInertia);
   const transform = new Ammo.btTransform();
@@ -57,9 +55,16 @@ export function initCar() {
 
   physicsWorld.current?.addRigidBody(body);
 
-  setCarPos(platFormCarPos, vec3([0, 0, 1]));
+  setCarPos(platFormCarPos, vec3([1, 0, 1]));
 
   onRender.current.push(updateCar);
+
+  carCleanUp.addCleanupFunction(() => {
+    physicsWorld.current?.removeRigidBody(body);
+    scene.current?.remove(car.current!);
+    car.current = null;
+    onRender.current = onRender.current.filter(f => f !== updateCar);
+  });
 }
 
 export function createObjectMaterial() {

@@ -6,4 +6,12 @@ export type TimeOfDay = 'Day' | 'Sunset' | 'Night';
 
 export type Surface = 'tarmac' | 'grass';
 
-export type Menu = 'main' | 'stageSelect' | 'splash' | 'hud' | 'pause' | 'settings' | 'stageEnd';
+export type Menu =
+  | 'main'
+  | 'stageSelect'
+  | 'splash'
+  | 'hud'
+  | 'pause'
+  | 'settings'
+  | 'stageEnd'
+  | 'carSelect';

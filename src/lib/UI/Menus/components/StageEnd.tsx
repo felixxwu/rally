@@ -1,7 +1,7 @@
-import { stageTime } from '../../../refs';
-import { GeneralMenu } from '../GeneralMenu';
-import { getTimerText } from '../HUD/Progress';
-import { exitToMainMenu } from './exitToMainMenu';
+import { stageTime } from '../../../../refs';
+import { GeneralMenu } from '../../GeneralMenu';
+import { getTimerText } from '../../HUD/Progress';
+import { exitToMainMenu } from '../exitToMainMenu';
 
 export function StageEnd() {
   return (

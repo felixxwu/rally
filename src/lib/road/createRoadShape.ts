@@ -52,6 +52,7 @@ export function createRoadShape(triangles: Triangle[], color: string, roughness:
 
   mesh.receiveShadow = true;
   mesh.castShadow = true;
+  mesh.visible = false;
 
   return { rigidBody, mesh };
 }

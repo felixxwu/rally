@@ -1,5 +1,5 @@
-import { currentMenu } from '../../../refs';
-import { GeneralMenu } from '../GeneralMenu';
+import { currentMenu } from '../../../../refs';
+import { GeneralMenu } from '../../GeneralMenu';
 
 export function MainMenu() {
   return (

@@ -6,6 +6,8 @@ import { THREE } from './lib/utils/THREE';
 import { Ref, ref } from './lib/utils/ref';
 import { createXYMap } from './lib/utils/createXYMap';
 import { Vector } from './lib/road/createRoadShape';
+import { Car } from './lib/carList';
+import { car1 } from './lib/carList/Car1';
 
 // immediately start a game
 export const devMode = false;
@@ -48,10 +50,10 @@ export const pointMoveDist = 3;
 export const horizontalRoadSmoothing = 50;
 export const verticalRoadSmoothing = 20;
 export const crossingDistance = 50;
-export const halfRoadWidth = 6;
+export const halfRoadWidth = 7;
 export const startRoadWidth = 20;
 export const startRoadLength = 30;
-export const grassWidth = 4;
+export const grassWidth = 3;
 export const maxBankingLength = 30;
 export const bankingAngleStart = 0.3;
 export const bankingAngleStep = 0.05;
@@ -66,6 +68,7 @@ export const camera = ref<THREE.PerspectiveCamera | null>(null);
 export const scene = ref<THREE.Scene | null>(null);
 export const renderer = ref<THREE.WebGLRenderer | null>(null);
 export const clock = new THREE.Clock();
+export const stageTimeClock = new THREE.Clock();
 export const onRender = ref<((deltaTime: number) => void)[]>([]);
 export const onRenderNoPausing = ref<((deltaTime: number) => void)[]>([]);
 export const freeCam = ref(false);
@@ -80,7 +83,6 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 export const gravity = 35;
 
 // steering
-export const steerPower = ref(1000, 500, 2000, 100);
 export const steerModMap = createXYMap([0, 0], [1, 0], [2, 0.6], [20, 1], [50, 0.5]); // x = speed, y = steering input modifier
 export const reverseAngle = Math.PI * 0.8;
 
@@ -89,7 +91,6 @@ export const tireGrip = ref(150, 0, 1000, 10);
 export const springLength = ref(1.1, 0.5, 3, 0.01);
 export const sprintRate = ref(350, 0, 600, 10);
 export const springDamping = ref(5000, 0, 15000, 100);
-export const wheelRadius = 0.4;
 export const wheelWidth = 0.3;
 export const tireSnappiness = ref(100, 50, 200, 1);
 export const wheelCompression = ref([0, 0, 0, 0]);
@@ -101,7 +102,6 @@ export const wheelSurfaces = ref<[Surface, Surface, Surface, Surface]>([
 ]);
 
 // power & brakes
-export const enginePower = ref(150, 0, 500, 10);
 export const brakePower = ref(400, 0, 1200, 100);
 export const brakeRearBias = ref(0.6, 0, 1, 0.01);
 
@@ -109,28 +109,26 @@ export const brakeRearBias = ref(0.6, 0, 1, 0.01);
 export const surfaceGrips: {
   [key in Surface]: { dry: Ref<number>; colour: string; opacity: number };
 } = {
-  tarmac: { dry: ref(1.7, 0, 3, 0.1), colour: '#000', opacity: 0.5 },
+  tarmac: { dry: ref(1.8, 0, 3, 0.1), colour: '#000', opacity: 0.5 },
   grass: { dry: ref(0.9, 0, 3, 0.1), colour: '#040', opacity: 0.2 },
 };
 export const skidMarkIntensity = 0.004;
 export const maxSkidMarks = 200;
 
-// car physics
+// car
 export const bodyRoll = ref(0.5, 0, 1, 0.1);
 export const airResistance = ref(0.12, 0.1, 0.5, 0.01);
 export const minAirResistance = 15;
 export const car = ref<Mesh | null>(null);
-export const carLength = 4.2;
-export const carWidth = 2;
-export const carHeight = 1;
 export const wheelEndOffset = 0.2;
 export const driveTrain = ref<'FWD' | 'RWD' | 'AWD'>('AWD');
 export const angularDamping = 0.99;
+export const selectedCar = ref<Car>(car1);
 
 // camera
 export const camFollowDistance = ref(5, 3, 30, 1);
 export const camFollowHeight = ref(5, 0, 30, 1);
-export const camFollowSpeed = ref(0.1, 0, 1, 0.01);
+export const camFollowSpeed = ref(0.15, 0, 1, 0.01);
 export const fov = 90;
 export const carVisible = ref(false);
 
@@ -175,7 +173,8 @@ export const renderHitCarBox = ref(false);
 
 // UI
 export const panelOpen = ref(false);
-export const startGame = ref(false);
+export const generatingTerrain = ref(false);
+export const carSelected = ref(false);
 export const raycasterOffset = 2;
 export const stageTime = ref(0);
 export const stageTimeStarted = ref(false);

@@ -51,7 +51,7 @@ export async function createRoadTriangles(skipGrass?: boolean) {
     }
 
     if (!skipGrass) {
-      if (i % 100 === 0) {
+      if (i % 10 === 0) {
         infoText.current = `Creating Road Mesh... ${Math.round((i / vecs.length) * 100)}%`;
         await new Promise(r => setTimeout(r));
       }
@@ -183,8 +183,8 @@ function getSideVecs(vecs: Vector[], i: number, skipGrass?: boolean) {
   const rightNoise = noise(rightGrass.x * noiseScale + 1, rightGrass.z * noiseScale + 1) * 2 - 1;
   const leftGrassNoise = noise(leftGrass.x * noiseScale, leftGrass.z * noiseScale) * 2 - 1;
   const rightGrassNoise = noise(rightGrass.x * noiseScale, rightGrass.z * noiseScale) * 2 - 1;
-  const leftRoad = vec.clone().add(projectedLeft.multiplyScalar(1 - leftNoise / 3));
-  const rightRoad = vec.clone().add(projectedRight.multiplyScalar(1 - rightNoise / 3));
+  const leftRoad = vec.clone().add(projectedLeft.multiplyScalar(1 - leftNoise / 4));
+  const rightRoad = vec.clone().add(projectedRight.multiplyScalar(1 - rightNoise / 4));
   leftGrass.add(new THREE.Vector3(0, leftGrassNoise * 1.2, 0));
   rightGrass.add(new THREE.Vector3(0, rightGrassNoise * 1.2, 0));
 

@@ -18,11 +18,11 @@ export function initPlatform() {
     color: '#ffffff',
     roughness: 1,
     metalness: 0,
-    visible: false,
+    opacity: 0.5,
+    transparent: true,
   });
   const mesh = new THREE.Mesh(geometry, groundMaterial);
   mesh.receiveShadow = true;
-  mesh.position.y = -5;
   scene.current?.add(mesh);
   platformMesh.current = mesh;
 
@@ -31,7 +31,7 @@ export function initPlatform() {
   );
   const groundTransform = new Ammo.btTransform();
   groundTransform.setIdentity();
-  groundTransform.setOrigin(new Ammo.btVector3(0, -5, 0));
+  groundTransform.setOrigin(new Ammo.btVector3(0, 0, 0));
   const groundMass = 0;
   const groundLocalInertia = new Ammo.btVector3(0, 0, 0);
   const groundMotionState = new Ammo.btDefaultMotionState(groundTransform);

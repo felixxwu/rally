@@ -1,19 +1,19 @@
 import styled from 'styled-components';
 import { useCustomRef } from '../../utils/useCustomRef';
-import { carVisible, progress, resetDistance, roadVecs, stageTime } from '../../../refs';
+import { progress, resetDistance, roadVecs, stageTime, stageTimeStarted } from '../../../refs';
 import { useState } from 'react';
 import { padStart } from '../../utils/padStart';
 
 export function Progress() {
   const [timerText, setTimerText] = useState('');
 
-  const carIsVisible = useCustomRef(carVisible);
+  const timerStarted = useCustomRef(stageTimeStarted);
 
   useCustomRef(stageTime, value => {
     setTimerText(getTimerText(value));
   });
 
-  if (!carIsVisible) return null;
+  if (!timerStarted) return null;
 
   return (
     <Container>
