@@ -1,5 +1,5 @@
 import { getCarDirection } from '../car/getCarDirection';
-import { internalController, selectedCar, stageTimeStarted } from '../../refs';
+import { internalController, powerModifier, selectedCar, stageTimeStarted } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { mult } from '../utils/multVec';
 import { wheelHasPower } from './wheelHasPower';
@@ -24,12 +24,12 @@ export function getStraightTireForce(front: boolean) {
 
   if (reversing) {
     if (wheelHasPower(front)) {
-      engineForce.add(mult(forwardUnitVec, -power * brake));
+      engineForce.add(mult(forwardUnitVec, -power * powerModifier * brake));
     }
     brakeForce.add(mult(speed.clone().normalize(), -brakePower * throttle * brakeBiasMod));
   } else {
     if (wheelHasPower(front)) {
-      engineForce.add(mult(forwardUnitVec, power * throttle));
+      engineForce.add(mult(forwardUnitVec, power * powerModifier * throttle));
     }
     brakeForce.add(mult(speed.clone().normalize(), -brakePower * brake * brakeBiasMod));
   }
