@@ -1,5 +1,6 @@
 import { currentMenu } from '../../../../refs';
 import { GeneralMenu } from '../../GeneralMenu';
+import { startStageSelection } from '../startStageSelection';
 
 export function MainMenu() {
   return (
@@ -9,7 +10,7 @@ export function MainMenu() {
         {
           label: 'Select Stage',
           onChoose() {
-            currentMenu.current = 'stageSelect';
+            startStageSelection();
           },
         },
       ]}

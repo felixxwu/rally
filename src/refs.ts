@@ -59,7 +59,7 @@ export const maxBankingLength = 30;
 export const bankingAngleStart = 0.3;
 export const bankingAngleStep = 0.05;
 export const roadVecs = ref<Vector[]>([]);
-export const resetDistance = 30;
+export const resetDistance = 40;
 export const progress = ref(0);
 
 // Graphics variables

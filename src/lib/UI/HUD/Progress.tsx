@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 import { useCustomRef } from '../../utils/useCustomRef';
-import { progress, resetDistance, roadVecs, stageTime, stageTimeStarted } from '../../../refs';
+import {
+  progress,
+  resetDistance,
+  roadVecs,
+  stageTime,
+  stageTimeStarted,
+  startRoadLength,
+} from '../../../refs';
 import { useState } from 'react';
 import { padStart } from '../../utils/padStart';
 
@@ -27,7 +34,7 @@ export function getProgressPercentage() {
   return (
     Math.min(
       1,
-      (progress.current - resetDistance) / (roadVecs.current.length - resetDistance * 2)
+      (progress.current - startRoadLength) / (roadVecs.current.length - startRoadLength * 2)
     ) * 100
   );
 }

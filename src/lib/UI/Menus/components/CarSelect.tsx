@@ -6,6 +6,7 @@ import { MiniMap } from '../../HUD/MiniMap';
 import { allCars, selectCar } from '../../../carList';
 import { GeneralMenu } from '../../GeneralMenu';
 import { useCustomRef } from '../../../utils/useCustomRef';
+import { startStageSelection } from '../startStageSelection';
 
 export function CarSelect() {
   const handleStart = () => {
@@ -43,7 +44,9 @@ export function CarSelect() {
               onChoose: handleStart,
             },
           ]}
-          onBack={() => {}}
+          onBack={() => {
+            startStageSelection();
+          }}
           noWrapper
         />
       </Bottom>

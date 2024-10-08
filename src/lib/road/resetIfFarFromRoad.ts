@@ -1,4 +1,4 @@
-import { progress, resetDistance, roadVecs } from '../../refs';
+import { infoText, progress, resetDistance, roadVecs, stageTimeStarted } from '../../refs';
 import { getCarPos } from '../car/getCarTransform';
 import { setCarPos } from '../car/setCarPos';
 import { helperArrowFromTo } from '../helperArrows/helperArrow';
@@ -7,6 +7,8 @@ import { vec3 } from '../utils/createVec';
 
 // TODO add opaque screen while car is resetting to road
 export function resetIfFarFromRoad() {
+  if (!stageTimeStarted.current) return;
+
   const vecs = roadVecs.current;
   const carPos = getCarPos();
   for (let i = progress.current; i < vecs.length; i++) {
@@ -24,6 +26,14 @@ export function resetIfFarFromRoad() {
         progress.current = i;
       }
     }
+  }
+
+  const furthestVec = vec3(vecs[progress.current] ?? [0, 0, 0]);
+  const distFromFurthest = furthestVec.clone().sub(carPos).length();
+  if (distFromFurthest > resetDistance) {
+    infoText.current = 'Press (R) to reset to track';
+  } else {
+    infoText.current = '';
   }
 }
 
