@@ -7,11 +7,11 @@ import { Ref, ref } from './lib/utils/ref';
 import { createXYMap } from './lib/utils/createXYMap';
 import { Vector } from './lib/road/createRoadShape';
 import { Car } from './lib/carList';
-import { car1 } from './lib/carList/Car1';
+import { cooper } from './lib/carList/Cooper';
 
 // immediately start a game
-export const devMode = true;
-export const selectedCar = ref<Car>(car1);
+export const devMode = false;
+export const selectedCar = ref<Car>(cooper);
 
 export const caches: Ref<any>[] = [];
 
@@ -110,7 +110,7 @@ export const maxSkidMarks = 200;
 // car
 export const minAirResistance = 15;
 export const car = ref<Mesh | null>(null);
-export const angularDamping = 0.99;
+export const angularDamping = 0.999;
 
 // camera
 export const camFollowDistance = ref(3.5, 3, 30, 1);
@@ -162,7 +162,7 @@ export const renderHitCarBox = ref(false);
 export const panelOpen = ref(false);
 export const generatingTerrain = ref(false);
 export const carSelected = ref(false);
-export const raycasterOffset = 2;
+export const raycasterOffset = 1.5;
 export const stageTime = ref(0);
 export const stageTimeStarted = ref(false);
 export const countDownStarted = ref(false);

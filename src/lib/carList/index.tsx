@@ -1,8 +1,8 @@
 import { selectedCar } from '../../refs';
 import { carCleanUp, initCar } from '../car/initCar';
 import { initWheel, wheelCleanUp } from '../wheel/initWheel';
-import { car1 } from './Car1';
-import { car2 } from './Car2';
+import { cooper } from './Cooper';
+import { charger } from './Charger';
 
 export type Car = {
   name: string;
@@ -13,7 +13,7 @@ export type Car = {
   wheelRadius: number;
   wheelWidth: number;
   wheelEndOffset: number;
-  mass: number;
+  mass: number; // 10 = 1000kg
   power: number;
   steerPower: number;
   tireGrip: number;
@@ -38,7 +38,7 @@ export async function selectCar(newCar: Car) {
   initWheel(false, false);
 }
 
-export const allCars: Car[] = [car1, car2];
+export const allCars: Car[] = [cooper, charger];
 
 export function nextCar() {
   const index = allCars.findIndex(car => car === selectedCar.current);

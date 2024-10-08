@@ -25,8 +25,8 @@ export function CarSelect() {
       <Info />
       <Bottom>
         <InfoContainer>
-          <div>Engine Power: {car.power}</div>
-          <div>Mass: {car.mass}</div>
+          <div>Engine Power: {car.power} kW</div>
+          <div>Mass: {Math.round(car.mass * 100)} kg</div>
           <div>Drivetrain: {car.driveTrain}</div>
         </InfoContainer>
         <GeneralMenu

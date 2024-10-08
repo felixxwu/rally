@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { MainMenu } from './Menus/components/MainMenu';
-import { currentMenu, platformMesh, transitionTime } from '../../refs';
+import { currentMenu, freeCam, platformMesh, transitionTime } from '../../refs';
 import { Menu } from '../../types';
 import { SplashScreen } from './Menus/components/SplashScreen';
 import styled from 'styled-components';
@@ -30,6 +30,7 @@ export function ReactUI() {
 
   useEffect(() => {
     platformMesh.current!.visible = menu === 'carSelect';
+    freeCam.current = menu === 'carSelect';
   }, [menu]);
 
   return (
