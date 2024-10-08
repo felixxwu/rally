@@ -19,6 +19,6 @@ export const cyber: Car = {
   springLength: 1.1,
   springRate: 950,
   springDamping: 5000,
-  bodyRoll: 0.5,
+  bodyRoll: 1,
   airResistance: 0.25,
 };
