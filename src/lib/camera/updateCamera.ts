@@ -19,12 +19,14 @@ const recentCarPos: THREE.Vector3[] = [];
 export function updateCamera() {
   if (!car.current) return;
 
-  if (!stageTimeStarted.current && !countDownStarted.current) return;
-
   const carPos = getCarMeshPos();
   const carDir = getCarMeshDirection();
 
   if (freeCam.current) return;
+
+  camera.current?.lookAt(carPos.x, carPos.y + camFollowHeight.current / 4, carPos.z);
+
+  if (!stageTimeStarted.current && !countDownStarted.current) return;
 
   recentCarPos.push(carPos.clone());
   while (recentCarPos[0]?.distanceTo(carPos) > camFollowDistance.current) {
@@ -43,7 +45,6 @@ export function updateCamera() {
     0.5
   );
 
-  camera.current?.lookAt(carPos.x, carPos.y + camFollowHeight.current / 4, carPos.z);
   if (stageTimeStarted.current || countDownStarted.current) {
     camera.current?.position.copy(carPosForLerp);
   }
