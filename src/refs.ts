@@ -114,7 +114,7 @@ export const angularDamping = 0.999;
 export const powerModifier = 0.5; // scale all car power by this amount
 
 // camera
-export const camFollowDistance = ref(3.5, 3, 30, 1);
+export const camFollowDistance = ref(5, 3, 30, 1);
 export const camFollowHeight = ref(2.5, 0, 30, 1);
 export const camFollowSpeed = ref(0.15, 0, 1, 0.01);
 export const fov = 90;
