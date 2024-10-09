@@ -70,7 +70,7 @@ export const scene = ref<THREE.Scene | null>(null);
 export const renderer = ref<THREE.WebGLRenderer | null>(null);
 export const clock = new THREE.Clock();
 export const stageTimeClock = new THREE.Clock();
-export const onRender = ref<((deltaTime: number) => void)[]>([]);
+export const onRender = ref<[string, (deltaTime: number) => void][]>([]);
 export const onRenderNoPausing = ref<((deltaTime: number) => void)[]>([]);
 export const freeCam = ref(false);
 
@@ -102,7 +102,7 @@ export const surfaceGrips: {
   [key in Surface]: { dry: Ref<number>; colour: string; opacity: number };
 } = {
   tarmac: { dry: ref(1.8, 0, 3, 0.1), colour: '#000', opacity: 0.5 },
-  grass: { dry: ref(1.2, 0, 3, 0.1), colour: '#040', opacity: 0.2 },
+  grass: { dry: ref(1.3, 0, 3, 0.1), colour: '#040', opacity: 0.2 },
 };
 export const skidMarkIntensity = 0.004;
 export const maxSkidMarks = 200;

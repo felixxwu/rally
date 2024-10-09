@@ -16,7 +16,7 @@ export function initCamera() {
 
   camera.current.position.copy(defaultCamPos);
 
-  onRender.current.push(updateCamera);
+  onRender.current.push(['updateCamera', updateCamera]);
 
   const controls = new OrbitControls(camera.current!, renderer.current!.domElement);
   controls.enabled = freeCam.current;

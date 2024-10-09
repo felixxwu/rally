@@ -60,7 +60,5 @@ export async function initRoad() {
 
   infoText.current = '';
 
-  onRender.current.push(() => {
-    resetIfFarFromRoad();
-  });
+  onRender.current.push(['resetIfFarFromRoad', resetIfFarFromRoad]);
 }

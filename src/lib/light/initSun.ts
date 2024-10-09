@@ -28,10 +28,13 @@ export function initSun() {
   // const shadowCameraHelper = new THREE.CameraHelper(light.shadow.camera);
   // scene.current?.add(shadowCameraHelper);
 
-  onRender.current.push(() => {
-    const carPos = getCarPos();
-    targetObject.position.copy(carPos);
-  });
+  onRender.current.push([
+    'sun',
+    () => {
+      const carPos = getCarPos();
+      targetObject.position.copy(carPos);
+    },
+  ]);
 
   timeOfDay.listeners.push(() => {
     const intensity = lightValues[timeOfDay.current].light;

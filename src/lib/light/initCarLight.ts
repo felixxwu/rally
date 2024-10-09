@@ -13,20 +13,23 @@ export function initCarLight(left: boolean) {
   spotLightHelperLeft.visible = false;
   scene.current?.add(spotLightHelperLeft);
 
-  onRender.current.push(() => {
-    const carDir = getCarDirection();
+  onRender.current.push([
+    'carlight',
+    () => {
+      const carDir = getCarDirection();
 
-    if (timeOfDay.current === 'Day') {
-      carLightLeft.intensity = 0;
-    } else {
-      carLightLeft.intensity = carLightIntensity;
-    }
+      if (timeOfDay.current === 'Day') {
+        carLightLeft.intensity = 0;
+      } else {
+        carLightLeft.intensity = carLightIntensity;
+      }
 
-    const carPosLeft = getCarCornerMeshPos(true, left)
-      .clone()
-      .add(carDir.clone().setLength(selectedCar.current.wheelEndOffset + 2));
-    carLightLeft.position.copy(carPosLeft);
-    carLightLeft.target.position.copy(carPosLeft.clone().add(carDir.clone().multiplyScalar(100)));
-    spotLightHelperLeft.update();
-  });
+      const carPosLeft = getCarCornerMeshPos(true, left)
+        .clone()
+        .add(carDir.clone().setLength(selectedCar.current.wheelEndOffset + 2));
+      carLightLeft.position.copy(carPosLeft);
+      carLightLeft.target.position.copy(carPosLeft.clone().add(carDir.clone().multiplyScalar(100)));
+      spotLightHelperLeft.update();
+    },
+  ]);
 }

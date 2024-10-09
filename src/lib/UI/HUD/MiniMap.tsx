@@ -25,20 +25,23 @@ export function MiniMap() {
   const { carX, carZ, carRot } = carTransform ?? { carX: 0, carZ: 0, carRot: 0 };
 
   useEffect(() => {
-    onRender.current.push(() => {
-      if (!stageTimeStarted.current && !countDownStarted.current) {
-        setCarTransform(null);
-        return;
-      }
-      const dir = getCarMeshDirection();
-      const carPos = getCarMeshPos();
-      const projected = dir.clone().projectOnPlane(new THREE.Vector3(0, 1, 0));
-      setCarTransform({
-        carX: carPos.x,
-        carZ: carPos.z,
-        carRot: Math.atan2(projected.x, projected.z),
-      });
-    });
+    onRender.current.push([
+      'minimap',
+      () => {
+        if (!stageTimeStarted.current && !countDownStarted.current) {
+          setCarTransform(null);
+          return;
+        }
+        const dir = getCarMeshDirection();
+        const carPos = getCarMeshPos();
+        const projected = dir.clone().projectOnPlane(new THREE.Vector3(0, 1, 0));
+        setCarTransform({
+          carX: carPos.x,
+          carZ: carPos.z,
+          carRot: Math.atan2(projected.x, projected.z),
+        });
+      },
+    ]);
   }, []);
 
   const tx = terrainWidthExtents / 2 - carX;

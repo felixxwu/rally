@@ -28,7 +28,10 @@ export function initPhysics() {
 
   transformAux1.current = new Ammo.btTransform();
 
-  onRender.current.push(deltaTime => {
-    physicsWorld.current?.stepSimulation(deltaTime, 10, 1 / 120);
-  });
+  onRender.current.push([
+    'physics',
+    deltaTime => {
+      physicsWorld.current?.stepSimulation(deltaTime, 10, 1 / 120);
+    },
+  ]);
 }

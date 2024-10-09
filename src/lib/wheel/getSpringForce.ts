@@ -14,6 +14,7 @@ import { THREE } from '../utils/THREE';
 import { Ref } from '../utils/ref';
 import { getCarDirection } from '../car/getCarDirection';
 import { Surface } from '../../types';
+import { logRenderTime } from '../render/initRenderer';
 
 const collisionMeshes = [
   { mesh: terrainMesh, surface: 'grass' as Surface },
@@ -31,6 +32,7 @@ const defaultReturn = {
 
 export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>) {
   const dir = getCarDirection(new THREE.Vector3(0, 1, 0));
+  const { springLength, springDamping, springRate } = selectedCar.current;
 
   const raycaster = new THREE.Raycaster(
     pos.clone().add(dir.multiplyScalar(raycasterOffset)),
@@ -40,6 +42,7 @@ export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>) {
   let distance = Infinity;
   let normal = new THREE.Vector3(0, 1, 0);
 
+  const now = window.performance.now();
   let surface: Surface = 'tarmac';
   for (const { mesh, surface: meshSurface } of collisionMeshes) {
     if (!mesh.current) continue;
@@ -52,10 +55,10 @@ export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>) {
     }
     distance = Math.min(distance, newDistance);
   }
+  logRenderTime('raycast', now);
 
   distance -= raycasterOffset;
 
-  const { springLength, springDamping, springRate } = selectedCar.current;
   const compression = springLength - Math.min(springLength, distance);
 
   if (distance < springLength) {

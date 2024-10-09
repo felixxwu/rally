@@ -10,6 +10,8 @@ import { createRoot } from 'react-dom/client';
 import { ReactUI } from './ReactUI';
 import { getProgressPercentage } from './HUD/Progress';
 
+let i = 0;
+
 export function initUI() {
   const ui = document.getElementById('ui');
   const root = createRoot(ui!);
@@ -23,9 +25,13 @@ export function initUI() {
     }
   });
 
-  onRender.current.push(() => {
-    if (stageTimeStarted.current) {
-      stageTime.current = stageTimeClock.getElapsedTime();
-    }
-  });
+  onRender.current.push([
+    'stagetime',
+    () => {
+      if (stageTimeStarted.current && i % 2 === 0) {
+        stageTime.current = stageTimeClock.getElapsedTime();
+      }
+      i++;
+    },
+  ]);
 }

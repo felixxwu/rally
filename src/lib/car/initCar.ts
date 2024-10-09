@@ -58,13 +58,13 @@ export async function initCar() {
 
   setCarPos(platFormCarPos, vec3([1, 0, 1]));
 
-  onRender.current.push(updateCar);
+  onRender.current.push(['updateCar', updateCar]);
 
   carCleanUp.addCleanupFunction(() => {
     physicsWorld.current?.removeRigidBody(body);
     scene.current?.remove(car.current!);
     car.current = null;
-    onRender.current = onRender.current.filter(f => f !== updateCar);
+    onRender.current = onRender.current.filter(f => f[1] !== updateCar);
   });
 }
 
