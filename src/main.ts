@@ -22,7 +22,6 @@ export async function init() {
   initUI();
   initScene();
   initRenderer();
-  initCamera();
   initLight();
   initSky();
   initWindowListeners();
@@ -35,6 +34,8 @@ export async function init() {
   initWheel(true, false);
   initWheel(false, true);
   initWheel(false, false);
+
+  initCamera();
 
   if (devMode) {
     startTerrainGeneration();

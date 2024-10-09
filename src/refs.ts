@@ -102,7 +102,7 @@ export const surfaceGrips: {
   [key in Surface]: { dry: Ref<number>; colour: string; opacity: number };
 } = {
   tarmac: { dry: ref(1.8, 0, 3, 0.1), colour: '#000', opacity: 0.5 },
-  grass: { dry: ref(0.9, 0, 3, 0.1), colour: '#040', opacity: 0.2 },
+  grass: { dry: ref(1.2, 0, 3, 0.1), colour: '#040', opacity: 0.2 },
 };
 export const skidMarkIntensity = 0.004;
 export const maxSkidMarks = 200;

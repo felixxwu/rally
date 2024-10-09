@@ -12,7 +12,7 @@ export const cooper: Car = {
   mass: 6.52,
   power: 60,
   steerPower: 200,
-  tireGrip: 50,
+  tireGrip: 60,
   brakePower: 200,
   brakeRearBias: 0.6,
   driveTrain: 'FWD',

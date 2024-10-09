@@ -18,7 +18,7 @@ export const cyber: Car = {
   driveTrain: 'AWD',
   springLength: 1.1,
   springRate: 950,
-  springDamping: 5000,
+  springDamping: 7000,
   bodyRoll: 1,
   airResistance: 0.25,
 };

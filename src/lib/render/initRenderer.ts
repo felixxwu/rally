@@ -24,13 +24,8 @@ export function initRenderer() {
   container.current?.appendChild(renderer.current.domElement);
 }
 
-// let delta = 0;
-// let interval = 1 / 120;
-
 function render() {
   const delta = clock.getDelta();
-
-  // if (delta <= interval) return;
 
   if (delta !== 0) {
     onRender.current.forEach(callback => {
@@ -40,9 +35,9 @@ function render() {
     onRenderNoPausing.current.forEach(callback => callback(delta));
   }
 
-  renderer.current?.render(scene.current!, camera.current!);
+  if (camera.current && scene.current) {
+    renderer.current?.render(scene.current, camera.current);
+  }
 
   stats.current?.update();
-
-  // delta = delta % interval;
 }
