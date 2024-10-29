@@ -9,6 +9,7 @@ import {
   terrainWidthExtents,
 } from '../../refs';
 import { THREE } from '../utils/THREE';
+import { addSquare } from '../utils/addSquare';
 
 export function initPlatform() {
   const geometry = new THREE.PlaneGeometry(terrainWidthExtents, terrainDepthExtents, 1, 1);
@@ -26,9 +27,16 @@ export function initPlatform() {
   scene.current?.add(mesh);
   platformMesh.current = mesh;
 
-  const shape = new Ammo.btBoxShape(
-    new Ammo.btVector3(terrainWidthExtents, 0.5, terrainDepthExtents)
+  const triangleMesh = new Ammo.btTriangleMesh();
+  addSquare(
+    triangleMesh,
+    [-terrainWidthExtents, 0, -terrainDepthExtents],
+    [terrainWidthExtents, 0, -terrainDepthExtents],
+    [terrainWidthExtents, 0, terrainDepthExtents],
+    [-terrainWidthExtents, 0, terrainDepthExtents]
   );
+  const shape = new Ammo.btBvhTriangleMeshShape(triangleMesh, true);
+
   const groundTransform = new Ammo.btTransform();
   groundTransform.setIdentity();
   groundTransform.setOrigin(new Ammo.btVector3(0, 0, 0));

@@ -19,9 +19,7 @@ import {
   transitionTime,
 } from '../../../refs';
 import { defaultCamPos } from '../../camera/initCamera';
-import { platFormCarPos, resetCar, setCarPos } from '../../car/setCarPos';
 import { clearCaches } from '../../utils/clearCaches';
-import { vec3 } from '../../utils/createVec';
 import { getUserData } from '../../utils/userData';
 
 export async function exitToMainMenu() {
@@ -57,7 +55,6 @@ export async function exitToMainMenu() {
   heightData.current = null;
   ammoHeightData.current = null;
 
-  setCarPos(platFormCarPos, vec3([0, 0, 1]));
   camera.current?.position.copy(defaultCamPos);
 
   clearCaches();

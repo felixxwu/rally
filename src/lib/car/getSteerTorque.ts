@@ -4,9 +4,10 @@ declare const Ammo: typeof AmmoType;
 import {
   reverseAngle,
   selectedCar,
+  steerMod,
   steerModMap,
   surfaceGrips,
-  wheelCompression,
+  suspensionForces,
   wheelSurfaces,
 } from '../../refs';
 import { car } from '../../refs';
@@ -22,9 +23,9 @@ export function getMaxSteerTorque() {
   const reversing = angle < reverseAngle;
   const steerTorque = selectedCar.current.steerPower * (reversing ? -1 : 1);
   const steerModifier = steerModMap(speed.length());
-  const speedAdjusted = steerTorque * steerModifier;
-  const allWheelComp = wheelCompression.current.slice(0, 2).reduce((a, b) => a + b, 0) / 2;
-  const compressionAdjusted = speedAdjusted * (Math.sqrt(allWheelComp) + 0.2);
+  const speedAdjusted = steerTorque * steerModifier * steerMod;
+  const allWheelComp = suspensionForces.current.slice(0, 2).reduce((a, b) => a + b, 0) / 2;
+  const compressionAdjusted = (speedAdjusted * allWheelComp) / 100;
   const surfaceModifier =
     wheelSurfaces.current.slice(0, 2).reduce((prev, curr) => {
       return prev + surfaceGrips[curr].dry.current;
