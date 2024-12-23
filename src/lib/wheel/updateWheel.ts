@@ -1,15 +1,11 @@
-import AmmoType from 'ammojs-typed';
 import { Mesh } from '../../types';
 import {
-  ammoVehicle,
   car,
   carVisible,
-  internalController,
-  powerModifier,
   reverseAngle,
-  selectedCar,
   steerModMap,
-  suspensionForces,
+  wheelCompression,
+  wheelSurfaces,
 } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { getUserData } from '../utils/userData';
@@ -21,14 +17,9 @@ import { addSkidMark } from './addSkidMark';
 import { getSpeedVec } from '../car/getSpeedVec';
 import { getCarDirection } from '../car/getCarDirection';
 import { createQuat } from '../utils/createQuat';
-import { getThreeVector } from '../utils/vectorConversion';
-import { wheelHasPower } from './wheelHasPower';
-import { getCarCornerMeshPos, getCarCornerPos } from '../car/getCarCorner';
-declare const Ammo: typeof AmmoType;
 
 export function updateWheel(
   wheelMesh: Mesh,
-  wheelInfo: AmmoType.btWheelInfo,
   prevDistance: Ref<number>,
   front: boolean,
   left: boolean
@@ -36,10 +27,12 @@ export function updateWheel(
   if (!car.current) return;
 
   wheelMesh.visible = carVisible.current;
-  const { brakePower, power } = selectedCar.current;
 
   const {
+    wheelMeshPos,
+    ammoForce,
     ammoPos,
+    compression,
     suspensionForce,
     totalClampedTireForce,
     surface,
@@ -47,34 +40,14 @@ export function updateWheel(
     totalTireForceBeforeClamp,
     sideTireForce,
     straightTireForce,
-    ammoForce,
   } = getTotalTireForce(prevDistance, front, left);
-
-  const forwardUnitVec = getCarDirection(new THREE.Vector3(0, 0, 1)).normalize();
-  const throttle = internalController.current.throttle;
-  const brake = internalController.current.brake;
-  let engineForce = new THREE.Vector3();
-  let brakeForce = new THREE.Vector3();
-  if (wheelHasPower(front)) {
-    engineForce.add(mult(forwardUnitVec, power * powerModifier * throttle));
-    brakeForce.add(mult(forwardUnitVec, -brakePower * brake));
-  }
 
   // apply forces to the car
   const objPhys = getUserData(car.current).physicsBody;
   objPhys.applyForce(ammoForce, ammoPos);
 
   // update pos of wheel mesh
-  const wheelIndex = front ? (left ? 0 : 1) : left ? 2 : 3;
-  const wheelMeshPos = getThreeVector(
-    ammoVehicle.current!.getWheelInfo(wheelIndex).get_m_worldTransform().getOrigin()
-  );
-
-  const wheelAttachPoint = getCarCornerPos(front, left);
-  const susLength = wheelMeshPos.clone().sub(wheelAttachPoint);
-
-  const carCornerMeshPos = getCarCornerMeshPos(front, left);
-  wheelMesh.position.copy(carCornerMeshPos.add(susLength));
+  wheelMesh.position.copy(wheelMeshPos);
 
   // update rotation of wheel mesh
   const additionalQuat = new THREE.Quaternion().setFromAxisAngle(
@@ -99,10 +72,11 @@ export function updateWheel(
   wheelMesh.setRotationFromQuaternion(quat2 || new THREE.Quaternion());
 
   // save compression to refs
-  suspensionForces.current[front ? (left ? 0 : 1) : left ? 2 : 3] = suspensionForce.length();
+  wheelCompression.current[front ? (left ? 0 : 1) : left ? 2 : 3] = compression;
+  wheelSurfaces.current[front ? (left ? 0 : 1) : left ? 2 : 3] = surface;
 
   addSkidMark(
-    suspensionForce.length(),
+    compression,
     wheelmeshBottomPos,
     totalClampedTireForce,
     sideTireForce,
@@ -113,22 +87,12 @@ export function updateWheel(
   );
 
   // helper arrows
-  helperArrow(
-    mult(suspensionForce, 0.02),
-    wheelMesh.position,
-    0xffff00,
-    `suspension${front}${left}`
-  );
+  helperArrow(mult(suspensionForce, 0.02), wheelMeshPos, 0xffff00, `suspension${front}${left}`);
   helperArrow(
     mult(totalTireForceBeforeClamp, 0.02),
-    wheelMesh.position,
+    wheelMeshPos,
     0x000000,
     `strght${front}${left}`
   );
-  helperArrow(
-    mult(totalClampedTireForce, 0.02),
-    wheelMesh.position,
-    0xff0000,
-    `clamp${front}${left}`
-  );
+  helperArrow(mult(totalClampedTireForce, 0.02), wheelMeshPos, 0xff0000, `clamp${front}${left}`);
 }

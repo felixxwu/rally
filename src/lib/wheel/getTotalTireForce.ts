@@ -1,30 +1,31 @@
-import AmmoType from 'ammojs-typed';
 import { getCarCornerPos } from '../car/getCarCorner';
 import { getCarRelCorner } from '../car/getCarRelCorner';
 import { selectedCar, surfaceGrips } from '../../refs';
 import { getAmmoVector } from '../utils/vectorConversion';
 import { getSpringForce } from './getSpringForce';
+import { mult } from '../utils/multVec';
 import { Ref } from '../utils/ref';
 import { getWheelMeshPos } from './getWheelMeshPos';
+import { add } from '../utils/addVec';
+import { createArr } from '../utils/createVec';
 import { getSideTireForce } from './getSideTireForce';
 import { getStraightTireForce } from './getStraightTireForce';
-declare const Ammo: typeof AmmoType;
 
 export function getTotalTireForce(prevDistance: Ref<number>, front: boolean, left: boolean) {
   const cornerPos = getCarCornerPos(front, left);
 
-  const { suspensionForce, suspensionLength, surface } = getSpringForce(
-    cornerPos,
-    prevDistance,
+  const { suspensionForce, compression, surface } = getSpringForce(cornerPos, prevDistance);
+  const sideTireForce = getSideTireForce();
+  const straightTireForce = getStraightTireForce(front);
+  const { wheelMeshPos, wheelOffsetFromCorner, wheelmeshBottomPos } = getWheelMeshPos(
+    compression,
     front,
     left
   );
-  const sideTireForce = getSideTireForce();
-  const straightTireForce = getStraightTireForce(front);
-  const { wheelMeshPos, wheelmeshBottomPos } = getWheelMeshPos(suspensionLength, front, left);
 
-  const { tireGrip } = selectedCar.current;
-  const tireGripAfterCompression = tireGrip * suspensionForce.length();
+  const { tireGrip, bodyRoll } = selectedCar.current;
+  const sqrtCompression = Math.sqrt(compression);
+  const tireGripAfterCompression = tireGrip * sqrtCompression;
   const surfaceGrip = surfaceGrips[surface].dry.current;
   const tireGripAfterSurface = tireGripAfterCompression * surfaceGrip;
   const sideTireForceClamped = sideTireForce.clone().clampLength(0, tireGripAfterSurface);
@@ -32,14 +33,15 @@ export function getTotalTireForce(prevDistance: Ref<number>, front: boolean, lef
   const totalTireForceBeforeClamp = sideTireForce.clone().add(straightTireForce);
   const totalClampedTireForce = totalTireForce.clone().clampLength(0, tireGripAfterSurface);
 
-  const ammoForce = getAmmoVector(totalClampedTireForce);
+  const ammoForce = getAmmoVector(add(suspensionForce, createArr(totalClampedTireForce)));
   const cornerPosRelative = getCarRelCorner(front, left).clone();
-  const ammoPos = getAmmoVector(cornerPosRelative);
+  const ammoPos = getAmmoVector(cornerPosRelative.add(mult(wheelOffsetFromCorner, bodyRoll)));
 
   return {
     wheelMeshPos,
     ammoForce,
     ammoPos,
+    compression,
     suspensionForce,
     totalClampedTireForce,
     totalTireForceBeforeClamp,

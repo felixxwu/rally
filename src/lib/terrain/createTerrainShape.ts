@@ -9,11 +9,8 @@ import {
   terrainWidthExtents,
 } from '../../refs';
 import { getSeededHeight } from './getSeededHeight';
-import { addSquare } from '../utils/addSquare';
 
 export function createTerrainShape(heightData: Float32Array) {
-  const scaleX = terrainWidthExtents / (terrainWidth - 1);
-  const scaleZ = terrainDepthExtents / (terrainDepth - 1);
   // This parameter is not really used, since we are using PHY_FLOAT height data type and hence it is ignored
   const heightScale = 1;
 
@@ -33,34 +30,8 @@ export function createTerrainShape(heightData: Float32Array) {
   let p = 0;
   let p2 = 0;
 
-  const triangleMesh = new Ammo.btTriangleMesh();
-
-  for (let j = 0; j < terrainDepth - 1; j++) {
-    for (let i = 0; i < terrainWidth - 1; i++) {
-      addSquare(
-        triangleMesh,
-        [
-          -(terrainWidthExtents / 2) + i * scaleX,
-          getHeightDataXY(i, j, heightData),
-          -(terrainDepthExtents / 2) + j * scaleZ,
-        ],
-        [
-          -(terrainWidthExtents / 2) + (i + 1) * scaleX,
-          getHeightDataXY(i + 1, j, heightData),
-          -(terrainDepthExtents / 2) + j * scaleZ,
-        ],
-        [
-          -(terrainWidthExtents / 2) + (i + 1) * scaleX,
-          getHeightDataXY(i + 1, j + 1, heightData),
-          -(terrainDepthExtents / 2) + (j + 1) * scaleZ,
-        ],
-        [
-          -(terrainWidthExtents / 2) + i * scaleX,
-          getHeightDataXY(i, j + 1, heightData),
-          -(terrainDepthExtents / 2) + (j + 1) * scaleZ,
-        ]
-      );
-
+  for (let j = 0; j < terrainDepth; j++) {
+    for (let i = 0; i < terrainWidth; i++) {
       // write 32-bit float data to memory
 
       Ammo.HEAPF32[((ammoHeightData ?? 0) + p2) >> 2] = heightData[p] ?? 0;
@@ -71,8 +42,6 @@ export function createTerrainShape(heightData: Float32Array) {
       p2 += 4;
     }
   }
-
-  const shape = new Ammo.btBvhTriangleMeshShape(triangleMesh, true);
 
   // Creates the heightfield physics shape
   const heightFieldShape = new Ammo.btHeightfieldTerrainShape(
@@ -88,13 +57,11 @@ export function createTerrainShape(heightData: Float32Array) {
   );
 
   // Set horizontal scale
+  const scaleX = terrainWidthExtents / (terrainWidth - 1);
+  const scaleZ = terrainDepthExtents / (terrainDepth - 1);
   heightFieldShape.setLocalScaling(new Ammo.btVector3(scaleX, 1, scaleZ));
 
   heightFieldShape.setMargin(0.05);
 
-  return shape;
-}
-
-function getHeightDataXY(x: number, y: number, heightData: Float32Array) {
-  return heightData[y * terrainWidth + x];
+  return heightFieldShape;
 }

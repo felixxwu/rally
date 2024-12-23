@@ -7,11 +7,11 @@ import { Ref, ref } from './lib/utils/ref';
 import { createXYMap } from './lib/utils/createXYMap';
 import { Vector } from './lib/road/createRoadShape';
 import { Car } from './lib/carList';
-import { meanie } from './lib/carList/Meanie';
+import { cooper } from './lib/carList/Cooper';
 
 // immediately start a game
 export const devMode = false;
-export const selectedCar = ref<Car>(meanie);
+export const selectedCar = ref<Car>(cooper);
 
 export const caches: Ref<any>[] = [];
 
@@ -80,10 +80,8 @@ export const dispatcher = ref<AmmoType.btCollisionDispatcher | null>(null);
 export const broadphase = ref<AmmoType.btDbvtBroadphase | null>(null);
 export const solver = ref<AmmoType.btSequentialImpulseConstraintSolver | null>(null);
 export const physicsWorld = ref<AmmoType.btDiscreteDynamicsWorld | null>(null);
-export const ammoVehicle = ref<AmmoType.btRaycastVehicle | null>(null);
-export const ammoVehicleTuning = ref<AmmoType.btVehicleTuning | null>(null);
 export const transformAux1 = ref<AmmoType.btTransform | null>(null);
-export const gravity = 20;
+export const gravity = 35;
 
 // steering
 export const steerModMap = createXYMap([0, 0], [1, 0], [2, 0.6], [20, 1], [50, 0.5]); // x = speed, y = steering input modifier
@@ -91,7 +89,7 @@ export const reverseAngle = Math.PI * 0.8;
 
 // tires and suspension
 export const tireSnappiness = ref(100, 50, 200, 1);
-export const suspensionForces = ref([0, 0, 0, 0]);
+export const wheelCompression = ref([0, 0, 0, 0]);
 export const wheelSurfaces = ref<[Surface, Surface, Surface, Surface]>([
   'tarmac',
   'tarmac',
@@ -106,15 +104,14 @@ export const surfaceGrips: {
   tarmac: { dry: ref(1.8, 0, 3, 0.1), colour: '#000', opacity: 0.5 },
   grass: { dry: ref(1.3, 0, 3, 0.1), colour: '#040', opacity: 0.2 },
 };
-export const skidMarkIntensity = 0.015;
+export const skidMarkIntensity = 0.004;
 export const maxSkidMarks = 200;
 
 // car
 export const minAirResistance = 15;
 export const car = ref<Mesh | null>(null);
-export const angularDamping = 0.95;
-export const steerMod = 0.2;
-export const powerModifier = 1; // scale all car power by this amount
+export const angularDamping = 0.999;
+export const powerModifier = 0.5; // scale all car power by this amount
 
 // camera
 export const camFollowDistance = ref(5, 3, 30, 1);

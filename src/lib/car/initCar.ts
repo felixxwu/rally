@@ -1,21 +1,12 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import {
-  ammoVehicle,
-  ammoVehicleTuning,
-  angularDamping,
-  car,
-  onRender,
-  physicsWorld,
-  scene,
-  selectedCar,
-} from '../../refs';
+import { angularDamping, car, onRender, physicsWorld, scene, selectedCar } from '../../refs';
 import { setUserData } from '../utils/userData';
 import { updateCar } from './updateCar';
 import { THREE } from '../utils/THREE';
 import { setBumpStop } from '../wheel/setBumpStop';
-import { getPlatFormCarPos, setCarPos } from './setCarPos';
+import { platFormCarPos, setCarPos } from './setCarPos';
 import { vec3 } from '../utils/createVec';
 import { createCleanupFunction } from '../utils/createCleanupFunction';
 import { asyncGLTFLoader } from '../utils/asyncGLTFLoader';
@@ -23,9 +14,8 @@ import { asyncGLTFLoader } from '../utils/asyncGLTFLoader';
 export const carCleanUp = createCleanupFunction();
 
 export async function initCar() {
-  const { glb, mass } = selectedCar.current;
-  const gltf = await asyncGLTFLoader(`./cars/${glb}.glb`);
-  const texture = new THREE.TextureLoader().load(`./cars/${glb}.png`);
+  const gltf = await asyncGLTFLoader(`./cars/${selectedCar.current.glb}.glb`);
+  const texture = new THREE.TextureLoader().load(`./cars/${selectedCar.current.glb}.png`);
   texture.flipY = false;
 
   car.current = new THREE.Mesh(
@@ -40,9 +30,8 @@ export async function initCar() {
   setBumpStop(shape, car.current, false, true);
   setBumpStop(shape, car.current, false, false);
 
-  // const shape = new Ammo.btBoxShape(new Ammo.btVector3(width / 2, height / 2, length / 2));
-
-  const localInertia = new Ammo.btVector3(0, -1, 0);
+  const mass = selectedCar.current.mass;
+  const localInertia = new Ammo.btVector3(0, 1, 0);
   shape.calculateLocalInertia(mass, localInertia);
   const transform = new Ammo.btTransform();
   transform.setIdentity();
@@ -57,7 +46,6 @@ export async function initCar() {
   rbInfo.set_m_linearDamping(0);
   rbInfo.set_m_linearSleepingThreshold(0);
   const body = new Ammo.btRigidBody(rbInfo);
-  body.setActivationState(4);
 
   setUserData(car.current, { physicsBody: body });
 
@@ -68,19 +56,12 @@ export async function initCar() {
 
   physicsWorld.current?.addRigidBody(body);
 
-  ammoVehicleTuning.current = new Ammo.btVehicleTuning();
-  var rayCaster = new Ammo.btDefaultVehicleRaycaster(physicsWorld.current!);
-  ammoVehicle.current = new Ammo.btRaycastVehicle(ammoVehicleTuning.current, body, rayCaster);
-  ammoVehicle.current.setCoordinateSystem(0, 1, 2);
-  physicsWorld.current!.addAction(ammoVehicle.current);
-
-  setCarPos(getPlatFormCarPos(), vec3([1, 0, 1]));
+  setCarPos(platFormCarPos, vec3([1, 0, 1]));
 
   onRender.current.push(['updateCar', updateCar]);
 
   carCleanUp.addCleanupFunction(() => {
     physicsWorld.current?.removeRigidBody(body);
-    physicsWorld.current?.removeAction(ammoVehicle.current!);
     scene.current?.remove(car.current!);
     car.current = null;
     onRender.current = onRender.current.filter(f => f[1] !== updateCar);

@@ -2,9 +2,9 @@ import { camera, fov, freeCam, onRender, renderer } from '../../refs';
 import { updateCamera } from './updateCamera';
 import { THREE } from '../utils/THREE';
 import { OrbitControls } from '../jsm/OrbitControls';
-import { getPlatFormCarPos } from '../car/setCarPos';
+import { platFormCarPos } from '../car/setCarPos';
 
-export const defaultCamPos = getPlatFormCarPos().clone().add(new THREE.Vector3(5, 1, 0));
+export const defaultCamPos = platFormCarPos.clone().add(new THREE.Vector3(5, 1, 0));
 
 export function initCamera() {
   camera.current = new THREE.PerspectiveCamera(

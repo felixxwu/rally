@@ -1,9 +1,9 @@
 import AmmoType from 'ammojs-typed';
-import { ammoVehicle, transformAux1 } from '../../refs';
+declare const Ammo: typeof AmmoType;
+import { transformAux1 } from '../../refs';
 import { getUserData } from '../utils/userData';
 import { Mesh } from '../../types';
 import { THREE } from '../utils/THREE';
-declare const Ammo: typeof AmmoType;
 
 const recentPos: THREE.Vector3[] = [];
 const numRecentPos = 10;
@@ -11,11 +11,10 @@ const numRecentPos = 10;
 export function updatePhysics(objThree: Mesh) {
   const objPhys = getUserData(objThree).physicsBody;
   const ms = objPhys.getMotionState();
-  if (ms) {
-    ms.getWorldTransform(transformAux1.current!);
-    const tm = ammoVehicle.current!.getChassisWorldTransform();
-    const p = tm.getOrigin();
-    const q = tm.getRotation();
+  if (ms && transformAux1.current) {
+    ms.getWorldTransform(transformAux1.current);
+    const p = transformAux1.current?.getOrigin();
+    const q = transformAux1.current?.getRotation();
     const pVec = new THREE.Vector3(p.x(), p.y(), p.z());
     const quat = new THREE.Quaternion(q?.x() ?? 0, q?.y() ?? 0, q?.z() ?? 0, q?.w() ?? 0);
 

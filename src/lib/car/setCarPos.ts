@@ -1,5 +1,5 @@
 import AmmoType from 'ammojs-typed';
-import { car, platformMesh, roadMesh, selectedCar, startRoadLength } from '../../refs';
+import { car, platformMesh, roadMesh, startRoadLength } from '../../refs';
 import { add } from '../utils/addVec';
 import { getSpawn } from '../utils/getSpawn';
 import { THREE } from '../utils/THREE';
@@ -9,8 +9,7 @@ import { getAmmoVector } from '../utils/vectorConversion';
 import { createQuat } from '../utils/createQuat';
 declare const Ammo: typeof AmmoType;
 
-export const getPlatFormCarPos = () =>
-  vec3([0, selectedCar.current.springLength + selectedCar.current.wheelRadius, 0]);
+export const platFormCarPos = vec3([0, 1.5, 0]);
 
 export function setCarPos(pos: THREE.Vector3, dir: THREE.Vector3) {
   if (!car.current) return;
@@ -36,11 +35,7 @@ export function resetCar() {
     ...(platformMesh.current ? [platformMesh.current] : []),
   ]);
   const intersection = intersections[0];
-  const ammoPos = add(intersection.point, [
-    0,
-    selectedCar.current.springLength + selectedCar.current.wheelRadius,
-    0,
-  ]);
+  const ammoPos = add(intersection.point, [0, 5, 0]);
 
   setCarPos(ammoPos, vec3([0, 0, 1]));
 }

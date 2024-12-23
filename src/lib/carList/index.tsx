@@ -1,7 +1,7 @@
 import { selectedCar } from '../../refs';
 import { carCleanUp, initCar } from '../car/initCar';
 import { initWheel, wheelCleanUp } from '../wheel/initWheel';
-import { meanie } from './Meanie';
+import { cooper } from './Cooper';
 import { charger } from './Charger';
 import { cyber } from './Cyber';
 
@@ -39,7 +39,7 @@ export async function selectCar(newCar: Car) {
   initWheel(false, false);
 }
 
-export const allCars: Car[] = [meanie, charger, cyber];
+export const allCars: Car[] = [cooper, charger, cyber];
 
 export function nextCar() {
   const index = allCars.findIndex(car => car === selectedCar.current);
