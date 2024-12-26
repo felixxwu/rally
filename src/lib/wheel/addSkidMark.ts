@@ -114,6 +114,5 @@ function skidMarkSegment(
     getFromThreeV3Cache(prevRight),
   ]);
 
-  const mesh = new THREE.Mesh(geometry, groundMaterial);
-  return mesh;
+  return new THREE.Mesh(geometry, groundMaterial);
 }

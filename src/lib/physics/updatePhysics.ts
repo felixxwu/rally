@@ -4,7 +4,7 @@ import { Mesh } from '../../types';
 import { THREE } from '../utils/THREE';
 
 const recentPos: THREE.Vector3[] = [];
-const numRecentPos = 8;
+const numRecentPos = 20;
 
 export function updatePhysics(objThree: Mesh) {
   const objPhys = getUserData(objThree).physicsBody;

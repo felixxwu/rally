@@ -52,7 +52,7 @@ export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>) {
     }
     distance = Math.min(distance, newDistance);
   }
-  logRenderTime('raycast', now);
+  logRenderTime('raycast (wheel)', now);
 
   distance -= raycasterOffset;
 

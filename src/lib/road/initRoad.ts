@@ -3,29 +3,19 @@ import {
   grassLeftMesh,
   grassRightMesh,
   infoText,
-  localGrassLeftMesh,
-  localGrassRightMesh,
-  localRoadMesh,
   onRender,
   physicsWorld,
-  progress,
   roadColor,
   roadMesh,
-  roadVecs,
   scene,
   temporaryMesh,
 } from '../../refs';
-import { createRoadShape, Triangle } from './createRoadShape';
+import { createRoadShape } from './createRoadShape';
 import { createRoadTriangles } from './createRoadTriangles';
 import { createRoadPoints } from './createRoadPoints';
 import { resetIfFarFromRoad } from './resetIfFarFromRoad';
 import { setUserData } from '../utils/userData';
-import { vec3 } from '../utils/createVec';
-import { getCarPos } from '../car/getCarTransform';
-import { helperArrowFromTo } from '../helperArrows/helperArrow';
-
-let i = 0;
-const localRoadLength = 60;
+import { useUpdateLocalRoad } from './useUpdateLocalRoad';
 
 export async function initRoad() {
   await createRoadPoints();
@@ -69,50 +59,7 @@ export async function initRoad() {
   infoText.current = '';
 
   onRender.current.push(['resetIfFarFromRoad', resetIfFarFromRoad]);
-  onRender.current.push([
-    'localRoad',
-    () => {
-      if (i++ % 50 !== 0) return;
-      const pos = getCarPos();
-      let roadVecPos = roadVecs.current[0];
-      let roadVecDistance = Infinity;
-      let carProgressPos = progress.current;
-      for (let i = progress.current; i > 0; i--) {
-        const roadVec = roadVecs.current[i];
-        const distance = vec3(roadVec).distanceTo(pos);
-        if (distance < roadVecDistance) {
-          roadVecPos = roadVec;
-          roadVecDistance = distance;
-          carProgressPos = i;
-        }
-      }
-      helperArrowFromTo(pos, vec3(roadVecPos), 0x00ff00, 'localRoadCarPos');
-      const localRoadFilter = (t: Triangle) => {
-        if (carProgressPos < localRoadLength) return t.progress < localRoadLength * 2;
-        return (
-          t.progress > carProgressPos - localRoadLength / 2 &&
-          t.progress < carProgressPos + localRoadLength / 2
-        );
-      };
-      const localRoadTriangles = road.filter(localRoadFilter);
-      const localGrassLeftTriangles = grassLeft.filter(localRoadFilter);
-      const localGrassRightTriangles = grassRight.filter(localRoadFilter);
 
-      const { mesh: roadTrianglesMesh } = createRoadShape(localRoadTriangles, '#fff', 1);
-      const { mesh: grassLeftsMesh } = createRoadShape(localGrassLeftTriangles, '#fff', 1);
-      const { mesh: grassRightMesh } = createRoadShape(localGrassRightTriangles, '#fff', 1);
-
-      if (localRoadMesh.current) scene.current?.remove(localRoadMesh.current);
-      if (localGrassLeftMesh.current) scene.current?.remove(localGrassLeftMesh.current);
-      if (localGrassRightMesh.current) scene.current?.remove(localGrassRightMesh.current);
-
-      scene.current?.add(roadTrianglesMesh);
-      scene.current?.add(grassLeftsMesh);
-      scene.current?.add(grassRightMesh);
-
-      localRoadMesh.current = roadTrianglesMesh;
-      localGrassLeftMesh.current = grassLeftsMesh;
-      localGrassRightMesh.current = grassRightMesh;
-    },
-  ]);
+  const updateLocalRoad = useUpdateLocalRoad(road, grassLeft, grassRight);
+  onRender.current.push(['localRoad', updateLocalRoad]);
 }

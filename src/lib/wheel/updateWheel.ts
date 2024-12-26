@@ -17,6 +17,7 @@ import { addSkidMark } from './addSkidMark';
 import { getSpeedVec } from '../car/getSpeedVec';
 import { getCarDirection } from '../car/getCarDirection';
 import { createQuat } from '../utils/createQuat';
+import { logRenderTime } from '../render/initRenderer';
 
 export function updateWheel(
   wheelMesh: Mesh,
@@ -75,6 +76,7 @@ export function updateWheel(
   wheelCompression.current[front ? (left ? 0 : 1) : left ? 2 : 3] = compression;
   wheelSurfaces.current[front ? (left ? 0 : 1) : left ? 2 : 3] = surface;
 
+  const now = window.performance.now();
   addSkidMark(
     compression,
     wheelmeshBottomPos,
@@ -85,6 +87,7 @@ export function updateWheel(
     left,
     surface
   );
+  logRenderTime('skidMarks (wheel)', now);
 
   // helper arrows
   helperArrow(mult(suspensionForce, 0.02), wheelMeshPos, 0xffff00, `suspension${front}${left}`);

@@ -107,7 +107,7 @@ export const surfaceGrips: {
   grass: { dry: ref(1.3, 0, 3, 0.1), colour: '#040', opacity: 0.2 },
 };
 export const skidMarkIntensity = 0.004;
-export const maxSkidMarks = 200;
+export const maxSkidMarks = 50;
 
 // car
 export const minAirResistance = 15;

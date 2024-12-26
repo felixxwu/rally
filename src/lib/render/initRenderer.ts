@@ -1,6 +1,3 @@
-import AmmoType from 'ammojs-typed';
-declare const Ammo: typeof AmmoType;
-
 import {
   container,
   renderer,
@@ -19,10 +16,15 @@ export function initRenderer() {
   renderer.current = new THREE.WebGLRenderer({ antialias: true });
   renderer.current.setPixelRatio(window.devicePixelRatio);
   renderer.current.setSize(window.innerWidth, window.innerHeight);
-  renderer.current.setAnimationLoop(render);
   renderer.current.shadowMap.enabled = true;
   renderer.current.toneMapping = THREE.AgXToneMapping;
   container.current?.appendChild(renderer.current.domElement);
+  animate();
+}
+
+function animate() {
+  render();
+  requestAnimationFrame(animate);
 }
 
 let renderTimes = {} as Record<string, number>;
