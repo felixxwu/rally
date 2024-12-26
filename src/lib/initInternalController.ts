@@ -9,6 +9,7 @@ import {
   menuRight,
   menuSelect,
   menuUp,
+  mobileJoystickPad,
   onRenderNoPausing,
   stopInternalController,
 } from '../refs';
@@ -27,6 +28,7 @@ export function initInternalController() {
           (keysDown.current['ArrowLeft'] ? -1 : 0) +
           (keysDownMobile.current['d'] ? 1 : 0) +
           (keysDownMobile.current['a'] ? -1 : 0) +
+          (mobileJoystickPad.current.x * 2 - 1) +
           (getGamepad()?.axes?.[0] ?? 0),
         1
       )
@@ -37,6 +39,7 @@ export function initInternalController() {
         (keysDown.current['w'] ? 1 : 0) +
           (keysDown.current['ArrowUp'] ? 1 : 0) +
           (keysDownMobile.current['w'] ? 1 : 0) +
+          (mobileJoystickPad.current.y * -2 + 1) +
           (getGamepad()?.buttons?.[7]?.value ?? 0) +
           (getGamepad()?.buttons?.[9]?.value ?? 0),
         1
@@ -48,6 +51,7 @@ export function initInternalController() {
         (keysDown.current['s'] ? 1 : 0) +
           (keysDown.current['ArrowDown'] ? 1 : 0) +
           (keysDownMobile.current['s'] ? 1 : 0) +
+          (mobileJoystickPad.current.y * 2 - 1) +
           (getGamepad()?.buttons?.[6]?.value ?? 0) +
           (getGamepad()?.buttons?.[8]?.value ?? 0),
         1

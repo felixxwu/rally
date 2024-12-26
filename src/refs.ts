@@ -177,6 +177,7 @@ export const infoText = ref('');
 
 // controls
 export const keysDownMobile = ref<Record<string, boolean>>({});
+export const mobileJoystickPad = ref({ x: 0.5, y: 0.5 });
 export const keysDown = ref<Record<string, boolean>>({});
 export const internalController = ref({
   steer: 0,

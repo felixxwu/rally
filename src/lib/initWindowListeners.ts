@@ -2,7 +2,7 @@ import {
   camera,
   freeCam,
   keysDown,
-  keysDownMobile,
+  mobileJoystickPad,
   panelOpen,
   renderer,
   renderHelperArrows,
@@ -24,36 +24,24 @@ export function initWindowListeners() {
 }
 
 function onTouch(e: TouchEvent) {
-  const touches = [...Array(e.touches.length)].map((_, i) => e.touches.item(i));
+  const touch = e.touches.item(0);
 
-  const rects = [
-    ['mobile-control-w', 'w'],
-    ['mobile-control-a', 'a'],
-    ['mobile-control-s', 's'],
-    ['mobile-control-d', 'd'],
-  ];
+  if (!touch) mobileJoystickPad.current = { x: 0.5, y: 0.5 };
 
-  for (const [id, key] of rects) {
-    const el = document.getElementById(id);
-    if (!el) continue;
-    const rect = el?.getBoundingClientRect();
+  const joystickPad = document.getElementById('joystick-pad');
+  const rect = joystickPad?.getBoundingClientRect();
 
-    keysDownMobile.current[key] = false;
-    el.style.opacity = '0.5';
+  if (!rect || !touch || !joystickPad) return;
 
-    for (const touch of touches) {
-      if (!rect || !touch) continue;
-      if (
-        rect.left <= touch.clientX &&
-        touch.clientX <= rect.right &&
-        rect.top <= touch.clientY &&
-        touch.clientY <= rect.bottom
-      ) {
-        keysDownMobile.current[key] = true;
-        el.style.opacity = '1';
-      }
-    }
-  }
+  const leftPercent = (touch.clientX - rect.left) / rect.width;
+  const topPercent = (touch.clientY - rect.top) / rect.height;
+
+  joystickPad.style.opacity = '1';
+
+  mobileJoystickPad.current = {
+    x: leftPercent,
+    y: topPercent,
+  };
 }
 
 function onWindowResize() {
