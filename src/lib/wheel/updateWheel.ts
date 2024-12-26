@@ -92,7 +92,7 @@ export function updateWheel(
     mult(totalTireForceBeforeClamp, 0.02),
     wheelMeshPos,
     0x000000,
-    `strght${front}${left}`
+    `straight${front}${left}`
   );
   helperArrow(mult(totalClampedTireForce, 0.02), wheelMeshPos, 0xff0000, `clamp${front}${left}`);
 }

@@ -1,7 +1,7 @@
 import { Car } from '.';
 
 export const cyber: Car = {
-  name: 'Cyber',
+  name: 'Tesla CyberTruck',
   glb: 'cyber',
   width: 1.75,
   height: 1.5,
@@ -11,8 +11,8 @@ export const cyber: Car = {
   wheelEndOffset: 0,
   mass: 30.2,
   power: 600,
-  steerPower: 1500,
-  tireGrip: 200,
+  steerPower: 1300,
+  tireGrip: 0.4,
   brakePower: 400,
   brakeRearBias: 0.4,
   driveTrain: 'AWD',

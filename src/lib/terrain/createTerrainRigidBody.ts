@@ -1,8 +1,9 @@
 import AmmoType from 'ammojs-typed';
-declare const Ammo: typeof AmmoType;
 import { terrainMinHeight } from '../../refs';
 import { createTerrainShape } from './createTerrainShape';
 import { getSeededHeight } from './getSeededHeight';
+
+declare const Ammo: typeof AmmoType;
 
 export function createTerrainRigidBody(heightData: Float32Array) {
   const shape = createTerrainShape(heightData);
@@ -14,9 +15,7 @@ export function createTerrainRigidBody(heightData: Float32Array) {
   const groundMass = 0;
   const groundLocalInertia = new Ammo.btVector3(0, 0, 0);
   const groundMotionState = new Ammo.btDefaultMotionState(groundTransform);
-  const groundBody = new Ammo.btRigidBody(
+  return new Ammo.btRigidBody(
     new Ammo.btRigidBodyConstructionInfo(groundMass, groundMotionState, shape, groundLocalInertia)
   );
-
-  return groundBody;
 }

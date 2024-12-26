@@ -24,8 +24,7 @@ export function getTotalTireForce(prevDistance: Ref<number>, front: boolean, lef
   );
 
   const { tireGrip, bodyRoll } = selectedCar.current;
-  const sqrtCompression = Math.sqrt(compression);
-  const tireGripAfterCompression = tireGrip * sqrtCompression;
+  const tireGripAfterCompression = tireGrip * suspensionForce.length();
   const surfaceGrip = surfaceGrips[surface].dry.current;
   const tireGripAfterSurface = tireGripAfterCompression * surfaceGrip;
   const sideTireForceClamped = sideTireForce.clone().clampLength(0, tireGripAfterSurface);

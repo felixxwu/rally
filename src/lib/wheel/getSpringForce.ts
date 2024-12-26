@@ -1,15 +1,12 @@
-import AmmoType from 'ammojs-typed';
-declare const Ammo: typeof AmmoType;
-
 import {
   grassLeftMesh,
   grassRightMesh,
+  localTerrainMesh,
   platformMesh,
   raycasterOffset,
   roadMesh,
   selectedCar,
 } from '../../refs';
-import { terrainMesh } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { Ref } from '../utils/ref';
 import { getCarDirection } from '../car/getCarDirection';
@@ -17,7 +14,7 @@ import { Surface } from '../../types';
 import { logRenderTime } from '../render/initRenderer';
 
 const collisionMeshes = [
-  { mesh: terrainMesh, surface: 'grass' as Surface },
+  { mesh: localTerrainMesh, surface: 'grass' as Surface },
   { mesh: roadMesh, surface: 'tarmac' as Surface },
   { mesh: grassLeftMesh, surface: 'grass' as Surface },
   { mesh: grassRightMesh, surface: 'grass' as Surface },

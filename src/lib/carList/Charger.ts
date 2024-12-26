@@ -1,7 +1,7 @@
 import { Car } from '.';
 
 export const charger: Car = {
-  name: 'Charger',
+  name: 'Dodge Charger',
   glb: 'charger',
   width: 1.6,
   height: 0.9,
@@ -11,8 +11,8 @@ export const charger: Car = {
   wheelEndOffset: 0,
   mass: 16.33,
   power: 295,
-  steerPower: 550,
-  tireGrip: 100,
+  steerPower: 600,
+  tireGrip: 0.5,
   brakePower: 400,
   brakeRearBias: 0.4,
   driveTrain: 'RWD',

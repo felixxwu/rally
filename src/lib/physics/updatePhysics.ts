@@ -1,12 +1,10 @@
-import AmmoType from 'ammojs-typed';
-declare const Ammo: typeof AmmoType;
 import { transformAux1 } from '../../refs';
 import { getUserData } from '../utils/userData';
 import { Mesh } from '../../types';
 import { THREE } from '../utils/THREE';
 
 const recentPos: THREE.Vector3[] = [];
-const numRecentPos = 10;
+const numRecentPos = 8;
 
 export function updatePhysics(objThree: Mesh) {
   const objPhys = getUserData(objThree).physicsBody;
