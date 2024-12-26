@@ -45,9 +45,19 @@ export async function createRoadTriangles(skipGrass?: boolean) {
     } = getSideVecs(vecs, i + 1, skipGrass);
 
     if (leftHandedTriangle) {
-      road.push([createArr(left), createArr(prevRight), createArr(nextRight)]);
+      road.push({
+        0: createArr(left),
+        1: createArr(prevRight),
+        2: createArr(nextRight),
+        progress: i,
+      });
     } else {
-      road.push([createArr(prevLeft), createArr(right), createArr(nextLeft)]);
+      road.push({
+        0: createArr(prevLeft),
+        1: createArr(right),
+        2: createArr(nextLeft),
+        progress: i,
+      });
     }
 
     if (!skipGrass) {
@@ -100,37 +110,61 @@ export async function createRoadTriangles(skipGrass?: boolean) {
       );
 
       if (leftHandedTriangle) {
-        grassLeft.push([createArr(nextLeftGrass), createArr(prevLeftGrass), createArr(left)]);
+        grassLeft.push({
+          0: createArr(nextLeftGrass),
+          1: createArr(prevLeftGrass),
+          2: createArr(left),
+          progress: i,
+        });
         leftBanking &&
-          grassLeft.push([
-            createArr(leftBanking),
-            createArr(prevLeftGrass),
-            createArr(nextLeftGrass),
-          ]);
-        grassRight.push([createArr(prevRight), createArr(rightGrass), createArr(nextRight)]);
+          grassLeft.push({
+            0: createArr(leftBanking),
+            1: createArr(prevLeftGrass),
+            2: createArr(nextLeftGrass),
+            progress: i,
+          });
+        grassRight.push({
+          0: createArr(prevRight),
+          1: createArr(rightGrass),
+          2: createArr(nextRight),
+          progress: i,
+        });
         prevRightBanking &&
           nextRightBanking &&
-          grassRight.push([
-            createArr(prevRightBanking),
-            createArr(nextRightBanking),
-            createArr(rightGrass),
-          ]);
+          grassRight.push({
+            0: createArr(prevRightBanking),
+            1: createArr(nextRightBanking),
+            2: createArr(rightGrass),
+            progress: i,
+          });
       } else {
-        grassLeft.push([createArr(prevLeft), createArr(nextLeft), createArr(leftGrass)]);
+        grassLeft.push({
+          0: createArr(prevLeft),
+          1: createArr(nextLeft),
+          2: createArr(leftGrass),
+          progress: i,
+        });
         nextLeftBanking &&
           prevLeftBanking &&
-          grassLeft.push([
-            createArr(nextLeftBanking),
-            createArr(prevLeftBanking),
-            createArr(leftGrass),
-          ]);
-        grassRight.push([createArr(right), createArr(prevRightGrass), createArr(nextRightGrass)]);
+          grassLeft.push({
+            0: createArr(nextLeftBanking),
+            1: createArr(prevLeftBanking),
+            2: createArr(leftGrass),
+            progress: i,
+          });
+        grassRight.push({
+          0: createArr(right),
+          1: createArr(prevRightGrass),
+          2: createArr(nextRightGrass),
+          progress: i,
+        });
         rightBanking &&
-          grassRight.push([
-            createArr(nextRightGrass),
-            createArr(prevRightGrass),
-            createArr(rightBanking),
-          ]);
+          grassRight.push({
+            0: createArr(nextRightGrass),
+            1: createArr(prevRightGrass),
+            2: createArr(rightBanking),
+            progress: i,
+          });
       }
     }
   }

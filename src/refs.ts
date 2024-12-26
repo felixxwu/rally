@@ -21,8 +21,6 @@ export const terrainDepthExtents = 3000;
 export const scale = 0.04;
 export const terrainWidth = 40;
 export const terrainDepth = 40;
-export const terrainHalfWidth = terrainWidth / 2;
-export const terrainHalfDepth = terrainDepth / 2;
 export const terrainMaxHeight = 120;
 export const terrainHeightExponent = 1.3; // higher = bias towards lower heights
 export const terrainMinHeight = 0;
@@ -33,6 +31,9 @@ export const localTerrainMesh = ref<Mesh | null>(null);
 export const roadMesh = ref<Mesh | null>(null);
 export const grassLeftMesh = ref<Mesh | null>(null);
 export const grassRightMesh = ref<Mesh | null>(null);
+export const localRoadMesh = ref<Mesh | null>(null);
+export const localGrassLeftMesh = ref<Mesh | null>(null);
+export const localGrassRightMesh = ref<Mesh | null>(null);
 export const platformMesh = ref<Mesh | null>(null);
 export const seed = ref(Math.floor(Math.random() * 1000));
 export const seedLevel = ref(8);
@@ -85,7 +86,7 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 export const gravity = 35;
 
 // steering
-export const steerModMap = createXYMap([0, 0], [1, 0], [2, 0.6], [20, 1], [50, 0.5]); // x = speed, y = steering input modifier
+export const steerModMap = createXYMap([0, 0], [1, 0], [2, 0.4], [15, 1], [50, 0.5]); // x = speed, y = steering input modifier
 export const reverseAngle = Math.PI * 0.8;
 
 // tires and suspension
@@ -111,7 +112,7 @@ export const maxSkidMarks = 200;
 // car
 export const minAirResistance = 15;
 export const car = ref<Mesh | null>(null);
-export const angularDamping = 0.999;
+export const angularDamping = 0.998;
 export const powerModifier = 0.5; // scale all car power by this amount
 
 // camera

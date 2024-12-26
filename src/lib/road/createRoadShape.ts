@@ -6,7 +6,7 @@ import { ref } from '../utils/ref';
 import { caches } from '../../refs';
 
 export type Vector = [number, number, number];
-export type Triangle = [Vector, Vector, Vector];
+export type Triangle = { 0: Vector; 1: Vector; 2: Vector; progress: number };
 
 const ammoVecCache = ref<Record<string, AmmoType.btVector3>>({});
 const threeVecCache = ref<Record<string, THREE.Vector3>>({});

@@ -1,10 +1,10 @@
 import {
-  grassLeftMesh,
-  grassRightMesh,
+  localGrassLeftMesh,
+  localGrassRightMesh,
+  localRoadMesh,
   localTerrainMesh,
   platformMesh,
   raycasterOffset,
-  roadMesh,
   selectedCar,
 } from '../../refs';
 import { THREE } from '../utils/THREE';
@@ -15,9 +15,9 @@ import { logRenderTime } from '../render/initRenderer';
 
 const collisionMeshes = [
   { mesh: localTerrainMesh, surface: 'grass' as Surface },
-  { mesh: roadMesh, surface: 'tarmac' as Surface },
-  { mesh: grassLeftMesh, surface: 'grass' as Surface },
-  { mesh: grassRightMesh, surface: 'grass' as Surface },
+  { mesh: localRoadMesh, surface: 'tarmac' as Surface },
+  { mesh: localGrassLeftMesh, surface: 'grass' as Surface },
+  { mesh: localGrassRightMesh, surface: 'grass' as Surface },
   { mesh: platformMesh, surface: 'tarmac' as Surface },
 ];
 
