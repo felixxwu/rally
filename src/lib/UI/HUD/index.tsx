@@ -4,6 +4,7 @@ import { Info } from './Info';
 import { MiniMap } from './MiniMap';
 import { MobileHUD } from './MobileHUD';
 import { Progress } from './Progress';
+import { Dash } from './Dash';
 
 export function HUD() {
   useCustomRef(menuPause, value => {
@@ -20,6 +21,7 @@ export function HUD() {
       <Progress />
       <MobileHUD />
       <MiniMap />
+      <Dash />
     </div>
   );
 }

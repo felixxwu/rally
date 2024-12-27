@@ -1,4 +1,5 @@
 import { Car } from '.';
+import { createXYMap } from '../utils/createXYMap';
 
 export const charger: Car = {
   name: 'Dodge Charger',
@@ -20,5 +21,9 @@ export const charger: Car = {
   springRate: 350,
   springDamping: 5000,
   bodyRoll: 0.5,
-  airResistance: 0.15,
+  airResistance: 0.1,
+  finalDrive: 300,
+  gears: [1, 0.5, 0.35, 0.25],
+  torqueCurve: createXYMap([0, 0.5], [4000, 1], [5000, 1], [8000, 0]),
+  redline: 7000,
 };

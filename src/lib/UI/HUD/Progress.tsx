@@ -1,13 +1,6 @@
 import styled from 'styled-components';
 import { useCustomRef } from '../../utils/useCustomRef';
-import {
-  progress,
-  resetDistance,
-  roadVecs,
-  stageTime,
-  stageTimeStarted,
-  startRoadLength,
-} from '../../../refs';
+import { progress, roadVecs, stageTime, stageTimeStarted, startRoadLength } from '../../../refs';
 import { useState } from 'react';
 import { padStart } from '../../utils/padStart';
 

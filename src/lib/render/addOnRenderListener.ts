@@ -2,7 +2,7 @@ import { onRender } from '../../refs';
 
 export function addOnRenderListener(
   name: string,
-  callback: () => void,
+  callback: (deltaTime: number) => void,
   behaviour: 'single' | 'multi' = 'single'
 ) {
   if (behaviour === 'single') {

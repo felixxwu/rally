@@ -1,10 +1,12 @@
 import { getCarDirection } from '../car/getCarDirection';
-import { internalController, powerModifier, selectedCar, stageTimeStarted } from '../../refs';
+import { gear, internalController, powerModifier, selectedCar, stageTimeStarted } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { mult } from '../utils/multVec';
 import { wheelHasPower } from './wheelHasPower';
 import { getSpeedVec } from '../car/getSpeedVec';
 import { isReversing } from './isReversing';
+import { getRPM } from '../car/getRPM';
+import { intervalLog } from '../utils/intervalLog';
 
 export function getStraightTireForce(front: boolean) {
   const speed = getSpeedVec();
@@ -12,7 +14,7 @@ export function getStraightTireForce(front: boolean) {
   if (speed.length() < 1) speed.copy(forwardUnitVec);
 
   const reversing = isReversing();
-  const { brakeRearBias, brakePower, power } = selectedCar.current;
+  const { brakeRearBias, brakePower, power, torqueCurve } = selectedCar.current;
   const brakeBiasMod = front ? 1 - brakeRearBias : brakeRearBias;
 
   const throttle = internalController.current.throttle;
@@ -22,14 +24,19 @@ export function getStraightTireForce(front: boolean) {
   let engineForce = new THREE.Vector3();
   let brakeForce = new THREE.Vector3();
 
+  const wheelForce =
+    power * powerModifier * torqueCurve(getRPM()) * selectedCar.current.gears[gear.current];
+
+  intervalLog(50, wheelForce);
+
   if (reversing) {
     if (wheelHasPower(front)) {
-      engineForce.add(mult(forwardUnitVec, -power * powerModifier * brake));
+      engineForce.add(mult(forwardUnitVec, -wheelForce * brake));
     }
     brakeForce.add(mult(speed.clone().normalize(), -brakePower * throttle * brakeBiasMod));
   } else {
     if (wheelHasPower(front)) {
-      engineForce.add(mult(forwardUnitVec, power * powerModifier * throttle));
+      engineForce.add(mult(forwardUnitVec, wheelForce * throttle));
     }
     brakeForce.add(mult(speed.clone().normalize(), -brakePower * brake * brakeBiasMod));
   }

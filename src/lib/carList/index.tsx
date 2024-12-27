@@ -4,6 +4,7 @@ import { initWheel, wheelCleanUp } from '../wheel/initWheel';
 import { cooper } from './Cooper';
 import { charger } from './Charger';
 import { cyber } from './Cyber';
+import { XYMap } from '../utils/createXYMap';
 
 export type Car = {
   name: string;
@@ -26,6 +27,10 @@ export type Car = {
   springDamping: number;
   bodyRoll: number;
   airResistance: number;
+  finalDrive: number; // speed * masterGearRatio * gears[number] = RPM
+  gears: number[]; // power * powerModifier * torqueCurve@RPM * gears[number] = wheel power
+  torqueCurve: XYMap; // multiplier for power (0-1)
+  redline: number;
 };
 
 export async function selectCar(newCar: Car) {

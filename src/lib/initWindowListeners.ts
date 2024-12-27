@@ -1,12 +1,14 @@
 import {
   camera,
   freeCam,
+  gear,
   keysDown,
   mobileJoystickPad,
   panelOpen,
   renderer,
   renderHelperArrows,
   renderHitCarBox,
+  selectedCar,
 } from '../refs';
 import { resetToLastProgress } from './road/resetIfFarFromRoad';
 
@@ -72,6 +74,18 @@ function onKeyDown(event: KeyboardEvent) {
 
   if (event.key === 'Escape') {
     panelOpen.current = !panelOpen.current;
+  }
+
+  if (event.key === '[') {
+    if (selectedCar.current.gears[gear.current - 1] !== undefined) {
+      gear.current--;
+    }
+  }
+
+  if (event.key === ']') {
+    if (selectedCar.current.gears[gear.current + 1] !== undefined) {
+      gear.current++;
+    }
   }
 }
 

@@ -114,7 +114,8 @@ export const maxSkidMarks = 50;
 export const minAirResistance = 15;
 export const car = ref<Mesh | null>(null);
 export const angularDamping = 0.998;
-export const powerModifier = 0.5; // scale all car power by this amount
+export const powerModifier = 1.2; // scale all car power by this amount
+export const gear = ref(0);
 
 // camera
 export const camFollowDistance = ref(5, 3, 30, 1);
