@@ -19,9 +19,9 @@ export const caches: Ref<any>[] = [];
 export const mapWidth = 3000;
 export const mapHeight = 3000;
 export const scale = 0.04;
-export const mapWidthSegments = 40;
-export const mapHeightSegments = 40;
-export const terrainMaxHeight = 120;
+export const mapWidthSegments = 100;
+export const mapHeightSegments = 100;
+export const terrainMaxHeight = 80;
 export const terrainHeightExponent = 1.25; // higher = bias towards lower heights
 export const terrainMinHeight = 0;
 export const heightData = ref<Float32Array | null>(null);

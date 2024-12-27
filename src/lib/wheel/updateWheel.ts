@@ -19,6 +19,8 @@ import { getCarDirection } from '../car/getCarDirection';
 import { createQuat } from '../utils/createQuat';
 import { logRenderTime } from '../render/initRenderer';
 
+let i = 0;
+
 export function updateWheel(
   wheelMesh: Mesh,
   prevDistance: Ref<number>,
@@ -76,18 +78,20 @@ export function updateWheel(
   wheelCompression.current[front ? (left ? 0 : 1) : left ? 2 : 3] = compression;
   wheelSurfaces.current[front ? (left ? 0 : 1) : left ? 2 : 3] = surface;
 
-  const now = window.performance.now();
-  addSkidMark(
-    compression,
-    wheelmeshBottomPos,
-    totalClampedTireForce,
-    sideTireForce,
-    straightTireForce,
-    front,
-    left,
-    surface
-  );
-  logRenderTime('skidMarks (wheel)', now);
+  if (i++ % 3 === 0) {
+    const now = window.performance.now();
+    addSkidMark(
+      compression,
+      wheelmeshBottomPos,
+      totalClampedTireForce,
+      sideTireForce,
+      straightTireForce,
+      front,
+      left,
+      surface
+    );
+    logRenderTime('skidMarks (wheel)', now);
+  }
 
   // helper arrows
   helperArrow(mult(suspensionForce, 0.02), wheelMeshPos, 0xffff00, `suspension${front}${left}`);
