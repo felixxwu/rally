@@ -1,15 +1,12 @@
-import AmmoType from 'ammojs-typed';
-declare const Ammo: typeof AmmoType;
-
-import { terrainDepth, terrainDepthExtents, terrainWidth, terrainWidthExtents } from '../../refs';
+import { mapHeightSegments, mapHeight, mapWidthSegments, mapWidth } from '../../refs';
 import { THREE } from '../utils/THREE';
 
 export function createTerrainMesh(heightData: Float32Array) {
   const geometry = new THREE.PlaneGeometry(
-    terrainWidthExtents,
-    terrainDepthExtents,
-    terrainWidth - 1,
-    terrainDepth - 1
+    mapWidth,
+    mapHeight,
+    mapWidthSegments - 1,
+    mapHeightSegments - 1
   );
   geometry.rotateX(-Math.PI / 2);
 
@@ -35,7 +32,7 @@ export function createTerrainMesh(heightData: Float32Array) {
     texture.anisotropy = 0;
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(terrainWidth - 1, terrainDepth - 1);
+    texture.repeat.set(mapWidthSegments - 1, mapHeightSegments - 1);
     texture.magFilter = THREE.NearestFilter;
     texture.minFilter = THREE.NearestFilter;
 

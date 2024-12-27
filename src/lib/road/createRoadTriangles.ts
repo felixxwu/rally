@@ -1,17 +1,15 @@
 import {
   bankingAngleStart,
-  bankingAngleStep,
-  startRoadLength,
-  startRoadWidth,
-  halfRoadWidth,
   grassWidth,
+  halfRoadWidth,
+  infoText,
   maxBankingLength,
   roadVecs,
-  infoText,
+  startRoadLength,
+  startRoadWidth,
 } from '../../refs';
 import { createNoiseFunc } from '../terrain/createNoiseFunc';
 import { createArr, vec3 } from '../utils/createVec';
-import { ray } from '../utils/ray';
 import { THREE } from '../utils/THREE';
 import { Triangle, Vector } from './createRoadShape';
 
@@ -61,53 +59,17 @@ export async function createRoadTriangles(skipGrass?: boolean) {
     }
 
     if (!skipGrass) {
-      if (i % 10 === 0) {
+      if (i % 20 === 0) {
         infoText.current = `Creating Road Mesh... ${Math.round((i / vecs.length) * 100)}%`;
         await new Promise(r => setTimeout(r));
       }
 
-      const leftBanking = getBankingPoint(
-        vecs,
-        i,
-        leftGrass,
-        -bankingAngleStart,
-        -bankingAngleStep
-      );
-      const prevLeftBanking = getBankingPoint(
-        vecs,
-        i - 1,
-        prevLeftGrass,
-        -bankingAngleStart,
-        -bankingAngleStep
-      );
-      const nextLeftBanking = getBankingPoint(
-        vecs,
-        i + 1,
-        nextLeftGrass,
-        -bankingAngleStart,
-        -bankingAngleStep
-      );
-      const rightBanking = getBankingPoint(
-        vecs,
-        i,
-        rightGrass,
-        bankingAngleStart,
-        bankingAngleStep
-      );
-      const prevRightBanking = getBankingPoint(
-        vecs,
-        i - 1,
-        prevRightGrass,
-        bankingAngleStart,
-        bankingAngleStep
-      );
-      const nextRightBanking = getBankingPoint(
-        vecs,
-        i + 1,
-        nextRightGrass,
-        bankingAngleStart,
-        bankingAngleStep
-      );
+      const leftBanking = getBankingPoint(vecs, i, leftGrass, -bankingAngleStart);
+      const prevLeftBanking = getBankingPoint(vecs, i - 1, prevLeftGrass, -bankingAngleStart);
+      const nextLeftBanking = getBankingPoint(vecs, i + 1, nextLeftGrass, -bankingAngleStart);
+      const rightBanking = getBankingPoint(vecs, i, rightGrass, bankingAngleStart);
+      const prevRightBanking = getBankingPoint(vecs, i - 1, prevRightGrass, bankingAngleStart);
+      const nextRightBanking = getBankingPoint(vecs, i + 1, nextRightGrass, bankingAngleStart);
 
       if (leftHandedTriangle) {
         grassLeft.push({
@@ -217,10 +179,10 @@ function getSideVecs(vecs: Vector[], i: number, skipGrass?: boolean) {
   const rightNoise = noise(rightGrass.x * noiseScale + 1, rightGrass.z * noiseScale + 1) * 2 - 1;
   const leftGrassNoise = noise(leftGrass.x * noiseScale, leftGrass.z * noiseScale) * 2 - 1;
   const rightGrassNoise = noise(rightGrass.x * noiseScale, rightGrass.z * noiseScale) * 2 - 1;
-  const leftRoad = vec.clone().add(projectedLeft.multiplyScalar(1 - leftNoise / 2));
-  const rightRoad = vec.clone().add(projectedRight.multiplyScalar(1 - rightNoise / 2));
-  leftGrass.add(new THREE.Vector3(0, leftGrassNoise * 0.8, 0));
-  rightGrass.add(new THREE.Vector3(0, rightGrassNoise * 0.8, 0));
+  const leftRoad = vec.clone().add(projectedLeft.multiplyScalar(1 - leftNoise / 3));
+  const rightRoad = vec.clone().add(projectedRight.multiplyScalar(1 - rightNoise / 3));
+  leftGrass.add(new THREE.Vector3(0, leftGrassNoise * 0.8 - 0.6, 0));
+  rightGrass.add(new THREE.Vector3(0, rightGrassNoise * 0.8 - 0.6, 0));
 
   return {
     left: leftRoad,
@@ -230,25 +192,7 @@ function getSideVecs(vecs: Vector[], i: number, skipGrass?: boolean) {
   };
 }
 
-function getBankingPoint(
-  vecs: Vector[],
-  i: number,
-  grassSide: THREE.Vector3,
-  angle: number,
-  increment: number,
-  depth = 0
-) {
-  const upIntersection = ray(
-    grassSide.clone().add(new THREE.Vector3(0, 10, 0)),
-    new THREE.Vector3(0, -1, 0),
-    0,
-    maxBankingLength
-  );
-
-  if (upIntersection && upIntersection.point.y > grassSide.y) {
-    return null;
-  }
-
+function getBankingPoint(vecs: Vector[], i: number, grassSide: THREE.Vector3, angle: number) {
   if (Math.abs(angle) > Math.PI / 2) return null;
 
   const vec = vec3(vecs[i]);
@@ -260,11 +204,6 @@ function getBankingPoint(
   quat.setFromAxisAngle(diff.clone().normalize(), angle);
 
   const rotated = sideDir.clone().applyQuaternion(quat);
-  const intersection = ray(grassSide, rotated, 0, maxBankingLength);
 
-  if (!intersection) {
-    return getBankingPoint(vecs, i, grassSide, angle + increment, increment, depth + 1);
-  }
-
-  return intersection.point;
+  return grassSide.clone().add(rotated.setLength(maxBankingLength));
 }

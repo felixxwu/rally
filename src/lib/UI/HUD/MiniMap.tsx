@@ -5,8 +5,8 @@ import {
   onRender,
   roadVecs,
   stageTimeStarted,
-  terrainDepthExtents,
-  terrainWidthExtents,
+  mapHeight,
+  mapWidth,
 } from '../../../refs';
 import { useEffect, useState } from 'react';
 import { getCarMeshDirection } from '../../car/getCarDirection';
@@ -44,14 +44,14 @@ export function MiniMap() {
     ]);
   }, []);
 
-  const tx = terrainWidthExtents / 2 - carX;
-  const ty = terrainDepthExtents / 2 - carZ;
+  const tx = mapWidth / 2 - carX;
+  const ty = mapHeight / 2 - carZ;
   const rot = carRot + Math.PI;
   const scale = carTransform ? 3 : 1;
 
   return (
     <Container>
-      <SVG viewBox={`0 0 ${terrainWidthExtents} ${terrainDepthExtents}`}>
+      <SVG viewBox={`0 0 ${mapWidth} ${mapHeight}`}>
         <Path
           d={road.map(([x, _, z], i) => `${i === 0 ? 'M' : 'L'} ${x} ${z}`).join(' ')}
           style={{
@@ -62,7 +62,7 @@ export function MiniMap() {
         {carTransform && (
           <CarTriangle
             points='0,-100 -100,100 100,100'
-            transform={`translate(${terrainWidthExtents / 2}, ${terrainDepthExtents / 2})`}
+            transform={`translate(${mapWidth / 2}, ${mapHeight / 2})`}
           />
         )}
       </SVG>

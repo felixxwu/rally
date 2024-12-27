@@ -9,8 +9,8 @@ import {
   pointMoveDist,
   roadVecs,
   startRoadLength,
-  terrainDepthExtents,
-  terrainWidthExtents,
+  mapHeight,
+  mapWidth,
   infoText,
 } from '../../refs';
 import { add } from '../utils/addVec';
@@ -18,7 +18,8 @@ import { getSpawn } from '../utils/getSpawn';
 import { ray } from '../utils/ray';
 import { THREE } from '../utils/THREE';
 import { Vector } from './createRoadShape';
-import { createTemporaryMesh } from './createTemporaryMesh';
+import { vec3 } from '../utils/createVec';
+import { getHeightAt } from '../terrain/generateHeight';
 
 export async function createRoadPoints() {
   const spawn = getSpawn();
@@ -36,12 +37,7 @@ export async function createRoadPoints() {
 
       await new Promise(r => setTimeout(r));
     }
-    const intersection = ray(
-      new THREE.Vector3(point.x, 1000, point.y),
-      new THREE.Vector3(0, -1, 0)
-    );
-    if (!intersection) break;
-    const intersectionPoint = intersection.point;
+    const intersectionPoint = vec3([point.x, getHeightAt(point.x, point.y), point.y]);
     const newPoint = add(intersectionPoint, [0, 1, 0]);
     roadVecs.current.push([newPoint.x, newPoint.y, newPoint.z] as Vector);
 
@@ -61,14 +57,8 @@ export async function createRoadPoints() {
           .multiplyScalar(pointMoveDist)
           .rotateAround(new THREE.Vector2(0, 0), maxAngle)
       );
-    const leftIntersection = ray(
-      new THREE.Vector3(leftDir.x, 1000, leftDir.y),
-      new THREE.Vector3(0, -1, 0)
-    )?.point;
-    const rightIntersection = ray(
-      new THREE.Vector3(rightDir.x, 1000, rightDir.y),
-      new THREE.Vector3(0, -1, 0)
-    )?.point;
+    const leftIntersection = vec3([leftDir.x, getHeightAt(leftDir.x, leftDir.y), leftDir.y]);
+    const rightIntersection = vec3([rightDir.x, getHeightAt(rightDir.x, rightDir.y), rightDir.y]);
 
     if (!rightIntersection || !leftIntersection) break;
 
@@ -136,10 +126,10 @@ export async function createRoadPoints() {
     }
 
     const closeToMapEdge =
-      point.x < -(terrainWidthExtents / 2 - nearbyDistance * 1.5) ||
-      point.x > terrainWidthExtents / 2 - nearbyDistance * 1.5 ||
-      point.y < -(terrainDepthExtents / 2 - nearbyDistance * 1.5) ||
-      point.y > terrainDepthExtents / 2 - nearbyDistance * 1.5;
+      point.x < -(mapWidth / 2 - nearbyDistance * 1.5) ||
+      point.x > mapWidth / 2 - nearbyDistance * 1.5 ||
+      point.y < -(mapHeight / 2 - nearbyDistance * 1.5) ||
+      point.y > mapHeight / 2 - nearbyDistance * 1.5;
 
     if (closeToMapEdge) {
       const crossToCenter = roadDir.clone().cross(point.clone().normalize());
@@ -266,5 +256,4 @@ export async function createRoadPoints() {
   }
 
   roadVecs.current = blurredHeightVecs;
-  await createTemporaryMesh();
 }

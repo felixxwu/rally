@@ -1,13 +1,15 @@
-import { terrainDepth, terrainDepthExtents, terrainWidth, terrainWidthExtents } from '../../refs';
+import { mapHeightSegments, mapHeight, mapWidthSegments, mapWidth } from '../../refs';
 import { THREE } from '../utils/THREE';
 import { getLocalSquares } from './getLocalSquares';
 
 export function createLocalTerrainMesh(pos: THREE.Vector3) {
   const localSquares = getLocalSquares(pos);
 
+  if (localSquares.length === 0) return null;
+
   const geometry = new THREE.PlaneGeometry(
-    (terrainWidthExtents / (terrainWidth - 1)) * 3,
-    (terrainDepthExtents / (terrainDepth - 1)) * 3,
+    (mapWidth / (mapWidthSegments - 1)) * 3,
+    (mapHeight / (mapHeightSegments - 1)) * 3,
     3,
     3
   );
@@ -30,9 +32,9 @@ export function createLocalTerrainMesh(pos: THREE.Vector3) {
   const terrainMesh = new THREE.Mesh(geometry, groundMaterial);
 
   terrainMesh.position.set(
-    localSquares[0].x + (terrainWidthExtents / (terrainWidth - 1)) * 1.5,
+    localSquares[0].x + (mapWidth / (mapWidthSegments - 1)) * 1.5,
     0,
-    localSquares[0].z + (terrainDepthExtents / (terrainDepth - 1)) * 1.5
+    localSquares[0].z + (mapHeight / (mapHeightSegments - 1)) * 1.5
   );
 
   terrainMesh.visible = false;

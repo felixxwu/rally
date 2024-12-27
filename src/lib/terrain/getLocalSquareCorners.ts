@@ -1,18 +1,12 @@
 import { vec3 } from '../utils/createVec';
-import {
-  heightData,
-  terrainDepth,
-  terrainDepthExtents,
-  terrainWidth,
-  terrainWidthExtents,
-} from '../../refs';
+import { heightData, mapHeightSegments, mapHeight, mapWidthSegments, mapWidth } from '../../refs';
 
 export function getLocalSquareCorners(indexX: number, indexZ: number) {
   if (heightData.current === null) return [];
 
-  const xPos = (index: number) => (index / (terrainWidth - 1) - 0.5) * terrainWidthExtents;
-  const zPos = (index: number) => (index / (terrainDepth - 1) - 0.5) * terrainDepthExtents;
-  const hPos = (x: number, z: number) => heightData.current?.[x + z * terrainWidth] ?? 0;
+  const xPos = (index: number) => (index / (mapWidthSegments - 1) - 0.5) * mapWidth;
+  const zPos = (index: number) => (index / (mapHeightSegments - 1) - 0.5) * mapHeight;
+  const hPos = (x: number, z: number) => heightData.current?.[x + z * mapWidthSegments] ?? 0;
 
   const corner = (x: number, z: number) => vec3([xPos(x), hPos(x, z), zPos(z)]);
 

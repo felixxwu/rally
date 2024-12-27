@@ -16,13 +16,13 @@ export const selectedCar = ref<Car>(cooper);
 export const caches: Ref<any>[] = [];
 
 // Heightfield parameters
-export const terrainWidthExtents = 3000;
-export const terrainDepthExtents = 3000;
+export const mapWidth = 3000;
+export const mapHeight = 3000;
 export const scale = 0.04;
-export const terrainWidth = 40;
-export const terrainDepth = 40;
+export const mapWidthSegments = 40;
+export const mapHeightSegments = 40;
 export const terrainMaxHeight = 120;
-export const terrainHeightExponent = 1.3; // higher = bias towards lower heights
+export const terrainHeightExponent = 1.25; // higher = bias towards lower heights
 export const terrainMinHeight = 0;
 export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
@@ -57,7 +57,7 @@ export const halfRoadWidth = 6;
 export const startRoadWidth = 20;
 export const startRoadLength = 30;
 export const grassWidth = 3;
-export const maxBankingLength = 50;
+export const maxBankingLength = 80;
 export const bankingAngleStart = 0.5;
 export const bankingAngleStep = 0.05;
 export const roadVecs = ref<Vector[]>([]);

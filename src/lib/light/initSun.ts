@@ -1,4 +1,4 @@
-import { lightValues, onRender, scene, terrainWidthExtents, timeOfDay } from '../../refs';
+import { lightValues, mapWidth, onRender, scene, timeOfDay } from '../../refs';
 import { getCarPos } from '../car/getCarTransform';
 import { THREE } from '../utils/THREE';
 
@@ -9,7 +9,7 @@ export function initSun() {
   scene.current?.add(ambientLight);
 
   const light = new THREE.DirectionalLight(0xffffff);
-  const sLight = terrainWidthExtents * 0.2;
+  const sLight = mapWidth * 0.2;
   const targetObject = new THREE.Object3D();
   light.target = targetObject;
   light.castShadow = true;
@@ -37,11 +37,8 @@ export function initSun() {
   ]);
 
   timeOfDay.listeners.push(() => {
-    const intensity = lightValues[timeOfDay.current].light;
-    light.intensity = intensity;
-
-    const ambientIntensity = lightValues[timeOfDay.current].ambient;
-    ambientLight.intensity = ambientIntensity;
+    light.intensity = lightValues[timeOfDay.current].light;
+    ambientLight.intensity = lightValues[timeOfDay.current].ambient;
 
     const elevation = lightValues[timeOfDay.current].lightAngle;
     const phi = THREE.MathUtils.degToRad(90 - elevation);

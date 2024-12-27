@@ -1,26 +1,36 @@
-import { terrainDepth, terrainMinHeight, terrainWidth } from '../../refs';
+import {
+  mapHeightSegments,
+  terrainMinHeight,
+  mapWidthSegments,
+  mapWidth,
+  mapHeight,
+} from '../../refs';
 import { createNoiseFunc } from './createNoiseFunc';
 import { getSeededHeight } from './getSeededHeight';
 import { getSlope } from './getSlope';
 
 export function generateHeight() {
-  const noise = createNoiseFunc();
-  const size = terrainWidth * terrainDepth;
+  const size = mapWidthSegments * mapHeightSegments;
   const data = new Float32Array(size);
-  const hRange = getSeededHeight() - terrainMinHeight;
-  const { slopeX, slopeZ } = getSlope();
   let p = 0;
 
-  for (let j = 0; j < terrainDepth; j++) {
-    for (let i = 0; i < terrainWidth; i++) {
-      const height =
-        Math.pow(noise(i, j), 2) * hRange + terrainMinHeight + i * slopeX + j * slopeZ + 100;
-
-      data[p] = height;
-
+  for (let j = 0; j < mapHeightSegments; j++) {
+    for (let i = 0; i < mapWidthSegments; i++) {
+      data[p] = getHeightAt((i * mapWidth) / mapWidthSegments, (j * mapHeight) / mapHeightSegments);
       p++;
     }
   }
 
   return data;
+}
+
+export function getHeightAt(xPos: number, zPos: number) {
+  const noise = createNoiseFunc();
+  const hRange = getSeededHeight() - terrainMinHeight;
+  const { slopeX, slopeZ } = getSlope();
+
+  const x = (xPos / mapWidth) * mapWidthSegments;
+  const z = (zPos / mapHeight) * mapHeightSegments;
+
+  return Math.pow(noise(x, z), 2) * hRange + terrainMinHeight + x * slopeX + z * slopeZ + 100;
 }

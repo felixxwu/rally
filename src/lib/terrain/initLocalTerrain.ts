@@ -12,7 +12,7 @@ export function initLocalTerrain() {
       const pos = getCarPos();
       if (localTerrainMesh.current) scene.current?.remove(localTerrainMesh.current);
       localTerrainMesh.current = createLocalTerrainMesh(pos);
-      scene.current?.add(localTerrainMesh.current);
+      if (localTerrainMesh.current) scene.current?.add(localTerrainMesh.current);
     },
   ]);
 }

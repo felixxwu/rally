@@ -2,11 +2,11 @@ import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
 import {
-  terrainDepth,
-  terrainDepthExtents,
+  mapHeightSegments,
+  mapHeight,
   terrainMinHeight,
-  terrainWidth,
-  terrainWidthExtents,
+  mapWidthSegments,
+  mapWidth,
 } from '../../refs';
 import { getSeededHeight } from './getSeededHeight';
 
@@ -24,14 +24,14 @@ export function createTerrainShape(heightData: Float32Array) {
   const flipQuadEdges = false;
 
   // Creates height data buffer in Ammo heap
-  const ammoHeightData = Ammo._malloc(4 * terrainWidth * terrainDepth);
+  const ammoHeightData = Ammo._malloc(4 * mapWidthSegments * mapHeightSegments);
 
   // Copy the javascript height data array to the Ammo one.
   let p = 0;
   let p2 = 0;
 
-  for (let j = 0; j < terrainDepth; j++) {
-    for (let i = 0; i < terrainWidth; i++) {
+  for (let j = 0; j < mapHeightSegments; j++) {
+    for (let i = 0; i < mapWidthSegments; i++) {
       // write 32-bit float data to memory
 
       Ammo.HEAPF32[((ammoHeightData ?? 0) + p2) >> 2] = heightData[p] ?? 0;
@@ -45,8 +45,8 @@ export function createTerrainShape(heightData: Float32Array) {
 
   // Creates the heightfield physics shape
   const heightFieldShape = new Ammo.btHeightfieldTerrainShape(
-    terrainWidth,
-    terrainDepth,
+    mapWidthSegments,
+    mapHeightSegments,
     ammoHeightData,
     heightScale,
     terrainMinHeight,
@@ -57,8 +57,8 @@ export function createTerrainShape(heightData: Float32Array) {
   );
 
   // Set horizontal scale
-  const scaleX = terrainWidthExtents / (terrainWidth - 1);
-  const scaleZ = terrainDepthExtents / (terrainDepth - 1);
+  const scaleX = mapWidth / (mapWidthSegments - 1);
+  const scaleZ = mapHeight / (mapHeightSegments - 1);
   heightFieldShape.setLocalScaling(new Ammo.btVector3(scaleX, 1, scaleZ));
 
   heightFieldShape.setMargin(0.05);
