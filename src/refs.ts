@@ -10,7 +10,7 @@ import { Car } from './lib/carList';
 import { cooper } from './lib/carList/Cooper';
 
 // immediately start a game
-export const devMode = true;
+export const devMode = false;
 export const selectedCar = ref<Car>(cooper);
 
 export const caches: Ref<any>[] = [];
