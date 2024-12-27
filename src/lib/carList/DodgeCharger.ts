@@ -1,7 +1,7 @@
 import { Car } from '.';
 import { createXYMap } from '../utils/createXYMap';
 
-export const charger: Car = {
+export const DodgeCharger: Car = {
   name: 'Dodge Charger',
   glb: 'charger',
   width: 1.6,
@@ -13,7 +13,7 @@ export const charger: Car = {
   mass: 16.33,
   power: 295,
   steerPower: 2.7,
-  tireGrip: 0.5,
+  tireGrip: 0.45,
   brakePower: 400,
   brakeRearBias: 0.4,
   driveTrain: 'RWD',
@@ -23,7 +23,8 @@ export const charger: Car = {
   bodyRoll: 0.5,
   airResistance: 0.1,
   finalDrive: 300,
-  gears: [1, 0.5, 0.35, 0.25],
+  gears: [1, 0.5, 0.3, 0.23],
   torqueCurve: createXYMap([0, 0.5], [4000, 1], [5000, 1], [8000, 0]),
   redline: 7000,
+  shiftTime: 800,
 };

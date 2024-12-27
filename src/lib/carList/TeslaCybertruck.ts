@@ -1,8 +1,8 @@
 import { Car } from '.';
 import { createXYMap } from '../utils/createXYMap';
 
-export const cyber: Car = {
-  name: 'Tesla CyberTruck',
+export const TeslaCybertruck: Car = {
+  name: 'Tesla Cybertruck',
   glb: 'cyber',
   width: 1.75,
   height: 1.5,
@@ -26,4 +26,5 @@ export const cyber: Car = {
   gears: [1],
   torqueCurve: createXYMap([0, 1], [4000, 1], [7000, 0.5], [12000, 0.15]),
   redline: 12000,
+  shiftTime: 0,
 };

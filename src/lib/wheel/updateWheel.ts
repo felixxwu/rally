@@ -80,7 +80,7 @@ export function updateWheel(
   suspensionForces.current[front ? (left ? 0 : 1) : left ? 2 : 3] = suspensionForce.length();
   wheelSurfaces.current[front ? (left ? 0 : 1) : left ? 2 : 3] = surface;
 
-  if (i++ % 3 === 0) {
+  if (i++ % 1 === 0) {
     const now = window.performance.now();
     addSkidMark(
       compression,

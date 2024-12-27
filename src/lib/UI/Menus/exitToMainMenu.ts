@@ -4,6 +4,7 @@ import {
   carVisible,
   currentMenu,
   defaultTransitionTime,
+  gear,
   grassLeftMesh,
   grassRightMesh,
   heightData,
@@ -19,7 +20,7 @@ import {
   transitionTime,
 } from '../../../refs';
 import { defaultCamPos } from '../../camera/initCamera';
-import { platFormCarPos, resetCar, setCarPos } from '../../car/setCarPos';
+import { platFormCarPos, setCarPos } from '../../car/setCarPos';
 import { clearCaches } from '../../utils/clearCaches';
 import { vec3 } from '../../utils/createVec';
 import { getUserData } from '../../utils/userData';
@@ -58,6 +59,8 @@ export async function exitToMainMenu() {
   ammoHeightData.current = null;
 
   setCarPos(platFormCarPos, vec3([0, 0, 1]));
+  gear.current = 0;
+
   camera.current?.position.copy(defaultCamPos);
 
   clearCaches();

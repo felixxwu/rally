@@ -1,4 +1,3 @@
-import { currentMenu } from '../../../../refs';
 import { GeneralMenu } from '../../GeneralMenu';
 import { startStageSelection } from '../startStageSelection';
 
@@ -8,7 +7,7 @@ export function MainMenu() {
       onBack={() => {}}
       items={[
         {
-          label: 'Select Stage',
+          label: 'Custom Rally',
           onChoose() {
             startStageSelection();
           },

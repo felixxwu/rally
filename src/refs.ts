@@ -7,11 +7,11 @@ import { Ref, ref } from './lib/utils/ref';
 import { createXYMap } from './lib/utils/createXYMap';
 import { Vector } from './lib/road/createRoadShape';
 import { Car } from './lib/carList';
-import { cooper } from './lib/carList/Cooper';
+import { MiniCooper } from './lib/carList/MiniCooper';
 
 // immediately start a game
 export const devMode = false;
-export const selectedCar = ref<Car>(cooper);
+export const selectedCar = ref<Car>(MiniCooper);
 
 export const caches: Ref<any>[] = [];
 
@@ -116,6 +116,7 @@ export const car = ref<Mesh | null>(null);
 export const angularDamping = 0.998;
 export const powerModifier = 1.2; // scale all car power by this amount
 export const gear = ref(0);
+export const shifting = ref<null | { start: number; oldGear: number }>(null);
 
 // camera
 export const camFollowDistance = ref(5, 3, 30, 1);

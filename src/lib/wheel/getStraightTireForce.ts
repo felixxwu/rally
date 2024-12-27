@@ -1,12 +1,18 @@
 import { getCarDirection } from '../car/getCarDirection';
-import { gear, internalController, powerModifier, selectedCar, stageTimeStarted } from '../../refs';
+import {
+  gear,
+  internalController,
+  powerModifier,
+  selectedCar,
+  shifting,
+  stageTimeStarted,
+} from '../../refs';
 import { THREE } from '../utils/THREE';
 import { mult } from '../utils/multVec';
 import { wheelHasPower } from './wheelHasPower';
 import { getSpeedVec } from '../car/getSpeedVec';
 import { isReversing } from './isReversing';
 import { getRPM } from '../car/getRPM';
-import { intervalLog } from '../utils/intervalLog';
 
 export function getStraightTireForce(front: boolean) {
   const speed = getSpeedVec();
@@ -24,10 +30,9 @@ export function getStraightTireForce(front: boolean) {
   let engineForce = new THREE.Vector3();
   let brakeForce = new THREE.Vector3();
 
-  const wheelForce =
-    power * powerModifier * torqueCurve(getRPM()) * selectedCar.current.gears[gear.current];
-
-  intervalLog(50, wheelForce);
+  const wheelForce = shifting.current
+    ? 0
+    : power * powerModifier * torqueCurve(getRPM()) * selectedCar.current.gears[gear.current];
 
   if (reversing) {
     if (wheelHasPower(front)) {

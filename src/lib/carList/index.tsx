@@ -1,9 +1,9 @@
 import { selectedCar } from '../../refs';
 import { carCleanUp, initCar } from '../car/initCar';
 import { initWheel, wheelCleanUp } from '../wheel/initWheel';
-import { cooper } from './Cooper';
-import { charger } from './Charger';
-import { cyber } from './Cyber';
+import { MiniCooper } from './MiniCooper';
+import { DodgeCharger } from './DodgeCharger';
+import { TeslaCybertruck } from './TeslaCybertruck';
 import { XYMap } from '../utils/createXYMap';
 
 export type Car = {
@@ -31,6 +31,7 @@ export type Car = {
   gears: number[]; // power * powerModifier * torqueCurve@RPM * gears[number] = wheel power
   torqueCurve: XYMap; // multiplier for power (0-1)
   redline: number;
+  shiftTime: number; // ms
 };
 
 export async function selectCar(newCar: Car) {
@@ -44,7 +45,7 @@ export async function selectCar(newCar: Car) {
   initWheel(false, false);
 }
 
-export const allCars: Car[] = [cooper, charger, cyber];
+export const allCars: Car[] = [MiniCooper, DodgeCharger, TeslaCybertruck];
 
 export function nextCar() {
   const index = allCars.findIndex(car => car === selectedCar.current);

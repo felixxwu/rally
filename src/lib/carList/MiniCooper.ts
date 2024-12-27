@@ -1,8 +1,8 @@
 import { Car } from '.';
 import { createXYMap } from '../utils/createXYMap';
 
-export const cooper: Car = {
-  name: 'Austin Cooper',
+export const MiniCooper: Car = {
+  name: 'Mini Cooper',
   glb: 'cooper',
   width: 1.3,
   height: 1,
@@ -23,7 +23,8 @@ export const cooper: Car = {
   bodyRoll: 0.3,
   airResistance: 0.05,
   finalDrive: 300,
-  gears: [1, 0.5, 0.35, 0.25],
+  gears: [1, 0.55, 0.35, 0.25],
   torqueCurve: createXYMap([0, 0.5], [3000, 1], [6000, 1], [8000, 0]),
   redline: 7000,
+  shiftTime: 500,
 };

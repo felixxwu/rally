@@ -9,6 +9,7 @@ import { car } from '../../refs';
 import { getAmmoVector } from '../utils/vectorConversion';
 import { getAirResistanceForce } from './getAirResistanceForce';
 import { getMaxSteerTorque } from './getSteerTorque';
+import { shiftIfNeeded } from './shiftGear';
 
 export function updateCar() {
   if (!car.current) return;
@@ -32,4 +33,6 @@ export function updateCar() {
   }
 
   updatePhysics(car.current);
+
+  shiftIfNeeded();
 }

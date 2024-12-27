@@ -1,16 +1,15 @@
 import {
   camera,
   freeCam,
-  gear,
   keysDown,
   mobileJoystickPad,
   panelOpen,
   renderer,
   renderHelperArrows,
   renderHitCarBox,
-  selectedCar,
 } from '../refs';
 import { resetToLastProgress } from './road/resetIfFarFromRoad';
+import { shiftGear } from './car/shiftGear';
 
 export function initWindowListeners() {
   window.onresize = onWindowResize;
@@ -77,15 +76,11 @@ function onKeyDown(event: KeyboardEvent) {
   }
 
   if (event.key === '[') {
-    if (selectedCar.current.gears[gear.current - 1] !== undefined) {
-      gear.current--;
-    }
+    shiftGear('down');
   }
 
   if (event.key === ']') {
-    if (selectedCar.current.gears[gear.current + 1] !== undefined) {
-      gear.current++;
-    }
+    shiftGear('up');
   }
 }
 
