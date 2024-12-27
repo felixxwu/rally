@@ -1,6 +1,7 @@
 import { lightValues, mapWidth, onRender, scene, timeOfDay } from '../../refs';
 import { getCarPos } from '../car/getCarTransform';
 import { THREE } from '../utils/THREE';
+import { addOnRenderListener } from '../render/addOnRenderListener';
 
 const sunDistance = 10000;
 
@@ -28,13 +29,10 @@ export function initSun() {
   // const shadowCameraHelper = new THREE.CameraHelper(light.shadow.camera);
   // scene.current?.add(shadowCameraHelper);
 
-  onRender.current.push([
-    'sun',
-    () => {
-      const carPos = getCarPos();
-      targetObject.position.copy(carPos);
-    },
-  ]);
+  addOnRenderListener('sun', () => {
+    const carPos = getCarPos();
+    targetObject.position.copy(carPos);
+  });
 
   timeOfDay.listeners.push(() => {
     light.intensity = lightValues[timeOfDay.current].light;

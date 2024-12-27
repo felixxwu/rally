@@ -3,6 +3,7 @@ import { createCleanupFunction } from '../utils/createCleanupFunction';
 import { ref } from '../utils/ref';
 import { THREE } from '../utils/THREE';
 import { updateWheel } from './updateWheel';
+import { addOnRenderListener } from '../render/addOnRenderListener';
 
 export const wheelCleanUp = createCleanupFunction();
 
@@ -22,8 +23,8 @@ export function initWheel(front: boolean, left: boolean) {
   const handleRender = () => {
     updateWheel(wheelMesh, prevDistance, front, left);
   };
-  onRender.current.push(['wheel', handleRender]);
 
+  addOnRenderListener('wheel', handleRender, 'multi');
   wheelCleanUp.addCleanupFunction(() => {
     scene.current?.remove(wheelMesh);
     onRender.current = onRender.current.filter(f => f[1] !== handleRender);

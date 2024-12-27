@@ -15,24 +15,28 @@ caches.push(ammoVecCache);
 caches.push(threeVecCache);
 
 export function createRoadShape(triangles: Triangle[], color: string, roughness: number) {
-  const triangleMesh = new Ammo.btTriangleMesh();
+  // const triangleMesh = new Ammo.btTriangleMesh();
+  //
+  // for (const triangle of triangles) {
+  //   const p0 = getFromAmmoCache(triangle[0]);
+  //   const p1 = getFromAmmoCache(triangle[1]);
+  //   const p2 = getFromAmmoCache(triangle[2]);
+  //   try {
+  //     triangleMesh.addTriangle(p0, p1, p2);
+  //   } catch (e) {
+  //     console.log('Error adding triangle to mesh', e, triangle);
+  //   }
+  // }
 
-  for (const triangle of triangles) {
-    const p0 = getFromAmmoCache(triangle[0]);
-    const p1 = getFromAmmoCache(triangle[1]);
-    const p2 = getFromAmmoCache(triangle[2]);
-    triangleMesh.addTriangle(p0, p1, p2);
-  }
+  // const shape = new Ammo.btBvhTriangleMeshShape(triangleMesh, true);
 
-  const shape = new Ammo.btBvhTriangleMeshShape(triangleMesh, true);
-
-  const transform = new Ammo.btTransform();
-  transform.setIdentity();
-  transform.setOrigin(new Ammo.btVector3(0, 0, 0));
-  const motionState = new Ammo.btDefaultMotionState(transform);
-  const rigidBody = new Ammo.btRigidBody(
-    new Ammo.btRigidBodyConstructionInfo(0, motionState, shape, new Ammo.btVector3(0, 0, 0))
-  );
+  // const transform = new Ammo.btTransform();
+  // transform.setIdentity();
+  // transform.setOrigin(new Ammo.btVector3(0, 0, 0));
+  // const motionState = new Ammo.btDefaultMotionState(transform);
+  // const rigidBody = new Ammo.btRigidBody(
+  //   new Ammo.btRigidBodyConstructionInfo(0, motionState, shape, new Ammo.btVector3(0, 0, 0))
+  // );
 
   const geom = new THREE.BufferGeometry();
 
@@ -54,7 +58,7 @@ export function createRoadShape(triangles: Triangle[], color: string, roughness:
   mesh.castShadow = true;
   mesh.visible = false;
 
-  return { rigidBody, mesh };
+  return { mesh };
 }
 
 function getFromAmmoCache(vector: Vector) {

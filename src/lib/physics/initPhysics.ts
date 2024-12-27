@@ -6,11 +6,11 @@ import {
   collisionConfiguration,
   dispatcher,
   gravity,
-  onRender,
   physicsWorld,
   solver,
   transformAux1,
 } from '../../refs';
+import { addOnRenderListener } from '../render/addOnRenderListener';
 
 export function initPhysics() {
   // Physics configuration
@@ -28,10 +28,7 @@ export function initPhysics() {
 
   transformAux1.current = new Ammo.btTransform();
 
-  onRender.current.push([
-    'physics',
-    deltaTime => {
-      physicsWorld.current?.stepSimulation(deltaTime, 10, 1 / 120);
-    },
-  ]);
+  addOnRenderListener('physics', deltaTime => {
+    physicsWorld.current?.stepSimulation(deltaTime, 10, 1 / 120);
+  });
 }

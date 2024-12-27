@@ -10,6 +10,7 @@ import { platFormCarPos, setCarPos } from './setCarPos';
 import { vec3 } from '../utils/createVec';
 import { createCleanupFunction } from '../utils/createCleanupFunction';
 import { asyncGLTFLoader } from '../utils/asyncGLTFLoader';
+import { addOnRenderListener } from '../render/addOnRenderListener';
 
 export const carCleanUp = createCleanupFunction();
 
@@ -58,7 +59,7 @@ export async function initCar() {
 
   setCarPos(platFormCarPos, vec3([1, 0, 1]));
 
-  onRender.current.push(['updateCar', updateCar]);
+  addOnRenderListener('updateCar', updateCar);
 
   carCleanUp.addCleanupFunction(() => {
     physicsWorld.current?.removeRigidBody(body);

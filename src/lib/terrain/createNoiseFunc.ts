@@ -3,12 +3,16 @@ import { seed, scale, seedLevel } from '../../refs';
 import { ref } from '../utils/ref';
 
 const seedRef = ref(0);
+type NoiseFunc = (x: number, y: number) => number;
+const seedCache: { [key: number]: NoiseFunc } = {};
 
 // noise between 0 -1
 export function createNoiseFunc() {
+  if (seedCache[seed.current]) return seedCache[seed.current];
+
   seedRef.current = seed.current;
   const simplex = createNoise2D(() => {
-    var x = Math.sin(seedRef.current++) * 10000;
+    const x = Math.sin(seedRef.current++) * 10000;
     return x - Math.floor(x);
   });
 
@@ -17,5 +21,7 @@ export function createNoiseFunc() {
     (level > 1 ? noise(level / 2, x, z) : 0) +
     0.1;
 
-  return (x: number, y: number) => (Math.sin(noise(seedLevel.current, x, y)) + 1) / 2;
+  const noiseFunc = (x: number, y: number) => (Math.sin(noise(seedLevel.current, x, y)) + 1) / 2;
+  seedCache[seed.current] = noiseFunc;
+  return noiseFunc;
 }

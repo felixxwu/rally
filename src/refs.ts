@@ -16,8 +16,8 @@ export const selectedCar = ref<Car>(cooper);
 export const caches: Ref<any>[] = [];
 
 // Heightfield parameters
-export const mapWidth = 3000;
-export const mapHeight = 3000;
+export const mapWidth = 4000;
+export const mapHeight = 4000;
 export const scale = 0.04;
 export const mapWidthSegments = 100;
 export const mapHeightSegments = 100;
@@ -53,7 +53,7 @@ export const pointMoveDist = 3;
 export const horizontalRoadSmoothing = 50;
 export const verticalRoadSmoothing = 20;
 export const crossingDistance = 50;
-export const halfRoadWidth = 8;
+export const halfRoadWidth = 7;
 export const startRoadWidth = 20;
 export const startRoadLength = 30;
 export const grassWidth = 3;

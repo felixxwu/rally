@@ -1,14 +1,8 @@
-import {
-  currentMenu,
-  onRender,
-  progress,
-  stageTime,
-  stageTimeClock,
-  stageTimeStarted,
-} from '../../refs';
+import { currentMenu, progress, stageTime, stageTimeClock, stageTimeStarted } from '../../refs';
 import { createRoot } from 'react-dom/client';
 import { ReactUI } from './ReactUI';
 import { getProgressPercentage } from './HUD/Progress';
+import { addOnRenderListener } from '../render/addOnRenderListener';
 
 let i = 0;
 
@@ -25,13 +19,10 @@ export function initUI() {
     }
   });
 
-  onRender.current.push([
-    'stagetime',
-    () => {
-      if (stageTimeStarted.current && i % 2 === 0) {
-        stageTime.current = stageTimeClock.getElapsedTime();
-      }
-      i++;
-    },
-  ]);
+  addOnRenderListener('stagetime', () => {
+    if (stageTimeStarted.current && i % 2 === 0) {
+      stageTime.current = stageTimeClock.getElapsedTime();
+    }
+    i++;
+  });
 }

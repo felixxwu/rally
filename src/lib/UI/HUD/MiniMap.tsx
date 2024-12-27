@@ -1,17 +1,11 @@
 import styled from 'styled-components';
 import { useCustomRef } from '../../utils/useCustomRef';
-import {
-  countDownStarted,
-  onRender,
-  roadVecs,
-  stageTimeStarted,
-  mapHeight,
-  mapWidth,
-} from '../../../refs';
+import { countDownStarted, roadVecs, stageTimeStarted, mapHeight, mapWidth } from '../../../refs';
 import { useEffect, useState } from 'react';
 import { getCarMeshDirection } from '../../car/getCarDirection';
 import { getCarMeshPos } from '../../car/getCarTransform';
 import { THREE } from '../../utils/THREE';
+import { addOnRenderListener } from '../../render/addOnRenderListener';
 
 const mapSize = 150;
 
@@ -25,23 +19,20 @@ export function MiniMap() {
   const { carX, carZ, carRot } = carTransform ?? { carX: 0, carZ: 0, carRot: 0 };
 
   useEffect(() => {
-    onRender.current.push([
-      'minimap',
-      () => {
-        if (!stageTimeStarted.current && !countDownStarted.current) {
-          setCarTransform(null);
-          return;
-        }
-        const dir = getCarMeshDirection();
-        const carPos = getCarMeshPos();
-        const projected = dir.clone().projectOnPlane(new THREE.Vector3(0, 1, 0));
-        setCarTransform({
-          carX: carPos.x,
-          carZ: carPos.z,
-          carRot: Math.atan2(projected.x, projected.z),
-        });
-      },
-    ]);
+    addOnRenderListener('minimap', () => {
+      if (!stageTimeStarted.current && !countDownStarted.current) {
+        setCarTransform(null);
+        return;
+      }
+      const dir = getCarMeshDirection();
+      const carPos = getCarMeshPos();
+      const projected = dir.clone().projectOnPlane(new THREE.Vector3(0, 1, 0));
+      setCarTransform({
+        carX: carPos.x,
+        carZ: carPos.z,
+        carRot: Math.atan2(projected.x, projected.z),
+      });
+    });
   }, []);
 
   const tx = mapWidth / 2 - carX;

@@ -1,8 +1,9 @@
-import { camera, fov, freeCam, onRender, renderer } from '../../refs';
+import { camera, fov, freeCam, renderer } from '../../refs';
 import { updateCamera } from './updateCamera';
 import { THREE } from '../utils/THREE';
 import { OrbitControls } from '../jsm/OrbitControls';
 import { platFormCarPos } from '../car/setCarPos';
+import { addOnRenderListener } from '../render/addOnRenderListener';
 
 export const defaultCamPos = platFormCarPos.clone().add(new THREE.Vector3(5, 1, 0));
 
@@ -16,7 +17,7 @@ export function initCamera() {
 
   camera.current.position.copy(defaultCamPos);
 
-  onRender.current.push(['updateCamera', updateCamera]);
+  addOnRenderListener('updateCamera', updateCamera);
 
   const controls = new OrbitControls(camera.current!, renderer.current!.domElement);
   controls.enabled = freeCam.current;

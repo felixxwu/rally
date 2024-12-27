@@ -31,7 +31,7 @@ export async function createRoadPoints() {
 
   for (let i = 0; i < maxAttempts; i++) {
     if (roadVecs.current.length >= maxPoints) break;
-    if (i % 10 === 0) {
+    if (i % 20 === 0) {
       roadVecs.current = [...roadVecs.current];
       infoText.current = `Generating Road... ${Math.round((i / maxAttempts) * 100)}%`;
 
@@ -189,6 +189,11 @@ export async function createRoadPoints() {
     const intersection = ray(new THREE.Vector3(avgX, 1000, avgZ), new THREE.Vector3(0, -1, 0));
     const terrainHeight = intersection.point.y;
     blurredVecs.push([avgX, terrainHeight, avgZ] as Vector);
+
+    if (i % 20 === 0) {
+      infoText.current = `Smoothing road... ${Math.round((i / longestVec.length) * 100)}%`;
+      await new Promise(r => setTimeout(r));
+    }
   }
 
   const halfHeight = Math.floor(verticalRoadSmoothing / 2);

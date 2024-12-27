@@ -3,7 +3,6 @@ import {
   grassLeftMesh,
   grassRightMesh,
   infoText,
-  onRender,
   physicsWorld,
   roadColor,
   roadMesh,
@@ -16,6 +15,7 @@ import { createRoadPoints } from './createRoadPoints';
 import { resetIfFarFromRoad } from './resetIfFarFromRoad';
 import { setUserData } from '../utils/userData';
 import { useUpdateLocalRoad } from './useUpdateLocalRoad';
+import { addOnRenderListener } from '../render/addOnRenderListener';
 
 export async function initRoad() {
   await createRoadPoints();
@@ -28,17 +28,9 @@ export async function initRoad() {
     scene.current?.remove(temporaryMesh.current.road);
   }
 
-  const { rigidBody: roadRigidBody, mesh: fullRoadMesh } = createRoadShape(road, roadColor, 0.7);
-  const { rigidBody: grassLeftRigidBody, mesh: fullGrassLeftMesh } = createRoadShape(
-    grassLeft,
-    grassColor,
-    1
-  );
-  const { rigidBody: grassRightRigidBody, mesh: fullGrassRightMesh } = createRoadShape(
-    grassRight,
-    grassColor,
-    1
-  );
+  const { mesh: fullRoadMesh } = createRoadShape(road, roadColor, 0.7);
+  const { mesh: fullGrassLeftMesh } = createRoadShape(grassLeft, grassColor, 1);
+  const { mesh: fullGrassRightMesh } = createRoadShape(grassRight, grassColor, 1);
 
   scene.current?.add(fullRoadMesh);
   scene.current?.add(fullGrassLeftMesh);
@@ -48,18 +40,18 @@ export async function initRoad() {
   grassLeftMesh.current = fullGrassLeftMesh;
   grassRightMesh.current = fullGrassRightMesh;
 
-  setUserData(roadMesh.current, { physicsBody: roadRigidBody });
-  setUserData(grassLeftMesh.current, { physicsBody: grassLeftRigidBody });
-  setUserData(grassRightMesh.current, { physicsBody: grassRightRigidBody });
-
-  physicsWorld.current?.addRigidBody(roadRigidBody);
-  physicsWorld.current?.addRigidBody(grassLeftRigidBody);
-  physicsWorld.current?.addRigidBody(grassRightRigidBody);
+  // setUserData(roadMesh.current, { physicsBody: roadRigidBody });
+  // setUserData(grassLeftMesh.current, { physicsBody: grassLeftRigidBody });
+  // setUserData(grassRightMesh.current, { physicsBody: grassRightRigidBody });
+  //
+  // physicsWorld.current?.addRigidBody(roadRigidBody);
+  // physicsWorld.current?.addRigidBody(grassLeftRigidBody);
+  // physicsWorld.current?.addRigidBody(grassRightRigidBody);
 
   infoText.current = '';
 
-  onRender.current.push(['resetIfFarFromRoad', resetIfFarFromRoad]);
+  addOnRenderListener('resetIfFarFromRoad', resetIfFarFromRoad);
 
   const updateLocalRoad = useUpdateLocalRoad(road, grassLeft, grassRight);
-  onRender.current.push(['localRoad', updateLocalRoad]);
+  addOnRenderListener('localRoad', updateLocalRoad);
 }

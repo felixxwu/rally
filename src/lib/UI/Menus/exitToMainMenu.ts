@@ -26,9 +26,9 @@ import { getUserData } from '../../utils/userData';
 
 export async function exitToMainMenu() {
   physicsWorld.current?.removeRigidBody(getUserData(terrainMesh.current!).physicsBody);
-  physicsWorld.current?.removeRigidBody(getUserData(roadMesh.current!).physicsBody);
-  physicsWorld.current?.removeRigidBody(getUserData(grassLeftMesh.current!).physicsBody);
-  physicsWorld.current?.removeRigidBody(getUserData(grassRightMesh.current!).physicsBody);
+  // physicsWorld.current?.removeRigidBody(getUserData(roadMesh.current!).physicsBody);
+  // physicsWorld.current?.removeRigidBody(getUserData(grassLeftMesh.current!).physicsBody);
+  // physicsWorld.current?.removeRigidBody(getUserData(grassRightMesh.current!).physicsBody);
 
   scene.current?.remove(terrainMesh.current!);
   scene.current?.remove(roadMesh.current!);
