@@ -11,7 +11,7 @@ export const charger: Car = {
   wheelEndOffset: 0,
   mass: 16.33,
   power: 295,
-  steerPower: 550,
+  steerPower: 2.7,
   tireGrip: 0.5,
   brakePower: 400,
   brakeRearBias: 0.4,

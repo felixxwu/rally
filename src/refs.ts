@@ -10,7 +10,7 @@ import { Car } from './lib/carList';
 import { cooper } from './lib/carList/Cooper';
 
 // immediately start a game
-export const devMode = false;
+export const devMode = true;
 export const selectedCar = ref<Car>(cooper);
 
 export const caches: Ref<any>[] = [];
@@ -53,7 +53,7 @@ export const pointMoveDist = 3;
 export const horizontalRoadSmoothing = 50;
 export const verticalRoadSmoothing = 20;
 export const crossingDistance = 50;
-export const halfRoadWidth = 6;
+export const halfRoadWidth = 8;
 export const startRoadWidth = 20;
 export const startRoadLength = 30;
 export const grassWidth = 3;
@@ -92,6 +92,7 @@ export const reverseAngle = Math.PI * 0.8;
 // tires and suspension
 export const tireSnappiness = ref(100, 50, 200, 1);
 export const wheelCompression = ref([0, 0, 0, 0]);
+export const suspensionForces = ref([0, 0, 0, 0]);
 export const wheelSurfaces = ref<[Surface, Surface, Surface, Surface]>([
   'tarmac',
   'tarmac',

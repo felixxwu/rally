@@ -4,6 +4,7 @@ import {
   carVisible,
   reverseAngle,
   steerModMap,
+  suspensionForces,
   wheelCompression,
   wheelSurfaces,
 } from '../../refs';
@@ -76,6 +77,7 @@ export function updateWheel(
 
   // save compression to refs
   wheelCompression.current[front ? (left ? 0 : 1) : left ? 2 : 3] = compression;
+  suspensionForces.current[front ? (left ? 0 : 1) : left ? 2 : 3] = suspensionForce.length();
   wheelSurfaces.current[front ? (left ? 0 : 1) : left ? 2 : 3] = surface;
 
   if (i++ % 3 === 0) {

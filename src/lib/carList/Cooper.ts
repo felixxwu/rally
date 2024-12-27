@@ -11,7 +11,7 @@ export const cooper: Car = {
   wheelEndOffset: 0,
   mass: 6.52,
   power: 60,
-  steerPower: 160,
+  steerPower: 2,
   tireGrip: 0.6,
   brakePower: 200,
   brakeRearBias: 0.6,

@@ -11,7 +11,7 @@ export const cyber: Car = {
   wheelEndOffset: 0,
   mass: 30.2,
   power: 600,
-  steerPower: 1300,
+  steerPower: 3.2,
   tireGrip: 0.4,
   brakePower: 400,
   brakeRearBias: 0.4,
