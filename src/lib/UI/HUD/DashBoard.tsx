@@ -3,8 +3,18 @@ import { useEffect, useState } from 'react';
 import { addOnRenderListener } from '../../render/addOnRenderListener';
 import { getRPM } from '../../car/getRPM';
 import { useCustomRef } from '../../utils/useCustomRef';
-import { devMode, gear, selectedCar, shifting, sound, stageTimeStarted } from '../../../refs';
+import {
+  devMode,
+  gear,
+  internalController,
+  selectedCar,
+  shifting,
+  sound,
+  soundOff,
+  stageTimeStarted,
+} from '../../../refs';
 import { getSpeedVec } from '../../car/getSpeedVec';
+import { createXYMap } from '../../utils/createXYMap';
 
 const revCounterSize = 180;
 const revCounterThickness = 12;
@@ -22,12 +32,19 @@ export function DashBoard() {
     addOnRenderListener('dash', () => {
       let currentRpm = getRPM();
       if (currentRpm < 1000) {
-        currentRpm = 1000 + (currentRpm % 20);
+        currentRpm = 1000 + (currentRpm % 100);
       }
 
       setRpm(currentRpm);
 
-      sound.current.setPlaybackRate(currentRpm / 2000);
+      sound.current.setPlaybackRate(currentRpm / car.recordedRPM);
+      soundOff.current.setPlaybackRate(currentRpm / car.recordedRPM);
+
+      const engineOffSound = !!shifting.current || internalController.current.throttle === 0;
+
+      const volumeMap = createXYMap([0, 0.3], [car.redline, 0.5]);
+      sound.current.setVolume(engineOffSound ? 0 : volumeMap(currentRpm));
+      soundOff.current.setVolume(engineOffSound ? 0.5 : 0);
     });
   }, []);
 

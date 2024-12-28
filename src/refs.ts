@@ -126,6 +126,7 @@ export const fov = 90;
 export const carVisible = ref(false);
 export const listener = ref(new THREE.AudioListener());
 export const sound = ref(new THREE.Audio(listener.current));
+export const soundOff = ref(new THREE.Audio(listener.current));
 
 // sky
 export const carLightIntensity = 500;

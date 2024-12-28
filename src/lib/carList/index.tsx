@@ -10,6 +10,8 @@ export type Car = {
   name: string;
   glb: string;
   engineSound: string;
+  engineOffSound: string;
+  recordedRPM: number;
   width: number;
   height: number;
   length: number;

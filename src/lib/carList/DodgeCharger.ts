@@ -4,7 +4,9 @@ import { createXYMap } from '../utils/createXYMap';
 export const DodgeCharger: Car = {
   name: 'Dodge Charger',
   glb: 'DodgeCharger',
-  engineSound: 'clean funky drummer.wav',
+  engineSound: 'v8.wav',
+  engineOffSound: 'v8-off.wav',
+  recordedRPM: 4000,
   width: 1.6,
   height: 0.9,
   length: 3.7,
