@@ -9,7 +9,7 @@ export function setEngineSound() {
     sound.current.stop();
     sound.current.setBuffer(buffer);
     sound.current.setLoop(true);
-    sound.current.setPlaybackRate(1000 / car.recordedRPM);
+    sound.current.setPlaybackRate(car.idleRPM / car.recordedRPM);
     sound.current.play();
     sound.current.setVolume(0);
   });
@@ -17,7 +17,7 @@ export function setEngineSound() {
     soundOff.current.stop();
     soundOff.current.setBuffer(buffer);
     soundOff.current.setLoop(true);
-    soundOff.current.setPlaybackRate(1000 / car.recordedRPM);
+    soundOff.current.setPlaybackRate(car.idleRPM / car.recordedRPM);
     soundOff.current.play();
     soundOff.current.setVolume(car.engineVolume);
   });

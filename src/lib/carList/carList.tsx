@@ -13,14 +13,15 @@ export type Car = {
   engineOffSound: string;
   engineVolume: number;
   recordedRPM: number;
+  idleRPM: number;
   width: number;
   height: number;
   length: number;
   wheelRadius: number;
   wheelWidth: number;
   wheelEndOffset: number;
-  mass: number; // 10 = 1000kg
-  power: number;
+  mass: number; // kg
+  power: number; // hp
   steerPower: number;
   tireGrip: number;
   brakePower: number;

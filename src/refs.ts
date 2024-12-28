@@ -6,7 +6,7 @@ import { THREE } from './lib/utils/THREE';
 import { Ref, ref } from './lib/utils/ref';
 import { createXYMap } from './lib/utils/createXYMap';
 import { Vector } from './lib/road/createRoadShape';
-import { Car } from './lib/carList';
+import { Car } from './lib/carList/carList';
 import { MiniCooper } from './lib/carList/MiniCooper';
 
 // immediately start a game

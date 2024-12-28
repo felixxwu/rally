@@ -1,5 +1,5 @@
-import { Car } from '.';
 import { createXYMap } from '../utils/createXYMap';
+import { Car } from './carList';
 
 export const MiniCooper: Car = {
   name: 'Mini Cooper',
@@ -8,13 +8,14 @@ export const MiniCooper: Car = {
   engineOffSound: '1Li4-off.wav',
   engineVolume: 0.2,
   recordedRPM: 3000,
+  idleRPM: 1000,
   width: 1.3,
   height: 1,
   length: 2.7,
   wheelRadius: 0.28,
   wheelWidth: 0.2,
   wheelEndOffset: 0,
-  mass: 6.52,
+  mass: 652,
   power: 60,
   steerPower: 2,
   tireGrip: 0.6,

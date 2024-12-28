@@ -3,7 +3,7 @@ import { currentMenu, generatingTerrain, carSelected, selectedCar } from '../../
 import { startCountdown } from '../startCountdown';
 import { Info } from '../../HUD/Info';
 import { MiniMap } from '../../HUD/MiniMap';
-import { allCars, selectCar } from '../../../carList';
+import { allCars, selectCar } from '../../../carList/carList';
 import { GeneralMenu } from '../../GeneralMenu';
 import { useCustomRef } from '../../../utils/useCustomRef';
 import { startStageSelection } from '../startStageSelection';
@@ -35,7 +35,7 @@ export function CarSelect() {
       <Bottom>
         <InfoContainer>
           <div>Engine Power: {car.power} HP</div>
-          <div>Mass: {Math.round(car.mass * 100)} kg</div>
+          <div>Mass: {Math.round(car.mass)} kg</div>
           <div>Drivetrain: {car.driveTrain}</div>
         </InfoContainer>
         <GeneralMenu

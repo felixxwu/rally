@@ -1,5 +1,5 @@
-import { Car } from '.';
 import { createXYMap } from '../utils/createXYMap';
+import { Car } from './carList';
 
 export const TeslaCybertruck: Car = {
   name: 'Tesla Cybertruck',
@@ -8,18 +8,19 @@ export const TeslaCybertruck: Car = {
   engineOffSound: 'ev-off.wav',
   engineVolume: 0.2,
   recordedRPM: 4000,
+  idleRPM: 0,
   width: 1.75,
   height: 1.5,
   length: 4.6,
   wheelRadius: 0.44,
   wheelWidth: 0.28,
   wheelEndOffset: 0,
-  mass: 30.2,
+  mass: 3020,
   power: 600,
   steerPower: 3.2,
   tireGrip: 0.4,
   brakePower: 400,
-  brakeRearBias: 0.4,
+  brakeRearBias: 0.6,
   driveTrain: 'AWD',
   springLength: 1.1,
   springRate: 950,
@@ -28,7 +29,7 @@ export const TeslaCybertruck: Car = {
   airResistance: 0.2,
   finalDrive: 165,
   gears: [1],
-  torqueCurve: createXYMap([0, 1], [4000, 1], [7000, 0.4], [12000, 0.15]),
+  torqueCurve: createXYMap([0, 1], [4000, 1], [7000, 0.35], [12000, 0.15]),
   redline: 12000,
   shiftTime: 0,
 };

@@ -31,7 +31,7 @@ export async function initCar() {
   setBumpStop(shape, car.current, false, true);
   setBumpStop(shape, car.current, false, false);
 
-  const mass = selectedCar.current.mass;
+  const mass = selectedCar.current.mass / 100;
   const localInertia = new Ammo.btVector3(0, 1, 0);
   shape.calculateLocalInertia(mass, localInertia);
   const transform = new Ammo.btTransform();

@@ -1,5 +1,5 @@
-import { Car } from '.';
 import { createXYMap } from '../utils/createXYMap';
+import { Car } from './carList';
 
 export const DodgeCharger: Car = {
   name: 'Dodge Charger',
@@ -8,13 +8,14 @@ export const DodgeCharger: Car = {
   engineOffSound: 'v8-off.wav',
   engineVolume: 0.5,
   recordedRPM: 4000,
+  idleRPM: 1000,
   width: 1.6,
   height: 0.9,
   length: 3.7,
   wheelRadius: 0.33,
   wheelWidth: 0.3,
   wheelEndOffset: 0,
-  mass: 16.33,
+  mass: 1633,
   power: 295,
   steerPower: 2.7,
   tireGrip: 0.45,

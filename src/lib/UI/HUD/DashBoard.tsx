@@ -31,8 +31,8 @@ export function DashBoard() {
   useEffect(() => {
     addOnRenderListener('dash', () => {
       let currentRpm = getRPM();
-      if (currentRpm < 1000) {
-        currentRpm = 1000 + (currentRpm % 100);
+      if (currentRpm < car.idleRPM) {
+        currentRpm = car.idleRPM + (currentRpm % 100);
       }
 
       setRpm(currentRpm);
