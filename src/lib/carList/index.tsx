@@ -9,6 +9,7 @@ import { XYMap } from '../utils/createXYMap';
 export type Car = {
   name: string;
   glb: string;
+  engineSound: string;
   width: number;
   height: number;
   length: number;
@@ -47,12 +48,12 @@ export async function selectCar(newCar: Car) {
 
 export const allCars: Car[] = [MiniCooper, DodgeCharger, TeslaCybertruck];
 
-export function nextCar() {
+export async function nextCar() {
   const index = allCars.findIndex(car => car === selectedCar.current);
-  selectCar(allCars[(index + 1) % allCars.length]);
+  await selectCar(allCars[(index + 1) % allCars.length]);
 }
 
-export function prevCar() {
+export async function prevCar() {
   const index = allCars.findIndex(car => car === selectedCar.current);
-  selectCar(allCars[(index - 1 + allCars.length) % allCars.length]);
+  await selectCar(allCars[(index - 1 + allCars.length) % allCars.length]);
 }

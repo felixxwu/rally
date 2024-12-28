@@ -15,8 +15,8 @@ import { addOnRenderListener } from '../render/addOnRenderListener';
 export const carCleanUp = createCleanupFunction();
 
 export async function initCar() {
-  const gltf = await asyncGLTFLoader(`./cars/${selectedCar.current.glb}.glb`);
-  const texture = new THREE.TextureLoader().load(`./cars/${selectedCar.current.glb}.png`);
+  const gltf = await asyncGLTFLoader(`./cars/${selectedCar.current.glb}/model.glb`);
+  const texture = new THREE.TextureLoader().load(`./cars/${selectedCar.current.glb}/texture.png`);
   texture.flipY = false;
 
   car.current = new THREE.Mesh(

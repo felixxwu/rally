@@ -3,7 +3,8 @@ import { createXYMap } from '../utils/createXYMap';
 
 export const DodgeCharger: Car = {
   name: 'Dodge Charger',
-  glb: 'charger',
+  glb: 'DodgeCharger',
+  engineSound: 'clean funky drummer.wav',
   width: 1.6,
   height: 0.9,
   length: 3.7,

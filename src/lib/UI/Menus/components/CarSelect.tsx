@@ -7,9 +7,13 @@ import { allCars, selectCar } from '../../../carList';
 import { GeneralMenu } from '../../GeneralMenu';
 import { useCustomRef } from '../../../utils/useCustomRef';
 import { startStageSelection } from '../startStageSelection';
+import { setEngineSound } from '../../../car/initSound';
+import { useEffect } from 'react';
 
 export function CarSelect() {
   const handleStart = () => {
+    setEngineSound();
+
     if (generatingTerrain.current) {
       carSelected.current = true;
       currentMenu.current = 'hud';
@@ -19,6 +23,10 @@ export function CarSelect() {
   };
 
   const car = useCustomRef(selectedCar);
+
+  useEffect(() => {
+    setEngineSound();
+  }, []);
 
   return (
     <Container>
@@ -37,7 +45,10 @@ export function CarSelect() {
               cycleSet: allCars,
               cycleValueRef: selectedCar,
               labelFn: (cycleSet, index) => cycleSet[index].name,
-              onCycleChange: value => selectCar(value),
+              onCycleChange: async value => {
+                await selectCar(value);
+                setEngineSound();
+              },
             },
             {
               label: 'Start',

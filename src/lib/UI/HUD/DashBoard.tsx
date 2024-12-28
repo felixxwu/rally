@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { addOnRenderListener } from '../../render/addOnRenderListener';
 import { getRPM } from '../../car/getRPM';
 import { useCustomRef } from '../../utils/useCustomRef';
-import { devMode, gear, selectedCar, shifting, stageTimeStarted } from '../../../refs';
+import { devMode, gear, selectedCar, shifting, sound, stageTimeStarted } from '../../../refs';
 import { getSpeedVec } from '../../car/getSpeedVec';
 
 const revCounterSize = 180;
@@ -20,7 +20,14 @@ export function DashBoard() {
 
   useEffect(() => {
     addOnRenderListener('dash', () => {
-      setRpm(Math.max(1000, getRPM()));
+      let currentRpm = getRPM();
+      if (currentRpm < 1000) {
+        currentRpm = 1000 + (currentRpm % 20);
+      }
+
+      setRpm(currentRpm);
+
+      sound.current.setPlaybackRate(currentRpm / 2000);
     });
   }, []);
 

@@ -3,7 +3,8 @@ import { createXYMap } from '../utils/createXYMap';
 
 export const TeslaCybertruck: Car = {
   name: 'Tesla Cybertruck',
-  glb: 'cyber',
+  glb: 'TeslaCybertruck',
+  engineSound: 'clean funky drummer.wav',
   width: 1.75,
   height: 1.5,
   length: 4.6,

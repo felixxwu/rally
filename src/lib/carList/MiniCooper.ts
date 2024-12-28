@@ -3,7 +3,8 @@ import { createXYMap } from '../utils/createXYMap';
 
 export const MiniCooper: Car = {
   name: 'Mini Cooper',
-  glb: 'cooper',
+  glb: 'MiniCooper',
+  engineSound: 'blips.wav',
   width: 1.3,
   height: 1,
   length: 2.7,

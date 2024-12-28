@@ -1,4 +1,4 @@
-import { camera, fov, freeCam, renderer } from '../../refs';
+import { camera, fov, freeCam, listener, renderer } from '../../refs';
 import { updateCamera } from './updateCamera';
 import { THREE } from '../utils/THREE';
 import { OrbitControls } from '../jsm/OrbitControls';
@@ -25,4 +25,6 @@ export function initCamera() {
   freeCam.listeners.push(value => {
     controls.enabled = value;
   });
+
+  camera.current?.add(listener.current);
 }
