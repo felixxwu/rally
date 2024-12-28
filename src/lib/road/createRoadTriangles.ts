@@ -1,5 +1,5 @@
 import {
-  bankingAngleStart,
+  bankingAngle,
   grassWidth,
   halfRoadWidth,
   infoText,
@@ -59,17 +59,17 @@ export async function createRoadTriangles(skipGrass?: boolean) {
     }
 
     if (!skipGrass) {
-      if (i % 20 === 0) {
+      if (i % 100 === 0) {
         infoText.current = `Creating Road Mesh... ${Math.round((i / vecs.length) * 100)}%`;
         await new Promise(r => setTimeout(r));
       }
 
-      const leftBanking = getBankingPoint(vecs, i, leftGrass, -bankingAngleStart);
-      const prevLeftBanking = getBankingPoint(vecs, i - 1, prevLeftGrass, -bankingAngleStart);
-      const nextLeftBanking = getBankingPoint(vecs, i + 1, nextLeftGrass, -bankingAngleStart);
-      const rightBanking = getBankingPoint(vecs, i, rightGrass, bankingAngleStart);
-      const prevRightBanking = getBankingPoint(vecs, i - 1, prevRightGrass, bankingAngleStart);
-      const nextRightBanking = getBankingPoint(vecs, i + 1, nextRightGrass, bankingAngleStart);
+      const leftBanking = getBankingPoint(vecs, i, leftGrass, -bankingAngle);
+      const prevLeftBanking = getBankingPoint(vecs, i - 1, prevLeftGrass, -bankingAngle);
+      const nextLeftBanking = getBankingPoint(vecs, i + 1, nextLeftGrass, -bankingAngle);
+      const rightBanking = getBankingPoint(vecs, i, rightGrass, bankingAngle);
+      const prevRightBanking = getBankingPoint(vecs, i - 1, prevRightGrass, bankingAngle);
+      const nextRightBanking = getBankingPoint(vecs, i + 1, nextRightGrass, bankingAngle);
 
       if (leftHandedTriangle) {
         grassLeft.push({

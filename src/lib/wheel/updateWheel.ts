@@ -41,7 +41,6 @@ export function updateWheel(
     totalClampedTireForce,
     surface,
     wheelmeshBottomPos,
-    totalTireForceBeforeClamp,
     sideTireForce,
     straightTireForce,
   } = getTotalTireForce(prevDistance, front, left);
@@ -97,11 +96,11 @@ export function updateWheel(
 
   // helper arrows
   helperArrow(mult(suspensionForce, 0.02), wheelMeshPos, 0xffff00, `suspension${front}${left}`);
-  helperArrow(
-    mult(totalTireForceBeforeClamp, 0.02),
-    wheelMeshPos,
-    0x000000,
-    `straight${front}${left}`
-  );
+  // helperArrow(
+  //   mult(totalTireForceBeforeClamp, 0.02),
+  //   wheelMeshPos,
+  //   0x000000,
+  //   `straight${front}${left}`
+  // );
   helperArrow(mult(totalClampedTireForce, 0.02), wheelMeshPos, 0xff0000, `clamp${front}${left}`);
 }

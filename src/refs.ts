@@ -15,14 +15,14 @@ export const selectedCar = ref<Car>(MiniCooper);
 
 export const caches: Ref<any>[] = [];
 
-// Heightfield parameters
+// Height field parameters
 export const mapWidth = 4000;
 export const mapHeight = 4000;
 export const scale = 0.04;
 export const mapWidthSegments = 100;
 export const mapHeightSegments = 100;
 export const terrainMaxHeight = 80;
-export const terrainHeightExponent = 1.25; // higher = bias towards lower heights
+export const terrainHeightExponent = 1.3; // higher = bias towards lower heights
 export const terrainMinHeight = 0;
 export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
@@ -45,9 +45,10 @@ export const maxTerrainSlopeZ = 6;
 export let temporaryMesh = ref<{ road: THREE.Mesh } | null>(null);
 
 // Road generation
-export const maxPoints = devMode ? 1000 : 4000;
+export const maxPoints = 4000;
 export const maxAttempts = 7000;
-export const maxAngle = 0.04;
+export const maxAngle = 0.05;
+export const maxIncline = 0.5;
 export const nearbyDistance = 200;
 export const pointMoveDist = 3;
 export const horizontalRoadSmoothing = 50;
@@ -58,8 +59,7 @@ export const startRoadWidth = 20;
 export const startRoadLength = 30;
 export const grassWidth = 3;
 export const maxBankingLength = 80;
-export const bankingAngleStart = 0.5;
-export const bankingAngleStep = 0.05;
+export const bankingAngle = 0.5;
 export const roadVecs = ref<Vector[]>([]);
 export const resetDistance = 40;
 export const progress = ref(0);

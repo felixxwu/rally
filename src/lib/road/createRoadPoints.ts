@@ -12,14 +12,14 @@ import {
   mapHeight,
   mapWidth,
   infoText,
+  maxIncline,
 } from '../../refs';
-import { add } from '../utils/addVec';
 import { getSpawn } from '../utils/getSpawn';
-import { ray } from '../utils/ray';
 import { THREE } from '../utils/THREE';
 import { Vector } from './createRoadShape';
 import { vec3 } from '../utils/createVec';
 import { getHeightAt } from '../terrain/generateHeight';
+import { getExactSquare, intersectWithSquare } from '../terrain/getLocalSquares';
 
 export async function createRoadPoints() {
   const spawn = getSpawn();
@@ -31,15 +31,18 @@ export async function createRoadPoints() {
 
   for (let i = 0; i < maxAttempts; i++) {
     if (roadVecs.current.length >= maxPoints) break;
-    if (i % 20 === 0) {
+    if (i % 100 === 0) {
       roadVecs.current = [...roadVecs.current];
       infoText.current = `Generating Road... ${Math.round((i / maxAttempts) * 100)}%`;
 
       await new Promise(r => setTimeout(r));
     }
     const intersectionPoint = vec3([point.x, getHeightAt(point.x, point.y), point.y]);
-    const newPoint = add(intersectionPoint, [0, 1, 0]);
-    roadVecs.current.push([newPoint.x, newPoint.y, newPoint.z] as Vector);
+    roadVecs.current.push([
+      intersectionPoint.x,
+      intersectionPoint.y,
+      intersectionPoint.z,
+    ] as Vector);
 
     const leftDir = point
       .clone()
@@ -169,14 +172,12 @@ export async function createRoadPoints() {
     point.add(roadDir.clone().multiplyScalar(pointMoveDist));
   }
 
-  await new Promise(r => setTimeout(r));
-
   const longestVec = longestVecs.reduce(
     (acc, v) => (v.length > acc.length ? v : acc),
     roadVecs.current
   );
 
-  // blurr vec heights
+  // blur vec heights
   const blurredVecs: Vector[] = [];
   const half = Math.floor(horizontalRoadSmoothing / 2);
   for (let i = 0; i < longestVec.length; i++) {
@@ -186,13 +187,23 @@ export async function createRoadPoints() {
     );
     const avgX = neighbors.reduce((acc, n) => acc + n[0], 0) / neighbors.length;
     const avgZ = neighbors.reduce((acc, n) => acc + n[2], 0) / neighbors.length;
-    const intersection = ray(new THREE.Vector3(avgX, 1000, avgZ), new THREE.Vector3(0, -1, 0));
-    const terrainHeight = intersection.point.y;
-    blurredVecs.push([avgX, terrainHeight, avgZ] as Vector);
 
-    if (i % 20 === 0) {
+    const point = vec3([avgX, 0, avgZ]);
+    const square = getExactSquare(point);
+    const intersection = intersectWithSquare(point, square);
+    blurredVecs.push([avgX, intersection?.y ?? 0, avgZ] as Vector);
+
+    if (i % 100 === 0) {
       infoText.current = `Smoothing road... ${Math.round((i / longestVec.length) * 100)}%`;
       await new Promise(r => setTimeout(r));
+    }
+  }
+
+  // smooth out sharp inclines
+  for (let i = blurredVecs.length - 1; i > 1; i--) {
+    const diff = blurredVecs[i - 1][1] - blurredVecs[i][1];
+    if (diff < -maxIncline) {
+      blurredVecs[i - 1][1] = blurredVecs[i][1] - maxIncline;
     }
   }
 

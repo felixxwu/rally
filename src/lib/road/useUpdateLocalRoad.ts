@@ -27,7 +27,7 @@ export function useUpdateLocalRoad(
     let roadVecPos = roadVecs.current[0];
     let roadVecDistance = Infinity;
     let carProgressPos = progress.current;
-    for (let i = progress.current; i > 0; i--) {
+    for (let i = progress.current + 200; i > 0; i--) {
       const roadVec = roadVecs.current[i];
       if (!roadVec) continue;
       const distance = vec3(roadVec).distanceTo(pos);
@@ -37,7 +37,7 @@ export function useUpdateLocalRoad(
         carProgressPos = i;
       }
     }
-    helperArrowFromTo(pos, vec3(roadVecPos), 0x00ff00, 'localRoadCarPos');
+    helperArrowFromTo(pos, vec3(roadVecPos), 0xff00ff, 'localRoadCarPos');
     const localRoadFilter = (t: Triangle) => {
       if (carProgressPos < localRoadLength) return t.progress < localRoadLength * 2;
       return (
@@ -76,13 +76,13 @@ export function useUpdateLocalRoad(
     helperArrowFromTo(
       localRoadStart,
       localRoadStart.clone().add(vec3([0, 5, 0])),
-      0x00ff00,
+      0xff00ff,
       'localRoadStart'
     );
     helperArrowFromTo(
       localRoadEnd,
       localRoadEnd.clone().add(vec3([0, 5, 0])),
-      0x00ff00,
+      0xff00ff,
       'localRoadEnd'
     );
   };
