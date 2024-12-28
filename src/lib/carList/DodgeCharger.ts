@@ -6,6 +6,7 @@ export const DodgeCharger: Car = {
   glb: 'DodgeCharger',
   engineSound: 'v8.wav',
   engineOffSound: 'v8-off.wav',
+  engineVolume: 0.5,
   recordedRPM: 4000,
   width: 1.6,
   height: 0.9,

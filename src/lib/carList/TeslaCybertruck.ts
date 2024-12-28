@@ -4,8 +4,9 @@ import { createXYMap } from '../utils/createXYMap';
 export const TeslaCybertruck: Car = {
   name: 'Tesla Cybertruck',
   glb: 'TeslaCybertruck',
-  engineSound: 'v8.wav',
-  engineOffSound: 'v8-off.wav',
+  engineSound: 'ev.wav',
+  engineOffSound: 'ev-off.wav',
+  engineVolume: 0.2,
   recordedRPM: 4000,
   width: 1.75,
   height: 1.5,
@@ -25,9 +26,9 @@ export const TeslaCybertruck: Car = {
   springDamping: 7000,
   bodyRoll: 1,
   airResistance: 0.2,
-  finalDrive: 170,
+  finalDrive: 165,
   gears: [1],
-  torqueCurve: createXYMap([0, 1], [4000, 1], [7000, 0.5], [12000, 0.15]),
+  torqueCurve: createXYMap([0, 1], [4000, 1], [7000, 0.4], [12000, 0.15]),
   redline: 12000,
   shiftTime: 0,
 };

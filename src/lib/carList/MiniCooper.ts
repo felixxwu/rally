@@ -4,9 +4,10 @@ import { createXYMap } from '../utils/createXYMap';
 export const MiniCooper: Car = {
   name: 'Mini Cooper',
   glb: 'MiniCooper',
-  engineSound: 'v8.wav',
-  engineOffSound: 'v8-off.wav',
-  recordedRPM: 4000,
+  engineSound: '1Li4.wav',
+  engineOffSound: '1Li4-off.wav',
+  engineVolume: 0.2,
+  recordedRPM: 3000,
   width: 1.3,
   height: 1,
   length: 2.7,
@@ -27,7 +28,7 @@ export const MiniCooper: Car = {
   airResistance: 0.05,
   finalDrive: 300,
   gears: [1, 0.55, 0.35, 0.25],
-  torqueCurve: createXYMap([0, 0.5], [3000, 1], [6000, 1], [8000, 0]),
-  redline: 7000,
+  torqueCurve: createXYMap([0, 0.5], [3000, 1], [5000, 1], [7000, 0]),
+  redline: 6000,
   shiftTime: 500,
 };

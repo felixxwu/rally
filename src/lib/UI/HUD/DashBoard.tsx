@@ -42,9 +42,9 @@ export function DashBoard() {
 
       const engineOffSound = !!shifting.current || internalController.current.throttle === 0;
 
-      const volumeMap = createXYMap([0, 0.3], [car.redline, 0.5]);
+      const volumeMap = createXYMap([0, car.engineVolume / 2], [car.redline, car.engineVolume]);
       sound.current.setVolume(engineOffSound ? 0 : volumeMap(currentRpm));
-      soundOff.current.setVolume(engineOffSound ? 0.5 : 0);
+      soundOff.current.setVolume(engineOffSound ? car.engineVolume : 0);
     });
   }, []);
 
