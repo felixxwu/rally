@@ -1,22 +1,49 @@
 import styled from 'styled-components';
 import { useCustomRef } from '../../utils/useCustomRef';
-import { progress, roadVecs, stageTime, stageTimeStarted, startRoadLength } from '../../../refs';
+import {
+  infoText,
+  progress,
+  roadVecs,
+  stageTime,
+  stageTimeStarted,
+  startRoadLength,
+} from '../../../refs';
 import { useState } from 'react';
 import { padStart } from '../../utils/padStart';
 
 export function Progress() {
   const [timerText, setTimerText] = useState('');
+  const [split, setSplit] = useState(0);
+
+  const splitPositions = [25, 50, 75];
 
   const timerStarted = useCustomRef(stageTimeStarted);
 
   useCustomRef(stageTime, value => {
-    setTimerText(getTimerText(value));
+    const time = getTimerText(value);
+    setTimerText(time);
+
+    if (splitPositions[split] < getProgressPercentage()) {
+      setSplit(split + 1);
+      const text = `Split: ${time}`;
+      infoText.current = text;
+      setTimeout(() => {
+        if (infoText.current === text) {
+          infoText.current = '';
+        }
+      }, 5000);
+    }
   });
 
   if (!timerStarted) return null;
 
   return (
     <Container>
+      <Split style={{ bottom: `0%` }} />
+      <Split style={{ bottom: `25%` }} />
+      <Split style={{ bottom: `50%` }} />
+      <Split style={{ bottom: `75%` }} />
+      <Split style={{ bottom: `100%` }} />
       <Timer style={{ bottom: `${getProgressPercentage()}%` }}>{timerText}</Timer>
       <Bar style={{ height: `${getProgressPercentage()}%` }} />
     </Container>
@@ -68,4 +95,12 @@ const Bar = styled('div')`
   width: 100%;
   background-color: white;
   box-sizing: border-box;
+`;
+
+const Split = styled('div')`
+  position: absolute;
+  height: 2px;
+  width: 20px;
+  left: -5px;
+  background-color: white;
 `;

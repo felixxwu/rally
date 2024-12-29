@@ -30,10 +30,13 @@ export function resetIfFarFromRoad() {
 
   const furthestVec = vec3(vecs[progress.current] ?? [0, 0, 0]);
   const distFromFurthest = furthestVec.clone().sub(carPos).length();
+  const text = 'Press (R) to reset to track';
   if (distFromFurthest > resetDistance) {
-    infoText.current = 'Press (R) to reset to track';
+    infoText.current = text;
   } else {
-    infoText.current = '';
+    if (infoText.current === text) {
+      infoText.current = '';
+    }
   }
 }
 

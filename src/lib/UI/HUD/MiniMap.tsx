@@ -38,7 +38,7 @@ export function MiniMap() {
   const tx = mapWidth / 2 - carX;
   const ty = mapHeight / 2 - carZ;
   const rot = carRot + Math.PI;
-  const scale = carTransform ? 5 : 1;
+  const scale = carTransform ? 6 : 1;
 
   return (
     <Container>
@@ -52,7 +52,7 @@ export function MiniMap() {
         />
         {carTransform && (
           <CarTriangle
-            points='0,-100 -100,100 100,100'
+            points='0,-200 -200,200 200,200'
             transform={`translate(${mapWidth / 2}, ${mapHeight / 2})`}
           />
         )}
@@ -86,5 +86,5 @@ const Path = styled('path')`
 const CarTriangle = styled('polygon')`
   fill: white;
   stroke: #aaa;
-  stroke-width: 20;
+  stroke-width: 40;
 `;

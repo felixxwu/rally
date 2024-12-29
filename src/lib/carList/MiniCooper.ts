@@ -25,7 +25,7 @@ export const MiniCooper: Car = {
   springLength: 0.9,
   springRate: 200,
   springDamping: 2000,
-  bodyRoll: 0.3,
+  bodyRoll: 0.7,
   airResistance: 0.05,
   finalDrive: 250,
   gears: [1, 0.65, 0.45, 0.3],

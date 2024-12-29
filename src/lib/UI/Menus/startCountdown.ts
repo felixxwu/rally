@@ -35,11 +35,14 @@ export async function startCountdown() {
     infoText.current = '1';
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
-  infoText.current = 'GO!';
+  const text = 'GO!';
+  infoText.current = text;
   stageTimeStarted.current = true;
   countDownStarted.current = false;
   stageTimeClock.start();
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  infoText.current = '';
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  if (infoText.current === text) {
+    infoText.current = '';
+  }
   carSelected.current = false;
 }

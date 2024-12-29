@@ -25,7 +25,7 @@ export const DodgeCharger: Car = {
   springLength: 1.1,
   springRate: 350,
   springDamping: 5000,
-  bodyRoll: 0.5,
+  bodyRoll: 0.9,
   airResistance: 0.1,
   finalDrive: 300,
   gears: [1, 0.5, 0.3, 0.23],
