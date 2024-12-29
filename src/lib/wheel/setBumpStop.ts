@@ -1,6 +1,5 @@
 import AmmoType from 'ammojs-typed';
 import { renderHitCarBox, selectedCar } from '../../refs';
-import { raycasterOffset } from '../../refs';
 import { Mesh } from '../../types';
 import { THREE } from '../utils/THREE';
 import { createObjectMaterial } from '../car/initCar';
@@ -14,11 +13,7 @@ export function setBumpStop(
 ) {
   const { width, length, wheelEndOffset } = selectedCar.current;
 
-  const pos = [
-    width * (left ? 0.5 : -0.5),
-    raycasterOffset,
-    (length / 2 - wheelEndOffset) * (front ? -1 : 1),
-  ];
+  const pos = [width * (left ? 0.5 : -0.5), 0, (length / 2 - wheelEndOffset) * (front ? -1 : 1)];
 
   const wheelTransform = new Ammo.btTransform();
   wheelTransform.setOrigin(new Ammo.btVector3(pos[0], pos[1], pos[2]));

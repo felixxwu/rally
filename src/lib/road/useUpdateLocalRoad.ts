@@ -12,7 +12,7 @@ import { vec3 } from '../utils/createVec';
 import { helperArrowFromTo } from '../helperArrows/helperArrow';
 
 let i = 0;
-const localRoadLength = 30;
+const localRoadLength = 25;
 
 export function useUpdateLocalRoad(
   road: Triangle[],
@@ -41,8 +41,8 @@ export function useUpdateLocalRoad(
     const localRoadFilter = (t: Triangle) => {
       if (carProgressPos < localRoadLength) return t.progress < localRoadLength * 2;
       return (
-        t.progress > carProgressPos - localRoadLength / 2 &&
-        t.progress < carProgressPos + localRoadLength / 2
+        t.progress > carProgressPos - localRoadLength * 0.4 &&
+        t.progress < carProgressPos + localRoadLength * 0.6
       );
     };
     const localRoadTriangles = road.filter(localRoadFilter);

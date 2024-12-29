@@ -8,10 +8,10 @@ export function createLocalTerrainMesh(pos: THREE.Vector3) {
   if (localSquares.length === 0) return null;
 
   const geometry = new THREE.PlaneGeometry(
-    (mapWidth / (mapWidthSegments - 1)) * 3,
-    (mapHeight / (mapHeightSegments - 1)) * 3,
-    3,
-    3
+    (mapWidth / (mapWidthSegments - 1)) * 2,
+    (mapHeight / (mapHeightSegments - 1)) * 2,
+    2,
+    2
   );
   geometry.rotateX(-Math.PI / 2);
 
@@ -32,9 +32,9 @@ export function createLocalTerrainMesh(pos: THREE.Vector3) {
   const terrainMesh = new THREE.Mesh(geometry, groundMaterial);
 
   terrainMesh.position.set(
-    localSquares[0].x + (mapWidth / (mapWidthSegments - 1)) * 1.5,
+    localSquares[0].x + mapWidth / (mapWidthSegments - 1),
     0,
-    localSquares[0].z + (mapHeight / (mapHeightSegments - 1)) * 1.5
+    localSquares[0].z + mapHeight / (mapHeightSegments - 1)
   );
 
   terrainMesh.visible = false;

@@ -13,6 +13,7 @@ import { wheelHasPower } from './wheelHasPower';
 import { getSpeedVec } from '../car/getSpeedVec';
 import { isReversing } from './isReversing';
 import { getRPM } from '../car/getRPM';
+import { createXYMap } from '../utils/createXYMap';
 
 export function getStraightTireForce(front: boolean) {
   const speed = getSpeedVec();
@@ -51,11 +52,14 @@ export function getStraightTireForce(front: boolean) {
     brakeForce.setLength(0);
   }
 
-  if (!front && speed.length() > 2) {
-    brakeForce.add(
-      mult(speed.clone().normalize(), -10000 * (handeBrake + (stageTimeStarted.current ? 0 : 1)))
-    );
-  }
+  const speedXYMap = createXYMap([1, 0], [2, 1]);
+  brakeForce.add(
+    mult(
+      speed.clone().normalize(),
+      -10000 * (handeBrake + (stageTimeStarted.current ? 0 : 1)) * speedXYMap(speed.length())
+    )
+  );
+
   if (selectedCar.current.driveTrain === 'AWD') {
     engineForce.multiplyScalar(0.5);
   }

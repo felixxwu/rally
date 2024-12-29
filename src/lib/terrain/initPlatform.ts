@@ -31,5 +31,5 @@ export function initPlatform() {
     new Ammo.btRigidBodyConstructionInfo(groundMass, groundMotionState, shape, groundLocalInertia)
   );
 
-  physicsWorld.current?.addRigidBody(rigidBody);
+  // physicsWorld.current?.addRigidBody(rigidBody);
 }

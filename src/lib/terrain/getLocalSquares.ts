@@ -9,7 +9,9 @@ export function getLocalSquares(pos: THREE.Vector3) {
 
   const indexX = Math.floor((pos.x / mapWidth + 0.5) * (mapWidthSegments - 1));
   const indexZ = Math.floor((pos.z / mapHeight + 0.5) * (mapHeightSegments - 1));
-  const corners = getLocalSquareCorners(indexX, indexZ);
+  const xBias = ((pos.x / mapWidth + 0.5) * (mapWidthSegments - 1)) % 1;
+  const zBias = ((pos.z / mapHeight + 0.5) * (mapHeightSegments - 1)) % 1;
+  const corners = getLocalSquareCorners(indexX, indexZ, xBias, zBias);
   for (let i = 0; i < corners.length; i++) {
     const corner = corners[i];
     helperArrowFromTo(corner.clone().add(vec3([0, 5, 0])), corner, 0xff00ff, 'squareIndex' + i);

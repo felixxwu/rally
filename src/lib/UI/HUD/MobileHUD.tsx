@@ -1,20 +1,22 @@
 import styled from 'styled-components';
-import { internalController, onRender } from '../../../refs';
+import { internalController } from '../../../refs';
 import { useEffect, useState } from 'react';
 import { addOnRenderListener } from '../../render/addOnRenderListener';
 
 const joystickPadSize = 200;
+let i = 0;
 
 export function MobileHUD() {
   const [controller, setController] = useState({ x: 0.5, y: 0.5 });
 
   useEffect(() => {
-    addOnRenderListener('mobile joystick', () =>
+    addOnRenderListener('mobile joystick', () => {
+      if (i++ % 5 === 0) return;
       setController({
         x: internalController.current.steer / 2 + 0.5,
         y: internalController.current.throttle / -2 + 0.5 + internalController.current.brake / 2,
-      })
-    );
+      });
+    });
   }, []);
 
   return (

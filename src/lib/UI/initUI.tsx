@@ -20,9 +20,8 @@ export function initUI() {
   });
 
   addOnRenderListener('stagetime', () => {
-    if (stageTimeStarted.current && i % 2 === 0) {
+    if (stageTimeStarted.current && i++ % 5 === 0) {
       stageTime.current = stageTimeClock.getElapsedTime();
     }
-    i++;
   });
 }
