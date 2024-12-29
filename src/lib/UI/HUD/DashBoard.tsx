@@ -89,7 +89,7 @@ const Container = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translateY(-20px);
+  transform: translateY(20px);
 `;
 
 const Gear = styled('div')`

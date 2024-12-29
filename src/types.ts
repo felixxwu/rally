@@ -2,8 +2,12 @@ import { THREE } from './lib/utils/THREE';
 
 export type Mesh = THREE.Mesh<THREE.BufferGeometry, THREE.Material, THREE.Object3DEventMap>;
 
-export type TimeOfDay = 'Day' | 'Sunset' | 'Night';
-export const timeOfDayOptions = ['Day', 'Sunset', 'Night'] as TimeOfDay[];
+export type TimeOfDay = { time: 'Day' | 'Sunset' | 'Night'; fogColor: number };
+export const timeOfDayOptions = [
+  { time: 'Day', fogColor: 0xaaaaaa },
+  { time: 'Sunset', fogColor: 0x222222 },
+  { time: 'Night', fogColor: 0x111111 },
+] as TimeOfDay[];
 
 export type Surface = 'tarmac' | 'grass';
 

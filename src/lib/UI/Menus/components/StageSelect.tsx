@@ -31,6 +31,7 @@ export function StageSelect() {
           label: 'Time of Day',
           cycleValueRef: timeOfDay,
           cycleSet: timeOfDayOptions,
+          labelFn: (cycleSet, index) => cycleSet[index].time,
         },
         {
           label: 'Back',

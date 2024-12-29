@@ -20,7 +20,7 @@ export function initSky() {
   renderer.current.toneMappingExposure = 0.3;
 
   timeOfDay.listeners.push(() => {
-    const elevation = lightValues[timeOfDay.current].sunElevation;
+    const elevation = lightValues[timeOfDay.current.time].sunElevation;
     const phi = THREE.MathUtils.degToRad(90 - elevation);
     sun.setFromSphericalCoords(1, phi, 0);
     uniforms['sunPosition'].value.copy(sun);

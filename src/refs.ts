@@ -1,7 +1,7 @@
 import AmmoType from 'ammojs-typed';
 
 import Stats from './lib/jsm/stats.module';
-import { Menu, Mesh, Surface, TimeOfDay } from './types';
+import { Menu, Mesh, Surface, TimeOfDay, timeOfDayOptions } from './types';
 import { THREE } from './lib/utils/THREE';
 import { Ref, ref } from './lib/utils/ref';
 import { createXYMap } from './lib/utils/createXYMap';
@@ -10,7 +10,7 @@ import { Car } from './lib/carList/carList';
 import { MiniCooper } from './lib/carList/MiniCooper';
 
 // immediately start a game
-export const devMode = false;
+export const devMode = true;
 export const selectedCar = ref<Car>(MiniCooper);
 
 export const caches: Ref<any>[] = [];
@@ -129,9 +129,9 @@ export const soundOff = ref(new THREE.Audio(listener.current));
 
 // sky
 export const carLightIntensity = 500;
-export const timeOfDay = ref<TimeOfDay>('Day');
+export const timeOfDay = ref<TimeOfDay>(timeOfDayOptions[0]);
 export const lightValues: {
-  [key in TimeOfDay]: {
+  [key in TimeOfDay['time']]: {
     light: number;
     ambient: number;
     lightAngle: number;

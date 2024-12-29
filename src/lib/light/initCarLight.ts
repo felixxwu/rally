@@ -17,7 +17,7 @@ export function initCarLight(left: boolean) {
   addOnRenderListener('carlight-' + (left ? 'left' : 'right'), () => {
     const carDir = getCarDirection();
 
-    if (timeOfDay.current === 'Day') {
+    if (timeOfDay.current.time === 'Day') {
       carLight.intensity = 0;
     } else {
       carLight.intensity = carLightIntensity;

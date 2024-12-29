@@ -1,4 +1,4 @@
-import { lightValues, mapWidth, onRender, scene, timeOfDay } from '../../refs';
+import { lightValues, mapWidth, scene, timeOfDay } from '../../refs';
 import { getCarPos } from '../car/getCarTransform';
 import { THREE } from '../utils/THREE';
 import { addOnRenderListener } from '../render/addOnRenderListener';
@@ -26,24 +26,25 @@ export function initSun() {
   scene.current?.add(light);
   scene.current?.add(targetObject);
 
-  // const shadowCameraHelper = new THREE.CameraHelper(light.shadow.camera);
-  // scene.current?.add(shadowCameraHelper);
-
   addOnRenderListener('sun', () => {
     const carPos = getCarPos();
     targetObject.position.copy(carPos);
   });
 
   timeOfDay.listeners.push(() => {
-    light.intensity = lightValues[timeOfDay.current].light;
-    ambientLight.intensity = lightValues[timeOfDay.current].ambient;
+    light.intensity = lightValues[timeOfDay.current.time].light;
+    ambientLight.intensity = lightValues[timeOfDay.current.time].ambient;
 
-    const elevation = lightValues[timeOfDay.current].lightAngle;
+    const elevation = lightValues[timeOfDay.current.time].lightAngle;
     const phi = THREE.MathUtils.degToRad(90 - elevation);
     light.position.setFromSphericalCoords(sunDistance, phi, 0);
 
-    const colour = lightValues[timeOfDay.current].color;
+    const colour = lightValues[timeOfDay.current.time].color;
     light.color.setHex(colour);
+
+    if (scene.current) {
+      scene.current.fog = new THREE.Fog(timeOfDay.current.fogColor, 0, 1500);
+    }
   });
   timeOfDay.triggerListeners();
 }
