@@ -38,7 +38,7 @@ export function MiniMap() {
   const tx = mapWidth / 2 - carX;
   const ty = mapHeight / 2 - carZ;
   const rot = carRot + Math.PI;
-  const scale = carTransform ? 3 : 1;
+  const scale = carTransform ? 5 : 1;
 
   return (
     <Container>

@@ -31,7 +31,7 @@ export function shiftIfNeeded() {
     return;
   }
 
-  if (rpmBelow && rpmBelow < car.redline * 0.7) {
+  if (rpmBelow && rpmBelow < car.redline * 0.6) {
     shiftGear('down');
     return;
   }

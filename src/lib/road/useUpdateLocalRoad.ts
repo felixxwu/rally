@@ -27,7 +27,7 @@ export function useUpdateLocalRoad(
     let roadVecPos = roadVecs.current[0];
     let roadVecDistance = Infinity;
     let carProgressPos = progress.current;
-    for (let i = progress.current + 200; i > 0; i--) {
+    for (let i = progress.current + 500; i > 0; i--) {
       const roadVec = roadVecs.current[i];
       if (!roadVec) continue;
       const distance = vec3(roadVec).distanceTo(pos);
