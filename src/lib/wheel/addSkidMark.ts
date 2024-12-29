@@ -9,7 +9,7 @@ import {
   surfaceGrips,
 } from '../../refs';
 import { Surface } from '../../types';
-import { getAirResistanceForce } from '../car/getAirResistanceForce';
+import { getDragForce } from '../car/getDragForce';
 import { getFromThreeV3Cache } from '../road/createRoadShape';
 import { vec3 } from '../utils/createVec';
 import { ref } from '../utils/ref';
@@ -84,12 +84,12 @@ function skidMarkSegment(
   straightTireForce: THREE.Vector3,
   surface: Surface
 ) {
-  const airResistance = getAirResistanceForce().length();
+  const drag = getDragForce().length();
   const beforeClamp = sideTireForce.length() / 4 + straightTireForce.length();
   const afterClamp = totalTireForce.length();
 
   const opacity = Math.min(
-    (beforeClamp - afterClamp - airResistance) * skidMarkIntensity * compression,
+    (beforeClamp - afterClamp - drag) * skidMarkIntensity * compression,
     surfaceGrips[surface].opacity
   );
 

@@ -31,7 +31,9 @@ export type Car = {
   springRate: number;
   springDamping: number;
   bodyRoll: number;
-  airResistance: number;
+  drag: number;
+  downforceFront: number;
+  downforceRear: number;
   finalDrive: number; // speed * masterGearRatio * gears[number] = RPM
   gears: number[]; // power * powerModifier * torqueCurve@RPM * gears[number] = wheel power
   torqueCurve: XYMap; // multiplier for power (0-1)
