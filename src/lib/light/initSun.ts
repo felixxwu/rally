@@ -41,10 +41,6 @@ export function initSun() {
 
     const colour = lightValues[timeOfDay.current.time].color;
     light.color.setHex(colour);
-
-    if (scene.current) {
-      scene.current.fog = new THREE.Fog(timeOfDay.current.fogColor, 0, 1500);
-    }
   });
   timeOfDay.triggerListeners();
 }

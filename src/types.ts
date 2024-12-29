@@ -9,6 +9,9 @@ export const timeOfDayOptions = [
   { time: 'Night', fogColor: 0x111111 },
 ] as TimeOfDay[];
 
+export type Weather = 'clear' | 'rain' | 'fog';
+export const weatherOptions = ['clear', 'rain', 'fog'] as Weather[];
+
 export type Surface = 'tarmac' | 'grass';
 
 export type Menu =

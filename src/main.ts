@@ -15,6 +15,7 @@ import { carVisible, devMode } from './refs';
 import { initInternalController } from './lib/initInternalController';
 import { initPlatform } from './lib/terrain/initPlatform';
 import { startTerrainGeneration } from './lib/terrain/startTerrainGeneration';
+import { initRain } from './lib/light/initRain';
 
 Ammo().then(init);
 
@@ -24,6 +25,7 @@ export async function init() {
   initRenderer();
   initLight();
   initSky();
+  initRain();
   initWindowListeners();
   initInternalController();
 

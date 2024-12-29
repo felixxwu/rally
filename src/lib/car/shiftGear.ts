@@ -1,6 +1,7 @@
 import { gear, selectedCar, shifting } from '../../refs';
 import { getRPM } from './getRPM';
 import { getSpeedVec } from './getSpeedVec';
+import { isReversing } from '../wheel/isReversing';
 
 export function shiftGear(direction: 'up' | 'down') {
   if (shifting.current) return;
@@ -18,6 +19,7 @@ export function shiftGear(direction: 'up' | 'down') {
 
 export function shiftIfNeeded() {
   if (shifting.current) return;
+  if (isReversing()) return;
 
   const speed = getSpeedVec();
   const car = selectedCar.current;

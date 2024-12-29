@@ -15,6 +15,7 @@ import {
 } from '../../../refs';
 import { getSpeedVec } from '../../car/getSpeedVec';
 import { createXYMap } from '../../utils/createXYMap';
+import { isReversing } from '../../wheel/isReversing';
 
 const revCounterSize = 180;
 const revCounterThickness = 12;
@@ -27,6 +28,10 @@ export function DashBoard() {
   const color = rpm > car.redline * 0.9 ? '#f44' : '#fff';
   const isShifting = useCustomRef(shifting);
   const timerStarted = useCustomRef(stageTimeStarted);
+
+  let gearDisplay = `${currentGear + 1}`;
+  if (isShifting) gearDisplay = '-';
+  if (isReversing()) gearDisplay = 'R';
 
   useEffect(() => {
     addOnRenderListener('dash', () => {
@@ -67,12 +72,12 @@ export function DashBoard() {
           strokeLinecap='round'
           style={{
             strokeDasharray: `${car.redline}`,
-            strokeDashoffset: `${car.redline - rpm * (3 / 4)}`,
+            strokeDashoffset: `${Math.max(car.redline * 0.25, car.redline - rpm * 0.75)}`,
           }}
           pathLength={car.redline}
         />
       </SVG>
-      <Gear>{isShifting ? '-' : currentGear + 1}</Gear>
+      <Gear>{gearDisplay}</Gear>
       <RPM>
         {rpm}
         {devMode ? ` (${Math.round(speed.length())})` : ''}

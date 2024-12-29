@@ -1,7 +1,17 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import { angularDamping, car, onRender, physicsWorld, scene, selectedCar } from '../../refs';
+import {
+  angularDamping,
+  car,
+  carVisible,
+  onRender,
+  physicsWorld,
+  scene,
+  selectedCar,
+  sound,
+  soundOff,
+} from '../../refs';
 import { setUserData } from '../utils/userData';
 import { updateCar } from './updateCar';
 import { THREE } from '../utils/THREE';
@@ -66,6 +76,11 @@ export async function initCar() {
     scene.current?.remove(car.current!);
     car.current = null;
     onRender.current = onRender.current.filter(f => f[1] !== updateCar);
+  });
+
+  carVisible.listeners.push(() => {
+    sound.current.setVolume(carVisible.current ? 1 : 0);
+    soundOff.current.setVolume(carVisible.current ? 0 : 1);
   });
 }
 

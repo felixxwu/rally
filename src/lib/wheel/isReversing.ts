@@ -5,7 +5,5 @@ import { getSpeedVec } from '../car/getSpeedVec';
 export function isReversing() {
   const speed = getSpeedVec();
   const angle = getCarDirection().angleTo(speed);
-  const reversing = angle > reverseAngle && speed.length() > 1;
-
-  return reversing;
+  return angle > reverseAngle && speed.length() > 1;
 }

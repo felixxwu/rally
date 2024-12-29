@@ -1,6 +1,7 @@
 import { Sky } from '../jsm/Sky';
-import { lightValues, renderer, scene, timeOfDay } from '../../refs';
+import { lightValues, renderer, scene, timeOfDay, weather } from '../../refs';
 import { THREE } from '../utils/THREE';
+import { updateFog } from './updateFog';
 
 export function initSky() {
   if (!renderer.current) return;
@@ -17,13 +18,21 @@ export function initSky() {
   uniforms['rayleigh'].value = 3;
   uniforms['mieCoefficient'].value = 0.005;
   uniforms['mieDirectionalG'].value = 0.7;
-  renderer.current.toneMappingExposure = 0.3;
 
   timeOfDay.listeners.push(() => {
     const elevation = lightValues[timeOfDay.current.time].sunElevation;
     const phi = THREE.MathUtils.degToRad(90 - elevation);
     sun.setFromSphericalCoords(1, phi, 0);
     uniforms['sunPosition'].value.copy(sun);
+
+    updateFog();
   });
   timeOfDay.triggerListeners();
+
+  weather.listeners.push(() => {
+    if (!renderer.current) return;
+    renderer.current.toneMappingExposure = weather.current === 'rain' ? 0.2 : 0.3;
+    updateFog();
+  });
+  weather.triggerListeners();
 }

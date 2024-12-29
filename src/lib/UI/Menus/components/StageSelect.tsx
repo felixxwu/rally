@@ -1,5 +1,5 @@
-import { currentMenu, seed, timeOfDay } from '../../../../refs';
-import { timeOfDayOptions } from '../../../../types';
+import { currentMenu, seed, timeOfDay, weather } from '../../../../refs';
+import { timeOfDayOptions, weatherOptions } from '../../../../types';
 import { getSeededHeight } from '../../../terrain/getSeededHeight';
 import { getSlope } from '../../../terrain/getSlope';
 import { startTerrainGeneration } from '../../../terrain/startTerrainGeneration';
@@ -32,6 +32,11 @@ export function StageSelect() {
           cycleValueRef: timeOfDay,
           cycleSet: timeOfDayOptions,
           labelFn: (cycleSet, index) => cycleSet[index].time,
+        },
+        {
+          label: 'Weather',
+          cycleValueRef: weather,
+          cycleSet: weatherOptions,
         },
         {
           label: 'Back',

@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import { useCustomRef } from '../../utils/useCustomRef';
 import { Ref } from '../../utils/ref';
 
-// TODO scoll list if selected item is outside of the viewport
-export function GeneralMenu<T>({
+// TODO scroll list if selected item is outside of the viewport
+export function GeneralMenu({
   items,
   onBack,
   noWrapper,
@@ -14,12 +14,12 @@ export function GeneralMenu<T>({
   items: {
     label: string;
     onChoose?: () => void;
-    cycleValueRef?: Ref<T>;
-    cycleSet?: T[];
+    cycleValueRef?: Ref<any>;
+    cycleSet?: any[];
     numRef?: Ref<number>;
     boolRef?: Ref<boolean>;
-    labelFn?: (cycleSet: T[], index: number) => string;
-    onCycleChange?: (value: T) => void;
+    labelFn?: (cycleSet: any[], index: number) => string;
+    onCycleChange?: (value: any) => void;
   }[];
   onBack: () => void;
   noWrapper?: boolean;

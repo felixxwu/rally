@@ -1,7 +1,7 @@
 import AmmoType from 'ammojs-typed';
 
 import Stats from './lib/jsm/stats.module';
-import { Menu, Mesh, Surface, TimeOfDay, timeOfDayOptions } from './types';
+import { Menu, Mesh, Surface, TimeOfDay, timeOfDayOptions, Weather, weatherOptions } from './types';
 import { THREE } from './lib/utils/THREE';
 import { Ref, ref } from './lib/utils/ref';
 import { createXYMap } from './lib/utils/createXYMap';
@@ -129,6 +129,7 @@ export const soundOff = ref(new THREE.Audio(listener.current));
 
 // sky
 export const carLightIntensity = 500;
+export const weather = ref<Weather>(weatherOptions[0]);
 export const timeOfDay = ref<TimeOfDay>(timeOfDayOptions[0]);
 export const lightValues: {
   [key in TimeOfDay['time']]: {
