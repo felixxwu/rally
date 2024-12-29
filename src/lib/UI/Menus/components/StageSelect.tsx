@@ -1,5 +1,5 @@
 import { currentMenu, seed, timeOfDay } from '../../../../refs';
-import { TimeOfDay } from '../../../../types';
+import { timeOfDayOptions } from '../../../../types';
 import { getSeededHeight } from '../../../terrain/getSeededHeight';
 import { getSlope } from '../../../terrain/getSlope';
 import { startTerrainGeneration } from '../../../terrain/startTerrainGeneration';
@@ -21,16 +21,16 @@ export function StageSelect() {
       items={[
         {
           label: 'Start Game',
-          onChoose() {
-            startTerrainGeneration();
+          async onChoose() {
             startCarSelection();
+            await startTerrainGeneration();
           },
         },
         { label: 'Seed', numRef: seed },
         {
           label: 'Time of Day',
           cycleValueRef: timeOfDay,
-          cycleSet: ['Day', 'Sunset', 'Night'] as TimeOfDay[],
+          cycleSet: timeOfDayOptions,
         },
         {
           label: 'Back',

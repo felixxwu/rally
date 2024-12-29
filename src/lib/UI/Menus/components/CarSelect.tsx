@@ -6,9 +6,9 @@ import { MiniMap } from '../../HUD/MiniMap';
 import { allCars, selectCar } from '../../../carList/carList';
 import { GeneralMenu } from '../../GeneralMenu';
 import { useCustomRef } from '../../../utils/useCustomRef';
-import { startStageSelection } from '../startStageSelection';
 import { setEngineSound } from '../../../car/initSound';
 import { useEffect } from 'react';
+import { exitToMainMenu } from '../exitToMainMenu';
 
 export function CarSelect() {
   const handleStart = () => {
@@ -55,8 +55,8 @@ export function CarSelect() {
               onChoose: handleStart,
             },
           ]}
-          onBack={() => {
-            startStageSelection();
+          onBack={async () => {
+            await exitToMainMenu();
           }}
           noWrapper
         />
