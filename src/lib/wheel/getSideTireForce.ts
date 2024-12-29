@@ -10,7 +10,5 @@ export function getSideTireForce() {
   if (speed.length() < 1) speed.copy(forwardVec);
 
   const projectedSpeed = speed.clone().projectOnVector(sideVec);
-  const sideTireForce = projectedSpeed.multiplyScalar(-tireSnappiness.current);
-
-  return sideTireForce;
+  return projectedSpeed.multiplyScalar(-tireSnappiness.current);
 }

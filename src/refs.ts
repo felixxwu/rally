@@ -39,8 +39,8 @@ export const seed = ref(Math.floor(Math.random() * 1000));
 export const seedLevel = ref(8);
 export const roadColor = '#888';
 export const grassColor = '#4e884e';
-export const maxTerrainSlopeX = 6;
-export const maxTerrainSlopeZ = 6;
+export const maxTerrainSlopeX = 5;
+export const maxTerrainSlopeZ = 5;
 
 export let temporaryMesh = ref<{ road: THREE.Mesh } | null>(null);
 
@@ -91,7 +91,6 @@ export const reverseAngle = Math.PI * 0.8;
 
 // tires and suspension
 export const tireSnappiness = ref(100, 50, 200, 1);
-export const wheelCompression = ref([0, 0, 0, 0]);
 export const suspensionForces = ref([0, 0, 0, 0]);
 export const wheelSurfaces = ref<[Surface, Surface, Surface, Surface]>([
   'tarmac',

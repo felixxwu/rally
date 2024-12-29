@@ -5,7 +5,6 @@ import {
   reverseAngle,
   steerModMap,
   suspensionForces,
-  wheelCompression,
   wheelSurfaces,
 } from '../../refs';
 import { THREE } from '../utils/THREE';
@@ -74,8 +73,7 @@ export function updateWheel(
 
   wheelMesh.setRotationFromQuaternion(quat2 || new THREE.Quaternion());
 
-  // save compression to refs
-  wheelCompression.current[front ? (left ? 0 : 1) : left ? 2 : 3] = compression;
+  // save suspensionForces to refs
   suspensionForces.current[front ? (left ? 0 : 1) : left ? 2 : 3] = suspensionForce.length();
   wheelSurfaces.current[front ? (left ? 0 : 1) : left ? 2 : 3] = surface;
 
