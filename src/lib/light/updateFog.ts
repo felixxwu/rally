@@ -15,6 +15,6 @@ export function updateFog() {
     }
   }
   if (weather.current === 'fog') {
-    scene.current.fog = new THREE.FogExp2(timeOfDay.current.fogColor, 0.02);
+    scene.current.fog = new THREE.FogExp2(timeOfDay.current.fogColor, 0.017);
   }
 }

@@ -26,7 +26,7 @@ export const DodgeCharger: Car = {
   springRate: 350,
   springDamping: 5000,
   bodyRoll: 0.75,
-  airResistance: 0.1,
+  airResistance: 0.095,
   finalDrive: 300,
   gears: [1, 0.5, 0.3, 0.23],
   torqueCurve: createXYMap([0, 0.5], [4000, 1], [5000, 1], [8000, 0]),
