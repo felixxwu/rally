@@ -92,13 +92,6 @@ export function updateWheel(
     logRenderTime('skidMarks (wheel)', now);
   }
 
-  // helper arrows
   helperArrow(mult(suspensionForce, 0.02), wheelMeshPos, 0xffff00, `suspension${front}${left}`);
-  // helperArrow(
-  //   mult(totalTireForceBeforeClamp, 0.02),
-  //   wheelMeshPos,
-  //   0x000000,
-  //   `straight${front}${left}`
-  // );
   helperArrow(mult(totalClampedTireForce, 0.02), wheelMeshPos, 0xff0000, `clamp${front}${left}`);
 }

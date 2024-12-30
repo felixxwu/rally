@@ -16,6 +16,7 @@ import { initInternalController } from './lib/initInternalController';
 import { initPlatform } from './lib/terrain/initPlatform';
 import { startTerrainGeneration } from './lib/terrain/startTerrainGeneration';
 import { initRain } from './lib/light/initRain';
+import { initSound } from './lib/car/initSound';
 
 Ammo().then(init);
 
@@ -26,6 +27,7 @@ export async function init() {
   initLight();
   initSky();
   initRain();
+  initSound();
   initWindowListeners();
   initInternalController();
 

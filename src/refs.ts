@@ -116,6 +116,13 @@ export const angularDamping = 0.998;
 export const powerModifier = 1.2; // scale all car power by this amount
 export const gear = ref(0);
 export const shifting = ref<null | { start: number; oldGear: number }>(null);
+export const listener = ref(new THREE.AudioListener());
+export const sound = ref(new THREE.Audio(listener.current));
+export const soundOff = ref(new THREE.Audio(listener.current));
+export const tarmacSound = ref(new THREE.Audio(listener.current));
+export const grassSound = ref(new THREE.Audio(listener.current));
+export const gravelSound = ref(new THREE.Audio(listener.current));
+export const skidSound = ref(new THREE.Audio(listener.current));
 
 // camera
 export const camFollowDistance = ref(5, 3, 30, 1);
@@ -123,9 +130,6 @@ export const camFollowHeight = ref(2.5, 0, 30, 1);
 export const camFollowSpeed = ref(0.15, 0, 1, 0.01);
 export const fov = 90;
 export const carVisible = ref(false);
-export const listener = ref(new THREE.AudioListener());
-export const sound = ref(new THREE.Audio(listener.current));
-export const soundOff = ref(new THREE.Audio(listener.current));
 
 // sky
 export const carLightIntensity = 500;

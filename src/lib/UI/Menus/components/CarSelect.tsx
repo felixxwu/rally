@@ -6,7 +6,7 @@ import { MiniMap } from '../../HUD/MiniMap';
 import { allCars, selectCar } from '../../../carList/carList';
 import { GeneralMenu } from '../../GeneralMenu';
 import { useCustomRef } from '../../../utils/useCustomRef';
-import { setEngineSound } from '../../../car/initSound';
+import { setEngineSound } from '../../../car/setEngineSound';
 import { useEffect } from 'react';
 import { exitToMainMenu } from '../exitToMainMenu';
 
