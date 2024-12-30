@@ -11,10 +11,8 @@ import { initRenderer } from './lib/render/initRenderer';
 import { initUI } from './lib/UI/initUI';
 import { initWheel } from './lib/wheel/initWheel';
 import { initSky } from './lib/light/initSky';
-import { carVisible, devMode } from './refs';
 import { initInternalController } from './lib/initInternalController';
 import { initPlatform } from './lib/terrain/initPlatform';
-import { startTerrainGeneration } from './lib/terrain/startTerrainGeneration';
 import { initRain } from './lib/light/initRain';
 import { initSound } from './lib/car/initSound';
 
@@ -40,9 +38,4 @@ export async function init() {
   initWheel(false, false);
 
   initCamera();
-
-  if (devMode) {
-    carVisible.current = true;
-    await startTerrainGeneration();
-  }
 }

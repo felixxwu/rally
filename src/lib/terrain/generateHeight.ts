@@ -1,10 +1,4 @@
-import {
-  mapHeightSegments,
-  terrainMinHeight,
-  mapWidthSegments,
-  mapWidth,
-  mapHeight,
-} from '../../refs';
+import { mapHeightSegments, mapWidthSegments, mapWidth, mapHeight } from '../../refs';
 import { createNoiseFunc } from './createNoiseFunc';
 import { getSeededHeight } from './getSeededHeight';
 import { getSlope } from './getSlope';
@@ -26,11 +20,11 @@ export function generateHeight() {
 
 export function getHeightAt(xPos: number, zPos: number) {
   const noise = createNoiseFunc();
-  const hRange = getSeededHeight() - terrainMinHeight;
+  const hRange = getSeededHeight();
   const { slopeX, slopeZ } = getSlope();
 
   const x = (xPos / mapWidth) * mapWidthSegments;
   const z = (zPos / mapHeight) * mapHeightSegments;
 
-  return Math.pow(noise(x, z), 2) * hRange + terrainMinHeight + x * slopeX + z * slopeZ + 100;
+  return Math.pow(noise(x, z), 2) * hRange + x * slopeX + z * slopeZ + 100;
 }

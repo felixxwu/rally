@@ -1,13 +1,16 @@
-import { currentMenu, defaultTransitionTime, transitionTime } from '../../../../refs';
+import { currentMenu, defaultTransitionTime, devMode, transitionTime } from '../../../../refs';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 
 export function SplashScreen() {
   useEffect(() => {
-    setTimeout(() => {
-      transitionTime.current = defaultTransitionTime;
-      currentMenu.current = 'main';
-    }, 3000);
+    setTimeout(
+      () => {
+        transitionTime.current = defaultTransitionTime;
+        currentMenu.current = 'main';
+      },
+      devMode ? 0 : 3000
+    );
   }, []);
 
   return (

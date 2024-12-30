@@ -1,13 +1,7 @@
 import AmmoType from 'ammojs-typed';
 declare const Ammo: typeof AmmoType;
 
-import {
-  mapHeightSegments,
-  mapHeight,
-  terrainMinHeight,
-  mapWidthSegments,
-  mapWidth,
-} from '../../refs';
+import { mapHeightSegments, mapHeight, mapWidthSegments, mapWidth } from '../../refs';
 import { getSeededHeight } from './getSeededHeight';
 
 export function createTerrainShape(heightData: Float32Array) {
@@ -49,7 +43,7 @@ export function createTerrainShape(heightData: Float32Array) {
     mapHeightSegments,
     ammoHeightData,
     heightScale,
-    terrainMinHeight,
+    0,
     getSeededHeight(),
     upAxis,
     hdt,

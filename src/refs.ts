@@ -21,9 +21,9 @@ export const mapHeight = 4000;
 export const scale = 0.04;
 export const mapWidthSegments = 100;
 export const mapHeightSegments = 100;
-export const terrainMaxHeight = 100;
+export const terrainMaxHeight = 90;
 export const terrainHeightExponent = 1.8; // higher = bias towards lower heights
-export const terrainMinHeight = 0;
+export const terrainMinHeight = 10;
 export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
 export const terrainMesh = ref<Mesh | null>(null);
@@ -39,8 +39,8 @@ export const seed = ref(Math.floor(Math.random() * 1000));
 export const seedLevel = ref(8);
 export const roadColor = '#888';
 export const grassColor = '#4e884e';
-export const maxTerrainSlopeX = 5;
-export const maxTerrainSlopeZ = 5;
+export const maxTerrainSlopeX = 4;
+export const maxTerrainSlopeZ = 4;
 
 export let temporaryMesh = ref<{ road: THREE.Mesh } | null>(null);
 
@@ -181,7 +181,7 @@ export const raycasterOffset = 1.5;
 export const stageTime = ref(0);
 export const stageTimeStarted = ref(false);
 export const countDownStarted = ref(false);
-export const currentMenu = ref<Menu>(devMode ? 'carSelect' : 'splash');
+export const currentMenu = ref<Menu>('splash');
 export const defaultTransitionTime = 1000;
 export const transitionTime = ref(defaultTransitionTime);
 export const stopOnRender = ref(false);
