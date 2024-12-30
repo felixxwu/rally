@@ -124,6 +124,7 @@ export const tarmacSound = ref(new THREE.Audio(listener.current));
 export const grassSound = ref(new THREE.Audio(listener.current));
 export const gravelSound = ref(new THREE.Audio(listener.current));
 export const skidSound = ref(new THREE.Audio(listener.current));
+export const shiftingMode = ref<'manual' | 'auto'>('auto');
 
 // camera
 export const camFollowDistance = ref(5, 3, 30, 1);
@@ -185,6 +186,8 @@ export const defaultTransitionTime = 1000;
 export const transitionTime = ref(defaultTransitionTime);
 export const stopOnRender = ref(false);
 export const infoText = ref('');
+export const infoTextOnClick = ref<() => void>(() => {});
+export const mobileInput = ref<'combined' | 'separate'>('separate');
 
 // controls
 export const keysDownMobile = ref<Record<string, boolean>>({});

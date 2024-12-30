@@ -2,6 +2,7 @@ import {
   camera,
   freeCam,
   keysDown,
+  mobileInput,
   mobileJoystickPad,
   panelOpen,
   renderer,
@@ -25,24 +26,60 @@ export function initWindowListeners() {
 }
 
 function onTouch(e: TouchEvent) {
-  const touch = e.touches.item(0);
+  const hamburger = document.getElementById('hamburger');
+  if (hamburger) hamburger.style.opacity = '1';
 
-  if (!touch) mobileJoystickPad.current = { x: 0.5, y: 0.5 };
+  if (mobileInput.current === 'combined') {
+    const touch = e.touches.item(0);
 
-  const joystickPad = document.getElementById('joystick-pad');
-  const rect = joystickPad?.getBoundingClientRect();
+    if (!touch) mobileJoystickPad.current = { x: 0.5, y: 0.5 };
 
-  if (!rect || !touch || !joystickPad) return;
+    const joystickPad = document.getElementById('joystick-pad');
+    const rect = joystickPad?.getBoundingClientRect();
 
-  const leftPercent = (touch.clientX - rect.left) / rect.width;
-  const topPercent = (touch.clientY - rect.top) / rect.height;
+    if (!rect || !touch || !joystickPad) return;
 
-  joystickPad.style.opacity = '1';
+    const leftPercent = (touch.clientX - rect.left) / rect.width;
+    const topPercent = (touch.clientY - rect.top) / rect.height;
 
-  mobileJoystickPad.current = {
-    x: leftPercent,
-    y: topPercent,
-  };
+    joystickPad.style.opacity = '1';
+
+    mobileJoystickPad.current = {
+      x: leftPercent,
+      y: topPercent,
+    };
+  }
+
+  if (mobileInput.current === 'separate') {
+    if (e.touches.length === 0) mobileJoystickPad.current = { x: 0.5, y: 0.5 };
+
+    const joystickLeft = document.getElementById('joystick-left');
+    const joystickRight = document.getElementById('joystick-right');
+
+    const leftRect = joystickLeft?.getBoundingClientRect();
+    const rightRect = joystickRight?.getBoundingClientRect();
+
+    if (!leftRect || !rightRect || !joystickLeft || !joystickRight) return;
+
+    joystickLeft.style.opacity = '1';
+    joystickRight.style.opacity = '1';
+
+    const xy = { x: 0.5, y: 0.5 };
+
+    for (let i = 0; i < e.touches.length; i++) {
+      const touch = e.touches.item(i);
+      if (!touch) continue;
+      const isLeftSideOfScreen = touch.clientX < window.innerWidth / 2;
+
+      if (isLeftSideOfScreen) {
+        xy.x = (touch.clientX - leftRect.left) / leftRect.width;
+      } else {
+        xy.y = (touch.clientY - rightRect.top) / rightRect.height;
+      }
+    }
+
+    mobileJoystickPad.current = xy;
+  }
 }
 
 function onWindowResize() {

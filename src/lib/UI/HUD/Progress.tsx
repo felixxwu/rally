@@ -1,15 +1,9 @@
 import styled from 'styled-components';
 import { useCustomRef } from '../../utils/useCustomRef';
-import {
-  infoText,
-  progress,
-  roadVecs,
-  stageTime,
-  stageTimeStarted,
-  startRoadLength,
-} from '../../../refs';
+import { progress, roadVecs, stageTime, stageTimeStarted, startRoadLength } from '../../../refs';
 import { useState } from 'react';
 import { padStart } from '../../utils/padStart';
+import { setInfoText } from '../setInfoText';
 
 export function Progress() {
   const [timerText, setTimerText] = useState('');
@@ -25,13 +19,7 @@ export function Progress() {
 
     if (splitPositions[split] < getProgressPercentage()) {
       setSplit(split + 1);
-      const text = `Split: ${time}`;
-      infoText.current = text;
-      setTimeout(() => {
-        if (infoText.current === text) {
-          infoText.current = '';
-        }
-      }, 5000);
+      setInfoText(`Split: ${time}`, 5000);
     }
   });
 

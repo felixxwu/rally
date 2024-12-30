@@ -4,6 +4,7 @@ import { setCarPos } from '../car/setCarPos';
 import { helperArrowFromTo } from '../helperArrows/helperArrow';
 import { getProgressPercentage } from '../UI/HUD/Progress';
 import { vec3 } from '../utils/createVec';
+import { setInfoText } from '../UI/setInfoText';
 
 let i = 0;
 
@@ -36,10 +37,13 @@ export function resetIfFarFromRoad() {
   const distFromFurthest = furthestVec.clone().sub(carPos).length();
   const text = 'Press (R) to reset to track';
   if (distFromFurthest > resetDistance) {
-    infoText.current = text;
+    setInfoText(text, 0, () => {
+      console.trace();
+      resetToLastProgress();
+    });
   } else {
     if (infoText.current === text) {
-      infoText.current = '';
+      setInfoText('');
     }
   }
 }

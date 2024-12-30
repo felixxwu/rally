@@ -1,4 +1,4 @@
-import { gear, selectedCar, shifting } from '../../refs';
+import { gear, selectedCar, shifting, shiftingMode } from '../../refs';
 import { getRPM } from './getRPM';
 import { getSpeedVec } from './getSpeedVec';
 import { isReversing } from '../wheel/isReversing';
@@ -18,6 +18,7 @@ export function shiftGear(direction: 'up' | 'down') {
 }
 
 export function shiftIfNeeded() {
+  if (shiftingMode.current === 'manual') return;
   if (shifting.current) return;
   if (isReversing()) return;
 

@@ -5,13 +5,13 @@ import {
   devMode,
   grassLeftMesh,
   grassRightMesh,
-  infoText,
   roadMesh,
   stageTimeClock,
   stageTimeStarted,
   terrainMesh,
 } from '../../../refs';
 import { resetCar } from '../../car/setCarPos';
+import { setInfoText } from '../setInfoText';
 
 export async function startCountdown() {
   countDownStarted.current = true;
@@ -26,23 +26,18 @@ export async function startCountdown() {
   await new Promise(resolve => setTimeout(resolve, 1000));
   stageTimeClock.stop();
   if (!devMode) {
-    infoText.current = '';
+    setInfoText('');
     await new Promise(resolve => setTimeout(resolve, 1000));
-    infoText.current = '3';
+    setInfoText('3');
     await new Promise(resolve => setTimeout(resolve, 1000));
-    infoText.current = '2';
+    setInfoText('2');
     await new Promise(resolve => setTimeout(resolve, 1000));
-    infoText.current = '1';
+    setInfoText('1');
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
-  const text = 'GO!';
-  infoText.current = text;
+  setInfoText('GO!', 2000);
   stageTimeStarted.current = true;
   countDownStarted.current = false;
   stageTimeClock.start();
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  if (infoText.current === text) {
-    infoText.current = '';
-  }
   carSelected.current = false;
 }

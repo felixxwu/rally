@@ -11,7 +11,6 @@ import {
   startRoadLength,
   mapHeight,
   mapWidth,
-  infoText,
   maxIncline,
 } from '../../refs';
 import { getSpawn } from '../utils/getSpawn';
@@ -20,6 +19,7 @@ import { Vector } from './createRoadShape';
 import { vec3 } from '../utils/createVec';
 import { getHeightAt } from '../terrain/generateHeight';
 import { getExactSquare, intersectWithSquare } from '../terrain/getLocalSquares';
+import { setInfoText } from '../UI/setInfoText';
 
 export async function createRoadPoints() {
   const spawn = getSpawn();
@@ -33,7 +33,7 @@ export async function createRoadPoints() {
     if (roadVecs.current.length >= maxPoints) break;
     if (i % 100 === 0) {
       roadVecs.current = [...roadVecs.current];
-      infoText.current = `Generating Road... ${Math.round((i / maxAttempts) * 100)}%`;
+      setInfoText(`Generating Road... ${Math.round((i / maxAttempts) * 100)}%`);
 
       await new Promise(r => setTimeout(r));
     }
@@ -194,7 +194,7 @@ export async function createRoadPoints() {
     blurredVecs.push([avgX, intersection?.y ?? 0, avgZ] as Vector);
 
     if (i % 100 === 0) {
-      infoText.current = `Smoothing road... ${Math.round((i / longestVec.length) * 100)}%`;
+      setInfoText(`Smoothing road... ${Math.round((i / longestVec.length) * 100)}%`);
       await new Promise(r => setTimeout(r));
     }
   }

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useCustomRef } from '../../utils/useCustomRef';
-import { infoText } from '../../../refs';
+import { infoText, infoTextOnClick } from '../../../refs';
 
 export function Info() {
   const text = useCustomRef(infoText);
@@ -9,7 +9,7 @@ export function Info() {
 
   return (
     <Container>
-      <Text>{text}</Text>
+      <Text onClick={() => infoTextOnClick.current()}>{text}</Text>
     </Container>
   );
 }
@@ -33,4 +33,6 @@ const Text = styled('div')`
   max-width: 250px;
   width: 100%;
   font-size: 26px;
+  pointer-events: all;
+  cursor: pointer;
 `;

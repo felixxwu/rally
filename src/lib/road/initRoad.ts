@@ -2,8 +2,6 @@ import {
   grassColor,
   grassLeftMesh,
   grassRightMesh,
-  infoText,
-  physicsWorld,
   roadColor,
   roadMesh,
   scene,
@@ -13,14 +11,14 @@ import { createRoadShape } from './createRoadShape';
 import { createRoadTriangles } from './createRoadTriangles';
 import { createRoadPoints } from './createRoadPoints';
 import { resetIfFarFromRoad } from './resetIfFarFromRoad';
-import { setUserData } from '../utils/userData';
 import { useUpdateLocalRoad } from './useUpdateLocalRoad';
 import { addOnRenderListener } from '../render/addOnRenderListener';
+import { setInfoText } from '../UI/setInfoText';
 
 export async function initRoad() {
   await createRoadPoints();
 
-  infoText.current = 'Finishing up road';
+  setInfoText('Finishing up road');
 
   const { road, grassLeft, grassRight } = await createRoadTriangles();
 
@@ -48,7 +46,7 @@ export async function initRoad() {
   // physicsWorld.current?.addRigidBody(grassLeftRigidBody);
   // physicsWorld.current?.addRigidBody(grassRightRigidBody);
 
-  infoText.current = '';
+  setInfoText('');
 
   addOnRenderListener('resetIfFarFromRoad', resetIfFarFromRoad);
 

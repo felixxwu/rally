@@ -3,11 +3,11 @@ import {
   camFollowHeight,
   camFollowSpeed,
   currentMenu,
+  mobileInput,
   renderHelperArrows,
   renderHitCarBox,
   seed,
-  surfaceGrips,
-  tireSnappiness,
+  shiftingMode,
   transitionTime,
 } from '../../../../refs';
 import { GeneralMenu } from '../../GeneralMenu';
@@ -22,12 +22,13 @@ export function SettingsMenu() {
           currentMenu.current = 'pause';
         }}
         items={[
-          { label: '[ Tires & Suspension ]' },
-          { label: 'Tire Snappiness', numRef: tireSnappiness },
-
-          { label: '[ Surfaces ]' },
-          { label: 'Tarmac Grip', numRef: surfaceGrips.tarmac.dry },
-          { label: 'Grass Grip', numRef: surfaceGrips.grass.dry },
+          { label: '[ Inputs ]' },
+          { label: 'Gears', cycleValueRef: shiftingMode, cycleSet: ['manual', 'auto'] },
+          {
+            label: 'Mobile Input Mode',
+            cycleValueRef: mobileInput,
+            cycleSet: ['combined', 'separate'],
+          },
 
           { label: '[ Camera ]' },
           { label: 'Camera Follow Distance', numRef: camFollowDistance },

@@ -39,6 +39,9 @@ export function DashBoard() {
       if (currentRpm < car.idleRPM) {
         currentRpm = car.idleRPM + (currentRpm % 100);
       }
+      if (currentRpm > car.redline) {
+        currentRpm = car.redline + (currentRpm % 100);
+      }
 
       setRpm(currentRpm);
 
@@ -94,7 +97,7 @@ const Container = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translateY(20px);
+  transform: translateY(-30px);
 `;
 
 const Gear = styled('div')`
