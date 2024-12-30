@@ -20,6 +20,7 @@ import { vec3 } from '../utils/createVec';
 import { getHeightAt } from '../terrain/generateHeight';
 import { getExactSquare, intersectWithSquare } from '../terrain/getLocalSquares';
 import { setInfoText } from '../UI/setInfoText';
+import { sleep } from '../utils/sleep';
 
 export async function createRoadPoints() {
   const spawn = getSpawn();
@@ -35,7 +36,7 @@ export async function createRoadPoints() {
       roadVecs.current = [...roadVecs.current];
       setInfoText(`Generating Road... ${Math.round((i / maxAttempts) * 100)}%`);
 
-      await new Promise(r => setTimeout(r));
+      await sleep();
     }
     const intersectionPoint = vec3([point.x, getHeightAt(point.x, point.y), point.y]);
     roadVecs.current.push([
@@ -195,7 +196,7 @@ export async function createRoadPoints() {
 
     if (i % 100 === 0) {
       setInfoText(`Smoothing road... ${Math.round((i / longestVec.length) * 100)}%`);
-      await new Promise(r => setTimeout(r));
+      await sleep();
     }
   }
 

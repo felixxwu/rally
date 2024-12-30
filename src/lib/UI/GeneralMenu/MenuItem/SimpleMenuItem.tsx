@@ -1,4 +1,5 @@
 import { Container, Text } from '../styles';
+import { sleep } from '../../../utils/sleep';
 
 export function SimpleMenuItem({
   selected,
@@ -18,7 +19,7 @@ export function SimpleMenuItem({
         color: selected ? 'white' : 'rgba(0, 0, 0, 0.7)',
       }}
       onPointerMove={async () => {
-        await new Promise(r => setTimeout(r));
+        await sleep();
         onHover();
       }}
       onClick={onChoose}

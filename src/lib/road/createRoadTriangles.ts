@@ -12,6 +12,7 @@ import { createArr, vec3 } from '../utils/createVec';
 import { THREE } from '../utils/THREE';
 import { Triangle, Vector } from './createRoadShape';
 import { setInfoText } from '../UI/setInfoText';
+import { sleep } from '../utils/sleep';
 
 export async function createRoadTriangles(skipGrass?: boolean) {
   const vecs = roadVecs.current;
@@ -61,7 +62,7 @@ export async function createRoadTriangles(skipGrass?: boolean) {
     if (!skipGrass) {
       if (i % 100 === 0) {
         setInfoText(`Creating Road Mesh... ${Math.round((i / vecs.length) * 100)}%`);
-        await new Promise(r => setTimeout(r));
+        await sleep();
       }
 
       const leftBanking = getBankingPoint(vecs, i, leftGrass, -bankingAngle);

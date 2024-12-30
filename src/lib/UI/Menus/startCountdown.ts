@@ -12,6 +12,7 @@ import {
 } from '../../../refs';
 import { resetCar } from '../../car/setCarPos';
 import { setInfoText } from '../setInfoText';
+import { sleep } from '../../utils/sleep';
 
 export async function startCountdown() {
   countDownStarted.current = true;
@@ -23,17 +24,17 @@ export async function startCountdown() {
   terrainMesh.current!.visible = true;
 
   resetCar();
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await sleep(1000);
   stageTimeClock.stop();
   if (!devMode) {
     setInfoText('');
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await sleep(1000);
     setInfoText('3');
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await sleep(1000);
     setInfoText('2');
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await sleep(1000);
     setInfoText('1');
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await sleep(1000);
   }
   setInfoText('GO!', 2000);
   stageTimeStarted.current = true;

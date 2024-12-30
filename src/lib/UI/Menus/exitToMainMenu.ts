@@ -24,6 +24,7 @@ import { platFormCarPos, setCarPos } from '../../car/setCarPos';
 import { clearCaches } from '../../utils/clearCaches';
 import { vec3 } from '../../utils/createVec';
 import { getUserData } from '../../utils/userData';
+import { sleep } from '../../utils/sleep';
 
 export async function exitToMainMenu() {
   physicsWorld.current?.removeRigidBody(getUserData(terrainMesh.current!).physicsBody);
@@ -50,7 +51,7 @@ export async function exitToMainMenu() {
   currentMenu.current = 'main';
   carVisible.current = false;
   progress.current = 0;
-  await new Promise(r => setTimeout(r, defaultTransitionTime));
+  await sleep(defaultTransitionTime);
   stopOnRender.current = false;
   stageTimeStarted.current = false;
   stageTime.current = 0;

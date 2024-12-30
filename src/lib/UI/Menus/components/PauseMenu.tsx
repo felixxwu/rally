@@ -3,12 +3,13 @@ import { GeneralMenu } from '../../GeneralMenu';
 import { resetToLastProgress } from '../../../road/resetIfFarFromRoad';
 import { BlurredContainer } from '../styles';
 import { exitToMainMenu } from '../exitToMainMenu';
+import { sleep } from '../../../utils/sleep';
 
 export function PauseMenu() {
   const resume = async () => {
     transitionTime.current = defaultTransitionTime;
     currentMenu.current = 'hud';
-    await new Promise(r => setTimeout(r, defaultTransitionTime));
+    await sleep(defaultTransitionTime);
     stopOnRender.current = false;
   };
 
@@ -26,7 +27,7 @@ export function PauseMenu() {
             onChoose: async () => {
               transitionTime.current = defaultTransitionTime;
               currentMenu.current = 'hud';
-              await new Promise(r => setTimeout(r, defaultTransitionTime));
+              await sleep(defaultTransitionTime);
               stopOnRender.current = false;
               resetToLastProgress();
             },

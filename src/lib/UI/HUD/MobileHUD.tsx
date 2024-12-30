@@ -90,7 +90,11 @@ const JoyStickPad = styled('div')<{ width: number; height: number }>`
   overflow: clip;
 `;
 
-const XAxis = styled('div')<{ height: number; pos: number }>`
+// @ts-ignore
+const XAxis = styled('div', { shouldForwardProp: p => p !== 'pos' })<{
+  height: number;
+  pos: number;
+}>`
   width: 1px;
   height: ${({ height }) => height}px;
   margin-left: ${({ pos }) => pos}px;
@@ -98,7 +102,11 @@ const XAxis = styled('div')<{ height: number; pos: number }>`
   position: absolute;
 `;
 
-const YAxis = styled('div')<{ width: number; pos: number }>`
+// @ts-ignore
+const YAxis = styled('div', { shouldForwardProp: p => p !== 'pos' })<{
+  width: number;
+  pos: number;
+}>`
   width: ${({ width }) => width}px;
   margin-top: ${({ pos }) => pos}px;
   height: 1px;

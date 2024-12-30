@@ -1,6 +1,7 @@
 import { roadColor, scene, temporaryMesh } from '../../refs';
-import { createRoadShape, Vector } from './createRoadShape';
+import { createRoadShape } from './createRoadShape';
 import { createRoadTriangles } from './createRoadTriangles';
+import { sleep } from '../utils/sleep';
 
 export async function createTemporaryMesh() {
   if (temporaryMesh.current) {
@@ -15,5 +16,5 @@ export async function createTemporaryMesh() {
   temporaryMesh.current = { road: roadMesh };
   scene.current?.add(roadMesh);
 
-  await new Promise(r => setTimeout(r));
+  await sleep();
 }

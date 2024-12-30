@@ -4,6 +4,7 @@ import { menuLeft, menuRight, menuSelect } from '../../../../refs';
 import { Ref } from '../../../utils/ref';
 import { LeftTriangle } from '../../Icons/LeftTriangle';
 import { RightTriangle } from '../../Icons/RightTriangle';
+import { sleep } from '../../../utils/sleep';
 
 export function CycleMenuItem<T>({
   selected,
@@ -57,7 +58,7 @@ export function CycleMenuItem<T>({
         color: selected ? 'white' : 'rgba(0, 0, 0, 0.7)',
       }}
       onPointerMove={async () => {
-        await new Promise(r => setTimeout(r));
+        await sleep();
         onHover();
       }}
       onClick={() => handleCycle()}
