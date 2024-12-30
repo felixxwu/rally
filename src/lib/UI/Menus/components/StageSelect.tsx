@@ -6,9 +6,10 @@ import { startTerrainGeneration } from '../../../terrain/startTerrainGeneration'
 import { useCustomRef } from '../../../utils/useCustomRef';
 import { GeneralMenu } from '../../GeneralMenu';
 import { startCarSelection } from '../startCarSelection';
+import { categoriseSeedHeight } from '../../../terrain/categoriseSeedHeight';
 
 export function StageSelect() {
-  useCustomRef(seed, () => {
+  const currentSeed = useCustomRef(seed, () => {
     const { slopeX, slopeZ } = getSlope();
     console.log(`Seeded Height `, getSeededHeight());
     console.log(`Slope X`, slopeX);
@@ -26,7 +27,7 @@ export function StageSelect() {
             await startTerrainGeneration();
           },
         },
-        { label: 'Seed', numRef: seed },
+        { label: `Seed - ${categoriseSeedHeight(currentSeed)}`, numRef: seed },
         {
           label: 'Time of Day',
           cycleValueRef: timeOfDay,

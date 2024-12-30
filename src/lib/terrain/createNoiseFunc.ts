@@ -7,10 +7,12 @@ type NoiseFunc = (x: number, y: number) => number;
 const seedCache: { [key: number]: NoiseFunc } = {};
 
 // noise between 0 -1
-export function createNoiseFunc() {
-  if (seedCache[seed.current]) return seedCache[seed.current];
+export function createNoiseFunc(customSeed?: number) {
+  const currentSeed = customSeed ?? seed.current;
 
-  seedRef.current = seed.current;
+  if (seedCache[currentSeed]) return seedCache[currentSeed];
+
+  seedRef.current = currentSeed;
   const simplex = createNoise2D(() => {
     const x = Math.sin(seedRef.current++) * 10000;
     return x - Math.floor(x);
