@@ -190,7 +190,6 @@ export const infoTextOnClick = ref<() => void>(() => {});
 export const mobileInput = ref<'combined' | 'separate'>('separate');
 
 // controls
-export const keysDownMobile = ref<Record<string, boolean>>({});
 export const mobileJoystickPad = ref({ x: 0.5, y: 0.5 });
 export const keysDown = ref<Record<string, boolean>>({});
 export const internalController = ref({
@@ -199,7 +198,10 @@ export const internalController = ref({
   brake: 0,
   handbrake: 0,
   reset: false,
+  gearUp: false,
+  gearDown: false,
 });
+export const controllerOS = ref<'windows' | 'macos'>('windows');
 
 // internal controller
 export const stopInternalController = ref(false);

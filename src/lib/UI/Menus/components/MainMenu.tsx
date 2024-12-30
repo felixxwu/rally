@@ -2,7 +2,7 @@ import { GeneralMenu } from '../../GeneralMenu';
 import { startStageSelection } from '../startStageSelection';
 import { startTerrainGeneration } from '../../../terrain/startTerrainGeneration';
 import { startCarSelection } from '../startCarSelection';
-import { seed, timeOfDay, weather } from '../../../../refs';
+import { currentMenu, seed, timeOfDay, weather } from '../../../../refs';
 import { timeOfDayOptions, weatherOptions } from '../../../../types';
 
 export function MainMenu() {
@@ -33,6 +33,12 @@ export function MainMenu() {
           label: 'Custom Rally',
           onChoose() {
             startStageSelection();
+          },
+        },
+        {
+          label: 'Settings',
+          onChoose() {
+            currentMenu.current = 'settings';
           },
         },
       ]}

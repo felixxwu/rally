@@ -2,6 +2,8 @@ import {
   camFollowDistance,
   camFollowHeight,
   camFollowSpeed,
+  carVisible,
+  controllerOS,
   currentMenu,
   mobileInput,
   renderHelperArrows,
@@ -14,13 +16,19 @@ import { GeneralMenu } from '../../GeneralMenu';
 import { BlurredContainer } from '../styles';
 
 export function SettingsMenu() {
+  const back = () => {
+    if (carVisible.current) {
+      transitionTime.current = 0;
+      currentMenu.current = 'pause';
+    } else {
+      currentMenu.current = 'main';
+    }
+  };
+
   return (
     <BlurredContainer>
       <GeneralMenu
-        onBack={() => {
-          transitionTime.current = 0;
-          currentMenu.current = 'pause';
-        }}
+        onBack={back}
         items={[
           { label: '[ Inputs ]' },
           { label: 'Gears', cycleValueRef: shiftingMode, cycleSet: ['manual', 'auto'] },
@@ -28,6 +36,11 @@ export function SettingsMenu() {
             label: 'Mobile Input Mode',
             cycleValueRef: mobileInput,
             cycleSet: ['combined', 'separate'],
+          },
+          {
+            label: 'OS (For Controller Inputs)',
+            cycleValueRef: controllerOS,
+            cycleSet: ['windows', 'macos'],
           },
 
           { label: '[ Camera ]' },
@@ -42,7 +55,7 @@ export function SettingsMenu() {
           { label: 'Current Seed: ' + seed.current },
           {
             label: 'Back',
-            onChoose: () => (currentMenu.current = 'pause'),
+            onChoose: back,
           },
         ]}
       />

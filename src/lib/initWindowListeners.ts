@@ -10,7 +10,7 @@ import {
   renderHitCarBox,
 } from '../refs';
 import { resetToLastProgress } from './road/resetIfFarFromRoad';
-import { shiftGear } from './car/shiftGear';
+import { isGamepadBeingUsed } from './getGamepadInputs';
 
 export function initWindowListeners() {
   window.onresize = onWindowResize;
@@ -90,6 +90,8 @@ function onWindowResize() {
 }
 
 function onKeyDown(event: KeyboardEvent) {
+  if (isGamepadBeingUsed()) return;
+
   keysDown.current[event.key] = true;
 
   if (event.key === 'h') {
@@ -110,14 +112,6 @@ function onKeyDown(event: KeyboardEvent) {
 
   if (event.key === 'Escape') {
     panelOpen.current = !panelOpen.current;
-  }
-
-  if (event.key === '[') {
-    shiftGear('down');
-  }
-
-  if (event.key === ']') {
-    shiftGear('up');
   }
 }
 

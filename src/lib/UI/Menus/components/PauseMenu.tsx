@@ -18,7 +18,7 @@ export function PauseMenu() {
         onBack={() => {}}
         items={[
           {
-            label: 'Resume',
+            label: 'Back',
             onChoose: resume,
           },
           {
