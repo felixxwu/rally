@@ -5,6 +5,7 @@ import {
   scene,
   selectedCar,
   skidMarkIntensity,
+  skidMarkOpacities,
   stageTimeStarted,
   surfaceGrips,
 } from '../../refs';
@@ -62,7 +63,9 @@ export function addSkidMark(
     totalTireForce,
     sideTireForce,
     straightTireForce,
-    surface
+    surface,
+    front,
+    left
   );
   mesh && scene.current?.add(mesh);
   wheelSkidMarks.push({ mesh, point: wheelMeshPos, pointLeft: wheelLeft, pointRight: wheelRight });
@@ -82,7 +85,9 @@ function skidMarkSegment(
   totalTireForce: THREE.Vector3,
   sideTireForce: THREE.Vector3,
   straightTireForce: THREE.Vector3,
-  surface: Surface
+  surface: Surface,
+  front: boolean,
+  left: boolean
 ) {
   const drag = getDragForce().length();
   const beforeClamp = sideTireForce.length() / 4 + straightTireForce.length();
@@ -92,6 +97,8 @@ function skidMarkSegment(
     (beforeClamp - afterClamp - drag) * skidMarkIntensity * compression,
     surfaceGrips[surface].opacity
   );
+
+  skidMarkOpacities.current[front ? (left ? 0 : 1) : left ? 2 : 3] = opacity;
 
   if (opacity <= 0.01) {
     return null;

@@ -22,7 +22,7 @@ export const scale = 0.04;
 export const mapWidthSegments = 100;
 export const mapHeightSegments = 100;
 export const terrainMaxHeight = 100;
-export const terrainHeightExponent = 2; // higher = bias towards lower heights
+export const terrainHeightExponent = 1.8; // higher = bias towards lower heights
 export const terrainMinHeight = 0;
 export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
@@ -98,6 +98,7 @@ export const wheelSurfaces = ref<[Surface, Surface, Surface, Surface]>([
   'tarmac',
   'tarmac',
 ]);
+export const skidMarkOpacities = ref([0, 0, 0, 0]);
 
 // surface grips
 export const surfaceGrips: {

@@ -27,7 +27,7 @@ export const TeslaCybertruck: Car = {
   springDamping: 7000,
   bodyRoll: 1.5,
   drag: 0.25,
-  downforceFront: 0,
+  downforceFront: 0.01,
   downforceRear: 0,
   finalDrive: 160,
   gears: [1],

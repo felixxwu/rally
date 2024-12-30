@@ -33,18 +33,6 @@ export function initInternalController() {
         1
       )
     );
-    internalController.current.throttle = Math.max(
-      0,
-      Math.min(
-        (keysDown.current['w'] ? 1 : 0) +
-          (keysDown.current['ArrowUp'] ? 1 : 0) +
-          (keysDownMobile.current['w'] ? 1 : 0) +
-          (mobileJoystickPad.current.y * -2 + 1) +
-          (getGamepad()?.buttons?.[7]?.value ?? 0) +
-          (getGamepad()?.buttons?.[9]?.value ?? 0),
-        1
-      )
-    );
     internalController.current.brake = Math.max(
       0,
       Math.min(
@@ -57,10 +45,28 @@ export function initInternalController() {
         1
       )
     );
-    internalController.current.handbrake = Math.max(
-      0,
-      Math.min((keysDown.current[' '] ? 1 : 0) + (getGamepad()?.buttons?.[1]?.value ?? 0), 1)
-    );
+    internalController.current.handbrake =
+      internalController.current.brake !== 0
+        ? 0
+        : Math.max(
+            0,
+            Math.min((keysDown.current[' '] ? 1 : 0) + (getGamepad()?.buttons?.[1]?.value ?? 0), 1)
+          );
+    internalController.current.throttle =
+      internalController.current.handbrake !== 0
+        ? 0
+        : Math.max(
+            0,
+            Math.min(
+              (keysDown.current['w'] ? 1 : 0) +
+                (keysDown.current['ArrowUp'] ? 1 : 0) +
+                (keysDownMobile.current['w'] ? 1 : 0) +
+                (mobileJoystickPad.current.y * -2 + 1) +
+                (getGamepad()?.buttons?.[7]?.value ?? 0) +
+                (getGamepad()?.buttons?.[9]?.value ?? 0),
+              1
+            )
+          );
 
     menuUp.current =
       keysDown.current['ArrowUp'] ||
