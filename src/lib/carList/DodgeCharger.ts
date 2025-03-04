@@ -17,7 +17,7 @@ export const DodgeCharger: Car = {
   wheelEndOffset: 0,
   mass: 1633,
   power: 295,
-  steerPower: 2.7,
+  steerPower: 2.9,
   tireGrip: 0.45,
   brakePower: 400,
   brakeRearBias: 0.4,
@@ -31,7 +31,7 @@ export const DodgeCharger: Car = {
   downforceRear: 0,
   finalDrive: 300,
   gears: [1, 0.5, 0.3, 0.23],
-  torqueCurve: createXYMap([0, 0.5], [4000, 1], [5000, 1], [8000, 0]),
+  torqueCurve: createXYMap([0, 1], [1000, 0.5], [4000, 1], [5000, 1], [8000, 0]),
   redline: 7000,
   shiftTime: 800,
 };

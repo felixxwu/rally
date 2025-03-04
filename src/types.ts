@@ -14,6 +14,11 @@ export const weatherOptions = ['clear', 'rain', 'fog'] as Weather[];
 
 export type Surface = 'tarmac' | 'grass';
 
+export type SurfaceProperties = { [key in Weather]: number } & {
+  colour: string;
+  skidMarkOpacity: number;
+};
+
 export type Menu =
   | 'main'
   | 'stageSelect'

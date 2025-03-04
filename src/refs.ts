@@ -1,7 +1,16 @@
 import AmmoType from 'ammojs-typed';
 
 import Stats from './lib/jsm/stats.module';
-import { Menu, Mesh, Surface, TimeOfDay, timeOfDayOptions, Weather, weatherOptions } from './types';
+import {
+  Menu,
+  Mesh,
+  Surface,
+  SurfaceProperties,
+  TimeOfDay,
+  timeOfDayOptions,
+  Weather,
+  weatherOptions,
+} from './types';
 import { THREE } from './lib/utils/THREE';
 import { Ref, ref } from './lib/utils/ref';
 import { createXYMap } from './lib/utils/createXYMap';
@@ -102,10 +111,10 @@ export const skidMarkOpacities = ref([0, 0, 0, 0]);
 
 // surface grips
 export const surfaceGrips: {
-  [key in Surface]: { dry: Ref<number>; colour: string; opacity: number };
+  [key in Surface]: SurfaceProperties;
 } = {
-  tarmac: { dry: ref(1.8, 0, 3, 0.1), colour: '#000', opacity: 0.5 },
-  grass: { dry: ref(1.3, 0, 3, 0.1), colour: '#040', opacity: 0.2 },
+  tarmac: { clear: 1.8, rain: 1, fog: 1.6, colour: '#000', skidMarkOpacity: 0.5 },
+  grass: { clear: 1.3, rain: 1, fog: 1.2, colour: '#040', skidMarkOpacity: 0.2 },
 };
 export const skidMarkIntensity = 0.004;
 export const maxSkidMarks = 50;

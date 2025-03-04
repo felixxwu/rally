@@ -95,7 +95,7 @@ function skidMarkSegment(
 
   const opacity = Math.min(
     (beforeClamp - afterClamp - drag) * skidMarkIntensity * compression,
-    surfaceGrips[surface].opacity
+    surfaceGrips[surface].skidMarkOpacity
   );
 
   skidMarkOpacities.current[front ? (left ? 0 : 1) : left ? 2 : 3] = opacity;

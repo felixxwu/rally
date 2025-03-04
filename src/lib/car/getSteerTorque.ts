@@ -1,15 +1,13 @@
-import AmmoType from 'ammojs-typed';
-declare const Ammo: typeof AmmoType;
-
 import {
+  car,
   reverseAngle,
   selectedCar,
   steerModMap,
   surfaceGrips,
   suspensionForces,
+  weather,
   wheelSurfaces,
 } from '../../refs';
-import { car } from '../../refs';
 import { getCarDirection } from './getCarDirection';
 import { getSpeedVec } from './getSpeedVec';
 
@@ -27,9 +25,7 @@ export function getMaxSteerTorque() {
   const compressionAdjusted = speedAdjusted * (allWheelComp + 0.2);
   const surfaceModifier =
     wheelSurfaces.current.slice(0, 2).reduce((prev, curr) => {
-      return prev + surfaceGrips[curr].dry.current;
+      return prev + surfaceGrips[curr][weather.current];
     }, 0) / 2;
-  const surfaceAdjusted = compressionAdjusted * surfaceModifier;
-
-  return surfaceAdjusted;
+  return compressionAdjusted * surfaceModifier;
 }

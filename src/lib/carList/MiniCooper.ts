@@ -18,7 +18,7 @@ export const MiniCooper: Car = {
   mass: 652,
   power: 60,
   steerPower: 2,
-  tireGrip: 0.6,
+  tireGrip: 0.55,
   brakePower: 200,
   brakeRearBias: 0.6,
   driveTrain: 'FWD',
@@ -31,7 +31,7 @@ export const MiniCooper: Car = {
   downforceRear: 0,
   finalDrive: 250,
   gears: [1, 0.65, 0.45, 0.3],
-  torqueCurve: createXYMap([0, 0.5], [3000, 1], [5000, 1], [7000, 0]),
+  torqueCurve: createXYMap([0, 1], [1000, 0.5], [3000, 1], [5000, 1], [7000, 0]),
   redline: 6000,
   shiftTime: 500,
 };
