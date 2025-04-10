@@ -61,9 +61,9 @@ export const maxIncline = 0.5;
 export const nearbyDistance = 200;
 export const pointMoveDist = 3;
 export const horizontalRoadSmoothing = 50;
-export const verticalRoadSmoothing = 10;
+export const verticalRoadSmoothing = 5;
 export const crossingDistance = 50;
-export const halfRoadWidth = 7;
+export const halfRoadWidth = 9;
 export const startRoadWidth = 20;
 export const startRoadLength = 30;
 export const grassWidth = 3;
@@ -95,7 +95,7 @@ export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 export const gravity = 35;
 
 // steering
-export const steerModMap = createXYMap([0, 0], [1, 0], [2, 0.4], [15, 1], [50, 0.5]); // x = speed, y = steering input modifier
+export const steerModMap = createXYMap([0, 0], [1, 0], [5, 1], [50, 0.7]); // x = speed, y = steering input modifier
 export const reverseAngle = Math.PI * 0.8;
 
 // tires and suspension
@@ -113,8 +113,8 @@ export const skidMarkOpacities = ref([0, 0, 0, 0]);
 export const surfaceGrips: {
   [key in Surface]: SurfaceProperties;
 } = {
-  tarmac: { clear: 1.8, rain: 1, fog: 1.6, colour: '#000', skidMarkOpacity: 0.5 },
-  grass: { clear: 1.3, rain: 1, fog: 1.2, colour: '#040', skidMarkOpacity: 0.2 },
+  tarmac: { clear: 1.8, rain: 1.4, fog: 1.7, colour: '#000', skidMarkOpacity: 0.5 },
+  grass: { clear: 1.2, rain: 0.8, fog: 1.1, colour: '#040', skidMarkOpacity: 0.2 },
 };
 export const skidMarkIntensity = 0.004;
 export const maxSkidMarks = 50;
@@ -139,7 +139,7 @@ export const shiftingMode = ref<'manual' | 'auto'>('auto');
 export const camFollowDistance = ref(5, 3, 30, 1);
 export const camFollowHeight = ref(2.5, 0, 30, 1);
 export const camFollowSpeed = ref(0.15, 0, 1, 0.01);
-export const fov = 90;
+export const fov = 60;
 export const carVisible = ref(false);
 
 // sky

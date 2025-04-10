@@ -22,7 +22,7 @@ export function getMaxSteerTorque() {
   const steerModifier = steerModMap(speed.length());
   const speedAdjusted = steerTorque * steerModifier;
   const allWheelComp = suspensionForces.current.slice(0, 2).reduce((a, b) => a + b, 0) / 2;
-  const compressionAdjusted = speedAdjusted * (allWheelComp + 0.2);
+  const compressionAdjusted = speedAdjusted * Math.sqrt(allWheelComp + 0.2) * 7.5;
   const surfaceModifier =
     wheelSurfaces.current.slice(0, 2).reduce((prev, curr) => {
       return prev + surfaceGrips[curr][weather.current];
