@@ -5,45 +5,57 @@ import { getCarMeshPos } from './getCarTransform';
 import { getCarDirection } from './getCarDirection';
 import { vec3 } from '../utils/createVec';
 import { getAmmoVector } from '../utils/vectorConversion';
+import { THREE } from '../utils/THREE';
+
+// Reusable objects to avoid allocations
+const downVecCache = new THREE.Vector3();
+const forwardVecCache = new THREE.Vector3();
+const carMeshPosCache = new THREE.Vector3();
+const carMeshFrontCache = new THREE.Vector3();
+const carMeshBackCache = new THREE.Vector3();
+const carRelFrontCache = new THREE.Vector3();
+const carRelBackCache = new THREE.Vector3();
+const frontDownforceCache = new THREE.Vector3();
+const rearDownforceCache = new THREE.Vector3();
 
 export function getDownforce() {
   const { length, downforceFront, downforceRear } = selectedCar.current;
   const speed = getSpeedVec();
-  const downVec = getCarDirection(vec3([0, -1, 0]));
-  const forwardVec = getCarDirection(vec3([0, 0, 1]));
 
-  const carMeshFront = getCarMeshPos()
-    .clone()
-    .add(forwardVec.clone().multiplyScalar(length / 2));
-  const carMeshBack = getCarMeshPos()
-    .clone()
-    .add(forwardVec.clone().multiplyScalar(-length / 2));
+  // Reuse cached vectors
+  downVecCache.copy(getCarDirection(vec3([0, -1, 0])));
+  forwardVecCache.copy(getCarDirection(vec3([0, 0, 1])));
 
-  const carRelFront = forwardVec.setLength(length / 2);
-  const carRelBack = forwardVec.setLength(-length / 2);
+  // Get car mesh position once and reuse
+  carMeshPosCache.copy(getCarMeshPos());
+  carMeshFrontCache.copy(carMeshPosCache).add(forwardVecCache.clone().multiplyScalar(length / 2));
+  carMeshBackCache.copy(carMeshPosCache).add(forwardVecCache.clone().multiplyScalar(-length / 2));
+
+  carRelFrontCache.copy(forwardVecCache).setLength(length / 2);
+  carRelBackCache.copy(forwardVecCache).setLength(-length / 2);
 
   const squared = speed.length() ** 2;
 
-  const frontDownforce = downVec.clone().setLength(squared * -downforceFront);
-  const rearDownforce = downVec.clone().setLength(squared * downforceRear);
+  frontDownforceCache.copy(downVecCache).setLength(squared * -downforceFront);
+  rearDownforceCache.copy(downVecCache).setLength(squared * downforceRear);
 
   helperArrowFromTo(
-    carMeshFront.clone().add(frontDownforce.clone().multiplyScalar(0.0001)),
-    carMeshFront,
+    carMeshFrontCache.clone().add(frontDownforceCache.clone().multiplyScalar(0.0001)),
+    carMeshFrontCache.clone(),
     0xffffff,
     'downforce front'
   );
   helperArrowFromTo(
-    carMeshBack.clone().add(rearDownforce.clone().multiplyScalar(-0.0001)),
-    carMeshBack,
+    carMeshBackCache.clone().add(rearDownforceCache.clone().multiplyScalar(-0.0001)),
+    carMeshBackCache.clone(),
     0xffffff,
     'downforce rear'
   );
 
   return {
-    front: getAmmoVector(frontDownforce),
-    frontOrigin: getAmmoVector(carRelFront),
-    rear: getAmmoVector(rearDownforce),
-    rearOrigin: getAmmoVector(carRelBack),
+    front: getAmmoVector(frontDownforceCache),
+    frontOrigin: getAmmoVector(carRelFrontCache),
+    rear: getAmmoVector(rearDownforceCache),
+    rearOrigin: getAmmoVector(carRelBackCache),
   };
 }

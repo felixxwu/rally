@@ -6,6 +6,10 @@ import { THREE } from '../utils/THREE';
 const recentPos: THREE.Vector3[] = [];
 const numRecentPos = 1;
 
+// Reusable objects to avoid allocations
+const pVecCache = new THREE.Vector3();
+const quatCache = new THREE.Quaternion();
+
 export function updatePhysics(objThree: Mesh) {
   const objPhys = getUserData(objThree).physicsBody;
   const ms = objPhys.getMotionState();
@@ -13,8 +17,10 @@ export function updatePhysics(objThree: Mesh) {
     ms.getWorldTransform(transformAux1.current);
     const p = transformAux1.current?.getOrigin();
     const q = transformAux1.current?.getRotation();
-    const pVec = new THREE.Vector3(p.x(), p.y(), p.z());
-    const quat = new THREE.Quaternion(q?.x() ?? 0, q?.y() ?? 0, q?.z() ?? 0, q?.w() ?? 0);
+
+    // Reuse cached objects instead of creating new ones
+    pVecCache.set(p.x(), p.y(), p.z());
+    quatCache.set(q?.x() ?? 0, q?.y() ?? 0, q?.z() ?? 0, q?.w() ?? 0);
 
     // recentPos.push(pVec);
     // if (recentPos.length > numRecentPos) recentPos.shift();
@@ -23,7 +29,7 @@ export function updatePhysics(objThree: Mesh) {
     //   .divideScalar(recentPos.length);
     // objThree.position.copy(avgRecentPos);
 
-    objThree.position.copy(pVec);
-    objThree.quaternion.copy(quat);
+    objThree.position.copy(pVecCache);
+    objThree.quaternion.copy(quatCache);
   }
 }

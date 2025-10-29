@@ -26,7 +26,7 @@ export const DodgeCharger: Car = {
   driveTrain: 'RWD',
   springLength: 1.3,
   bodyRoll: 0.5,
-  drag: 0.075,
+  drag: 0.08,
   downforceFront: 0,
   downforceRear: 0,
   finalDrive: 300,

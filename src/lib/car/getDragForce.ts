@@ -7,19 +7,24 @@ import { THREE } from '../utils/THREE';
 import { getSpeedVec } from './getSpeedVec';
 import { getCarPos } from './getCarTransform';
 
+// Reusable objects to avoid allocations
+const dragForceCache = new THREE.Vector3();
+const inverseTravelCache = new THREE.Vector3();
+
 export function getDragForce() {
   if (!car.current) return new THREE.Vector3();
 
   const speed = getSpeedVec();
-  const inverseTravel = speed.clone().multiplyScalar(-selectedCar.current.drag);
-  const squared = inverseTravel.clone().multiplyScalar(inverseTravel.length());
+  // Reuse cached vectors for intermediate calculations
+  inverseTravelCache.copy(speed).multiplyScalar(-selectedCar.current.drag);
+  dragForceCache.copy(inverseTravelCache).multiplyScalar(inverseTravelCache.length());
   const carPos = getCarPos();
-  squared.setLength(squared.length() + minAirResistance);
+  dragForceCache.setLength(dragForceCache.length() + minAirResistance);
 
   if (speed.length() > 0.1) {
-    helperArrow(mult(inverseTravel, -2), add(carPos, [0, 1, 0]), 0x0000ff, 'travel');
-    helperArrow(mult(squared, 0.1), add(carPos, [0, 1, 0]), 0xffffff, 'airResistance');
+    helperArrow(mult(inverseTravelCache, -2), add(carPos, [0, 1, 0]), 0x0000ff, 'travel');
+    helperArrow(mult(dragForceCache, 0.1), add(carPos, [0, 1, 0]), 0xffffff, 'airResistance');
   }
 
-  return squared;
+  return dragForceCache.clone();
 }

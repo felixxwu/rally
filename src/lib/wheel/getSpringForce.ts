@@ -27,27 +27,41 @@ const defaultReturn = {
   surface: 'tarmac' as Surface,
 };
 
+// Reusable objects to avoid allocations
+const raycasterCache = new THREE.Raycaster();
+const dirCache = new THREE.Vector3(0, 1, 0);
+const normalCache = new THREE.Vector3(0, 1, 0);
+const upForceCache = new THREE.Vector3();
+const rayOriginCache = new THREE.Vector3();
+const rayDirectionCache = new THREE.Vector3();
+
 export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>, deltaTime: number) {
-  const dir = getCarDirection(new THREE.Vector3(0, 1, 0));
+  const dir = getCarDirection(dirCache);
   const { springLength, springDamping, springRate } = selectedCar.current;
 
-  const raycaster = new THREE.Raycaster(
-    pos.clone().add(dir.multiplyScalar(raycasterOffset)),
-    dir.clone().negate()
-  );
+  // Reuse raycaster instead of creating new one
+  rayOriginCache.copy(dir).multiplyScalar(raycasterOffset).add(pos);
+  rayDirectionCache.copy(dir).negate();
+  raycasterCache.set(rayOriginCache, rayDirectionCache);
 
   let distance = Infinity;
-  let normal = new THREE.Vector3(0, 1, 0);
+  normalCache.set(0, 1, 0);
+  let normal = normalCache;
 
   const now = window.performance.now();
   let surface: Surface = 'tarmac';
   for (const { mesh, surface: meshSurface } of collisionMeshes) {
     if (!mesh.current) continue;
-    const intersections = raycaster.intersectObject(mesh.current, false);
+    const intersections = raycasterCache.intersectObject(mesh.current, false);
     const newDistance = intersections[0]?.distance ?? Infinity;
 
     if (newDistance < distance) {
-      normal = intersections[0]?.normal || new THREE.Vector3(0, 1, 0);
+      const intersectionNormal = intersections[0]?.normal;
+      if (intersectionNormal) {
+        normal.copy(intersectionNormal);
+      } else {
+        normal.set(0, 1, 0);
+      }
       surface = meshSurface;
     }
     distance = Math.min(distance, newDistance);
@@ -66,9 +80,9 @@ export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>, de
     const damping = Math.max(0, -velY * springDamping);
     const spring = compression * springRate;
     prevDistance.current = distance;
-    const upForce = normal.setLength(damping + spring);
+    upForceCache.copy(normal).setLength(damping + spring);
 
-    return { suspensionForce: upForce, compression, surface };
+    return { suspensionForce: upForceCache.clone(), compression, surface };
   } else {
     return { ...defaultReturn, surface };
   }

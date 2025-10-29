@@ -45,7 +45,8 @@ let now = window.performance.now();
 
 function render() {
   logRenderTime('time since last render', now);
-  now = window.performance.now();
+  const frameStart = window.performance.now();
+  now = frameStart;
 
   const delta = clock.getDelta();
 
@@ -58,21 +59,20 @@ function render() {
   }
 
   if (delta !== 0) {
-    const now = window.performance.now();
     onRender.current.forEach(callback => {
       if (stopOnRender.current) return;
-      const now = window.performance.now();
+      const callbackStart = window.performance.now();
       callback[1](delta);
-      logRenderTime('onRender: ' + callback[0], now);
+      logRenderTime('onRender: ' + callback[0], callbackStart);
     });
     onRenderNoPausing.current.forEach(callback => callback(delta));
-    logRenderTime('All onRender', now);
+    logRenderTime('All onRender', frameStart);
   }
 
   if (camera.current && scene.current) {
-    const now = window.performance.now();
+    const renderStart = window.performance.now();
     renderer.current?.render(scene.current, camera.current);
-    logRenderTime('render', now);
+    logRenderTime('render', renderStart);
   }
 
   stats.current?.update();
