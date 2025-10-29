@@ -9,16 +9,27 @@ import {
   menuSelect,
   menuUp,
   mobileJoystickPad,
+  mobileButtons,
+  mobileInput,
   onRenderNoPausing,
   stopInternalController,
 } from '../refs';
 import { getGamepadInputs } from './getGamepadInputs';
+import { isMobileDevice } from './utils/isMobileDevice';
 
 export function initInternalController() {
   onRenderNoPausing.current.push(() => {
     if (stopInternalController.current) return;
 
     const gamepad = getGamepadInputs();
+
+    // Mobile button controls: left/right for steering, brake button (only if in 'buttons' mode)
+    const mobileSteer =
+      mobileInput.current === 'buttons'
+        ? (mobileButtons.current.left ? -1 : 0) + (mobileButtons.current.right ? 1 : 0)
+        : 0;
+    const mobileBrakeInput =
+      mobileInput.current === 'buttons' && mobileButtons.current.brake ? 1 : 0;
 
     internalController.current.steer = Math.max(
       -1,
@@ -27,7 +38,8 @@ export function initInternalController() {
           (keysDown.current['a'] ? -1 : 0) +
           (keysDown.current['ArrowRight'] ? 1 : 0) +
           (keysDown.current['ArrowLeft'] ? -1 : 0) +
-          (mobileJoystickPad.current.x * 2 - 1) +
+          mobileSteer +
+          (mobileInput.current !== 'buttons' ? mobileJoystickPad.current.x * 2 - 1 : 0) +
           gamepad.steer,
         1
       )
@@ -37,7 +49,8 @@ export function initInternalController() {
       Math.min(
         (keysDown.current['s'] ? 1 : 0) +
           (keysDown.current['ArrowDown'] ? 1 : 0) +
-          (mobileJoystickPad.current.y * 2 - 1) +
+          mobileBrakeInput +
+          (mobileInput.current !== 'buttons' ? mobileJoystickPad.current.y * 2 - 1 : 0) +
           gamepad.brake,
         1
       )
@@ -46,19 +59,37 @@ export function initInternalController() {
       internalController.current.brake !== 0
         ? 0
         : Math.max(0, Math.min((keysDown.current[' '] ? 1 : 0) + gamepad.handbrake, 1));
-    internalController.current.throttle =
-      internalController.current.handbrake !== 0
-        ? 0
-        : Math.max(
-            0,
-            Math.min(
-              (keysDown.current['w'] ? 1 : 0) +
-                (keysDown.current['ArrowUp'] ? 1 : 0) +
-                (mobileJoystickPad.current.y * -2 + 1) +
-                gamepad.throttle,
-              1
-            )
-          );
+
+    // Calculate throttle input
+    const keyboardThrottle =
+      (keysDown.current['w'] ? 1 : 0) + (keysDown.current['ArrowUp'] ? 1 : 0);
+    const gamepadThrottle = gamepad.throttle;
+    const joystickThrottle =
+      mobileInput.current !== 'buttons' ? mobileJoystickPad.current.y * -2 + 1 : 0;
+    const manualThrottleInput = keyboardThrottle + gamepadThrottle + joystickThrottle;
+
+    // Check if user is manually braking
+    const manualBrake =
+      keysDown.current['s'] ||
+      keysDown.current['ArrowDown'] ||
+      (mobileInput.current === 'buttons' && mobileButtons.current.brake) ||
+      gamepad.brake > 0;
+
+    // Auto-accelerate on mobile devices in buttons mode
+    const mobileDevice = isMobileDevice();
+    const shouldAutoAccelerate =
+      mobileDevice && mobileInput.current === 'buttons' && !manualThrottleInput;
+
+    // Calculate throttle value
+    if (internalController.current.handbrake !== 0 || manualBrake) {
+      internalController.current.throttle = 0;
+    } else if (shouldAutoAccelerate) {
+      internalController.current.throttle = 1;
+    } else if (manualThrottleInput > 0) {
+      internalController.current.throttle = Math.max(0, Math.min(manualThrottleInput, 1));
+    } else {
+      internalController.current.throttle = 0;
+    }
 
     menuUp.current = keysDown.current['ArrowUp'] || keysDown.current['w'] || gamepad.up >= 0.5;
 

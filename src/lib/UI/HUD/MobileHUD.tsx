@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { internalController, menuPause, mobileInput } from '../../../refs';
+import { internalController, menuPause, mobileButtons, mobileInput } from '../../../refs';
 import { useEffect, useState } from 'react';
 import { addOnRenderListener } from '../../render/addOnRenderListener';
 import { useCustomRef } from '../../utils/useCustomRef';
@@ -8,11 +8,14 @@ import { Hamburger } from '../Icons/Hamburger';
 const joystickPadSize = 200;
 const smallPadLength = 150;
 const smallPadWidth = 50;
+const buttonHeight = 70;
+const buttonGap = 10; // Uniform gap between buttons and to screen edges
 let i = 0;
 
 export function MobileHUD() {
   const [controller, setController] = useState({ x: 0.5, y: 0.5 });
   const inputType = useCustomRef(mobileInput);
+  const buttons = useCustomRef(mobileButtons);
 
   useEffect(() => {
     addOnRenderListener('mobile joystick', () => {
@@ -46,6 +49,89 @@ export function MobileHUD() {
           </HalfContainer>
         </>
       )}
+      {inputType === 'buttons' && (
+        <ButtonRow>
+          <ControlButton
+            id='mobile-button-left'
+            pressed={buttons.left}
+            onTouchStart={e => {
+              e.preventDefault();
+              mobileButtons.current.left = true;
+            }}
+            onTouchEnd={e => {
+              e.preventDefault();
+              mobileButtons.current.left = false;
+            }}
+            onMouseDown={e => {
+              e.preventDefault();
+              mobileButtons.current.left = true;
+            }}
+            onMouseUp={e => {
+              e.preventDefault();
+              mobileButtons.current.left = false;
+            }}
+            onMouseLeave={e => {
+              e.preventDefault();
+              mobileButtons.current.left = false;
+            }}
+          >
+            ←
+          </ControlButton>
+          <ControlButton
+            id='mobile-button-brake'
+            pressed={buttons.brake}
+            isBrake
+            onTouchStart={e => {
+              e.preventDefault();
+              mobileButtons.current.brake = true;
+            }}
+            onTouchEnd={e => {
+              e.preventDefault();
+              mobileButtons.current.brake = false;
+            }}
+            onMouseDown={e => {
+              e.preventDefault();
+              mobileButtons.current.brake = true;
+            }}
+            onMouseUp={e => {
+              e.preventDefault();
+              mobileButtons.current.brake = false;
+            }}
+            onMouseLeave={e => {
+              e.preventDefault();
+              mobileButtons.current.brake = false;
+            }}
+          >
+            BRAKE
+          </ControlButton>
+          <ControlButton
+            id='mobile-button-right'
+            pressed={buttons.right}
+            onTouchStart={e => {
+              e.preventDefault();
+              mobileButtons.current.right = true;
+            }}
+            onTouchEnd={e => {
+              e.preventDefault();
+              mobileButtons.current.right = false;
+            }}
+            onMouseDown={e => {
+              e.preventDefault();
+              mobileButtons.current.right = true;
+            }}
+            onMouseUp={e => {
+              e.preventDefault();
+              mobileButtons.current.right = false;
+            }}
+            onMouseLeave={e => {
+              e.preventDefault();
+              mobileButtons.current.right = false;
+            }}
+          >
+            →
+          </ControlButton>
+        </ButtonRow>
+      )}
       <HamburgerContainer id='hamburger' onClick={() => (menuPause.current = true)}>
         <Hamburger size={50} color={'white'} />
       </HamburgerContainer>
@@ -55,9 +141,9 @@ export function MobileHUD() {
 
 const Container = styled('div')`
   position: fixed;
-  bottom: 30px;
-  left: 0;
-  width: 100%;
+  bottom: ${buttonGap}px;
+  left: ${buttonGap}px;
+  right: ${buttonGap}px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,12 +158,12 @@ const HalfContainer = styled('div')`
   padding-right: 30px;
 `;
 
-const HamburgerContainer = styled('div')`
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  pointer-events: all;
-  cursor: pointer;
+const ButtonRow = styled('div')`
+  display: flex;
+  gap: ${buttonGap}px;
+  width: 100%;
+  align-items: stretch;
+  justify-content: center;
 `;
 
 const JoyStickPad = styled('div')<{ width: number; height: number }>`
@@ -110,4 +196,37 @@ const YAxis = styled('div')<{
   height: 1px;
   background: linear-gradient(90deg, #fff0 0%, #ffff 50%, #fff0 100%);
   position: absolute;
+`;
+
+const ControlButton = styled('button')<{ pressed: boolean; isBrake?: boolean }>`
+  flex: 1;
+  height: ${buttonHeight}px;
+  border-radius: 15px;
+  border: 3px solid white;
+  background: ${({ pressed, isBrake }) =>
+    pressed ? (isBrake ? '#ff3333' : '#33ff33') : 'rgba(255, 255, 255, 0.2)'};
+  color: white;
+  font-size: ${buttonHeight * 0.3}px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  transition: background 0.1s ease;
+  outline: none;
+  touch-action: none;
+
+  &:active {
+    background: ${({ isBrake }) => (isBrake ? '#ff6666' : '#66ff66')};
+  }
+`;
+
+const HamburgerContainer = styled('div')`
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  pointer-events: all;
+  cursor: pointer;
 `;

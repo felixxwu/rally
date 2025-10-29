@@ -35,7 +35,7 @@ export function SettingsMenu() {
           {
             label: 'Mobile Input Mode',
             cycleValueRef: mobileInput,
-            cycleSet: ['combined', 'separate'],
+            cycleSet: ['combined', 'separate', 'buttons'],
           },
           {
             label: 'OS (For Controller Inputs)',

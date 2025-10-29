@@ -17,7 +17,7 @@ export const MiniCooper: Car = {
   wheelEndOffset: 0,
   mass: 652,
   springRate: 652 / 6,
-  springDamping: 652 / 12,
+  springDamping: 652 / 36,
   power: 60,
   steerPower: 1.7,
   tireGrip: 0.35,

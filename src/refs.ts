@@ -187,7 +187,7 @@ export const renderHitCarBox = ref(false);
 export const panelOpen = ref(false);
 export const generatingTerrain = ref(false);
 export const carSelected = ref(false);
-export const raycasterOffset = 1.5;
+export const raycasterOffset = 3;
 export const stageTime = ref(0);
 export const stageTimeStarted = ref(false);
 export const countDownStarted = ref(false);
@@ -197,10 +197,11 @@ export const transitionTime = ref(defaultTransitionTime);
 export const stopOnRender = ref(false);
 export const infoText = ref('');
 export const infoTextOnClick = ref<() => void>(() => {});
-export const mobileInput = ref<'combined' | 'separate'>('separate');
+export const mobileInput = ref<'combined' | 'separate' | 'buttons'>('buttons');
 
 // controls
 export const mobileJoystickPad = ref({ x: 0.5, y: 0.5 });
+export const mobileButtons = ref({ left: false, brake: false, right: false });
 export const keysDown = ref<Record<string, boolean>>({});
 export const internalController = ref({
   steer: 0,

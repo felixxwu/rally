@@ -4,6 +4,7 @@ import {
   keysDown,
   mobileInput,
   mobileJoystickPad,
+  mobileButtons,
   panelOpen,
   renderer,
   renderHelperArrows,
@@ -30,6 +31,70 @@ function onTouch(e: TouchEvent) {
   const hamburger = document.getElementById('hamburger');
   if (hamburger) hamburger.style.opacity = '1';
 
+  // Handle button-based controls
+  if (mobileInput.current === 'buttons') {
+    // Reset buttons if no touches
+    if (e.touches.length === 0) {
+      mobileButtons.current = { left: false, brake: false, right: false };
+      return;
+    }
+
+    const buttonLeft = document.getElementById('mobile-button-left');
+    const buttonBrake = document.getElementById('mobile-button-brake');
+    const buttonRight = document.getElementById('mobile-button-right');
+
+    if (buttonLeft && buttonBrake && buttonRight) {
+      const leftRect = buttonLeft.getBoundingClientRect();
+      const brakeRect = buttonBrake.getBoundingClientRect();
+      const rightRect = buttonRight.getBoundingClientRect();
+
+      // Reset all buttons
+      mobileButtons.current = { left: false, brake: false, right: false };
+
+      // Check which buttons are being pressed
+      for (let i = 0; i < e.touches.length; i++) {
+        const touch = e.touches.item(i);
+        if (!touch) continue;
+
+        const touchX = touch.clientX;
+        const touchY = touch.clientY;
+
+        // Check if touch is within any button bounds
+        if (
+          touchX >= leftRect.left &&
+          touchX <= leftRect.right &&
+          touchY >= leftRect.top &&
+          touchY <= leftRect.bottom
+        ) {
+          mobileButtons.current.left = true;
+        } else if (
+          touchX >= brakeRect.left &&
+          touchX <= brakeRect.right &&
+          touchY >= brakeRect.top &&
+          touchY <= brakeRect.bottom
+        ) {
+          mobileButtons.current.brake = true;
+        } else if (
+          touchX >= rightRect.left &&
+          touchX <= rightRect.right &&
+          touchY >= rightRect.top &&
+          touchY <= rightRect.bottom
+        ) {
+          mobileButtons.current.right = true;
+        }
+      }
+    }
+    return;
+  }
+
+  // Handle old joystick controls
+  if (mobileInput.current === 'combined' || mobileInput.current === 'separate') {
+    if (e.touches.length === 0) {
+      mobileJoystickPad.current = { x: 0.5, y: 0.5 };
+      return;
+    }
+  }
+
   if (mobileInput.current === 'combined') {
     const touch = e.touches.item(0);
 
@@ -52,8 +117,6 @@ function onTouch(e: TouchEvent) {
   }
 
   if (mobileInput.current === 'separate') {
-    if (e.touches.length === 0) mobileJoystickPad.current = { x: 0.5, y: 0.5 };
-
     const joystickLeft = document.getElementById('joystick-left');
     const joystickRight = document.getElementById('joystick-right');
 

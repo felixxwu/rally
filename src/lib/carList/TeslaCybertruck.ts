@@ -17,7 +17,7 @@ export const TeslaCybertruck: Car = {
   wheelEndOffset: 0,
   mass: 3020,
   springRate: 3020 / 6,
-  springDamping: 3020 / 12,
+  springDamping: 3020 / 36,
   power: 600,
   steerPower: 6,
   tireGrip: 0.3,

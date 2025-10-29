@@ -1,6 +1,7 @@
 import {
   ammoHeightData,
   camera,
+  camFollowHeight,
   carVisible,
   currentMenu,
   defaultTransitionTime,
@@ -63,6 +64,12 @@ export async function exitToMainMenu() {
   gear.current = 0;
 
   camera.current?.position.copy(defaultCamPos);
+  // Make camera face the car (matching the lookAt offset used in updateCamera)
+  camera.current?.lookAt(
+    platFormCarPos.x,
+    platFormCarPos.y + camFollowHeight.current / 4,
+    platFormCarPos.z
+  );
 
   clearCaches();
 }

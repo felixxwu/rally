@@ -6,6 +6,8 @@ import { MobileHUD } from './MobileHUD';
 import { Progress } from './Progress';
 import { DashBoard } from './DashBoard';
 
+const isMobileDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
 export function HUD() {
   useCustomRef(menuPause, value => {
     if (value) {
@@ -19,7 +21,7 @@ export function HUD() {
     <div>
       <Info />
       <Progress />
-      <MobileHUD />
+      {isMobileDevice && <MobileHUD />}
       <MiniMap />
       <DashBoard />
     </div>

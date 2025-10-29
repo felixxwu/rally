@@ -24,12 +24,24 @@ export function initRenderer() {
   renderer.current.toneMapping = THREE.AgXToneMapping;
   container.current?.appendChild(renderer.current.domElement);
 
-  animate();
+  requestAnimationFrame(animate);
 }
 
-function animate() {
-  render();
+const targetFPS = 60;
+const targetFrameTime = 1000 / targetFPS; // ~16.67ms per frame
+let lastFrameTime = performance.now();
+
+function animate(currentTime: number) {
   requestAnimationFrame(animate);
+
+  // Limit to 60 FPS
+  const elapsed = currentTime - lastFrameTime;
+  if (elapsed < targetFrameTime) {
+    return;
+  }
+  lastFrameTime = currentTime - (elapsed % targetFrameTime);
+
+  render();
 }
 
 let renderTimes = {} as Record<string, number>;
