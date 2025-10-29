@@ -5,6 +5,7 @@ import { helperArrowFromTo } from '../helperArrows/helperArrow';
 import { getProgressPercentage } from '../UI/HUD/Progress';
 import { vec3 } from '../utils/createVec';
 import { setInfoText } from '../UI/setInfoText';
+import { THREE } from '../utils/THREE';
 
 let i = 0;
 
@@ -50,9 +51,35 @@ export function resetIfFarFromRoad() {
 
 export function resetToLastProgress() {
   const vecs = roadVecs.current;
-  const dir = vec3(vecs[progress.current])
-    .clone()
-    .sub(vec3(vecs[progress.current - 1] ?? vecs[0]));
+  if (vecs.length === 0) return;
 
-  setCarPos(vec3(vecs[progress.current]).add(vec3([0, 5, 0])), dir);
+  const currentIdx = progress.current;
+  const currentPos = vec3(vecs[currentIdx]);
+
+  // Calculate forward direction: prefer next point, fallback to previous point
+  let dir: THREE.Vector3;
+  if (currentIdx < vecs.length - 1) {
+    // Use forward direction (to next point)
+    dir = vec3(vecs[currentIdx + 1])
+      .clone()
+      .sub(currentPos);
+  } else if (currentIdx > 0) {
+    // At the end, use backward direction (from previous point)
+    dir = currentPos.clone().sub(vec3(vecs[currentIdx - 1]));
+  } else {
+    // Only one point, use default forward direction
+    dir = vec3([0, 0, 1]);
+  }
+
+  // Normalize the direction vector
+  // Project to horizontal plane to avoid pointing up/down
+  dir.y = 0;
+  if (dir.length() < 0.001) {
+    // If direction is too small (parallel points), use default forward
+    dir = vec3([0, 0, 1]);
+  } else {
+    dir.normalize();
+  }
+
+  setCarPos(currentPos.clone().add(vec3([0, 1, 0])), dir);
 }

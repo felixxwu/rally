@@ -29,12 +29,12 @@ import { Vector } from './createRoadShape';
 
 // Constants
 const HOUSE_SPACING = 1;
-const HOUSE_OFFSET_RANGE = { min: 0, max: 20 }; // Distance from road edge
+const HOUSE_OFFSET_RANGE = { min: 2, max: 20 }; // Distance from road edge
 const HOUSE_SPAWN_CHANCE = 0.1;
-const HOUSE_SIZE_BASE = { width: 12, depth: 12, height: 6 };
+const HOUSE_SIZE_BASE = { width: 12, depth: 12, height: 7 };
 const HOUSE_SINK_AMOUNT = 2;
 const ROOF_HEIGHT_RATIO = 0.6;
-const DIMENSION_VARIATION = { min: 0.85, max: 1.15 };
+const DIMENSION_VARIATION = { min: 0.8, max: 1.2 };
 const ROTATION_VARIATION = { min: -0.2, max: 0.2 };
 const SCALE_VARIATION = { min: 0.9, max: 1.1 };
 const COLOR_VARIATION = 30;

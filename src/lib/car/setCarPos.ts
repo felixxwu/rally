@@ -15,7 +15,17 @@ export function setCarPos(pos: THREE.Vector3, dir: THREE.Vector3) {
   if (!car.current) return;
 
   const objPhys = getUserData(car.current).physicsBody;
-  const { ammoQuat } = createQuat(vec3([0, 0, 1]), dir.clone().normalize());
+
+  // Ensure direction vector is valid and normalized
+  const dirNormalized = dir.clone();
+  if (dirNormalized.length() < 0.001) {
+    // Invalid direction, use default forward
+    dirNormalized.set(0, 0, 1);
+  } else {
+    dirNormalized.normalize();
+  }
+
+  const { ammoQuat } = createQuat(vec3([0, 0, 1]), dirNormalized);
   const ammoTransform = new Ammo.btTransform();
 
   ammoTransform.setOrigin(getAmmoVector(pos));
