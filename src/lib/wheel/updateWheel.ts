@@ -25,7 +25,8 @@ export function updateWheel(
   wheelMesh: Mesh,
   prevDistance: Ref<number>,
   front: boolean,
-  left: boolean
+  left: boolean,
+  deltaTime: number
 ) {
   if (!car.current) return;
 
@@ -42,7 +43,7 @@ export function updateWheel(
     wheelmeshBottomPos,
     sideTireForce,
     straightTireForce,
-  } = getTotalTireForce(prevDistance, front, left);
+  } = getTotalTireForce(prevDistance, front, left, deltaTime);
 
   // apply forces to the car
   const objPhys = getUserData(car.current).physicsBody;

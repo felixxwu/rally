@@ -2,6 +2,7 @@ import {
   camera,
   camFollowDistance,
   camFollowHeight,
+  camFollowSpeed,
   countDownStarted,
   freeCam,
   stageTimeStarted,
@@ -14,6 +15,7 @@ import { vec3 } from '../utils/createVec';
 import { getCarMeshDirection } from '../car/getCarDirection';
 
 const carPosForLerp = new THREE.Vector3();
+const carPosForLookAt = new THREE.Vector3();
 const recentCarPos: THREE.Vector3[] = [];
 
 export function updateCamera() {
@@ -23,8 +25,6 @@ export function updateCamera() {
   const carDir = getCarMeshDirection();
 
   if (freeCam.current) return;
-
-  camera.current?.lookAt(carPos.x, carPos.y + camFollowHeight.current / 4, carPos.z);
 
   if (!stageTimeStarted.current && !countDownStarted.current) return;
 
@@ -42,7 +42,15 @@ export function updateCamera() {
       .clone()
       .add(clampedDiff)
       .add(vec3([0, camFollowHeight.current, 0])),
-    0.5
+    camFollowSpeed.current
+  );
+
+  carPosForLookAt.lerp(carPos, camFollowSpeed.current);
+
+  camera.current?.lookAt(
+    carPosForLookAt.x,
+    carPosForLookAt.y + camFollowHeight.current / 4,
+    carPosForLookAt.z
   );
 
   if (stageTimeStarted.current || countDownStarted.current) {

@@ -9,16 +9,21 @@ import {
   stopOnRender,
   onRenderNoPausing,
   devMode,
+  resolutionScale,
 } from '../../refs';
 import { THREE } from '../utils/THREE';
 
 export function initRenderer() {
-  renderer.current = new THREE.WebGLRenderer({ antialias: true });
+  renderer.current = new THREE.WebGLRenderer({ antialias: false });
   renderer.current.setPixelRatio(window.devicePixelRatio);
-  renderer.current.setSize(window.innerWidth, window.innerHeight);
+  renderer.current.setSize(
+    window.innerWidth * resolutionScale,
+    window.innerHeight * resolutionScale
+  );
   renderer.current.shadowMap.enabled = true;
   renderer.current.toneMapping = THREE.AgXToneMapping;
   container.current?.appendChild(renderer.current.domElement);
+
   animate();
 }
 

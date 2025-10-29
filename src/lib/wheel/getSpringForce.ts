@@ -27,7 +27,7 @@ const defaultReturn = {
   surface: 'tarmac' as Surface,
 };
 
-export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>) {
+export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>, deltaTime: number) {
   const dir = getCarDirection(new THREE.Vector3(0, 1, 0));
   const { springLength, springDamping, springRate } = selectedCar.current;
 
@@ -60,8 +60,10 @@ export function getSpringForce(pos: THREE.Vector3, prevDistance: Ref<number>) {
 
   if (distance < springLength) {
     const distanceDelta = distance - prevDistance.current;
-    const velY = distanceDelta * springDamping;
-    const damping = Math.max(0, -velY);
+    // Calculate velocity by dividing distance change by time delta
+    const velY = deltaTime > 0 ? distanceDelta / deltaTime : 0;
+    // Damping force is proportional to velocity and opposes motion
+    const damping = Math.max(0, -velY * springDamping);
     const spring = compression * springRate;
     prevDistance.current = distance;
     const upForce = normal.setLength(damping + spring);

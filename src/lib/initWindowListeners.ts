@@ -8,6 +8,7 @@ import {
   renderer,
   renderHelperArrows,
   renderHitCarBox,
+  resolutionScale,
 } from '../refs';
 import { resetToLastProgress } from './road/resetIfFarFromRoad';
 import { isGamepadBeingUsed } from './getGamepadInputs';
@@ -83,7 +84,10 @@ function onTouch(e: TouchEvent) {
 }
 
 function onWindowResize() {
-  renderer.current?.setSize(window.innerWidth, window.innerHeight);
+  renderer.current?.setSize(
+    window.innerWidth * resolutionScale,
+    window.innerHeight * resolutionScale
+  );
 
   if (camera.current) camera.current.aspect = window.innerWidth / window.innerHeight;
   camera.current?.updateProjectionMatrix();

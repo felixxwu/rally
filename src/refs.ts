@@ -79,6 +79,7 @@ export const stats = ref<Stats | null>(null);
 export const camera = ref<THREE.PerspectiveCamera | null>(null);
 export const scene = ref<THREE.Scene | null>(null);
 export const renderer = ref<THREE.WebGLRenderer | null>(null);
+export const resolutionScale = 0.25;
 export const clock = new THREE.Clock();
 export const stageTimeClock = new THREE.Clock();
 export const onRender = ref<[string, (deltaTime: number) => void][]>([]);
@@ -114,7 +115,7 @@ export const surfaceGrips: {
   [key in Surface]: SurfaceProperties;
 } = {
   tarmac: { clear: 1.8, rain: 1.4, fog: 1.7, colour: '#000', skidMarkOpacity: 0.5 },
-  grass: { clear: 1.2, rain: 0.8, fog: 1.1, colour: '#040', skidMarkOpacity: 0.2 },
+  grass: { clear: 1.5, rain: 1, fog: 1.4, colour: '#040', skidMarkOpacity: 0.2 },
 };
 export const skidMarkIntensity = 0.004;
 export const maxSkidMarks = 50;
@@ -136,10 +137,10 @@ export const skidSound = ref(new THREE.Audio(listener.current));
 export const shiftingMode = ref<'manual' | 'auto'>('auto');
 
 // camera
-export const camFollowDistance = ref(5, 3, 30, 1);
-export const camFollowHeight = ref(2.5, 0, 30, 1);
+export const camFollowDistance = ref(6, 3, 30, 1);
+export const camFollowHeight = ref(3, 0, 30, 1);
 export const camFollowSpeed = ref(0.15, 0, 1, 0.01);
-export const fov = 60;
+export const fov = 80;
 export const carVisible = ref(false);
 
 // sky

@@ -20,8 +20,8 @@ export function initWheel(front: boolean, left: boolean) {
 
   scene.current?.add(wheelMesh);
 
-  const handleRender = () => {
-    updateWheel(wheelMesh, prevDistance, front, left);
+  const handleRender = (deltaTime: number) => {
+    updateWheel(wheelMesh, prevDistance, front, left, deltaTime);
   };
 
   addOnRenderListener('wheel', handleRender, 'multi');
