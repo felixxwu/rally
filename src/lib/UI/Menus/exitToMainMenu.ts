@@ -26,6 +26,7 @@ import { clearCaches } from '../../utils/clearCaches';
 import { vec3 } from '../../utils/createVec';
 import { getUserData } from '../../utils/userData';
 import { sleep } from '../../utils/sleep';
+import { cleanupHouses } from '../../road/initHouses';
 
 export async function exitToMainMenu() {
   physicsWorld.current?.removeRigidBody(getUserData(terrainMesh.current!).physicsBody);
@@ -70,6 +71,8 @@ export async function exitToMainMenu() {
     platFormCarPos.y + camFollowHeight.current / 4,
     platFormCarPos.z
   );
+
+  cleanupHouses();
 
   clearCaches();
 }

@@ -94,6 +94,7 @@ export const solver = ref<AmmoType.btSequentialImpulseConstraintSolver | null>(n
 export const physicsWorld = ref<AmmoType.btDiscreteDynamicsWorld | null>(null);
 export const transformAux1 = ref<AmmoType.btTransform | null>(null);
 export const gravity = 35;
+export const fps = ref(60);
 
 // steering
 export const steerModMap = createXYMap([0, 0], [1, 0], [5, 1], [50, 0.7]); // x = speed, y = steering input modifier
@@ -123,7 +124,7 @@ export const maxSkidMarks = 50;
 // car
 export const minAirResistance = 15;
 export const car = ref<Mesh | null>(null);
-export const angularDamping = 0.998;
+export const angularDamping = 0.99999997;
 export const powerModifier = 1.2; // scale all car power by this amount
 export const gear = ref(0);
 export const shifting = ref<null | { start: number; oldGear: number }>(null);
@@ -182,6 +183,9 @@ export const lightValues: {
 // debug
 export const renderHelperArrows = ref(false);
 export const renderHitCarBox = ref(false);
+
+// houses
+export const houseRenderDistance = ref(200, 50, 1000, 10); // Distance at which houses stop rendering
 
 // UI
 export const panelOpen = ref(false);

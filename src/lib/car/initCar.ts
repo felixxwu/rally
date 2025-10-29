@@ -15,12 +15,12 @@ import {
 import { setUserData } from '../utils/userData';
 import { updateCar } from './updateCar';
 import { THREE } from '../utils/THREE';
-import { setBumpStop } from '../wheel/setBumpStop';
 import { platFormCarPos, setCarPos } from './setCarPos';
 import { vec3 } from '../utils/createVec';
 import { createCleanupFunction } from '../utils/createCleanupFunction';
 import { asyncGLTFLoader } from '../utils/asyncGLTFLoader';
 import { addOnRenderListener } from '../render/addOnRenderListener';
+import { renderHitCarBox } from '../../refs';
 
 export const carCleanUp = createCleanupFunction();
 
@@ -34,12 +34,22 @@ export async function initCar() {
     new THREE.MeshStandardMaterial({ roughness: 0, metalness: 0.2, map: texture })
   );
 
-  const shape = new Ammo.btCompoundShape();
+  // Create box collision shape matching car dimensions
+  const { width, height, length } = selectedCar.current;
+  const halfExtents = new Ammo.btVector3(width / 2, height / 2, length / 2);
+  const shape = new Ammo.btBoxShape(halfExtents);
 
-  setBumpStop(shape, car.current, true, true);
-  setBumpStop(shape, car.current, true, false);
-  setBumpStop(shape, car.current, false, true);
-  setBumpStop(shape, car.current, false, false);
+  // Create visual hitbox (optional, for debugging)
+  const hitboxMaterial = createObjectMaterial();
+  hitboxMaterial.opacity = 0.5;
+  hitboxMaterial.transparent = true;
+  const hitbox = new THREE.Mesh(new THREE.BoxGeometry(width, height, length), hitboxMaterial);
+  hitbox.position.set(0, 0, 0);
+  hitbox.visible = renderHitCarBox.current;
+  car.current.add(hitbox);
+  renderHitCarBox.listeners.push(value => {
+    hitbox.visible = value;
+  });
 
   const mass = selectedCar.current.mass / 100;
   const localInertia = new Ammo.btVector3(0, 1, 0);

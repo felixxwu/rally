@@ -14,6 +14,7 @@ import { resetIfFarFromRoad } from './resetIfFarFromRoad';
 import { useUpdateLocalRoad } from './useUpdateLocalRoad';
 import { addOnRenderListener } from '../render/addOnRenderListener';
 import { setInfoText } from '../UI/setInfoText';
+import { initHouses } from './initHouses';
 
 export async function initRoad() {
   await createRoadPoints();
@@ -52,4 +53,7 @@ export async function initRoad() {
 
   const updateLocalRoad = useUpdateLocalRoad(road, grassLeft, grassRight);
   addOnRenderListener('localRoad', updateLocalRoad);
+
+  // Initialize houses along the road
+  initHouses();
 }

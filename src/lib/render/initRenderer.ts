@@ -10,6 +10,7 @@ import {
   onRenderNoPausing,
   devMode,
   resolutionScale,
+  fps,
 } from '../../refs';
 import { THREE } from '../utils/THREE';
 
@@ -27,7 +28,7 @@ export function initRenderer() {
   requestAnimationFrame(animate);
 }
 
-const targetFPS = 60;
+const targetFPS = fps.current;
 const targetFrameTime = 1000 / targetFPS; // ~16.67ms per frame
 let lastFrameTime = performance.now();
 

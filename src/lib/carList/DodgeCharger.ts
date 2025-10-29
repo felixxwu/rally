@@ -19,7 +19,7 @@ export const DodgeCharger: Car = {
   springRate: 1633 / 6,
   springDamping: 1633 / 36,
   power: 295,
-  steerPower: 3.5,
+  steerPower: 1.6,
   tireGrip: 0.35,
   brakePower: 400,
   brakeRearBias: 0.4,

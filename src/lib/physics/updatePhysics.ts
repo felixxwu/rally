@@ -3,12 +3,13 @@ import { getUserData } from '../utils/userData';
 import { Mesh } from '../../types';
 import { THREE } from '../utils/THREE';
 
-const recentPos: THREE.Vector3[] = [];
-const numRecentPos = 1;
-
 // Reusable objects to avoid allocations
 const pVecCache = new THREE.Vector3();
 const quatCache = new THREE.Quaternion();
+
+// Exponential moving average for position smoothing to reduce jitter
+// Lower alpha = more smoothing but more lag, higher alpha = less smoothing but responsive
+const SMOOTHING_ALPHA = 0.3; // 70% new value, 30% old value
 
 export function updatePhysics(objThree: Mesh) {
   const objPhys = getUserData(objThree).physicsBody;
@@ -18,18 +19,15 @@ export function updatePhysics(objThree: Mesh) {
     const p = transformAux1.current?.getOrigin();
     const q = transformAux1.current?.getRotation();
 
-    // Reuse cached objects instead of creating new ones
-    pVecCache.set(p.x(), p.y(), p.z());
-    quatCache.set(q?.x() ?? 0, q?.y() ?? 0, q?.z() ?? 0, q?.w() ?? 0);
+    // Get current physics position
+    const currentPos = pVecCache.set(p.x(), p.y(), p.z());
+    const currentQuat = quatCache.set(q?.x() ?? 0, q?.y() ?? 0, q?.z() ?? 0, q?.w() ?? 0);
 
-    // recentPos.push(pVec);
-    // if (recentPos.length > numRecentPos) recentPos.shift();
-    // const avgRecentPos = recentPos
-    //   .reduce((acc, vec) => acc.add(vec), new THREE.Vector3())
-    //   .divideScalar(recentPos.length);
-    // objThree.position.copy(avgRecentPos);
+    // Apply exponential moving average to reduce jitter from multiple physics steps per frame
+    // This smooths the position without introducing significant lag
+    objThree.position.lerp(currentPos, SMOOTHING_ALPHA);
 
-    objThree.position.copy(pVecCache);
-    objThree.quaternion.copy(quatCache);
+    // Quaternion update (update directly - rotation smoothing can cause visual issues)
+    objThree.quaternion.copy(currentQuat);
   }
 }
