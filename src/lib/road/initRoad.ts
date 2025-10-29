@@ -16,6 +16,7 @@ import { addOnRenderListener } from '../render/addOnRenderListener';
 import { setInfoText } from '../UI/setInfoText';
 import { initHouses } from './initHouses';
 import { initTrees } from './initTrees';
+import { initFinishLine } from './initFinishLine';
 
 export async function initRoad() {
   await createRoadPoints();
@@ -60,4 +61,7 @@ export async function initRoad() {
 
   // Initialize trees along the road
   initTrees();
+
+  // Initialize finish line at the end of the road
+  initFinishLine();
 }

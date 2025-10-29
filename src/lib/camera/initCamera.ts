@@ -12,7 +12,7 @@ export function initCamera() {
     fov,
     window.innerWidth / window.innerHeight,
     0.2,
-    2500
+    1500
   );
 
   camera.current.position.copy(defaultCamPos);

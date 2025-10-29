@@ -28,6 +28,7 @@ import { getUserData } from '../../utils/userData';
 import { sleep } from '../../utils/sleep';
 import { cleanupHouses } from '../../road/initHouses';
 import { cleanupTrees } from '../../road/initTrees';
+import { cleanupFinishLine } from '../../road/initFinishLine';
 
 export async function exitToMainMenu() {
   physicsWorld.current?.removeRigidBody(getUserData(terrainMesh.current!).physicsBody);
@@ -75,6 +76,7 @@ export async function exitToMainMenu() {
 
   cleanupHouses();
   cleanupTrees();
+  cleanupFinishLine();
 
   clearCaches();
 }
