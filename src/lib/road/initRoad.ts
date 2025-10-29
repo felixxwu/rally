@@ -15,6 +15,7 @@ import { useUpdateLocalRoad } from './useUpdateLocalRoad';
 import { addOnRenderListener } from '../render/addOnRenderListener';
 import { setInfoText } from '../UI/setInfoText';
 import { initHouses } from './initHouses';
+import { initTrees } from './initTrees';
 
 export async function initRoad() {
   await createRoadPoints();
@@ -56,4 +57,7 @@ export async function initRoad() {
 
   // Initialize houses along the road
   initHouses();
+
+  // Initialize trees along the road
+  initTrees();
 }

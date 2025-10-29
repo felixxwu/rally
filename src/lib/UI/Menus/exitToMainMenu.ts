@@ -27,6 +27,7 @@ import { vec3 } from '../../utils/createVec';
 import { getUserData } from '../../utils/userData';
 import { sleep } from '../../utils/sleep';
 import { cleanupHouses } from '../../road/initHouses';
+import { cleanupTrees } from '../../road/initTrees';
 
 export async function exitToMainMenu() {
   physicsWorld.current?.removeRigidBody(getUserData(terrainMesh.current!).physicsBody);
@@ -73,6 +74,7 @@ export async function exitToMainMenu() {
   );
 
   cleanupHouses();
+  cleanupTrees();
 
   clearCaches();
 }

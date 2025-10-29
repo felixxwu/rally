@@ -79,7 +79,7 @@ export const stats = ref<Stats | null>(null);
 export const camera = ref<THREE.PerspectiveCamera | null>(null);
 export const scene = ref<THREE.Scene | null>(null);
 export const renderer = ref<THREE.WebGLRenderer | null>(null);
-export const resolutionScale = 0.25;
+export const resolutionScale = 0.2;
 export const clock = new THREE.Clock();
 export const stageTimeClock = new THREE.Clock();
 export const onRender = ref<[string, (deltaTime: number) => void][]>([]);
@@ -186,6 +186,9 @@ export const renderHitCarBox = ref(false);
 
 // houses
 export const houseRenderDistance = ref(200, 50, 1000, 10); // Distance at which houses stop rendering
+
+// trees
+export const treeRenderDistance = ref(200, 50, 1000, 10); // Distance at which trees stop rendering
 
 // UI
 export const panelOpen = ref(false);
