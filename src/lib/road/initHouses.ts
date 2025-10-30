@@ -26,6 +26,7 @@ import { THREE } from '../utils/THREE';
 import { getAmmoVector } from '../utils/vectorConversion';
 import { vec3 } from '../utils/createVec';
 import { Vector } from './createRoadShape';
+import { setInfoText } from '../UI/setInfoText';
 
 // Constants
 const HOUSE_SPACING = 1;
@@ -79,7 +80,7 @@ function createMesh(geometry: THREE.BufferGeometry, material: THREE.Material): T
   const mesh = new THREE.Mesh(geometry, material);
   mesh.castShadow = true;
   mesh.receiveShadow = true;
-  mesh.visible = true;
+  mesh.visible = false; // Start invisible, visibility managed by distance checks
   return mesh;
 }
 
@@ -312,78 +313,113 @@ function removeListener(callback: ((deltaTime: number) => void) | null): void {
   }
 }
 
-export function initHouses(onComplete?: () => void): void {
+export function initHouses(): Promise<void> {
   cleanupHouses();
 
-  const vecs = roadVecs.current;
-  if (vecs.length < 10) {
-    onComplete?.();
-    return;
-  }
-
-  const rng = new SeededRandom(seed.current);
-  houseCreationQueue.length = 0;
-  let houseIndex = 0;
-
-  // Generate house candidates
-  for (let i = startRoadLength + 50; i < vecs.length - startRoadLength - 50; i += HOUSE_SPACING) {
-    if (rng.random() > HOUSE_SPAWN_CHANCE) continue;
-
-    const side: 'left' | 'right' = rng.random() < 0.5 ? 'left' : 'right';
-    const offsetFromRoad = rng.randomRange(HOUSE_OFFSET_RANGE.min, HOUSE_OFFSET_RANGE.max);
-    const basePos = getSidePosition(vecs, i, side, offsetFromRoad);
-
-    // Add random perpendicular offset
-    const roadDir = vec3(vecs[i + 1] || vecs[i])
-      .sub(vec3(vecs[i - 1] || vecs[i]))
-      .normalize();
-    const perpendicular = new THREE.Vector3(-roadDir.z, 0, roadDir.x);
-    basePos.add(perpendicular.multiplyScalar(rng.randomRange(-3, 3)));
-
-    houseCreationQueue.push({
-      basePos: basePos.clone(),
-      roadDirection: roadDir.clone(),
-      side,
-      offsetFromRoad,
-      rng: new SeededRandom(seed.current * 1000 + houseIndex++),
-    });
-  }
-
-  // Set up incremental house creation (1 per frame)
-  const totalHouses = houseCreationQueue.length;
-  createHouseCallback = () => {
-    if (houseCreationQueue.length === 0) {
-      removeListener(createHouseCallback);
-      createHouseCallback = null;
-      onComplete?.();
+  return new Promise<void>(resolve => {
+    const vecs = roadVecs.current;
+    if (vecs.length < 10) {
+      resolve();
       return;
     }
 
-    const candidate = houseCreationQueue.shift();
-    if (candidate) {
-      createSingleHouse(candidate);
+    const rng = new SeededRandom(seed.current);
+    houseCreationQueue.length = 0;
+    let houseIndex = 0;
+
+    // Generate house candidates
+    for (let i = startRoadLength + 50; i < vecs.length - startRoadLength - 50; i += HOUSE_SPACING) {
+      if (rng.random() > HOUSE_SPAWN_CHANCE) continue;
+
+      const side: 'left' | 'right' = rng.random() < 0.5 ? 'left' : 'right';
+      const offsetFromRoad = rng.randomRange(HOUSE_OFFSET_RANGE.min, HOUSE_OFFSET_RANGE.max);
+      const basePos = getSidePosition(vecs, i, side, offsetFromRoad);
+
+      // Add random perpendicular offset
+      const roadDir = vec3(vecs[i + 1] || vecs[i])
+        .sub(vec3(vecs[i - 1] || vecs[i]))
+        .normalize();
+      const perpendicular = new THREE.Vector3(-roadDir.z, 0, roadDir.x);
+      basePos.add(perpendicular.multiplyScalar(rng.randomRange(-3, 3)));
+
+      houseCreationQueue.push({
+        basePos: basePos.clone(),
+        roadDirection: roadDir.clone(),
+        side,
+        offsetFromRoad,
+        rng: new SeededRandom(seed.current * 1000 + houseIndex++),
+      });
     }
-  };
-  if (totalHouses > 0) {
-    addOnRenderListener('createHouses', createHouseCallback);
-  } else {
-    // No houses to create, call completion callback immediately
-    onComplete?.();
-  }
 
-  // Set up distance-based visibility updates
-  let frameCount = 0;
-  updateVisibilityCallback = () => {
-    if (frameCount++ % 10 !== 0 || houses.length === 0) return;
+    // Set up distance-based visibility updates (before Promise resolves)
+    let frameCount = 0;
+    updateVisibilityCallback = () => {
+      if (frameCount++ % 10 !== 0 || houses.length === 0) return;
 
-    const carPos = getCarMeshPos();
-    const renderDistanceSquared = houseRenderDistance.current ** 2;
+      const carPos = getCarMeshPos();
+      const renderDistanceSquared = houseRenderDistance.current ** 2;
 
-    for (const house of houses) {
-      house.visible = carPos.distanceToSquared(house.position) <= renderDistanceSquared;
+      for (let i = 0; i < houses.length; i++) {
+        const house = houses[i];
+        const roof = houseRoofs[i];
+        const isVisible = carPos.distanceToSquared(house.position) <= renderDistanceSquared;
+
+        house.visible = isVisible;
+        if (roof) {
+          roof.visible = isVisible;
+        }
+      }
+    };
+    addOnRenderListener('updateHouseVisibility', updateVisibilityCallback);
+
+    // Set up incremental house creation with time-based chunking
+    const totalHouses = houseCreationQueue.length;
+    const TIME_BUDGET_MS = 15; // Max milliseconds to spend creating objects per frame
+    let lastProgressUpdate = 0;
+    createHouseCallback = () => {
+      if (houseCreationQueue.length === 0) {
+        setInfoText('');
+        removeListener(createHouseCallback);
+        createHouseCallback = null;
+        // Trigger visibility check after all houses are created
+        setTimeout(() => {
+          if (updateVisibilityCallback && houses.length > 0) {
+            updateVisibilityCallback(0);
+          }
+        }, 0);
+        resolve();
+        return;
+      }
+
+      const startTime = performance.now();
+      let created = 0;
+
+      // Create as many houses as possible within time budget
+      while (houseCreationQueue.length > 0 && performance.now() - startTime < TIME_BUDGET_MS) {
+        const candidate = houseCreationQueue.shift();
+        if (candidate && createSingleHouse(candidate)) {
+          created++;
+        }
+      }
+
+      // Update progress text periodically (every 10% progress or significant number of houses)
+      const remaining = houseCreationQueue.length;
+      const completed = totalHouses - remaining;
+      const progress = totalHouses > 0 ? Math.round((completed / totalHouses) * 100) : 0;
+
+      if (completed - lastProgressUpdate >= Math.max(1, totalHouses / 100) || remaining === 0) {
+        setInfoText(`Loading houses... ${progress}%`);
+        lastProgressUpdate = completed;
+      }
+    };
+    if (totalHouses > 0) {
+      setInfoText('Loading houses... 0%');
+      addOnRenderListener('createHouses', createHouseCallback);
+    } else {
+      // No houses to create, resolve immediately
+      resolve();
     }
-  };
-  addOnRenderListener('updateHouseVisibility', updateVisibilityCallback);
+  });
 }
 
 export function cleanupHouses(): void {

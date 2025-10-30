@@ -26,11 +26,12 @@ import { THREE } from '../utils/THREE';
 import { getAmmoVector } from '../utils/vectorConversion';
 import { vec3 } from '../utils/createVec';
 import { Vector } from './createRoadShape';
+import { setInfoText } from '../UI/setInfoText';
 
 // Constants
 const TREE_SPACING = 1;
 const TREE_OFFSET_RANGE = { min: 0, max: 50 }; // Distance from road edge
-const TREE_SPAWN_CHANCE = 0.3;
+const TREE_SPAWN_CHANCE = 0.2;
 const TREE_TRUNK_BASE = { radius: 0.6, height: 4 };
 const TREE_FOLIAGE_BASE = { radius: 3, height: { min: 0, max: 10 } };
 const TREE_SINK_AMOUNT = 0.5;
@@ -80,7 +81,7 @@ function createMesh(geometry: THREE.BufferGeometry, material: THREE.Material): T
   const mesh = new THREE.Mesh(geometry, material);
   mesh.castShadow = true;
   mesh.receiveShadow = true;
-  mesh.visible = true;
+  mesh.visible = false; // Start invisible, visibility managed by distance checks
   return mesh;
 }
 
@@ -235,76 +236,121 @@ function createSingleTree(candidate: TreeCandidate): boolean {
   return true;
 }
 
-export function initTrees(): void {
+export function initTrees(): Promise<void> {
   cleanupTrees();
 
-  const vecs = roadVecs.current;
-  if (vecs.length < 10) return;
-
-  const rng = new SeededRandom(seed.current);
-  treeCreationQueue.length = 0;
-  let treeIndex = 0;
-
-  // Generate tree candidates
-  for (
-    let i = startRoadLength + TREE_INITIAL_SPAWN_OFFSET;
-    i < vecs.length - startRoadLength - TREE_INITIAL_SPAWN_OFFSET;
-    i += TREE_SPACING
-  ) {
-    if (rng.random() > TREE_SPAWN_CHANCE) continue;
-
-    const side: 'left' | 'right' = rng.random() < 0.5 ? 'left' : 'right';
-    const offsetFromRoad = rng.randomRange(TREE_OFFSET_RANGE.min, TREE_OFFSET_RANGE.max);
-    const basePos = getSidePosition(vecs, i, side, offsetFromRoad);
-
-    // Add random perpendicular offset
-    const roadDir = vec3(vecs[i + 1] || vecs[i])
-      .sub(vec3(vecs[i - 1] || vecs[i]))
-      .normalize();
-    const perpendicular = new THREE.Vector3(-roadDir.z, 0, roadDir.x);
-    basePos.add(
-      perpendicular.multiplyScalar(
-        rng.randomRange(PERPENDICULAR_OFFSET_VARIATION.min, PERPENDICULAR_OFFSET_VARIATION.max)
-      )
-    );
-
-    treeCreationQueue.push({
-      basePos: basePos.clone(),
-      roadDirection: roadDir.clone(),
-      side,
-      offsetFromRoad,
-      rng: new SeededRandom(seed.current * 2000 + treeIndex++),
-    });
-  }
-
-  // Set up incremental tree creation (1 per frame)
-  createTreeCallback = () => {
-    if (treeCreationQueue.length === 0) {
-      removeListener(createTreeCallback);
-      createTreeCallback = null;
+  return new Promise<void>(resolve => {
+    const vecs = roadVecs.current;
+    if (vecs.length < 10) {
+      resolve();
       return;
     }
 
-    const candidate = treeCreationQueue.shift();
-    if (candidate) {
-      createSingleTree(candidate);
+    const rng = new SeededRandom(seed.current);
+    treeCreationQueue.length = 0;
+    let treeIndex = 0;
+
+    // Generate tree candidates
+    for (
+      let i = startRoadLength + TREE_INITIAL_SPAWN_OFFSET;
+      i < vecs.length - startRoadLength - TREE_INITIAL_SPAWN_OFFSET;
+      i += TREE_SPACING
+    ) {
+      if (rng.random() > TREE_SPAWN_CHANCE) continue;
+
+      const side: 'left' | 'right' = rng.random() < 0.5 ? 'left' : 'right';
+      const offsetFromRoad = rng.randomRange(TREE_OFFSET_RANGE.min, TREE_OFFSET_RANGE.max);
+      const basePos = getSidePosition(vecs, i, side, offsetFromRoad);
+
+      // Add random perpendicular offset
+      const roadDir = vec3(vecs[i + 1] || vecs[i])
+        .sub(vec3(vecs[i - 1] || vecs[i]))
+        .normalize();
+      const perpendicular = new THREE.Vector3(-roadDir.z, 0, roadDir.x);
+      basePos.add(
+        perpendicular.multiplyScalar(
+          rng.randomRange(PERPENDICULAR_OFFSET_VARIATION.min, PERPENDICULAR_OFFSET_VARIATION.max)
+        )
+      );
+
+      treeCreationQueue.push({
+        basePos: basePos.clone(),
+        roadDirection: roadDir.clone(),
+        side,
+        offsetFromRoad,
+        rng: new SeededRandom(seed.current * 2000 + treeIndex++),
+      });
     }
-  };
-  addOnRenderListener('createTrees', createTreeCallback);
 
-  // Set up distance-based visibility updates
-  let frameCount = 0;
-  updateVisibilityCallback = () => {
-    if (frameCount++ % VISIBILITY_UPDATE_INTERVAL_FRAMES !== 0 || trees.length === 0) return;
+    // Set up distance-based visibility updates (before Promise resolves)
+    let frameCount = 0;
+    updateVisibilityCallback = () => {
+      if (frameCount++ % VISIBILITY_UPDATE_INTERVAL_FRAMES !== 0 || trees.length === 0) return;
 
-    const carPos = getCarMeshPos();
-    const renderDistanceSquared = treeRenderDistance.current ** 2;
+      const carPos = getCarMeshPos();
+      const renderDistanceSquared = treeRenderDistance.current ** 2;
 
-    for (const tree of trees) {
-      tree.visible = carPos.distanceToSquared(tree.position) <= renderDistanceSquared;
+      for (let i = 0; i < trees.length; i++) {
+        const tree = trees[i];
+        const foliage = treeFoliage[i];
+        const isVisible = carPos.distanceToSquared(tree.position) <= renderDistanceSquared;
+
+        tree.visible = isVisible;
+        if (foliage) {
+          foliage.visible = isVisible;
+        }
+      }
+    };
+    addOnRenderListener('updateTreeVisibility', updateVisibilityCallback);
+
+    // Set up incremental tree creation with time-based chunking
+    const totalTrees = treeCreationQueue.length;
+    const TIME_BUDGET_MS = 15; // Max milliseconds to spend creating objects per frame
+    let lastProgressUpdate = 0;
+    createTreeCallback = () => {
+      if (treeCreationQueue.length === 0) {
+        setInfoText('');
+        removeListener(createTreeCallback);
+        createTreeCallback = null;
+        // Trigger visibility check after all trees are created
+        setTimeout(() => {
+          if (updateVisibilityCallback && trees.length > 0) {
+            updateVisibilityCallback(0);
+          }
+        }, 0);
+        resolve();
+        return;
+      }
+
+      const startTime = performance.now();
+      let created = 0;
+
+      // Create as many trees as possible within time budget
+      while (treeCreationQueue.length > 0 && performance.now() - startTime < TIME_BUDGET_MS) {
+        const candidate = treeCreationQueue.shift();
+        if (candidate && createSingleTree(candidate)) {
+          created++;
+        }
+      }
+
+      // Update progress text periodically (every 10% progress or significant number of trees)
+      const remaining = treeCreationQueue.length;
+      const completed = totalTrees - remaining;
+      const progress = totalTrees > 0 ? Math.round((completed / totalTrees) * 100) : 0;
+
+      if (completed - lastProgressUpdate >= Math.max(1, totalTrees / 100) || remaining === 0) {
+        setInfoText(`Loading trees... ${progress}%`);
+        lastProgressUpdate = completed;
+      }
+    };
+    if (totalTrees > 0) {
+      setInfoText('Loading trees... 0%');
+      addOnRenderListener('createTrees', createTreeCallback);
+    } else {
+      // No trees to create, resolve immediately
+      resolve();
     }
-  };
-  addOnRenderListener('updateTreeVisibility', updateVisibilityCallback);
+  });
 }
 
 export function cleanupTrees(): void {

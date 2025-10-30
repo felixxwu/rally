@@ -79,7 +79,7 @@ export const stats = ref<Stats | null>(null);
 export const camera = ref<THREE.PerspectiveCamera | null>(null);
 export const scene = ref<THREE.Scene | null>(null);
 export const renderer = ref<THREE.WebGLRenderer | null>(null);
-export const resolutionScale = 0.2;
+export const resolutionScale = 0.25;
 export const clock = new THREE.Clock();
 export const stageTimeClock = new THREE.Clock();
 export const onRender = ref<[string, (deltaTime: number) => void][]>([]);

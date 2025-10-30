@@ -68,6 +68,19 @@ function render() {
       renderTimes[key] = Math.round((renderTimes[key] / f) * 1000);
     });
     console.table(renderTimes);
+
+    // Log Three.js renderer info
+    if (renderer.current) {
+      const info = renderer.current.info;
+      console.log('Three.js Render Stats:', {
+        drawCalls: info.render.calls,
+        triangles: info.render.triangles,
+        geometries: info.memory.geometries,
+        textures: info.memory.textures,
+        programs: info.programs?.length || 0,
+      });
+    }
+
     renderTimes = {};
   }
 

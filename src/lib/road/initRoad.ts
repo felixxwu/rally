@@ -57,10 +57,8 @@ export async function initRoad() {
   addOnRenderListener('localRoad', updateLocalRoad);
 
   // Initialize houses along the road, then trees after houses are done
-  initHouses(() => {
-    // Initialize trees along the road
-    initTrees();
-  });
+  await initHouses();
+  await initTrees();
 
   // Initialize finish line at the end of the road
   initFinishLine();
