@@ -221,7 +221,6 @@ function getHeightOnGrassMesh(x: number, z: number): number | null {
 
 // Helper: Create a single house
 function createSingleHouse(candidate: HouseCandidate): boolean {
-  console.log('createSingleHouse');
   const { basePos, roadDirection, side, rng } = candidate;
 
   const height = getHeightOnGrassMesh(basePos.x, basePos.z);
@@ -313,11 +312,14 @@ function removeListener(callback: ((deltaTime: number) => void) | null): void {
   }
 }
 
-export function initHouses(): void {
+export function initHouses(onComplete?: () => void): void {
   cleanupHouses();
 
   const vecs = roadVecs.current;
-  if (vecs.length < 10) return;
+  if (vecs.length < 10) {
+    onComplete?.();
+    return;
+  }
 
   const rng = new SeededRandom(seed.current);
   houseCreationQueue.length = 0;
@@ -348,17 +350,26 @@ export function initHouses(): void {
   }
 
   // Set up incremental house creation (1 per frame)
+  const totalHouses = houseCreationQueue.length;
   createHouseCallback = () => {
     if (houseCreationQueue.length === 0) {
       removeListener(createHouseCallback);
       createHouseCallback = null;
+      onComplete?.();
       return;
     }
 
     const candidate = houseCreationQueue.shift();
-    if (candidate) createSingleHouse(candidate);
+    if (candidate) {
+      createSingleHouse(candidate);
+    }
   };
-  addOnRenderListener('createHouses', createHouseCallback);
+  if (totalHouses > 0) {
+    addOnRenderListener('createHouses', createHouseCallback);
+  } else {
+    // No houses to create, call completion callback immediately
+    onComplete?.();
+  }
 
   // Set up distance-based visibility updates
   let frameCount = 0;

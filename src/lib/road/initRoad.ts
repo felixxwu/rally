@@ -56,11 +56,11 @@ export async function initRoad() {
   const updateLocalRoad = useUpdateLocalRoad(road, grassLeft, grassRight);
   addOnRenderListener('localRoad', updateLocalRoad);
 
-  // Initialize houses along the road
-  initHouses();
-
-  // Initialize trees along the road
-  initTrees();
+  // Initialize houses along the road, then trees after houses are done
+  initHouses(() => {
+    // Initialize trees along the road
+    initTrees();
+  });
 
   // Initialize finish line at the end of the road
   initFinishLine();

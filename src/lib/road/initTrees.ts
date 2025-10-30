@@ -32,7 +32,7 @@ const TREE_SPACING = 1;
 const TREE_OFFSET_RANGE = { min: 0, max: 50 }; // Distance from road edge
 const TREE_SPAWN_CHANCE = 0.3;
 const TREE_TRUNK_BASE = { radius: 0.6, height: 4 };
-const TREE_FOLIAGE_BASE = { radius: 3 };
+const TREE_FOLIAGE_BASE = { radius: 3, height: { min: 0, max: 10 } };
 const TREE_SINK_AMOUNT = 0.5;
 const DIMENSION_VARIATION = { min: 0.8, max: 1.2 };
 const ROTATION_VARIATION = { min: -Math.PI, max: Math.PI };
@@ -168,6 +168,12 @@ function createSingleTree(candidate: TreeCandidate): boolean {
     TREE_TRUNK_BASE.height * rng.randomRange(DIMENSION_VARIATION.min, DIMENSION_VARIATION.max);
   const foliageRadius =
     TREE_FOLIAGE_BASE.radius * rng.randomRange(DIMENSION_VARIATION.min, DIMENSION_VARIATION.max);
+  const foliageTotalHeight =
+    rng.randomRange(TREE_FOLIAGE_BASE.height.min, TREE_FOLIAGE_BASE.height.max) *
+    rng.randomRange(DIMENSION_VARIATION.min, DIMENSION_VARIATION.max);
+  // CapsuleGeometry length is the cylindrical middle section, not total height
+  // Total height = length + 2*radius, so length = totalHeight - 2*radius
+  const foliageCapsuleLength = Math.max(0.1, foliageTotalHeight - 2 * foliageRadius);
 
   // Create trunk (cylinder)
   const trunkGeometry = new THREE.CylinderGeometry(trunkRadius, trunkRadius, trunkHeight, 8);
@@ -182,15 +188,17 @@ function createSingleTree(candidate: TreeCandidate): boolean {
   trunk.position.set(basePos.x, height + trunkHeight / 2 - TREE_SINK_AMOUNT, basePos.z);
   trunk.rotation.y = rng.randomRange(ROTATION_VARIATION.min, ROTATION_VARIATION.max);
 
-  // Create foliage (sphere)
-  const foliageGeometry = new THREE.SphereGeometry(foliageRadius, 8, 8);
+  // Create foliage (capsule)
+  const foliageGeometry = new THREE.CapsuleGeometry(foliageRadius, foliageCapsuleLength, 4, 8);
   const foliageMaterial = new THREE.MeshStandardMaterial({
     color: FOLIAGE_COLOR,
     roughness: 0.9,
     metalness: 0,
   });
   const foliage = createMesh(foliageGeometry, foliageMaterial);
-  foliage.position.set(0, trunkHeight / 2 + foliageRadius * 0.7, 0);
+  // Position capsule so its base sits on top of trunk
+  // Capsule center = trunkHeight/2 + (length/2 + radius) = trunkHeight/2 + totalHeight/2
+  foliage.position.set(0, trunkHeight / 2 + foliageTotalHeight / 2, 0);
 
   trunk.add(foliage);
 
@@ -278,7 +286,9 @@ export function initTrees(): void {
     }
 
     const candidate = treeCreationQueue.shift();
-    if (candidate) createSingleTree(candidate);
+    if (candidate) {
+      createSingleTree(candidate);
+    }
   };
   addOnRenderListener('createTrees', createTreeCallback);
 
