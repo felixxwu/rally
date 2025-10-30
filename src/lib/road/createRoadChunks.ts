@@ -2,11 +2,10 @@ import { THREE } from '../utils/THREE';
 import { createRoadShape, Triangle } from './createRoadShape';
 import { roadVecs, roadColor, grassColor } from '../../refs';
 import { Mesh } from '../../types';
+import { mergeGeometries } from '../jsm/BufferGeometryUtils';
 
 export type RoadChunk = {
-  road: Mesh;
-  grassLeft: Mesh;
-  grassRight: Mesh;
+  mesh: Mesh;
   centerX: number;
   centerZ: number;
 };
@@ -65,6 +64,34 @@ export function createRoadChunks(
     const { mesh: grassLeftMesh } = createRoadShape(grassLeftTriangles, grassColor, 1);
     const { mesh: grassRightMesh } = createRoadShape(grassRightTriangles, grassColor, 1);
 
+    // Add vertex colors and merge into a single mesh to reduce draw calls
+    const applyColor = (geom: THREE.BufferGeometry, color: THREE.Color) => {
+      const count = geom.getAttribute('position').count;
+      const colors = new Float32Array(count * 3);
+      for (let i = 0; i < count; i++) {
+        colors[i * 3 + 0] = color.r;
+        colors[i * 3 + 1] = color.g;
+        colors[i * 3 + 2] = color.b;
+      }
+      geom.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    };
+
+    applyColor(roadMesh.geometry as THREE.BufferGeometry, new THREE.Color(roadColor));
+    applyColor(grassLeftMesh.geometry as THREE.BufferGeometry, new THREE.Color(grassColor));
+    applyColor(grassRightMesh.geometry as THREE.BufferGeometry, new THREE.Color(grassColor));
+
+    const merged = mergeGeometries(
+      [
+        roadMesh.geometry as THREE.BufferGeometry,
+        grassLeftMesh.geometry as THREE.BufferGeometry,
+        grassRightMesh.geometry as THREE.BufferGeometry,
+      ],
+      true
+    );
+
+    const material = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1 });
+    const combinedMesh = new THREE.Mesh(merged, material);
+
     // Compute chunk center from roadVecs using progress range spanned by this chunk
     const firstProgress = key * CHUNK_PROGRESS_LENGTH;
     const lastProgress = firstProgress + CHUNK_PROGRESS_LENGTH;
@@ -74,14 +101,10 @@ export function createRoadChunks(
     const centerZ = ((start?.[2] ?? 0) + (end?.[2] ?? 0)) / 2;
 
     // Initially invisible; visibility controlled elsewhere
-    roadMesh.visible = false;
-    grassLeftMesh.visible = false;
-    grassRightMesh.visible = false;
+    combinedMesh.visible = false;
 
     chunks.push({
-      road: roadMesh,
-      grassLeft: grassLeftMesh,
-      grassRight: grassRightMesh,
+      mesh: combinedMesh as unknown as Mesh,
       centerX,
       centerZ,
     });

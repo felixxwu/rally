@@ -41,9 +41,7 @@ export const localTerrainMesh = ref<Mesh | null>(null);
 export const roadMesh = ref<Mesh | null>(null);
 export const grassLeftMesh = ref<Mesh | null>(null);
 export const grassRightMesh = ref<Mesh | null>(null);
-export const roadChunks = ref<
-  Array<{ road: Mesh; grassLeft: Mesh; grassRight: Mesh; centerX: number; centerZ: number }>
->([]);
+export const roadChunks = ref<Array<{ mesh: Mesh; centerX: number; centerZ: number }>>([]);
 export const localRoadMesh = ref<Mesh | null>(null);
 export const localGrassLeftMesh = ref<Mesh | null>(null);
 export const localGrassRightMesh = ref<Mesh | null>(null);

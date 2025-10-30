@@ -25,9 +25,7 @@ export async function initRoad() {
   // Build chunked visual road meshes and add to scene
   const chunks = createRoadChunks(road, grassLeft, grassRight);
   for (const chunk of chunks) {
-    scene.current?.add(chunk.road);
-    scene.current?.add(chunk.grassLeft);
-    scene.current?.add(chunk.grassRight);
+    scene.current?.add(chunk.mesh);
   }
   roadChunks.current = chunks;
 

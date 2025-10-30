@@ -23,7 +23,6 @@ export interface TerrainChunk {
  */
 export function createTerrainChunks(heightData: Float32Array): TerrainChunk[] {
   const chunks: TerrainChunk[] = [];
-  const chunkSegments: Array<{ segmentsX: number; segmentsZ: number }> = [];
 
   const CHUNKS_X = Math.max(1, Math.floor(terrainChunksX.current));
   const CHUNKS_Z = Math.max(1, Math.floor(terrainChunksZ.current));
@@ -32,32 +31,21 @@ export function createTerrainChunks(heightData: Float32Array): TerrainChunk[] {
   const CHUNK_SEGMENTS_X = mapWidthSegments / CHUNKS_X;
   const CHUNK_SEGMENTS_Z = mapHeightSegments / CHUNKS_Z;
 
-  // Create material template (each chunk will clone it)
-  const groundMaterialTemplate = new THREE.MeshStandardMaterial({
+  // Shared material/texture for all terrain chunks (reduces draw state changes)
+  const groundMaterial = new THREE.MeshStandardMaterial({
     color: 0xc7c7c7,
     roughness: 1,
     metalness: 0,
   });
-
-  // Load texture (will be applied to each chunk's material clone)
   const textureLoader = new THREE.TextureLoader();
-  textureLoader.load('./grass-small.png', function (texture) {
-    texture.anisotropy = 0;
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.magFilter = THREE.NearestFilter;
-    texture.minFilter = THREE.NearestFilter;
-
-    // Apply texture to all existing chunks with correct repeat values
-    chunks.forEach((chunk, index) => {
-      const material = chunk.mesh.material as THREE.MeshStandardMaterial;
-      const clonedTexture = texture.clone();
-      const { segmentsX, segmentsZ } = chunkSegments[index];
-      clonedTexture.repeat.set(segmentsX, segmentsZ);
-      material.map = clonedTexture;
-      material.needsUpdate = true;
-    });
-  });
+  const sharedTexture = textureLoader.load('./grass-small.png');
+  sharedTexture.anisotropy = 0;
+  sharedTexture.wrapS = THREE.RepeatWrapping;
+  sharedTexture.wrapT = THREE.RepeatWrapping;
+  sharedTexture.magFilter = THREE.NearestFilter;
+  sharedTexture.minFilter = THREE.NearestFilter;
+  groundMaterial.map = sharedTexture;
+  groundMaterial.needsUpdate = true;
 
   // Create chunks
   // Important: PlaneGeometry with (widthSegments, heightSegments) creates (widthSegments+1) x (heightSegments+1) vertices
@@ -124,8 +112,8 @@ export function createTerrainChunks(heightData: Float32Array): TerrainChunk[] {
 
       geometry.computeVertexNormals();
 
-      // Create mesh with cloned material
-      const mesh = new THREE.Mesh(geometry, groundMaterialTemplate.clone());
+      // Create mesh with shared material
+      const mesh = new THREE.Mesh(geometry, groundMaterial);
       mesh.receiveShadow = true;
       mesh.castShadow = true;
 
@@ -141,9 +129,6 @@ export function createTerrainChunks(heightData: Float32Array): TerrainChunk[] {
       const offsetZ = firstVertexWorldZ + chunkWorldHeight / 2;
 
       mesh.position.set(offsetX, 0, offsetZ);
-
-      // Store segments for texture repeat calculation
-      chunkSegments.push({ segmentsX, segmentsZ });
 
       chunks.push({
         mesh,

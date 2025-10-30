@@ -36,9 +36,7 @@ function updateRoadChunkVisibility(skipFrameCheck = false) {
     }
 
     const visible = withinDistance && isInFront;
-    chunk.road.visible = visible;
-    chunk.grassLeft.visible = visible;
-    chunk.grassRight.visible = visible;
+    chunk.mesh.visible = visible;
   });
 }
 

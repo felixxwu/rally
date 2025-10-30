@@ -41,9 +41,7 @@ export function resetCar() {
     new THREE.Vector3(0, -1, 0)
   );
   const roadChunkMeshes = roadChunks.current.reduce<THREE.Object3D[]>((acc, c) => {
-    acc.push(c.road as unknown as THREE.Object3D);
-    acc.push(c.grassLeft as unknown as THREE.Object3D);
-    acc.push(c.grassRight as unknown as THREE.Object3D);
+    acc.push(c.mesh as unknown as THREE.Object3D);
     return acc;
   }, []);
   const intersections = raycaster.intersectObjects([
