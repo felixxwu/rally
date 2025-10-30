@@ -123,7 +123,7 @@ export const surfaceGrips: {
   grass: { clear: 1.5, rain: 1, fog: 1.4, colour: '#040', skidMarkOpacity: 0.2 },
 };
 export const skidMarkIntensity = 0.004;
-export const maxSkidMarks = 50;
+export const maxSkidMarks = 30;
 
 // car
 export const minAirResistance = 15;
@@ -189,13 +189,13 @@ export const renderHelperArrows = ref(false);
 export const renderHitCarBox = ref(false);
 
 // houses
-export const houseRenderDistance = ref(400, 50, 1000, 10); // Distance at which houses stop rendering
+export const houseRenderDistance = ref(300, 50, 1000, 10); // Distance at which houses stop rendering
 
 // trees
-export const treeRenderDistance = ref(400, 50, 1000, 10); // Distance at which trees stop rendering
+export const treeRenderDistance = ref(300, 50, 1000, 10); // Distance at which trees stop rendering
 
 // terrain
-export const terrainRenderDistance = ref(400, 200, 2000, 50); // Distance at which terrain chunks stop rendering
+export const terrainRenderDistance = ref(700, 200, 2000, 50); // Distance at which terrain chunks stop rendering
 
 // road
 export const roadRenderDistance = ref(400, 100, 2000, 50); // Distance at which road chunks stop rendering
