@@ -12,7 +12,7 @@ export type RoadChunk = {
 };
 
 // Number of triangle progress steps per chunk; adjust for balance between draw calls and culling granularity
-const CHUNK_PROGRESS_LENGTH = 100;
+const CHUNK_PROGRESS_LENGTH = 50;
 
 /**
  * Split road triangle arrays into chunks along progress and create THREE meshes for each chunk

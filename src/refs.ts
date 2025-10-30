@@ -196,9 +196,11 @@ export const treeRenderDistance = ref(300, 50, 1000, 10); // Distance at which t
 
 // terrain
 export const terrainRenderDistance = ref(700, 200, 2000, 50); // Distance at which terrain chunks stop rendering
+export const terrainChunksX = ref(40, 5, 100, 1); // Number of terrain chunks along X
+export const terrainChunksZ = ref(40, 5, 100, 1); // Number of terrain chunks along Z
 
 // road
-export const roadRenderDistance = ref(400, 100, 2000, 50); // Distance at which road chunks stop rendering
+export const roadRenderDistance = ref(300, 100, 2000, 50); // Distance at which road chunks stop rendering
 
 // UI
 export const panelOpen = ref(false);

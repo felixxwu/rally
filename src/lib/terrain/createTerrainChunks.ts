@@ -1,16 +1,15 @@
-import { mapHeightSegments, mapHeight, mapWidthSegments, mapWidth } from '../../refs';
+import {
+  mapHeightSegments,
+  mapHeight,
+  mapWidthSegments,
+  mapWidth,
+  terrainChunksX,
+  terrainChunksZ,
+} from '../../refs';
 import { THREE } from '../utils/THREE';
 import { Mesh } from '../../types';
 
-// Number of chunks in each direction (X and Z)
-const CHUNKS_X = 10;
-const CHUNKS_Z = 10;
-
-// Calculate chunk dimensions
-const CHUNK_WIDTH = mapWidth / CHUNKS_X;
-const CHUNK_HEIGHT = mapHeight / CHUNKS_Z;
-const CHUNK_SEGMENTS_X = mapWidthSegments / CHUNKS_X;
-const CHUNK_SEGMENTS_Z = mapHeightSegments / CHUNKS_Z;
+// Note: use current values from refs to allow configurable chunk counts
 
 export interface TerrainChunk {
   mesh: Mesh;
@@ -25,6 +24,13 @@ export interface TerrainChunk {
 export function createTerrainChunks(heightData: Float32Array): TerrainChunk[] {
   const chunks: TerrainChunk[] = [];
   const chunkSegments: Array<{ segmentsX: number; segmentsZ: number }> = [];
+
+  const CHUNKS_X = Math.max(1, Math.floor(terrainChunksX.current));
+  const CHUNKS_Z = Math.max(1, Math.floor(terrainChunksZ.current));
+
+  // Calculate chunk dimensions
+  const CHUNK_SEGMENTS_X = mapWidthSegments / CHUNKS_X;
+  const CHUNK_SEGMENTS_Z = mapHeightSegments / CHUNKS_Z;
 
   // Create material template (each chunk will clone it)
   const groundMaterialTemplate = new THREE.MeshStandardMaterial({

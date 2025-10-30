@@ -7,6 +7,7 @@ import {
   grassWidth,
   halfRoadWidth,
   houseRenderDistance,
+  camera,
   localGrassLeftMesh,
   localGrassRightMesh,
   localTerrainMesh,
@@ -363,11 +364,22 @@ export function initHouses(): Promise<void> {
 
       const carPos = getCarMeshPos();
       const renderDistanceSquared = houseRenderDistance.current ** 2;
+      const cam = camera.current;
+      const camPos = cam?.position;
+      const camDir = new THREE.Vector3();
+      if (cam) cam.getWorldDirection(camDir);
 
       for (let i = 0; i < houses.length; i++) {
         const house = houses[i];
         const roof = houseRoofs[i];
-        const isVisible = carPos.distanceToSquared(house.position) <= renderDistanceSquared;
+        const withinDistance = carPos.distanceToSquared(house.position) <= renderDistanceSquared;
+        let isInFront = true;
+        if (cam && camPos) {
+          const toHouse = new THREE.Vector3().subVectors(house.position, camPos).normalize();
+          const dot = camDir.dot(toHouse);
+          isInFront = dot > 0;
+        }
+        const isVisible = withinDistance && isInFront;
 
         house.visible = isVisible;
         if (roof) {

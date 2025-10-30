@@ -1,4 +1,4 @@
-import { terrainChunks, terrainRenderDistance } from '../../refs';
+import { terrainChunks, terrainRenderDistance, camera } from '../../refs';
 import { getCarMeshPos } from '../car/getCarTransform';
 import { addOnRenderListener } from '../render/addOnRenderListener';
 import { THREE } from '../utils/THREE';
@@ -23,12 +23,24 @@ function updateTerrainChunkVisibility(skipFrameCheck = false) {
   }
 
   const carPos = getCarMeshPos();
+  const cam = camera.current;
+  const camPos = cam?.position;
+  const camDir = new THREE.Vector3();
+  if (cam) cam.getWorldDirection(camDir);
   const renderDistanceSquared = terrainRenderDistance.current ** 2;
 
   terrainChunks.current.forEach(chunk => {
     const chunkPos = new THREE.Vector3(chunk.centerX, 0, chunk.centerZ);
     const distanceSquared = carPos.distanceToSquared(chunkPos);
-    chunk.mesh.visible = distanceSquared <= renderDistanceSquared;
+
+    let isInFront = true;
+    if (cam && camPos) {
+      const toChunk = new THREE.Vector3().subVectors(chunkPos, camPos).normalize();
+      const dot = camDir.dot(toChunk);
+      isInFront = dot > 0; // front hemisphere
+    }
+
+    chunk.mesh.visible = distanceSquared <= renderDistanceSquared && isInFront;
   });
 }
 

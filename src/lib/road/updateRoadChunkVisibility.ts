@@ -1,4 +1,4 @@
-import { roadChunks, roadRenderDistance } from '../../refs';
+import { roadChunks, roadRenderDistance, camera } from '../../refs';
 import { getCarMeshPos } from '../car/getCarTransform';
 import { getSpawn } from '../utils/getSpawn';
 import { addOnRenderListener } from '../render/addOnRenderListener';
@@ -19,10 +19,23 @@ function updateRoadChunkVisibility(skipFrameCheck = false) {
 
   const carPos = skipFrameCheck ? getSpawn() : getCarMeshPos();
   const renderDistanceSquared = roadRenderDistance.current ** 2;
+  const cam = camera.current;
+  const camPos = cam?.position;
+  const camDir = new THREE.Vector3();
+  if (cam) cam.getWorldDirection(camDir);
 
   roadChunks.current.forEach(chunk => {
     const chunkPos = new THREE.Vector3(chunk.centerX, 0, chunk.centerZ);
-    const visible = carPos.distanceToSquared(chunkPos) <= renderDistanceSquared;
+    const withinDistance = carPos.distanceToSquared(chunkPos) <= renderDistanceSquared;
+
+    let isInFront = true;
+    if (cam && camPos) {
+      const toChunk = new THREE.Vector3().subVectors(chunkPos, camPos).normalize();
+      const dot = camDir.dot(toChunk);
+      isInFront = dot > 0;
+    }
+
+    const visible = withinDistance && isInFront;
     chunk.road.visible = visible;
     chunk.grassLeft.visible = visible;
     chunk.grassRight.visible = visible;

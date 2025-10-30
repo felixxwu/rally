@@ -6,6 +6,7 @@ import {
   grassRightMesh,
   grassWidth,
   halfRoadWidth,
+  camera,
   localGrassLeftMesh,
   localGrassRightMesh,
   localTerrainMesh,
@@ -294,11 +295,22 @@ export function initTrees(): Promise<void> {
 
       const carPos = getCarMeshPos();
       const renderDistanceSquared = treeRenderDistance.current ** 2;
+      const cam = camera.current;
+      const camPos = cam?.position;
+      const camDir = new THREE.Vector3();
+      if (cam) cam.getWorldDirection(camDir);
 
       for (let i = 0; i < trees.length; i++) {
         const tree = trees[i];
         const foliage = treeFoliage[i];
-        const isVisible = carPos.distanceToSquared(tree.position) <= renderDistanceSquared;
+        const withinDistance = carPos.distanceToSquared(tree.position) <= renderDistanceSquared;
+        let isInFront = true;
+        if (cam && camPos) {
+          const toTree = new THREE.Vector3().subVectors(tree.position, camPos).normalize();
+          const dot = camDir.dot(toTree);
+          isInFront = dot > 0;
+        }
+        const isVisible = withinDistance && isInFront;
 
         tree.visible = isVisible;
         if (foliage) {
