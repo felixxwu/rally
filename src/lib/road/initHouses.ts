@@ -18,6 +18,7 @@ import {
   startRoadLength,
   startRoadWidth,
   terrainMesh,
+  terrainChunks,
 } from '../../refs';
 import { getCarMeshPos } from '../car/getCarTransform';
 import { addOnRenderListener } from '../render/addOnRenderListener';
@@ -200,14 +201,18 @@ function getSidePosition(
 // Helper: Get height on grass mesh
 function getHeightOnGrassMesh(x: number, z: number): number | null {
   const raycaster = new THREE.Raycaster(new THREE.Vector3(x, 1000, z), new THREE.Vector3(0, -1, 0));
-  const meshes = [
+  const meshes: THREE.Object3D[] = [
     localGrassLeftMesh.current,
     localGrassRightMesh.current,
     grassLeftMesh.current,
     grassRightMesh.current,
     localTerrainMesh.current,
-    terrainMesh.current,
   ].filter(Boolean) as THREE.Object3D[];
+
+  // Add all terrain chunks for raycasting
+  terrainChunks.current.forEach(chunk => {
+    meshes.push(chunk.mesh);
+  });
 
   let hitDistance = Infinity;
   for (const mesh of meshes) {

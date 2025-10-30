@@ -1,5 +1,5 @@
 import AmmoType from 'ammojs-typed';
-import { car, platformMesh, roadMesh, startRoadLength } from '../../refs';
+import { car, platformMesh, roadMesh, roadChunks, startRoadLength } from '../../refs';
 import { add } from '../utils/addVec';
 import { getSpawn } from '../utils/getSpawn';
 import { THREE } from '../utils/THREE';
@@ -40,12 +40,20 @@ export function resetCar() {
     new THREE.Vector3(spawn.x, 1000, spawn.z + startRoadLength),
     new THREE.Vector3(0, -1, 0)
   );
+  const roadChunkMeshes = roadChunks.current.reduce<THREE.Object3D[]>((acc, c) => {
+    acc.push(c.road as unknown as THREE.Object3D);
+    acc.push(c.grassLeft as unknown as THREE.Object3D);
+    acc.push(c.grassRight as unknown as THREE.Object3D);
+    return acc;
+  }, []);
   const intersections = raycaster.intersectObjects([
     ...(roadMesh.current ? [roadMesh.current] : []),
+    ...roadChunkMeshes,
     ...(platformMesh.current ? [platformMesh.current] : []),
   ]);
   const intersection = intersections[0];
-  const ammoPos = add(intersection.point, [0, 5, 0]);
+  const hitPoint = intersection ? intersection.point : new THREE.Vector3(spawn.x, 0, spawn.z);
+  const ammoPos = add(hitPoint, [0, 5, 0]);
 
   setCarPos(ammoPos, vec3([0, 0, 1]));
 }

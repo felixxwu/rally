@@ -1,13 +1,4 @@
-import {
-  grassColor,
-  grassLeftMesh,
-  grassRightMesh,
-  roadColor,
-  roadMesh,
-  scene,
-  temporaryMesh,
-} from '../../refs';
-import { createRoadShape } from './createRoadShape';
+import { roadChunks, scene, temporaryMesh } from '../../refs';
 import { createRoadTriangles } from './createRoadTriangles';
 import { createRoadPoints } from './createRoadPoints';
 import { resetIfFarFromRoad } from './resetIfFarFromRoad';
@@ -17,6 +8,8 @@ import { setInfoText } from '../UI/setInfoText';
 import { initHouses } from './initHouses';
 import { initTrees } from './initTrees';
 import { initFinishLine } from './initFinishLine';
+import { createRoadChunks } from './createRoadChunks';
+import { initRoadChunkVisibility } from './updateRoadChunkVisibility';
 
 export async function initRoad() {
   await createRoadPoints();
@@ -29,17 +22,14 @@ export async function initRoad() {
     scene.current?.remove(temporaryMesh.current.road);
   }
 
-  const { mesh: fullRoadMesh } = createRoadShape(road, roadColor, 0.7);
-  const { mesh: fullGrassLeftMesh } = createRoadShape(grassLeft, grassColor, 1);
-  const { mesh: fullGrassRightMesh } = createRoadShape(grassRight, grassColor, 1);
-
-  scene.current?.add(fullRoadMesh);
-  scene.current?.add(fullGrassLeftMesh);
-  scene.current?.add(fullGrassRightMesh);
-
-  roadMesh.current = fullRoadMesh;
-  grassLeftMesh.current = fullGrassLeftMesh;
-  grassRightMesh.current = fullGrassRightMesh;
+  // Build chunked visual road meshes and add to scene
+  const chunks = createRoadChunks(road, grassLeft, grassRight);
+  for (const chunk of chunks) {
+    scene.current?.add(chunk.road);
+    scene.current?.add(chunk.grassLeft);
+    scene.current?.add(chunk.grassRight);
+  }
+  roadChunks.current = chunks;
 
   // setUserData(roadMesh.current, { physicsBody: roadRigidBody });
   // setUserData(grassLeftMesh.current, { physicsBody: grassLeftRigidBody });
@@ -55,6 +45,9 @@ export async function initRoad() {
 
   const updateLocalRoad = useUpdateLocalRoad(road, grassLeft, grassRight);
   addOnRenderListener('localRoad', updateLocalRoad);
+
+  // Initialize road chunk visibility control
+  initRoadChunkVisibility();
 
   // Initialize houses along the road, then trees after houses are done
   await initHouses();

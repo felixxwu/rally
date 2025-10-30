@@ -36,10 +36,14 @@ export const terrainMinHeight = 10;
 export const heightData = ref<Float32Array | null>(null);
 export const ammoHeightData = ref<number | null>(null);
 export const terrainMesh = ref<Mesh | null>(null);
+export const terrainChunks = ref<Array<{ mesh: Mesh; centerX: number; centerZ: number }>>([]);
 export const localTerrainMesh = ref<Mesh | null>(null);
 export const roadMesh = ref<Mesh | null>(null);
 export const grassLeftMesh = ref<Mesh | null>(null);
 export const grassRightMesh = ref<Mesh | null>(null);
+export const roadChunks = ref<
+  Array<{ road: Mesh; grassLeft: Mesh; grassRight: Mesh; centerX: number; centerZ: number }>
+>([]);
 export const localRoadMesh = ref<Mesh | null>(null);
 export const localGrassLeftMesh = ref<Mesh | null>(null);
 export const localGrassRightMesh = ref<Mesh | null>(null);
@@ -115,7 +119,7 @@ export const skidMarkOpacities = ref([0, 0, 0, 0]);
 export const surfaceGrips: {
   [key in Surface]: SurfaceProperties;
 } = {
-  tarmac: { clear: 1.8, rain: 1.4, fog: 1.7, colour: '#000', skidMarkOpacity: 0.5 },
+  tarmac: { clear: 2, rain: 1.5, fog: 1.8, colour: '#000', skidMarkOpacity: 0.5 },
   grass: { clear: 1.5, rain: 1, fog: 1.4, colour: '#040', skidMarkOpacity: 0.2 },
 };
 export const skidMarkIntensity = 0.004;
@@ -185,10 +189,16 @@ export const renderHelperArrows = ref(false);
 export const renderHitCarBox = ref(false);
 
 // houses
-export const houseRenderDistance = ref(200, 50, 1000, 10); // Distance at which houses stop rendering
+export const houseRenderDistance = ref(400, 50, 1000, 10); // Distance at which houses stop rendering
 
 // trees
-export const treeRenderDistance = ref(200, 50, 1000, 10); // Distance at which trees stop rendering
+export const treeRenderDistance = ref(400, 50, 1000, 10); // Distance at which trees stop rendering
+
+// terrain
+export const terrainRenderDistance = ref(400, 200, 2000, 50); // Distance at which terrain chunks stop rendering
+
+// road
+export const roadRenderDistance = ref(400, 100, 2000, 50); // Distance at which road chunks stop rendering
 
 // UI
 export const panelOpen = ref(false);

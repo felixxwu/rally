@@ -17,6 +17,7 @@ import {
   startRoadLength,
   startRoadWidth,
   terrainMesh,
+  terrainChunks,
   treeRenderDistance,
 } from '../../refs';
 import { getCarMeshPos } from '../car/getCarTransform';
@@ -134,14 +135,18 @@ function getHeightOnGrassMesh(x: number, z: number): number | null {
   const direction = new THREE.Vector3(0, -1, 0);
   raycaster.set(origin, direction);
 
-  const meshesToCheck = [
+  const meshesToCheck: THREE.Mesh[] = [
     localGrassLeftMesh.current,
     localGrassRightMesh.current,
     grassLeftMesh.current,
     grassRightMesh.current,
     localTerrainMesh.current,
-    terrainMesh.current,
   ].filter(Boolean) as THREE.Mesh[];
+
+  // Add all terrain chunks for raycasting
+  terrainChunks.current.forEach(chunk => {
+    meshesToCheck.push(chunk.mesh);
+  });
 
   let hitDistance = Infinity;
 

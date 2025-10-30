@@ -18,10 +18,10 @@ export async function startCountdown() {
   countDownStarted.current = true;
   currentMenu.current = 'hud';
 
-  roadMesh.current!.visible = true;
-  grassLeftMesh.current!.visible = true;
-  grassRightMesh.current!.visible = true;
-  terrainMesh.current!.visible = true;
+  if (roadMesh.current) roadMesh.current.visible = true;
+  if (grassLeftMesh.current) grassLeftMesh.current.visible = true;
+  if (grassRightMesh.current) grassRightMesh.current.visible = true;
+  if (terrainMesh.current) terrainMesh.current.visible = true;
 
   resetCar();
   await sleep(1000);

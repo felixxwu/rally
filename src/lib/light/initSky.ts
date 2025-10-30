@@ -1,5 +1,12 @@
 import { Sky } from '../jsm/Sky';
-import { lightValues, renderer, scene, timeOfDay, weather } from '../../refs';
+import {
+  lightValues,
+  renderer,
+  scene,
+  timeOfDay,
+  weather,
+  terrainRenderDistance,
+} from '../../refs';
 import { THREE } from '../utils/THREE';
 import { updateFog } from './updateFog';
 
@@ -35,4 +42,11 @@ export function initSky() {
     updateFog();
   });
   weather.triggerListeners();
+
+  // Update fog when terrain render distance changes (for clear weather)
+  terrainRenderDistance.listeners.push(() => {
+    if (weather.current === 'clear') {
+      updateFog();
+    }
+  });
 }
